@@ -1,0 +1,64 @@
+name: quantum_muscle
+description: A new age of fitness
+
+publish_to: "none"
+
+version: 1.0.0
+
+environment:
+  sdk: ">=3.1.5 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # flutter_launcher_icons: ^0.13.1
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  flutter_native_splash: ^2.3.5
+  cached_network_image: ^3.3.0
+  flutter_animate: ^4.2.0+1
+  permission_handler: ^11.0.1
+  cloud_firestore: ^4.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icon/icon.png
+
+  fonts:
+    - family: family
+      fonts:
+        - asset: assets/font/font.ttf
+flutter_intl:
+  enabled: true
+# flutter_launcher_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/icon/icon.png"
+#   web:
+#     generate: true
+#     image_path: "assets/icon/icon.png"
+#     background_color: "#212121"
+#     theme_color: "#212121"
+# flutter_native_splash:
+#   # dart run flutter_native_splash:create
+#   color: "#212121"
+#   image: assets/icon/icon.png
+#   android_12:
+#     image: assets/icon/icon.png
+#     color: "#212121"
+#   android: true
+#   ios: true
+#   web: true
+#   android_gravity: center
+#   ios_content_mode: center
+#   web_image_mode: center
+#   fullscreen: true
