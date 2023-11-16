@@ -1,6 +1,8 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-import 'package:flutter/material.dart';
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:intl/intl.dart';
+import '../library.dart';
 import 'intl/messages_all.dart';
 
 // **************************************************************************
