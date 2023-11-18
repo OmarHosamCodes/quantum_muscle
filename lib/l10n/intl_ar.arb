@@ -1,1 +1,27 @@
-{}
+{
+    "WelcomeBack": "مرحبا بعودتك!",
+    "CreateAnAccount": "إنشاء حساب",
+    "Login": "تسجيل الدخول",
+    "Register": "تسجيل",
+    "Name": "الاسم",
+    "RatID": "معرف الفأر الجماوي",
+    "Email": "البريد الإلكتروني",
+    "Password": "كلمة المرور",
+    "ForgotPassword": "هل نسيت كلمة المرور؟",
+    "EnterRatID": "أدخل معرف الفأر الجماوي الخاص بك",
+    "EnterName": "أدخل اسمك",
+    "EnterEmail": "أدخل بريدك الإلكتروني",
+    "EnterPassword": "أدخل كلمة المرور الخاصة بك",
+    "EnterValidEmail": "أدخل بريدًا إلكترونيًا صالحًا",
+    "EnterValidPassword": "أدخل كلمة مرور صالحة",
+    "EnterValidName": "أدخل اسمًا صالحًا",
+    "NotAMember": "لست عضوًا؟",
+    "AlreadyMember": "عضو بالفعل؟",
+    "Home": "الرئيسية",
+    "Profile": "الملف الشخصي",
+    "ForYou": "لك",
+    "Chat": "الدردشة",
+    "Trainer": "المدرب",
+    "Trainee": "المتدرب",
+    "SendEmail": "إرسال بريد إلكتروني"
+}

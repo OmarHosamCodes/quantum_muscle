@@ -1,8 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: depend_on_referenced_packages
-
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../library.dart';
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -50,6 +48,256 @@ class S {
 
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
+  }
+
+  /// `Welcome back !`
+  String get WelcomeBack {
+    return Intl.message(
+      'Welcome back !',
+      name: 'WelcomeBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create an account`
+  String get CreateAnAccount {
+    return Intl.message(
+      'Create an account',
+      name: 'CreateAnAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get Login {
+    return Intl.message(
+      'Login',
+      name: 'Login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register`
+  String get Register {
+    return Intl.message(
+      'Register',
+      name: 'Register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get Name {
+    return Intl.message(
+      'Name',
+      name: 'Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rat ID`
+  String get RatID {
+    return Intl.message(
+      'Rat ID',
+      name: 'RatID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get Email {
+    return Intl.message(
+      'Email',
+      name: 'Email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get Password {
+    return Intl.message(
+      'Password',
+      name: 'Password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot Password ?`
+  String get ForgotPassword {
+    return Intl.message(
+      'Forgot Password ?',
+      name: 'ForgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your rat ID`
+  String get EnterRatID {
+    return Intl.message(
+      'Enter your rat ID',
+      name: 'EnterRatID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your name`
+  String get EnterName {
+    return Intl.message(
+      'Enter your name',
+      name: 'EnterName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email`
+  String get EnterEmail {
+    return Intl.message(
+      'Enter your email',
+      name: 'EnterEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your password`
+  String get EnterPassword {
+    return Intl.message(
+      'Enter your password',
+      name: 'EnterPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid email`
+  String get EnterValidEmail {
+    return Intl.message(
+      'Enter a valid email',
+      name: 'EnterValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid password`
+  String get EnterValidPassword {
+    return Intl.message(
+      'Enter a valid password',
+      name: 'EnterValidPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid name`
+  String get EnterValidName {
+    return Intl.message(
+      'Enter a valid name',
+      name: 'EnterValidName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not a member ?`
+  String get NotAMember {
+    return Intl.message(
+      'Not a member ?',
+      name: 'NotAMember',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already a member ?`
+  String get AlreadyMember {
+    return Intl.message(
+      'Already a member ?',
+      name: 'AlreadyMember',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get Home {
+    return Intl.message(
+      'Home',
+      name: 'Home',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get Profile {
+    return Intl.message(
+      'Profile',
+      name: 'Profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For you`
+  String get ForYou {
+    return Intl.message(
+      'For you',
+      name: 'ForYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chat`
+  String get Chat {
+    return Intl.message(
+      'Chat',
+      name: 'Chat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trainer`
+  String get Trainer {
+    return Intl.message(
+      'Trainer',
+      name: 'Trainer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trainee`
+  String get Trainee {
+    return Intl.message(
+      'Trainee',
+      name: 'Trainee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Email`
+  String get SendEmail {
+    return Intl.message(
+      'Send Email',
+      name: 'SendEmail',
+      desc: '',
+      args: [],
+    );
   }
 }
 

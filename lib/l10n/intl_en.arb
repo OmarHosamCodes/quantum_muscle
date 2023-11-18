@@ -1,1 +1,27 @@
-{}
+{
+    "WelcomeBack": "Welcome back !",
+    "CreateAnAccount": "Create an account",
+    "Login": "Login",
+    "Register": "Register",
+    "Name": "Name",
+    "RatID": "Rat ID",
+    "Email": "Email",
+    "Password": "Password",
+    "ForgotPassword": "Forgot Password ?",
+    "EnterRatID": "Enter your rat ID",
+    "EnterName": "Enter your name",
+    "EnterEmail": "Enter your email",
+    "EnterPassword": "Enter your password",
+    "EnterValidEmail": "Enter a valid email",
+    "EnterValidPassword": "Enter a valid password",
+    "EnterValidName": "Enter a valid name",
+    "NotAMember": "Not a member ?",
+    "AlreadyMember": "Already a member ?",
+    "Home": "Home",
+    "Profile": "Profile",
+    "ForYou": "For you",
+    "Chat": "Chat",
+    "Trainer": "Trainer",
+    "Trainee": "Trainee",
+    "SendEmail": "Send Email"
+}
