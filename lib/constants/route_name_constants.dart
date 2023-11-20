@@ -1,5 +1,6 @@
-class RouteNameConstants {
-  static const String homePage = '/';
+class  RouteNameConstants {
+  static const String routingPage = '/';
+  static const String homePage = '/home';
   static const String loginPage = '/login';
   static const String registerPage = '/register';
   static const String forgotPasswordPage = '/forgot-password';

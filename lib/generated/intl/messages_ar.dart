@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ForYou": MessageLookupByLibrary.simpleMessage("لك"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
+        "Hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
@@ -50,10 +51,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "RatID": MessageLookupByLibrary.simpleMessage("معرف الفأر الجماوي"),
         "Register": MessageLookupByLibrary.simpleMessage("تسجيل"),
+        "Search": MessageLookupByLibrary.simpleMessage("بحث"),
         "SendEmail":
             MessageLookupByLibrary.simpleMessage("إرسال بريد إلكتروني"),
+        "Slogan": MessageLookupByLibrary.simpleMessage("ابدأ في صنع الفرق"),
         "Trainee": MessageLookupByLibrary.simpleMessage("المتدرب"),
         "Trainer": MessageLookupByLibrary.simpleMessage("المدرب"),
-        "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!")
+        "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),
+        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين:")
       };
 }

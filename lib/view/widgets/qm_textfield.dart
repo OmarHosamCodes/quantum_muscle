@@ -16,6 +16,7 @@ class QMTextField extends StatelessWidget {
   final EdgeInsets? margin;
   final double maxHeight;
   final double maxWidth;
+  final Icon? prefixIcon; // New property for prefix icon
   const QMTextField({
     Key? key,
     required this.height,
@@ -33,6 +34,7 @@ class QMTextField extends StatelessWidget {
     this.margin,
     this.maxHeight = double.infinity,
     this.maxWidth = double.infinity,
+    this.prefixIcon, // Initialize prefix icon property
   }) : super(key: key);
 
   @override
@@ -79,14 +81,16 @@ class QMTextField extends StatelessWidget {
           decoration: InputDecoration(
             counterText: '',
             border: OutlineInputBorder(
-                borderRadius: borderRadius ?? BorderRadius.circular(10.0),
-                borderSide: BorderSide.none),
+              borderRadius: borderRadius ?? BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
             filled: false,
             hintText: hintText,
             hintStyle: const TextStyle(color: ColorConstants.hintColor),
+            prefixIcon: prefixIcon, // Add prefix icon
           ),
           initialValue: initialValue,
           autovalidateMode: AutovalidateMode.onUserInteraction,

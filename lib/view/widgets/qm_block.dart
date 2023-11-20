@@ -37,10 +37,12 @@ class QmBlock extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            ColorConstants.primaryColor,
-            ColorConstants.primaryColor.withOpacity(.5),
-          ]),
+          gradient: onTap != null
+              ? LinearGradient(colors: [
+                  ColorConstants.primaryColor,
+                  ColorConstants.primaryColor.withOpacity(.5),
+                ])
+              : null,
           color: ColorConstants.primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),

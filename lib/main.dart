@@ -13,7 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       locale: const Locale('en'),
       theme: ThemeController.theme,
       localizationsDelegates: const [
@@ -37,10 +38,9 @@ class MyApp extends StatelessWidget {
           const Breakpoint(start: 0, end: 450, name: MOBILE),
           const Breakpoint(start: 451, end: 800, name: TABLET),
           const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-          const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
         ],
       ),
-      routerConfig: router,
+      routerConfig: RoutingController().router,
 
       // builder: (context, child) => ResponsiveBreakpoints.builder(
       //     BouncingScrollWrapper.builder(context, widget!),

@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ForYou": MessageLookupByLibrary.simpleMessage("For you"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password ?"),
+        "Hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
@@ -50,9 +51,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "RatID": MessageLookupByLibrary.simpleMessage("Rat ID"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
+        "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "SendEmail": MessageLookupByLibrary.simpleMessage("Send Email"),
+        "Slogan":
+            MessageLookupByLibrary.simpleMessage("Start Making Difference"),
         "Trainee": MessageLookupByLibrary.simpleMessage("Trainee"),
         "Trainer": MessageLookupByLibrary.simpleMessage("Trainer"),
-        "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !")
+        "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !"),
+        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts:")
       };
 }
