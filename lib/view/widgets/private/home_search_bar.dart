@@ -21,7 +21,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             (int index) {
               final String item = 'item $index';
               return ListTile(
-                title: QMText(text: item),
+                title: QmText(text: item),
                 onTap: () {
                   setState(
                     () {

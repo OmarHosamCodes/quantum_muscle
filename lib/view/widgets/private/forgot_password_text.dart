@@ -17,10 +17,13 @@ class ForgotPasswordTextWidget extends StatelessWidget {
       padding: EdgeInsets.only(
         left: isScreenBiggerThanTablet(context) ? width * .5 : width * .4,
       ),
-      child: QMText(
-        onTap: () => context.go(RouteNameConstants.forgotPasswordPage),
-        isSeccoundary: true,
-        text: S.of(context).ForgotPassword,
+      child: SizedBox(
+        child: QmText(
+          onTap: () => context.go(RouteNameConstants.forgotPasswordPage),
+          isSeccoundary: true,
+          text: S.of(context).ForgotPassword,
+          maxWidth: double.maxFinite,
+        ),
       ),
     );
   }

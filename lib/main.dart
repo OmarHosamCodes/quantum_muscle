@@ -12,18 +12,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+final localStateProvider = StateProvider<Locale>((ref) => const Locale('en'));
+
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localStateProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      locale: const Locale('en'),
+      locale: locale,
       theme: ThemeController.theme,
       localizationsDelegates: const [
         S.delegate,
@@ -41,21 +43,6 @@ class MyApp extends StatelessWidget {
         ],
       ),
       routerConfig: RoutingController().router,
-
-      // builder: (context, child) => ResponsiveBreakpoints.builder(
-      //     BouncingScrollWrapper.builder(context, widget!),
-      //     maxWidth: 1200,
-      //     minWidth: 450,
-      //     defaultScale: true,
-      //     breakpoints: [
-      //       ResponsiveBreakpoint.resize(450, name: MOBILE),
-      //       ResponsiveBreakpoint.autoScale(800, name: MOBILE),
-      //       ResponsiveBreakpoint.autoScale(800, name: TABLET),
-      //       ResponsiveBreakpoint.autoScale(1000, name: TABLET),
-      //       ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-      //       ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-      //     ],
-      //     background: Container(color: const Color(0xFFF5F5F5))),
     );
   }
 }

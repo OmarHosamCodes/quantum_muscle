@@ -1,6 +1,6 @@
 import '../../../library.dart';
 
-class QMTextField extends StatelessWidget {
+class QmTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
@@ -17,7 +17,7 @@ class QMTextField extends StatelessWidget {
   final double maxHeight;
   final double maxWidth;
   final Icon? prefixIcon; // New property for prefix icon
-  const QMTextField({
+  const QmTextField({
     Key? key,
     required this.height,
     required this.width,

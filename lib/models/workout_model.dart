@@ -1,7 +1,9 @@
+import '../library.dart';
+
 class WorkoutModel {
-  final String? name;
-  final List<String>? exercises;
-  final int? duration;
+  String? name;
+  List<String>? exercises;
+  int? duration;
 
   WorkoutModel({
     this.name,
@@ -9,7 +11,11 @@ class WorkoutModel {
     this.duration,
   });
 
-  factory WorkoutModel.fromMap(Map<String, dynamic> map) {
+  factory WorkoutModel.fromMap(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final map = snapshot.data()!;
     return WorkoutModel(
       name: map['name'],
       exercises: map['exercises'],

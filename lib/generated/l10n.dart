@@ -270,6 +270,16 @@ class S {
     );
   }
 
+  /// `No chat yet`
+  String get NoChat {
+    return Intl.message(
+      'No chat yet',
+      name: 'NoChat',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Trainer`
   String get Trainer {
     return Intl.message(
@@ -335,6 +345,236 @@ class S {
     return Intl.message(
       'Workouts:',
       name: 'Workouts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Followers`
+  String get Followers {
+    return Intl.message(
+      'Followers',
+      name: 'Followers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Following`
+  String get Following {
+    return Intl.message(
+      'Following',
+      name: 'Following',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Follow`
+  String get Follow {
+    return Intl.message(
+      'Follow',
+      name: 'Follow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unfollow`
+  String get Unfollow {
+    return Intl.message(
+      'Unfollow',
+      name: 'Unfollow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Profile`
+  String get EditProfile {
+    return Intl.message(
+      'Edit Profile',
+      name: 'EditProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logout`
+  String get Logout {
+    return Intl.message(
+      'Logout',
+      name: 'Logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Likes`
+  String get Likes {
+    return Intl.message(
+      'Likes',
+      name: 'Likes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Comments`
+  String get Comments {
+    return Intl.message(
+      'Comments',
+      name: 'Comments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Comment`
+  String get AddComment {
+    return Intl.message(
+      'Add Comment',
+      name: 'AddComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout`
+  String get AddWorkout {
+    return Intl.message(
+      'Add Workout',
+      name: 'AddWorkout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get Add {
+    return Intl.message(
+      'Add',
+      name: 'Add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get Cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'Cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout Name`
+  String get AddWorkoutName {
+    return Intl.message(
+      'Add Workout Name',
+      name: 'AddWorkoutName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout Description`
+  String get AddWorkoutDescription {
+    return Intl.message(
+      'Add Workout Description',
+      name: 'AddWorkoutDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout Image`
+  String get AddWorkoutImage {
+    return Intl.message(
+      'Add Workout Image',
+      name: 'AddWorkoutImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout Video`
+  String get AddWorkoutVideo {
+    return Intl.message(
+      'Add Workout Video',
+      name: 'AddWorkoutVideo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Workout Sets`
+  String get AddWorkoutSets {
+    return Intl.message(
+      'Add Workout Sets',
+      name: 'AddWorkoutSets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get Success {
+    return Intl.message(
+      'Success',
+      name: 'Success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get Failed {
+    return Intl.message(
+      'Failed',
+      name: 'Failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong, please try again later`
+  String get DefaultError {
+    return Intl.message(
+      'Something went wrong, please try again later',
+      name: 'DefaultError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Name`
+  String get UserNamePlaceHolder {
+    return Intl.message(
+      'User Name',
+      name: 'UserNamePlaceHolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a photo`
+  String get AddAPhoto {
+    return Intl.message(
+      'Add a photo',
+      name: 'AddAPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get Language {
+    return Intl.message(
+      'English',
+      name: 'Language',
       desc: '',
       args: [],
     );

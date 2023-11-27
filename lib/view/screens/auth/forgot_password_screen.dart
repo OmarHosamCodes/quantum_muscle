@@ -24,7 +24,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  QMTextField(
+                  QmTextField(
                     maxWidth: maxWidth,
                     margin: margin,
                     height: maxHeight,
@@ -40,7 +40,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     margin: margin,
                     width: maxWidth,
                     height: maxHeight,
-                    child: QMText(text: S.of(context).SendEmail),
+                    child: QmText(text: S.of(context).SendEmail),
                   ),
                 ],
               ),

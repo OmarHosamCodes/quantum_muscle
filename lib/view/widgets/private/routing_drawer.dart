@@ -1,5 +1,3 @@
-import 'package:flutter_animate/flutter_animate.dart';
-
 import '/library.dart';
 
 class RoutingDrawer extends ConsumerWidget {
@@ -12,7 +10,7 @@ class RoutingDrawer extends ConsumerWidget {
       pageController.jumpToPage(
         index,
       );
-      context.pop();
+      context.pop(context);
     }
 
     return Drawer(
@@ -26,7 +24,7 @@ class RoutingDrawer extends ConsumerWidget {
               EvaIcons.homeOutline,
               color: ColorConstants.secondaryColor,
             ),
-            title: QMText(
+            title: QmText(
               text: S.of(context).Home,
             ),
             onTap: () {
@@ -38,7 +36,7 @@ class RoutingDrawer extends ConsumerWidget {
               EvaIcons.messageSquareOutline,
               color: ColorConstants.secondaryColor,
             ),
-            title: QMText(
+            title: QmText(
               text: S.of(context).Chat,
             ),
             onTap: () => changeIndex(1),
@@ -48,10 +46,39 @@ class RoutingDrawer extends ConsumerWidget {
               EvaIcons.personOutline,
               color: ColorConstants.secondaryColor,
             ),
-            title: QMText(
+            title: QmText(
               text: S.of(context).Profile,
             ),
             onTap: () => changeIndex(2),
+          ),
+          Consumer(
+            builder: (context, ref, child) {
+              final locale = ref.watch(localStateProvider);
+              return ListTile(
+                leading: const Icon(
+                  EvaIcons.globe,
+                  color: ColorConstants.secondaryColor,
+                ),
+                title: QmText(
+                  text: S.of(context).Language,
+                ),
+                onTap: () => locale == const Locale('en')
+                    ? ref.read(localStateProvider.notifier).state =
+                        const Locale('ar')
+                    : ref.read(localStateProvider.notifier).state =
+                        const Locale('en'),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              EvaIcons.logOutOutline,
+              color: ColorConstants.secondaryColor,
+            ),
+            title: QmText(
+              text: S.of(context).Logout,
+            ),
+            onTap: () => FirebaseAuth.instance.signOut(),
           ),
         ],
       ).animate().fadeIn(

@@ -1,7 +1,23 @@
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:quantum_muscle/view/widgets/qm_avatar.dart';
+import 'package:quantum_muscle/models/chat_model.dart';
 
 import '../../../library.dart';
+
+final chatStreamProvider = StreamProvider<QuerySnapshot<ChatModel>>(
+  (ref) => FirebaseFirestore.instance
+      .collection(DBPathsConstants.usersPath)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(DBPathsConstants.chatsPath)
+      //  .withConverter(
+      //   fromFirestore: chatsModel.fromMap,
+      //   toFirestore: (chatsModel model, _) => model.toMap(),
+      // )
+      .withConverter(
+        fromFirestore: ChatModel.fromMap,
+        toFirestore: (ChatModel model, _) => model.toMap(),
+      )
+      .get()
+      .asStream(),
+);
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -15,29 +31,60 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: QMText(text: S.of(context).Chat),
+        title: QmText(text: S.of(context).Chat),
       ),
       drawer: isDesktop() ? null : const RoutingDrawer(),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            onTap: () {},
-            leading: const QmAvatar(
-              'https://picsum.photos/250?image=9',
+      body: Consumer(builder: (context, ref, child) {
+        final chatSnapshot = ref.watch(chatStreamProvider);
+        final chatQuery = chatSnapshot.whenOrNull(
+          data: (data) {
+            if (data.docs.isEmpty) {
+              return FutureStatus.error;
+            } else {
+              return FutureStatus.data;
+            }
+          },
+          loading: () => FutureStatus.loading,
+          error: (e, s) => FutureStatus.error,
+        );
+        if (chatQuery == FutureStatus.data) {
+          final data = chatQuery as QuerySnapshot<ChatModel>;
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: data.docs.map((chat) {
+              final chatData = chat.data();
+              final chatSender = chatData.sender;
+              final chatLastMessage = chatData.message;
+              final chatImage = chatData.userImage;
+              final chatTime = chatData.timestamp;
+
+              return ListTile(
+                onTap: () {},
+                leading: QmAvatar(
+                  chatImage,
+                ),
+                title: QmText(text: chatSender),
+                subtitle: QmText(
+                  text: chatLastMessage,
+                  isSeccoundary: true,
+                ),
+                trailing: QmText(
+                  text: chatTime.toString(),
+                  isSeccoundary: true,
+                ).animate().fadeIn(),
+              ).animate().moveX();
+            }).toList(),
+          );
+        } else if (chatQuery == FutureStatus.error) {
+          return Center(
+            child: QmText(
+              text: S.of(context).NoChat,
             ),
-            title: QMText(text: 'User $index'),
-            subtitle: QMText(
-              text: 'Message $index',
-              isSeccoundary: true,
-            ),
-            trailing: const QMText(
-              text: 'Time',
-              isSeccoundary: true,
-            ).animate().fadeIn(),
-          ).animate().moveX();
-        },
-      ),
+          );
+        } else {
+          return const Center(child: QmCircularProgressIndicator());
+        }
+      }),
     );
   }
 }

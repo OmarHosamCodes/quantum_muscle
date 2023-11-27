@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:quantum_muscle/utils/auth/login_utile.dart';
+
 import '../../../library.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -9,12 +11,10 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final emailTextController = TextEditingController();
-    final passwordTextController = TextEditingController();
     final maxWidth = width * .6;
     final maxHeight = height * .1;
     final margin = EdgeInsets.symmetric(vertical: height * .01);
-
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Center(
         child: ResponsiveRowColumn(
@@ -33,9 +33,13 @@ class LoginScreen extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(AssetPathConstants.loginImgPath),
-                    QMText(text: S.of(context).WelcomeBack)
+                    QmText(
+                      text: S.of(context).WelcomeBack,
+                      maxWidth: double.maxFinite,
+                    ),
                   ],
                 ),
               ),
@@ -45,43 +49,70 @@ class LoginScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                   vertical: height * .01,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    QMTextField(
-                      maxWidth: maxWidth,
-                      margin: margin,
-                      height: maxHeight,
-                      width: maxWidth,
-                      controller: emailTextController,
-                      hintText: S.of(context).EnterEmail,
-                    ),
-                    QMTextField(
-                      maxWidth: maxWidth,
-                      margin: margin,
-                      height: maxHeight,
-                      width: maxWidth,
-                      controller: passwordTextController,
-                      hintText: S.of(context).EnterPassword,
-                      obscureText: true,
-                      maxLength: 16,
-                    ),
-                    ForgotPasswordTextWidget(width: width),
-                    QmBlock(
-                      maxWidth: maxWidth,
-                      onTap: () {},
-                      margin: margin,
-                      width: maxWidth,
-                      height: maxHeight,
-                      child: QMText(text: S.of(context).Login),
-                    ),
-                    QMText(
-                      //todo: choose login or register first and pop the seccound
-                      onTap: () => context.go(RouteNameConstants.registerPage),
-                      text:
-                          "${S.of(context).NotAMember} ${S.of(context).Register}",
-                    ),
-                  ],
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      QmTextField(
+                        maxWidth: maxWidth,
+                        margin: margin,
+                        height: maxHeight,
+                        width: maxWidth,
+                        controller: emailTextController,
+                        hintText: S.of(context).EnterEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        hasNext: true,
+                        validator: (value) {
+                          if (ValidationController.validateEmail(value!) ==
+                              false) {
+                            return S.of(context).EnterValidEmail;
+                          }
+                          return null;
+                        },
+                      ),
+                      QmTextField(
+                        maxWidth: maxWidth,
+                        margin: margin,
+                        height: maxHeight,
+                        width: maxWidth,
+                        controller: passwordTextController,
+                        hintText: S.of(context).EnterPassword,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: true,
+                        maxLength: 21,
+                        hasNext: false,
+                        validator: (value) {
+                          if (ValidationController.validatePassword(value!) ==
+                              false) {
+                            return S.of(context).EnterValidPassword;
+                          }
+                          return null;
+                        },
+                      ),
+                      ForgotPasswordTextWidget(width: width),
+                      QmBlock(
+                        maxWidth: maxWidth,
+                        onTap: () => LoginUtile().logUserIn(
+                          context: context,
+                          email: emailTextController.text,
+                          password: passwordTextController.text,
+                          formKey: formKey,
+                        ),
+                        margin: margin,
+                        width: maxWidth,
+                        height: maxHeight,
+                        child: QmText(text: S.of(context).Login),
+                      ),
+                      QmText(
+                        //todo: choose login or register first and pop the seccound
+                        onTap: () => context.pop(),
+                        text:
+                            "${S.of(context).NotAMember} ${S.of(context).Register}",
+                        maxWidth: double.maxFinite,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

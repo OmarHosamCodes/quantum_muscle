@@ -23,21 +23,32 @@ export 'view/widgets/private/choose_user_type.dart';
 export 'view/widgets/private/forgot_password_text.dart';
 export 'view/widgets/private/home_search_bar.dart';
 export 'view/widgets/private/Routing_drawer.dart';
+export 'view/widgets/qm_dialog.dart';
+export 'view/widgets/qm_avatar.dart';
+export 'view/widgets/private/add_workout.dart';
 
 //* Controllers
 
-export 'controllers/route_controller.dart';
-export 'controllers/theme_controller.dart';
+export 'controllers/routing/route_controller.dart';
+export 'controllers/theme/theme_controller.dart';
+export 'controllers/validation/validation_controller.dart';
 
 //* Utils
 
+export 'utils/auth/register_utile.dart';
+
 //* Models
+
+export 'models/user_model.dart';
+export 'models/exercise_model.dart';
+export 'models/workout_model.dart';
 
 //* Constants
 
 export 'constants/color_constants.dart';
 export 'constants/asset_path_constants.dart';
 export 'constants/route_name_constants.dart';
+export 'constants/db_paths_constants.dart';
 
 //* Packages
 
@@ -61,3 +72,5 @@ export 'package:go_router/go_router.dart';
 export 'package:responsive_framework/responsive_framework.dart';
 export 'package:flutter_test/flutter_test.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
+export 'package:get/get.dart' hide Condition;
+export 'package:flutter_animate/flutter_animate.dart';

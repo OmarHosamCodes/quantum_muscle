@@ -1,6 +1,6 @@
 import '../../library.dart';
 
-class QMText extends StatelessWidget {
+class QmText extends StatelessWidget {
   final String text;
   final TextStyle style;
   final bool isSeccoundary;
@@ -8,7 +8,7 @@ class QMText extends StatelessWidget {
   final void Function()? onTap;
   final double maxWidth;
   final Color? color;
-  const QMText({
+  const QmText({
     Key? key,
     required this.text,
     this.style = const TextStyle(

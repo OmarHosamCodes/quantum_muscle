@@ -3,7 +3,7 @@ description: A new age of fitness
 
 publish_to: "none"
 
-version: 1.0.0
+version: 1.1.0
 
 environment:
   sdk: ">=3.1.5 <4.0.0"
@@ -30,6 +30,7 @@ dependencies:
   responsive_framework: ^1.1.1
   flutter_riverpod: ^2.4.6
   get: ^4.6.6
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:

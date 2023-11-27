@@ -22,9 +22,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Add": MessageLookupByLibrary.simpleMessage("إضافة"),
+        "AddAPhoto": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
+        "AddComment": MessageLookupByLibrary.simpleMessage("إضافة تعليق"),
+        "AddWorkout": MessageLookupByLibrary.simpleMessage("إضافة تمرين"),
+        "AddWorkoutDescription":
+            MessageLookupByLibrary.simpleMessage("أدخل وصف التمرين"),
+        "AddWorkoutImage":
+            MessageLookupByLibrary.simpleMessage("أدخل صورة التمرين"),
+        "AddWorkoutName":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم التمرين"),
+        "AddWorkoutSets":
+            MessageLookupByLibrary.simpleMessage("أدخل عدد المجموعات"),
+        "AddWorkoutVideo":
+            MessageLookupByLibrary.simpleMessage("أدخل فيديو التمرين"),
         "AlreadyMember": MessageLookupByLibrary.simpleMessage("عضو بالفعل؟"),
+        "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "Chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
+        "Comments": MessageLookupByLibrary.simpleMessage("تعليقات"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+        "DefaultError": MessageLookupByLibrary.simpleMessage(
+            "حدث خطأ. يرجى إعادة المحاولة لاحقا."),
+        "EditProfile":
+            MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
         "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
         "EnterEmail":
             MessageLookupByLibrary.simpleMessage("أدخل بريدك الإلكتروني"),
@@ -39,13 +59,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل اسمًا صالحًا"),
         "EnterValidPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة مرور صالحة"),
+        "Failed": MessageLookupByLibrary.simpleMessage("فشل"),
+        "Follow": MessageLookupByLibrary.simpleMessage("تابع"),
+        "Followers": MessageLookupByLibrary.simpleMessage("متابعون"),
+        "Following": MessageLookupByLibrary.simpleMessage("متابعة"),
         "ForYou": MessageLookupByLibrary.simpleMessage("لك"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
         "Hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+        "Language": MessageLookupByLibrary.simpleMessage("العربية"),
+        "Likes": MessageLookupByLibrary.simpleMessage("إعجابات"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
+        "NoChat": MessageLookupByLibrary.simpleMessage("لا توجد رسائل"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
@@ -55,8 +83,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "SendEmail":
             MessageLookupByLibrary.simpleMessage("إرسال بريد إلكتروني"),
         "Slogan": MessageLookupByLibrary.simpleMessage("ابدأ في صنع الفرق"),
+        "Success": MessageLookupByLibrary.simpleMessage("نجاح"),
         "Trainee": MessageLookupByLibrary.simpleMessage("المتدرب"),
         "Trainer": MessageLookupByLibrary.simpleMessage("المدرب"),
+        "Unfollow": MessageLookupByLibrary.simpleMessage("إلغاء المتابعة"),
+        "UserNamePlaceHolder":
+            MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),
         "Workouts": MessageLookupByLibrary.simpleMessage("تمارين:")
       };

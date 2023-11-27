@@ -1,12 +1,15 @@
 class UserModel {
-  final String? ratID;
-  final String? name;
-  final int? age;
-  final String? email;
-  final String? phone;
-  final String? password;
-  final Map<String, String>? height;
-  final Map<String, String>? width;
+  String? ratID;
+  String? name;
+  int? age;
+  String? email;
+  String? phone;
+  String? password;
+  String? userType;
+  Map<String, String>? height;
+  Map<String, String>? weight;
+  String? image;
+  String? bio;
 
   UserModel({
     this.ratID,
@@ -15,8 +18,11 @@ class UserModel {
     this.email,
     this.phone,
     this.password,
+    this.userType,
     this.height,
-    this.width,
+    this.weight,
+    this.image,
+    this.bio,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -27,8 +33,11 @@ class UserModel {
       email: map['email'],
       phone: map['phone'],
       password: map['password'],
+      userType: map['userType'],
       height: map['height'],
-      width: map['width'],
+      weight: map['weight'],
+      image: map['image'],
+      bio: map['bio'],
     );
   }
 
@@ -40,8 +49,11 @@ class UserModel {
       'email': email,
       'phone': phone,
       'password': password,
+      'userType': userType,
       'height': height,
-      'width': width,
+      'weight': weight,
+      'image': image,
+      'bio': bio,
     };
   }
 }

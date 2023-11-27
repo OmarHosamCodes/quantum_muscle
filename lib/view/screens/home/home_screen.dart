@@ -1,6 +1,27 @@
-import 'package:flutter_animate/flutter_animate.dart';
-
 import '../../../library.dart';
+
+final userFutureProvider = FutureProvider<DocumentSnapshot>(
+  (ref) async => FirebaseFirestore.instance
+      .collection(DBPathsConstants.usersPath)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get(),
+);
+final workoutsStreamProvider = StreamProvider<QuerySnapshot<WorkoutModel>>(
+  (ref) => FirebaseFirestore.instance
+      .collection(DBPathsConstants.usersPath)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(DBPathsConstants.usersUserworkoutsPath)
+      .withConverter(
+        fromFirestore: WorkoutModel.fromMap,
+        toFirestore: (workout, _) => workout.toMap(),
+      )
+      .get()
+      .asStream(),
+);
+final futureStateProvider =
+    StateProvider<FutureStatus>((ref) => FutureStatus.loading);
+
+enum FutureStatus { loading, error, data }
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,7 +44,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        title: QMText(
+        title: QmText(
           text: S.of(context).Home,
         ),
         actions: [
@@ -37,25 +58,42 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: height * .001,
-                  horizontal: width * .05,
-                ),
-                child: Row(
-                  children: [
-                    QMText(
-                      text: "${S.of(context).Hi}, Name",
-                      maxWidth: width,
-                    ).animate().fadeIn(
-                          duration: const Duration(
-                            milliseconds: 300,
-                          ),
-                        ),
-                  ],
-                ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final futureSnapshot = ref.watch(userFutureProvider);
+                  final user = futureSnapshot.whenOrNull(
+                    data: (data) {
+                      if (data.data() == null) {
+                        return FutureStatus.error;
+                      } else {
+                        return FutureStatus.data;
+                      }
+                    },
+                    loading: () => FutureStatus.loading,
+                    error: (e, s) => FutureStatus.error,
+                  );
+                  if (user == FutureStatus.data) {
+                    final data = futureSnapshot.value as DocumentSnapshot;
+                    return QmText(
+                      text:
+                          "${S.of(context).Hi}, ${data.get(DBPathsConstants.usersUserNamePath)}",
+                      maxWidth: double.maxFinite,
+                    );
+                  } else if (user == FutureStatus.error) {
+                    return QmText(
+                      text:
+                          "${S.of(context).Hi}, ${S.of(context).UserNamePlaceHolder}",
+                      maxWidth: double.maxFinite,
+                    );
+                  } else {
+                    return const QmCircularProgressIndicator();
+                  }
+                },
               ),
+              //? search bar
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: width * .045,
@@ -80,54 +118,81 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    QMText(
+                    QmText(
                       text: S.of(context).Slogan,
+                    ),
+                    SizedBox(
+                      width: width * .05,
                     ),
                     Image.asset(
                       AssetPathConstants.mainVectorImgPath,
-                      height: height * .2,
-                      width: width * .4,
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: width * .05,
+                  horizontal: isDesktop() ? width * .06 : width * .05,
                   vertical: height * .025,
                 ),
                 child: Row(
                   children: [
-                    QMText(text: S.of(context).Workouts),
+                    QmText(text: S.of(context).Workouts),
                   ],
                 ),
               ),
-              GridView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * .05,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isDesktop()
-                      ? 5
-                      : isTablet()
-                          ? 3
-                          : 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 2,
-                ),
-                itemCount: 100,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return const QmBlock(
-                    height: 0,
-                    width: 0,
-                    child: Center(),
+              Consumer(
+                builder: (context, ref, child) {
+                  final streamSnapshot = ref.watch(workoutsStreamProvider);
+
+                  final workouts = streamSnapshot.whenOrNull(
+                    data: (data) {
+                      if (data.docs.isEmpty) {
+                        return FutureStatus.error;
+                      } else {
+                        return FutureStatus.data;
+                      }
+                    },
+                    loading: () => FutureStatus.loading,
+                    error: (e, s) => FutureStatus.error,
                   );
+                  if (workouts == FutureStatus.data) {
+                    final data =
+                        workouts as QuerySnapshot<Map<String, dynamic>>;
+                    return GridView.builder(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: width * .05,
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: isDesktop()
+                            ? 4
+                            : isTablet()
+                                ? 3
+                                : 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 2,
+                      ),
+                      itemCount: data.docs.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return const QmBlock(
+                          height: 0,
+                          width: 0,
+                          child: Center(),
+                        );
+                      },
+                    );
+                  } else if (workouts == FutureStatus.error) {
+                    //todo gradient animation
+                    return BigAddWorkout(width: width, height: height);
+                  } else {
+                    return const QmCircularProgressIndicator();
+                  }
                 },
               ),
             ],
