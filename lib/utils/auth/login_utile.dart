@@ -29,13 +29,13 @@ class LoginUtile {
           return;
         }
       });
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       context.pop();
 
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
-        message: e.message!,
+        message: e.toString(),
       );
     }
   }

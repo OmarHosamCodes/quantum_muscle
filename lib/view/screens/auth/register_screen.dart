@@ -133,7 +133,8 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       //todo: choose login or register first and pop the seccound
                       QmText(
-                        onTap: () => context.push(RouteNameConstants.loginPage),
+                        onTap: () =>
+                            context.goNamed(RouteNameConstants.loginPage),
                         text:
                             "${S.of(context).AlreadyMember} ${S.of(context).Login}",
                         maxWidth: double.maxFinite,
@@ -174,9 +175,10 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QmBlock(
+      isGradient: true,
       maxWidth: maxWidth,
       onTap: () => userType == UserType.trainee
-          ? RegisterUtile().signUserUp(
+          ? RegisterUtile().register(
               emailTextController.text,
               passwordTextController.text,
               nameTextController.text,
@@ -184,7 +186,7 @@ class _SubmitButton extends StatelessWidget {
               formKey,
               context,
             )
-          : RegisterUtile().signUserUp(
+          : RegisterUtile().register(
               emailTextController.text,
               passwordTextController.text,
               nameTextController.text,

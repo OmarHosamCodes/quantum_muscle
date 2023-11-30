@@ -13,6 +13,7 @@ export 'view/screens/home/home_screen.dart';
 export 'view/screens/routing/routing_screen.dart';
 export 'view/screens/chat/chat_screen.dart';
 export 'view/screens/profile/profile_screen.dart';
+export 'view/screens/home/workoutDetails/workout_details_screen.dart';
 
 //* Widgets
 
@@ -26,6 +27,8 @@ export 'view/widgets/private/Routing_drawer.dart';
 export 'view/widgets/qm_dialog.dart';
 export 'view/widgets/qm_avatar.dart';
 export 'view/widgets/private/add_workout.dart';
+export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
+export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
 
 //* Controllers
 
@@ -36,6 +39,9 @@ export 'controllers/validation/validation_controller.dart';
 //* Utils
 
 export 'utils/auth/register_utile.dart';
+export 'utils/auth/login_utile.dart';
+export 'utils/auth/forgot_password_utile.dart';
+export 'utils/cloud/workouts_utile.dart';
 
 //* Models
 
@@ -72,5 +78,6 @@ export 'package:go_router/go_router.dart';
 export 'package:responsive_framework/responsive_framework.dart';
 export 'package:flutter_test/flutter_test.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
-export 'package:get/get.dart' hide Condition;
-export 'package:flutter_animate/flutter_animate.dart';
+// export 'package:flutter_animate/flutter_animate.dart';
+export 'dart:io' hide HeaderValue;
+export 'package:flutter/foundation.dart' hide shortHash, describeIdentity;

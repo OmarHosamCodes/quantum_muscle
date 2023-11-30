@@ -35,6 +35,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     maxLength: 16,
                   ),
                   QmBlock(
+                    isGradient: true,
                     maxWidth: maxWidth,
                     onTap: () {},
                     margin: margin,

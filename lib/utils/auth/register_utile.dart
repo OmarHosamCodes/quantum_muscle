@@ -9,7 +9,7 @@ class RegisterUtile {
   UserModel userModel = UserModel();
   late User? user = firebaseAuth.currentUser;
 
-  Future<void> signUserUp(
+  Future<void> register(
     String email,
     String password,
     String userName,
@@ -36,13 +36,13 @@ class RegisterUtile {
           }
         },
       );
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
       context.pop();
 
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
-        message: e.message!,
+        message: e.toString(),
       );
     }
   }

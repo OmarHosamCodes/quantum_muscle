@@ -85,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Success": MessageLookupByLibrary.simpleMessage("Success"),
         "Trainee": MessageLookupByLibrary.simpleMessage("Trainee"),
         "Trainer": MessageLookupByLibrary.simpleMessage("Trainer"),
+        "TryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "Unfollow": MessageLookupByLibrary.simpleMessage("Unfollow"),
         "UserNamePlaceHolder":
             MessageLookupByLibrary.simpleMessage("User Name"),

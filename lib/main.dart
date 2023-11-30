@@ -42,7 +42,7 @@ class MyApp extends ConsumerWidget {
           const Breakpoint(start: 801, end: 1920, name: DESKTOP),
         ],
       ),
-      routerConfig: RoutingController().router,
+      routerConfig: RoutingController.router,
     );
   }
 }

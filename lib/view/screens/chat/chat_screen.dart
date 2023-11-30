@@ -71,8 +71,8 @@ class ChatScreen extends StatelessWidget {
                 trailing: QmText(
                   text: chatTime.toString(),
                   isSeccoundary: true,
-                ).animate().fadeIn(),
-              ).animate().moveX();
+                ),
+              );
             }).toList(),
           );
         } else if (chatQuery == FutureStatus.error) {

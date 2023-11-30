@@ -188,7 +188,7 @@ class ProfileScreen extends StatelessWidget {
                             QmText(text: createdAt),
                           ],
                         ),
-                      ).animate().fade();
+                      );
                     },
                   );
                 } else if (userImagesQuery == FutureStatus.error) {

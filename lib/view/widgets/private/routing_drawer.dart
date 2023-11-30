@@ -14,78 +14,73 @@ class RoutingDrawer extends ConsumerWidget {
     }
 
     return Drawer(
-      backgroundColor: ColorConstants.primaryColorDark,
-      child: ListView(
-        physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        children: [
-          ListTile(
-            leading: const Icon(
-              EvaIcons.homeOutline,
-              color: ColorConstants.secondaryColor,
+        backgroundColor: ColorConstants.primaryColorDark,
+        child: ListView(
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          children: [
+            ListTile(
+              leading: const Icon(
+                EvaIcons.homeOutline,
+                color: ColorConstants.secondaryColor,
+              ),
+              title: QmText(
+                text: S.of(context).Home,
+              ),
+              onTap: () {
+                changeIndex(0);
+              },
             ),
-            title: QmText(
-              text: S.of(context).Home,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.messageSquareOutline,
+                color: ColorConstants.secondaryColor,
+              ),
+              title: QmText(
+                text: S.of(context).Chat,
+              ),
+              onTap: () => changeIndex(1),
             ),
-            onTap: () {
-              changeIndex(0);
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.messageSquareOutline,
-              color: ColorConstants.secondaryColor,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.personOutline,
+                color: ColorConstants.secondaryColor,
+              ),
+              title: QmText(
+                text: S.of(context).Profile,
+              ),
+              onTap: () => changeIndex(2),
             ),
-            title: QmText(
-              text: S.of(context).Chat,
+            Consumer(
+              builder: (context, ref, child) {
+                final locale = ref.watch(localStateProvider);
+                return ListTile(
+                  leading: const Icon(
+                    EvaIcons.globe,
+                    color: ColorConstants.secondaryColor,
+                  ),
+                  title: QmText(
+                    text: S.of(context).Language,
+                  ),
+                  onTap: () => locale == const Locale('en')
+                      ? ref.read(localStateProvider.notifier).state =
+                          const Locale('ar')
+                      : ref.read(localStateProvider.notifier).state =
+                          const Locale('en'),
+                );
+              },
             ),
-            onTap: () => changeIndex(1),
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.personOutline,
-              color: ColorConstants.secondaryColor,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.logOutOutline,
+                color: ColorConstants.secondaryColor,
+              ),
+              title: QmText(
+                text: S.of(context).Logout,
+              ),
+              onTap: () => FirebaseAuth.instance.signOut(),
             ),
-            title: QmText(
-              text: S.of(context).Profile,
-            ),
-            onTap: () => changeIndex(2),
-          ),
-          Consumer(
-            builder: (context, ref, child) {
-              final locale = ref.watch(localStateProvider);
-              return ListTile(
-                leading: const Icon(
-                  EvaIcons.globe,
-                  color: ColorConstants.secondaryColor,
-                ),
-                title: QmText(
-                  text: S.of(context).Language,
-                ),
-                onTap: () => locale == const Locale('en')
-                    ? ref.read(localStateProvider.notifier).state =
-                        const Locale('ar')
-                    : ref.read(localStateProvider.notifier).state =
-                        const Locale('en'),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.logOutOutline,
-              color: ColorConstants.secondaryColor,
-            ),
-            title: QmText(
-              text: S.of(context).Logout,
-            ),
-            onTap: () => FirebaseAuth.instance.signOut(),
-          ),
-        ],
-      ).animate().fadeIn(
-            duration: const Duration(
-              milliseconds: 300,
-            ),
-          ),
-    );
+          ],
+        ));
   }
 }

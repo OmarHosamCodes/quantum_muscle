@@ -51,5 +51,6 @@
   "DefaultError": "Something went wrong, please try again later",
   "UserNamePlaceHolder": "User Name",
   "AddAPhoto": "Add a photo",
-  "Language": "English"
+  "Language": "English",
+  "TryAgain": "Try Again"
 }

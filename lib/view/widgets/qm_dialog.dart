@@ -1,6 +1,6 @@
 import '/library.dart';
 
-Future<void> openQmLoaderDialog({required BuildContext context}) => showDialog(
+void openQmLoaderDialog({required BuildContext context}) => showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) => const _QmLoaderDialog(),
@@ -33,7 +33,7 @@ class QmCircularProgressIndicator extends StatelessWidget {
   }
 }
 
-Future<void> openQmDialog(
+void openQmDialog(
         {required BuildContext context,
         required String title,
         required String message}) =>
@@ -55,32 +55,18 @@ class _QmDialog extends StatelessWidget {
   final String message;
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return AlertDialog.adaptive(
+      title: QmText(
+        text: title,
+        isHeadline: true,
+      ),
+      content: QmText(
+        text: message,
+        isSeccoundary: true,
+      ),
       backgroundColor: ColorConstants.primaryColorDark,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-      ),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * .3,
-        width: MediaQuery.of(context).size.width * .3,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            QmText(
-              text: title,
-              isHeadline: true,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            QmText(
-              text: message,
-              isSeccoundary: true,
-              maxWidth: double.maxFinite,
-            ),
-          ],
-        ),
       ),
     );
   }

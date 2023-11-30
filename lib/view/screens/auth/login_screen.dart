@@ -1,7 +1,5 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:quantum_muscle/utils/auth/login_utile.dart';
-
 import '../../../library.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -92,6 +90,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       ForgotPasswordTextWidget(width: width),
                       QmBlock(
+                        isGradient: true,
                         maxWidth: maxWidth,
                         onTap: () => LoginUtile().logUserIn(
                           context: context,

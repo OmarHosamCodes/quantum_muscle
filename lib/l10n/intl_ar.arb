@@ -51,5 +51,6 @@
   "DefaultError": "حدث خطأ. يرجى إعادة المحاولة لاحقا.",
   "UserNamePlaceHolder": "اسم المستخدم",
   "AddAPhoto": "إضافة صورة",
-  "Language": "العربية"
+  "Language": "العربية",
+  "TryAgain": "حاول مرة أخرى"
 }

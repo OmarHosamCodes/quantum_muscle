@@ -13,6 +13,9 @@ class QmBlock extends StatelessWidget {
     this.maxWidth = double.infinity,
     this.isAnimated = false,
     this.color = ColorConstants.primaryColor,
+    this.isGradient = false,
+    this.isNormal = true,
+    this.borderRadius,
   }) : super(key: key);
   final double width;
   final double height;
@@ -24,12 +27,14 @@ class QmBlock extends StatelessWidget {
   final double maxWidth;
   final bool isAnimated;
   final Color color;
+  final bool isGradient;
+  final bool isNormal;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor:
-          onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
@@ -46,7 +51,7 @@ class QmBlock extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            gradient: onTap != null && color == ColorConstants.primaryColor
+            gradient: isGradient
                 ? LinearGradient(
                     colors: [
                       ColorConstants.primaryColor,
@@ -54,10 +59,16 @@ class QmBlock extends StatelessWidget {
                     ],
                   )
                 : null,
-            color: color,
-            borderRadius: BorderRadius.circular(10),
+            color: isNormal ? color : Colors.transparent,
+            borderRadius: borderRadius ?? BorderRadius.circular(10),
           ),
-          child: Center(child: child),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.cell,
+            child: GestureDetector(
+              onTap: onTap,
+              child: Center(child: child),
+            ),
+          ),
         ),
       ),
     );
