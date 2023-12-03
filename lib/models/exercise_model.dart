@@ -1,31 +1,31 @@
-class Exercise {
-  final String? name;
-  final String? description;
-  final String? exerciseImage;
-  final Map<String, dynamic>? sets;
+class ExerciseModel {
+  String? exerciseName;
+  String? exerciseTarget;
+  String? exerciseImgEncoded;
+  List<dynamic>? exerciseSets;
 
-  Exercise({
-    this.name,
-    this.description,
-    this.sets,
-    this.exerciseImage,
+  ExerciseModel({
+    this.exerciseName,
+    this.exerciseTarget,
+    this.exerciseSets,
+    this.exerciseImgEncoded,
   });
 
-  factory Exercise.fromMap(Map<String, dynamic> map) {
-    return Exercise(
-      name: map['name'],
-      description: map['description'],
-      sets: map['sets'],
-      exerciseImage: map['exerciseImage'],
+  factory ExerciseModel.fromMap(Map<String, dynamic> map) {
+    return ExerciseModel(
+      exerciseName: map['exerciseName'],
+      exerciseTarget: map['exerciseTarget'],
+      exerciseSets: map['exerciseSets'],
+      exerciseImgEncoded: map['exerciseImgEncoded'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
-      'description': description,
-      'sets': sets,
-      'exerciseImage': exerciseImage,
+      'exerciseName': exerciseName,
+      'exerciseTarget': exerciseTarget,
+      'exerciseSets': exerciseSets,
+      'exerciseImgEncoded': exerciseImgEncoded,
     };
   }
 }

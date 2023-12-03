@@ -22,14 +22,22 @@ class SmallAddWorkout extends StatelessWidget {
           height: height,
         ),
       ),
-      child: QmText(text: S.of(context).AddWorkout),
+      child: QmIconButton(
+        icon: EvaIcons.plus,
+        onPressed: () => showModalBottomSheet(
+          backgroundColor: ColorConstants.primaryColorDark,
+          context: context,
+          builder: (context) => AddWorkoutBottomSheet(
+            height: height,
+          ),
+        ),
+      ),
     );
   }
 }
 
 class AddWorkoutBottomSheet extends StatelessWidget {
-  const AddWorkoutBottomSheet({Key? key, required this.height})
-      : super(key: key);
+  const AddWorkoutBottomSheet({super.key, required this.height});
   final double height;
 
   @override
@@ -90,24 +98,28 @@ class AddWorkoutBottomSheet extends StatelessWidget {
               },
             ),
           ),
-          Consumer(builder: (context, ref, _) {
-            final imageRef = ref.watch(imageBytesProvider);
-            return QmBlock(
-              isGradient: true,
-              onTap: () => workoutUtile.addWorkout(
-                formKey: formKey,
-                context: context,
-                workoutName: workoutNameTextController.text,
-                imageFile: base64.encode(imageRef!),
-              ),
-              height: height * .1,
-              width: double.maxFinite,
-              child: QmText(
-                text: S.of(context).AddWorkout,
-                maxWidth: double.maxFinite,
-              ),
-            );
-          }),
+          Consumer(
+            builder: (context, ref, _) {
+              final imageRef = ref.watch(imageBytesProvider);
+              return QmBlock(
+                isGradient: true,
+                onTap: () => workoutUtile.addWorkout(
+                  formKey: formKey,
+                  context: context,
+                  workoutName: workoutNameTextController.text,
+                  imageFile: base64.encode(imageRef!),
+                  ref: ref,
+                  canPop: true,
+                ),
+                height: height * .1,
+                width: double.maxFinite,
+                child: QmText(
+                  text: S.of(context).AddWorkout,
+                  maxWidth: double.maxFinite,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

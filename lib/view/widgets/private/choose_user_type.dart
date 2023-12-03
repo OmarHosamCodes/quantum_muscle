@@ -1,4 +1,5 @@
 import '../../../library.dart';
+import 'package:intl/intl.dart';
 
 enum UserType { trainer, trainee }
 
@@ -24,6 +25,7 @@ class UserTypeChooser extends ConsumerWidget {
       ColorConstants.primaryColorDark,
       ColorConstants.primaryColor,
     ];
+    String currentLocale = Intl.getCurrentLocale();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,11 +44,22 @@ class UserTypeChooser extends ConsumerWidget {
             width: width,
             height: height,
             decoration: BoxDecoration(
-                color: userType == UserType.trainer ? colors[1] : colors[0],
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                )),
+              color: userType == UserType.trainer ? colors[1] : colors[0],
+              borderRadius: BorderRadius.only(
+                topLeft: currentLocale == 'en'
+                    ? const Radius.circular(10)
+                    : const Radius.circular(0),
+                bottomLeft: currentLocale == 'en'
+                    ? const Radius.circular(10)
+                    : const Radius.circular(0),
+                topRight: currentLocale == 'en'
+                    ? const Radius.circular(0)
+                    : const Radius.circular(10),
+                bottomRight: currentLocale == 'en'
+                    ? const Radius.circular(0)
+                    : const Radius.circular(10),
+              ),
+            ),
             child: Center(child: QmText(text: S.of(context).Trainer)),
           ),
         ),
@@ -64,11 +77,22 @@ class UserTypeChooser extends ConsumerWidget {
             width: width,
             height: height,
             decoration: BoxDecoration(
-                color: userType == UserType.trainee ? colors[1] : colors[0],
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                )),
+              color: userType == UserType.trainee ? colors[1] : colors[0],
+              borderRadius: BorderRadius.only(
+                topLeft: currentLocale == 'en'
+                    ? const Radius.circular(0)
+                    : const Radius.circular(10),
+                bottomLeft: currentLocale == 'en'
+                    ? const Radius.circular(0)
+                    : const Radius.circular(10),
+                topRight: currentLocale == 'en'
+                    ? const Radius.circular(10)
+                    : const Radius.circular(0),
+                bottomRight: currentLocale == 'en'
+                    ? const Radius.circular(10)
+                    : const Radius.circular(0),
+              ),
+            ),
             child: Center(child: QmText(text: S.of(context).Trainee)),
           ),
         ),

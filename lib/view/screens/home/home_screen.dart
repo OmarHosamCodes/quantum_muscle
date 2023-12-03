@@ -10,7 +10,7 @@ final workoutsStreamProvider = StreamProvider<QuerySnapshot<WorkoutModel>?>(
   (ref) => FirebaseFirestore.instance
       .collection(DBPathsConstants.usersPath)
       .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection(DBPathsConstants.usersUserworkoutsPath)
+      .collection(DBPathsConstants.usersUserWorkoutsPath)
       .withConverter(
         fromFirestore: WorkoutModel.fromMap,
         toFirestore: (workout, _) => workout.toMap(),
@@ -194,24 +194,31 @@ class HomeScreen extends StatelessWidget {
                           );
                         } else {
                           final workout = data.docs[index].data();
-                          final workoutName = workout.workoutName;
-                          // final workoutExercises = workout.workoutExercises ?? [];
+                          final workoutName = workout.workoutName ?? '';
+                          final workoutExercises =
+                              workout.workoutExercises ?? [];
                           final workoutImage = workout.workoutImgEncoded;
                           final workoutCreationDate =
                               workout.workoutCreationDate;
-                          final workoutId = workout.workoutId;
-                          final workoutImageBytes = base64.decode(workoutImage);
-                          final workoutImageUint8List =
-                              Uint8List.fromList(workoutImageBytes);
+                          final workoutId = workout.workoutId ?? 'Invalid id';
+                          final workoutImageBytes =
+                              base64.decode(workoutImage!);
 
                           return QmBlock(
+                            padding: const EdgeInsets.all(10),
                             width: 0,
                             height: 0,
                             isGradient: false,
                             onTap: () => context.goNamed(
-                              RouteNameConstants.workoutPageName,
+                              RoutingController.workoutRootR,
                               pathParameters: {
                                 'workoutId': workoutId,
+                              },
+                              extra: {
+                                'workoutName': workoutName,
+                                'workoutImage': workoutImageBytes,
+                                'workoutExercises': workoutExercises,
+                                'workoutCreationDate': workoutCreationDate,
                               },
                             ),
                             child: Column(
@@ -222,15 +229,16 @@ class HomeScreen extends StatelessWidget {
                                   flex: 1,
                                   fit: FlexFit.tight,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       QmText(
                                         text: workoutName,
+                                        maxWidth: double.maxFinite,
                                       ),
                                       QmText(
-                                        text: workoutCreationDate,
+                                        text: workoutCreationDate!,
                                         isSeccoundary: true,
                                       ),
                                     ],
@@ -239,22 +247,26 @@ class HomeScreen extends StatelessWidget {
                                 Flexible(
                                   flex: 1,
                                   fit: FlexFit.tight,
-                                  child: Image(
-                                    image: MemoryImage(workoutImageUint8List),
-                                    fit: BoxFit.scaleDown,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(
-                                        Icons.add_a_photo_outlined,
-                                        color: ColorConstants.secondaryColor,
-                                      );
-                                    },
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      }
-                                      return const QmCircularProgressIndicator();
-                                    },
+                                  child: Hero(
+                                    tag: workoutId,
+                                    child: Image(
+                                      image: MemoryImage(workoutImageBytes),
+                                      fit: BoxFit.scaleDown,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const Icon(
+                                          Icons.add_a_photo_outlined,
+                                          color: ColorConstants.secondaryColor,
+                                        );
+                                      },
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return const QmCircularProgressIndicator();
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],

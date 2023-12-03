@@ -1,7 +1,6 @@
-import '../../../library.dart';
+import '/library.dart';
 
-final indexStateProvider = StateProvider<int>((ref) => 0);
-final pageController = PageController();
+final pageViewController = PageController();
 final firebaseAuthProvider = Provider((ref) => FirebaseAuth.instance);
 
 final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
@@ -9,7 +8,9 @@ final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
 });
 
 class RoutingScreen extends ConsumerWidget {
-  const RoutingScreen({super.key});
+  const RoutingScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,12 +21,12 @@ class RoutingScreen extends ConsumerWidget {
       return true;
     }
 
-    const List<Widget> routes = [
-      HomeScreen(),
-      ChatScreen(),
-      ProfileScreen(),
+    List<Widget> pages = [
+      const HomeScreen(),
+      const ChatScreen(),
+      const ProfileScreen(),
     ];
-    final pageIndex = ref.watch(indexStateProvider);
+
     final user = ref.watch(authStateChangesProvider);
 
     return Scaffold(
@@ -33,7 +34,7 @@ class RoutingScreen extends ConsumerWidget {
       //todo streambuilder for change of user
       body: user.when(
         data: (data) {
-          if (data == null) return const RegisterScreen();
+          if (data == null) return const AuthScreen();
 
           return Row(
             children: [
@@ -46,11 +47,10 @@ class RoutingScreen extends ConsumerWidget {
               SizedBox(
                 width: isDrawerExist() ? width * .8 : width,
                 height: height,
-                child: PageView.builder(
-                  controller: pageController,
+                child: PageView(
+                  controller: pageViewController,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      SafeArea(child: routes[pageIndex]),
+                  children: pages.map((page) => SafeArea(child: page)).toList(),
                 ),
               ),
             ],

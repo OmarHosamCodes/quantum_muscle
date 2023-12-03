@@ -14,21 +14,25 @@ export 'view/screens/routing/routing_screen.dart';
 export 'view/screens/chat/chat_screen.dart';
 export 'view/screens/profile/profile_screen.dart';
 export 'view/screens/home/workoutDetails/workout_details_screen.dart';
+export 'view/screens/auth/auth_screen.dart';
+export 'view/screens/error/routing_error_screen.dart';
 
 //* Widgets
 
 export 'view/widgets/qm_block.dart';
 export 'view/widgets/qm_text.dart';
 export 'view/widgets/qm_textfield.dart';
+export 'view/widgets/qm_dialog.dart';
+export 'view/widgets/qm_avatar.dart';
 export 'view/widgets/private/choose_user_type.dart';
 export 'view/widgets/private/forgot_password_text.dart';
 export 'view/widgets/private/home_search_bar.dart';
 export 'view/widgets/private/Routing_drawer.dart';
-export 'view/widgets/qm_dialog.dart';
-export 'view/widgets/qm_avatar.dart';
-export 'view/widgets/private/add_workout.dart';
 export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
 export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
+export 'view/widgets/private/workoutButtons/qm_icon_button.dart';
+export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
+export 'view/widgets/private/exerciseBlocks/add_exercise_block.dart';
 
 //* Controllers
 
@@ -53,7 +57,6 @@ export 'models/workout_model.dart';
 
 export 'constants/color_constants.dart';
 export 'constants/asset_path_constants.dart';
-export 'constants/route_name_constants.dart';
 export 'constants/db_paths_constants.dart';
 
 //* Packages
@@ -81,3 +84,6 @@ export 'package:flutter_riverpod/flutter_riverpod.dart';
 // export 'package:flutter_animate/flutter_animate.dart';
 export 'dart:io' hide HeaderValue;
 export 'package:flutter/foundation.dart' hide shortHash, describeIdentity;
+export 'package:uuid/uuid.dart';
+export 'package:slimy_card/slimy_card.dart';
+export 'dart:async' hide AsyncError;

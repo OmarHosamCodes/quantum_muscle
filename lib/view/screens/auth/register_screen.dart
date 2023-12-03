@@ -40,7 +40,6 @@ class RegisterScreen extends StatelessWidget {
                     Image.asset(AssetPathConstants.registerImgPath),
                     QmText(
                       text: S.of(context).CreateAnAccount,
-                      maxWidth: double.maxFinite,
                     )
                   ],
                 ),
@@ -61,6 +60,7 @@ class RegisterScreen extends StatelessWidget {
                         margin: margin,
                         height: maxHeight,
                         width: maxWidth,
+                        maxLength: 20,
                         controller: nameTextController,
                         hintText: S.of(context).EnterName,
                         keyboardType: TextInputType.name,
@@ -73,7 +73,6 @@ class RegisterScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-
                       QmTextField(
                         maxWidth: maxWidth,
                         margin: margin,
@@ -101,7 +100,6 @@ class RegisterScreen extends StatelessWidget {
                         hasNext: false,
                         obscureText: true,
                         maxLength: 21,
-                        // keyboardType: TextInputType.visiblePassword,
                         validator: (value) {
                           if (ValidationController.validatePassword(value!) ==
                               false) {
@@ -118,10 +116,8 @@ class RegisterScreen extends StatelessWidget {
                       ),
                       Consumer(
                         builder: (context, ref, child) {
-                          final userType = ref.watch(userTypeStateProvider);
                           return _SubmitButton(
                             maxWidth: maxWidth,
-                            userType: userType,
                             emailTextController: emailTextController,
                             passwordTextController: passwordTextController,
                             nameTextController: nameTextController,
@@ -131,13 +127,12 @@ class RegisterScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      //todo: choose login or register first and pop the seccound
                       QmText(
-                        onTap: () =>
-                            context.goNamed(RouteNameConstants.loginPage),
+                        onTap: () => authPageController.jumpToPage(
+                          1,
+                        ),
                         text:
                             "${S.of(context).AlreadyMember} ${S.of(context).Login}",
-                        maxWidth: double.maxFinite,
                       ),
                     ],
                   ),
@@ -151,10 +146,9 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
-class _SubmitButton extends StatelessWidget {
+class _SubmitButton extends ConsumerWidget {
   const _SubmitButton({
     required this.maxWidth,
-    required this.userType,
     required this.emailTextController,
     required this.passwordTextController,
     required this.nameTextController,
@@ -164,7 +158,7 @@ class _SubmitButton extends StatelessWidget {
   });
 
   final double maxWidth;
-  final UserType userType;
+
   final TextEditingController emailTextController;
   final TextEditingController passwordTextController;
   final TextEditingController nameTextController;
@@ -173,27 +167,25 @@ class _SubmitButton extends StatelessWidget {
   final double maxHeight;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userType = ref.watch(userTypeStateProvider);
+
     return QmBlock(
       isGradient: true,
       maxWidth: maxWidth,
-      onTap: () => userType == UserType.trainee
-          ? RegisterUtile().register(
-              emailTextController.text,
-              passwordTextController.text,
-              nameTextController.text,
-              "trainee",
-              formKey,
-              context,
-            )
-          : RegisterUtile().register(
-              emailTextController.text,
-              passwordTextController.text,
-              nameTextController.text,
-              "trainer",
-              formKey,
-              context,
-            ),
+      onTap: () {
+        RegisterUtile().register(
+          email: emailTextController.text,
+          password: passwordTextController.text,
+          userName: nameTextController.text,
+          userType: userType == UserType.trainee ? "trainee" : "trainer",
+          formKey: formKey,
+          context: context,
+        );
+        emailTextController.clear();
+        passwordTextController.clear();
+        nameTextController.clear();
+      },
       margin: margin,
       width: maxWidth,
       height: maxHeight,

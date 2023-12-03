@@ -22,20 +22,18 @@ class LoginUtile {
       )
           .then((_) {
         if (firebaseAuth.currentUser != null) {
-          context.pushReplacement(RouteNameConstants.routingPage);
-
           context.pop();
         } else {
           return;
         }
       });
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       context.pop();
 
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
-        message: e.toString(),
+        message: e.message!,
       );
     }
   }

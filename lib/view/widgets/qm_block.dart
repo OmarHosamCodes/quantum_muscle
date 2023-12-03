@@ -2,21 +2,21 @@ import '../../library.dart';
 
 class QmBlock extends StatelessWidget {
   const QmBlock({
-    Key? key,
+    super.key,
     required this.width,
     required this.height,
     required this.child,
     this.padding,
     this.margin,
     this.onTap,
-    this.maxHeight = double.infinity,
-    this.maxWidth = double.infinity,
+    this.maxHeight = double.maxFinite,
+    this.maxWidth = double.maxFinite,
     this.isAnimated = false,
     this.color = ColorConstants.primaryColor,
     this.isGradient = false,
     this.isNormal = true,
     this.borderRadius,
-  }) : super(key: key);
+  });
   final double width;
   final double height;
   final Widget child;
@@ -34,7 +34,7 @@ class QmBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors.click,
+      cursor: SystemMouseCursors.cell,
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(

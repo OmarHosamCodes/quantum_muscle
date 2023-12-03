@@ -8,17 +8,19 @@ class QmText extends StatelessWidget {
   final void Function()? onTap;
   final double maxWidth;
   final Color? color;
+  final TextOverflow? overflow;
   const QmText({
-    Key? key,
+    super.key,
     required this.text,
     this.style = const TextStyle(
         fontSize: 20, fontFamily: 'family', color: ColorConstants.textColor),
     this.isSeccoundary = false,
     this.isHeadline = false,
     this.onTap,
-    this.maxWidth = 100,
+    this.maxWidth = 300,
     this.color,
-  }) : super(key: key);
+    this.overflow,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class QmText extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: Text(
+          overflow: overflow,
           text,
           style: style.copyWith(
               color: color ??

@@ -17,8 +17,9 @@ class QmTextField extends StatelessWidget {
   final double maxHeight;
   final double maxWidth;
   final Icon? prefixIcon; // New property for prefix icon
+  final double? fontSize;
   const QmTextField({
-    Key? key,
+    super.key,
     required this.height,
     required this.width,
     required this.controller,
@@ -35,7 +36,8 @@ class QmTextField extends StatelessWidget {
     this.maxHeight = double.infinity,
     this.maxWidth = double.infinity,
     this.prefixIcon, // Initialize prefix icon property
-  }) : super(key: key);
+    this.fontSize = 16.0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,10 @@ class QmTextField extends StatelessWidget {
           smartQuotesType: SmartQuotesType.enabled,
           expands: isExpanded,
           keyboardType: keyboardType,
-          style: const TextStyle(color: ColorConstants.textFieldColor),
+          style: TextStyle(
+            color: ColorConstants.textFieldColor,
+            fontSize: fontSize,
+          ),
           textAlignVertical: TextAlignVertical.top,
           maxLines: isExpanded ? null : 1,
           cursorColor: ColorConstants.tertiaryColor,

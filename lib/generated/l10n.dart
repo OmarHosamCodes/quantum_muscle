@@ -589,6 +589,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter Exercise Name`
+  String get EnterExerciseName {
+    return Intl.message(
+      'Enter Exercise Name',
+      name: 'EnterExerciseName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Exercise Target`
+  String get EnterExerciseTarget {
+    return Intl.message(
+      'Enter Exercise Target',
+      name: 'EnterExerciseTarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email sent successfully`
+  String get EmailSentSuccessfully {
+    return Intl.message(
+      'Email sent successfully',
+      name: 'EmailSentSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go back to login`
+  String get GoBackToLogin {
+    return Intl.message(
+      'Go back to login',
+      name: 'GoBackToLogin',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -106,6 +106,8 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                 context: context,
                                 workoutName: workoutNameTextController.text,
                                 imageFile: base64.encode(imageRef!),
+                                ref: ref,
+                                canPop: false,
                               ),
                               height: widget.height * .1,
                               width: inputsWidth,

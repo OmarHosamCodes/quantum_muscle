@@ -47,7 +47,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "Something went wrong, please try again later"),
         "EditProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "Email": MessageLookupByLibrary.simpleMessage("Email"),
+        "EmailSentSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Email sent successfully"),
         "EnterEmail": MessageLookupByLibrary.simpleMessage("Enter your email"),
+        "EnterExerciseName":
+            MessageLookupByLibrary.simpleMessage("Enter Exercise Name"),
+        "EnterExerciseTarget":
+            MessageLookupByLibrary.simpleMessage("Enter Exercise Target"),
         "EnterName": MessageLookupByLibrary.simpleMessage("Enter your name"),
         "EnterPassword":
             MessageLookupByLibrary.simpleMessage("Enter your password"),
@@ -65,6 +71,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ForYou": MessageLookupByLibrary.simpleMessage("For you"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password ?"),
+        "GoBackToLogin":
+            MessageLookupByLibrary.simpleMessage("Go back to login"),
         "Hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Language": MessageLookupByLibrary.simpleMessage("English"),

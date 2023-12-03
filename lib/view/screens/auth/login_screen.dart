@@ -89,23 +89,32 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                       ForgotPasswordTextWidget(width: width),
-                      QmBlock(
-                        isGradient: true,
-                        maxWidth: maxWidth,
-                        onTap: () => LoginUtile().logUserIn(
-                          context: context,
-                          email: emailTextController.text,
-                          password: passwordTextController.text,
-                          formKey: formKey,
-                        ),
-                        margin: margin,
-                        width: maxWidth,
-                        height: maxHeight,
-                        child: QmText(text: S.of(context).Login),
+                      Consumer(
+                        builder: (context, ref, _) {
+                          return QmBlock(
+                            isGradient: true,
+                            maxWidth: maxWidth,
+                            onTap: () {
+                              LoginUtile().logUserIn(
+                                context: context,
+                                email: emailTextController.text,
+                                password: passwordTextController.text,
+                                formKey: formKey,
+                              );
+                            },
+                            margin: margin,
+                            width: maxWidth,
+                            height: maxHeight,
+                            child: QmText(
+                              text: S.of(context).Login,
+                            ),
+                          );
+                        },
                       ),
                       QmText(
-                        //todo: choose login or register first and pop the seccound
-                        onTap: () => context.pop(),
+                        onTap: () => authPageController.jumpToPage(
+                          2,
+                        ),
                         text:
                             "${S.of(context).NotAMember} ${S.of(context).Register}",
                         maxWidth: double.maxFinite,

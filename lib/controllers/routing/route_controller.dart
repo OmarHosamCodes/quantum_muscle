@@ -1,35 +1,45 @@
 import '/library.dart';
 
-final _firebaseAuth = FirebaseAuth.instance;
-final _user = _firebaseAuth.currentUser;
-
 class RoutingController {
+  static String initR = '/';
+  static String homeR = '/home';
+  static String authR = '/auth';
+  static String workoutRootR = 'workout';
+  static String workoutDetailsR = 'workout/:workoutId';
+
   static final router = GoRouter(
-    initialLocation: RouteNameConstants.routingPage,
+    initialLocation: initR,
     routes: [
       GoRoute(
-        path: RouteNameConstants.routingPage,
+        path: initR,
         builder: (context, state) => const RoutingScreen(),
         routes: [
           GoRoute(
-            name: RouteNameConstants.workoutPageName,
-            path: RouteNameConstants.workoutDetailsPage,
-            builder: (context, state) => WorkoutDetailsScreen(
-              workoutId: state.pathParameters['workoutId']!,
-            ),
-          ),
-          GoRoute(
-            name: RouteNameConstants.loginPage,
-            path: RouteNameConstants.loginPage,
-            builder: (context, state) => const LoginScreen(),
-          ),
-          GoRoute(
-            name: RouteNameConstants.registerPage,
-            path: RouteNameConstants.registerPage,
-            builder: (context, state) => const RegisterScreen(),
+            name: workoutRootR,
+            path: workoutDetailsR,
+            builder: (context, state) {
+              final width = MediaQuery.of(context).size.width;
+              final height = MediaQuery.of(context).size.height;
+              return WorkoutDetailsScreen(
+                workoutId: state.pathParameters['workoutId']!,
+                arguments: state.extra! as Map<String, dynamic>,
+                width: width,
+                height: height,
+              );
+            },
           ),
         ],
       ),
+      GoRoute(
+        path: authR,
+        builder: (context, state) => AuthScreen(
+          key: state.pageKey,
+        ),
+      ),
     ],
+    errorBuilder: (context, state) => RoutingErrorScreen(
+      key: state.pageKey,
+      exception: state.error.toString(),
+    ),
   );
 }

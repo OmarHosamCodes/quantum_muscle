@@ -1,13 +1,119 @@
 import '../../../../library.dart';
 
-class WorkoutDetailsScreen extends StatelessWidget {
-  const WorkoutDetailsScreen({super.key, required this.workoutId});
+class WorkoutDetailsScreen extends ConsumerWidget {
+  const WorkoutDetailsScreen({
+    super.key,
+    required this.workoutId,
+    required this.arguments,
+    required this.width,
+    required this.height,
+  });
   final String workoutId;
+  final Map<String, dynamic> arguments;
+  final double width;
+  final double height;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final workoutName = arguments['workoutName'] as String;
+    final workoutImage = arguments['workoutImage'] as Uint8List;
+    final workoutExercises = arguments['workoutExercises'] as List<dynamic>;
+    final workoutCreationDate = arguments['workoutCreationDate'] as String;
+    final scrollController = ScrollController();
+    ref.watch(workoutsStreamProvider);
     return Scaffold(
-      body: QmText(
-        text: 'Workout Details Screen For $workoutId',
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          SizedBox(
+            height: height * 0.2,
+            width: width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    QmText(
+                      text: workoutName,
+                    ),
+                    QmText(
+                      text: workoutCreationDate,
+                      isSeccoundary: true,
+                    ),
+                  ],
+                ),
+                Hero(
+                  tag: workoutId,
+                  child: Image(
+                    image: MemoryImage(
+                      workoutImage,
+                    ),
+                    fit: BoxFit.scaleDown,
+                    height: height * 0.2,
+                    width: width * 0.2,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        Icons.add_a_photo_outlined,
+                        color: ColorConstants.secondaryColor,
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return const QmCircularProgressIndicator();
+                    },
+                  ),
+                ),
+                FittedBox(
+                  child: Column(
+                    children: [
+                      QmIconButton(
+                        onPressed: () {},
+                        icon: EvaIcons.trash,
+                      ),
+                      QmIconButton(
+                        onPressed: () {},
+                        icon: EvaIcons.share,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Scrollbar(
+              controller: scrollController,
+              child: ListView.builder(
+                controller: scrollController,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: workoutExercises.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == workoutExercises.length) {
+                    return AddExerciseTile(
+                      width: height,
+                      height: height,
+                      indexToInsert: workoutExercises.length,
+                      workoutName: "$workoutName-$workoutId",
+                    );
+                  } else {
+                    final exercise = ExerciseModel.fromMap(
+                        workoutExercises[index]['E$index']);
+                    return ExerciseTile(
+                      exercise: exercise,
+                      width: width,
+                      height: height,
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

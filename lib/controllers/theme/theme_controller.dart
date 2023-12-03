@@ -19,5 +19,14 @@ class ThemeController {
         ),
       ),
     ),
+    scrollbarTheme: ScrollbarThemeData(
+      thumbVisibility: MaterialStateProperty.all<bool>(true),
+      thumbColor: MaterialStateProperty.all<Color>(
+        ColorConstants.primaryColor,
+      ),
+      trackColor: MaterialStateProperty.all<Color>(
+        ColorConstants.secondaryColor,
+      ),
+    ),
   );
 }

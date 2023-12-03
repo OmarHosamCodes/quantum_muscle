@@ -1,6 +1,6 @@
 class ValidationController {
   static bool validateName(String name) {
-    return name.isNotEmpty && name.length >= 2 && name.length <= 50;
+    return name.isNotEmpty && name.length >= 2 && name.length <= 20;
   }
 
   static bool validateEmail(String email) {

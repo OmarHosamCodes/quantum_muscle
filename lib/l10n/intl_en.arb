@@ -52,5 +52,9 @@
   "UserNamePlaceHolder": "User Name",
   "AddAPhoto": "Add a photo",
   "Language": "English",
-  "TryAgain": "Try Again"
+  "TryAgain": "Try Again",
+  "EnterExerciseName": "Enter Exercise Name",
+  "EnterExerciseTarget": "Enter Exercise Target",
+  "EmailSentSuccessfully": "Email sent successfully",
+  "GoBackToLogin": "Go back to login"
 }

@@ -9,14 +9,14 @@ class RegisterUtile {
   UserModel userModel = UserModel();
   late User? user = firebaseAuth.currentUser;
 
-  Future<void> register(
-    String email,
-    String password,
-    String userName,
-    String userType,
-    GlobalKey<FormState> formKey,
-    BuildContext context,
-  ) async {
+  Future<void> register({
+    required String email,
+    required String password,
+    required String userName,
+    required String userType,
+    required GlobalKey<FormState> formKey,
+    required BuildContext context,
+  }) async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
@@ -28,29 +28,32 @@ class RegisterUtile {
           .then(
         (_) {
           if (firebaseAuth.currentUser != null) {
-            context.pushReplacement(RouteNameConstants.routingPage);
             afterSignUp(
-                userName: userName, userType: userType, context: context);
+              userName: userName,
+              userType: userType,
+              context: context,
+            );
           } else {
             return;
           }
         },
       );
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       context.pop();
 
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
-        message: e.toString(),
+        message: e.message!,
       );
     }
   }
 
-  Future<void> afterSignUp(
-      {required String userName,
-      required String userType,
-      required BuildContext context}) async {
+  Future<void> afterSignUp({
+    required String userName,
+    required String userType,
+    required BuildContext context,
+  }) async {
     if (user != null) {
       userModel.email = user!.email;
       userModel.ratID = "#${user!.uid.substring(0, 16)}";

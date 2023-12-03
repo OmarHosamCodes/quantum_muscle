@@ -7,11 +7,13 @@ void openQmLoaderDialog({required BuildContext context}) => showDialog(
     );
 
 class _QmLoaderDialog extends StatelessWidget {
-  const _QmLoaderDialog({Key? key}) : super(key: key);
+  const _QmLoaderDialog();
 
   @override
   Widget build(BuildContext context) {
     return const Dialog(
+      elevation: 0,
+      shadowColor: Colors.transparent,
       backgroundColor: Colors.transparent,
       child: Center(
         child: QmCircularProgressIndicator(),
@@ -33,10 +35,11 @@ class QmCircularProgressIndicator extends StatelessWidget {
   }
 }
 
-void openQmDialog(
-        {required BuildContext context,
-        required String title,
-        required String message}) =>
+void openQmDialog({
+  required BuildContext context,
+  required String title,
+  required String message,
+}) =>
     showDialog(
       context: context,
       builder: (context) => _QmDialog(
@@ -47,10 +50,9 @@ void openQmDialog(
 
 class _QmDialog extends StatelessWidget {
   const _QmDialog({
-    Key? key,
     required this.title,
     required this.message,
-  }) : super(key: key);
+  });
   final String title;
   final String message;
   @override

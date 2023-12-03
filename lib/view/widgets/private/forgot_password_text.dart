@@ -19,10 +19,11 @@ class ForgotPasswordTextWidget extends StatelessWidget {
       ),
       child: SizedBox(
         child: QmText(
-          onTap: () => context.go(RouteNameConstants.forgotPasswordPage),
+          onTap: () => authPageController.jumpToPage(
+            0,
+          ),
           isSeccoundary: true,
           text: S.of(context).ForgotPassword,
-          maxWidth: double.maxFinite,
         ),
       ),
     );

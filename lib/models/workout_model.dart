@@ -1,11 +1,11 @@
 import '../library.dart';
 
 class WorkoutModel {
-  String workoutId;
-  String workoutName;
-  List<dynamic> workoutExercises;
-  String workoutImgEncoded;
-  String workoutCreationDate;
+  String? workoutId;
+  String? workoutName;
+  List? workoutExercises;
+  String? workoutImgEncoded;
+  String? workoutCreationDate;
 
   WorkoutModel({
     required this.workoutId,

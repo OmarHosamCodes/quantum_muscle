@@ -46,8 +46,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "EditProfile":
             MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
         "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "EmailSentSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "تم إرسال البريد الإلكتروني بنجاح"),
         "EnterEmail":
             MessageLookupByLibrary.simpleMessage("أدخل بريدك الإلكتروني"),
+        "EnterExerciseName":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم التمرين"),
+        "EnterExerciseTarget":
+            MessageLookupByLibrary.simpleMessage("أدخل الهدف من التمرين"),
         "EnterName": MessageLookupByLibrary.simpleMessage("أدخل اسمك"),
         "EnterPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور الخاصة بك"),
@@ -66,6 +72,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ForYou": MessageLookupByLibrary.simpleMessage("لك"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
+        "GoBackToLogin":
+            MessageLookupByLibrary.simpleMessage("العودة إلى تسجيل الدخول"),
         "Hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "Language": MessageLookupByLibrary.simpleMessage("العربية"),

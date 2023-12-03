@@ -34,14 +34,30 @@ class ForgotPasswordScreen extends StatelessWidget {
                     obscureText: true,
                     maxLength: 16,
                   ),
-                  QmBlock(
-                    isGradient: true,
-                    maxWidth: maxWidth,
-                    onTap: () {},
-                    margin: margin,
-                    width: maxWidth,
-                    height: maxHeight,
-                    child: QmText(text: S.of(context).SendEmail),
+                  Consumer(builder: (context, ref, _) {
+                    return QmBlock(
+                      isGradient: true,
+                      maxWidth: maxWidth,
+                      onTap: () {
+                        ForgotPasswordUtil().sendResetEmail(
+                          email: forgotPasswordTextController.text,
+                          context: context,
+                        );
+                      },
+                      margin: margin,
+                      width: maxWidth,
+                      height: maxHeight,
+                      child: ForgotPasswordUtil().countDown != 30
+                          ? QmText(
+                              text: ForgotPasswordUtil().countDown.toString())
+                          : QmText(text: S.of(context).SendEmail),
+                    );
+                  }),
+                  QmText(
+                    onTap: () => authPageController.jumpToPage(
+                      1,
+                    ),
+                    text: S.of(context).GoBackToLogin,
                   ),
                 ],
               ),

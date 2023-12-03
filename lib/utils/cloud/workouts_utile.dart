@@ -39,6 +39,8 @@ class WorkoutUtile {
     required GlobalKey<FormState> formKey,
     required String workoutName,
     required String imageFile,
+    required WidgetRef ref,
+    required bool canPop,
   }) async {
     if (user != null) {
       try {
@@ -49,7 +51,7 @@ class WorkoutUtile {
         final dateTime = DateTime.now();
         final perfectDateTime =
             "${dateTime.year}-${dateTime.month}-${dateTime.day}";
-        final uniqueId = UniqueKey().toString().substring(0, 8);
+        final uniqueId = const Uuid().v4().toString().substring(0, 12);
         final workoutModel = WorkoutModel(
           workoutId: uniqueId,
           workoutName: workoutName,
@@ -60,13 +62,14 @@ class WorkoutUtile {
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(user!.uid)
-            .collection(DBPathsConstants.usersUserworkoutsPath)
-            .doc(workoutName)
+            .collection(DBPathsConstants.usersUserWorkoutsPath)
+            .doc("$workoutName-$uniqueId")
             .set(workoutModel.toMap());
-        await firebaseFirestore
-            .collection(DBPathsConstants.usersPath)
-            .doc(user!.uid)
-            .update({"exercises": []});
+        // ignore: unused_result
+        ref.refresh(workoutsStreamProvider);
+        ref.invalidate(workoutsStreamProvider);
+        ref.read(workoutsStreamProvider);
+        canPop ? context.pop() : null;
       } on FirebaseException catch (e) {
         openQmDialog(
           context: context,

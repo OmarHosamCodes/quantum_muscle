@@ -52,5 +52,9 @@
   "UserNamePlaceHolder": "اسم المستخدم",
   "AddAPhoto": "إضافة صورة",
   "Language": "العربية",
-  "TryAgain": "حاول مرة أخرى"
+  "TryAgain": "حاول مرة أخرى",
+  "EnterExerciseName": "أدخل اسم التمرين",
+  "EnterExerciseTarget": "أدخل الهدف من التمرين",
+  "EmailSentSuccessfully": "تم إرسال البريد الإلكتروني بنجاح",
+  "GoBackToLogin": "العودة إلى تسجيل الدخول"
 }
