@@ -95,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                             isGradient: true,
                             maxWidth: maxWidth,
                             onTap: () {
-                              LoginUtile().logUserIn(
+                              LoginUtil().logUserIn(
                                 context: context,
                                 email: emailTextController.text,
                                 password: passwordTextController.text,

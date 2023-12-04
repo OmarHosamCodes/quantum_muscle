@@ -174,7 +174,7 @@ class _SubmitButton extends ConsumerWidget {
       isGradient: true,
       maxWidth: maxWidth,
       onTap: () {
-        RegisterUtile().register(
+        RegisterUtil().register(
           email: emailTextController.text,
           password: passwordTextController.text,
           userName: nameTextController.text,

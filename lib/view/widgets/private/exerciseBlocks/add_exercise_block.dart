@@ -1,4 +1,4 @@
-import 'package:quantum_muscle/utils/cloud/exercise_utile.dart';
+import 'package:quantum_muscle/utils/workouts/exercise_util.dart';
 
 import '/library.dart';
 
@@ -30,7 +30,7 @@ class AddExerciseTile extends StatelessWidget {
               if (exerciseTargetTextController.text.isNotEmpty &&
                   exerciseNameTextController.text.isNotEmpty &&
                   imageRef.isNotEmpty) {
-                ExerciseUtile().addExercise(
+                ExerciseUtil().addExercise(
                   context: context,
                   formKey: formKey,
                   workoutName: workoutName,
@@ -50,7 +50,7 @@ class AddExerciseTile extends StatelessWidget {
               width: width * .9,
               height: height * .2,
               isNormal: true,
-              onTap: () => ExerciseUtile.chooseExerciseImageFromStorage(
+              onTap: () => ExerciseUtil.chooseExerciseImageFromStorage(
                 ref: ref,
                 provider: exerciseImageBytesProvider,
               ),

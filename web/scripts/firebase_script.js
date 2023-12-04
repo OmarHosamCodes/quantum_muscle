@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyDcvMqyGhRQFslglBDWJaSzIDwJiNaTvS0",
   authDomain: "quantum-muscle-dev.firebaseapp.com",
@@ -10,11 +9,3 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-
-function uploadFile(file, path) {
-  const storageRef = ref(storage, path);
-  const bytes = new Uint8Array(file);
-  const uploadTask = uploadBytes(storageRef, bytes);
-  return uploadTask.snapshot.ref.getDownloadURL();
-}

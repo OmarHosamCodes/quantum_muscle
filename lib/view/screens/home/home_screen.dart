@@ -210,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                             height: 0,
                             isGradient: false,
                             onTap: () => context.goNamed(
-                              RoutingController.workoutRootR,
+                              Routes.workoutRootR,
                               pathParameters: {
                                 'workoutId': workoutId,
                               },

@@ -2,7 +2,7 @@
 
 import '../../library.dart';
 
-class LoginUtile {
+class LoginUtil {
   final firebaseAuth = FirebaseAuth.instance;
 
   Future<void> logUserIn({

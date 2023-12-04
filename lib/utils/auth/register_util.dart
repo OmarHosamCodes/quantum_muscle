@@ -2,7 +2,7 @@
 
 import '../../library.dart';
 
-class RegisterUtile {
+class RegisterUtil {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;

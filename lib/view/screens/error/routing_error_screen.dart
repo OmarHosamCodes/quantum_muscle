@@ -6,18 +6,21 @@ class RoutingErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          QmText(
-            text: exception,
-          ),
-          QmIconButton(
-            onPressed: () => context.go(RoutingController.authR),
-            icon: Icons.home,
-          ),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            QmText(
+              text: exception,
+              maxWidth: double.maxFinite,
+            ),
+            QmIconButton(
+              onPressed: () => context.go(Routes.initR),
+              icon: Icons.home,
+            ),
+          ],
+        ),
       ),
     );
   }

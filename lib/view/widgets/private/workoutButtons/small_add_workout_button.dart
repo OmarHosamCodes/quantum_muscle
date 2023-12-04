@@ -44,7 +44,7 @@ class AddWorkoutBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final workoutNameTextController = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    final workoutUtile = WorkoutUtile();
+    final workoutUtile = WorkoutUtil();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

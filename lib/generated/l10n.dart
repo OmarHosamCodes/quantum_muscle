@@ -629,6 +629,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Let people know who you are`
+  String get LetPeopleKnow {
+    return Intl.message(
+      'Let people know who you are',
+      name: 'LetPeopleKnow',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

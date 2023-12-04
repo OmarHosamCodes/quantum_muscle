@@ -1,4 +1,4 @@
-import 'package:quantum_muscle/models/user_image_model.dart';
+// ignore_for_file: must_be_immutable
 
 import '../../../library.dart';
 
@@ -16,7 +16,6 @@ final userImagesFutureProvider = FutureProvider<QuerySnapshot<UserImageModel>>(
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -52,9 +51,10 @@ class ProfileScreen extends StatelessWidget {
                 if (userQuery == FutureStatus.data) {
                   final data = userFuture.value as DocumentSnapshot;
                   final userData = data.data() as Map<String, dynamic>;
-                  final userImage = userData['image'] ?? '';
-                  final userName = userData['name'] ?? '';
-                  final userBio = userData['bio'] ?? '';
+                  final userProfileImage = userData['image'] ?? '';
+                  final userName = userData['name'];
+                  final userBio =
+                      userData['bio'] ?? S.of(context).LetPeopleKnow;
                   final userFollowers = userData['followers'] ?? "0";
                   final userFollowing = userData['following'] ?? "0";
                   final userLikes = userData['likes'] ?? "0";
@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           QmAvatar(
-                            userImage,
+                            userImage: userProfileImage,
                           ),
                           Column(
                             children: [
@@ -136,19 +136,30 @@ class ProfileScreen extends StatelessWidget {
                 final userImagesFuture = ref.watch(userImagesFutureProvider);
                 final userImagesQuery = userImagesFuture.whenOrNull(
                   data: (data) {
-                    if (data.docs.isNotEmpty) {
-                      return FutureStatus.data;
+                    if (data.docs.isEmpty) {
+                      return data;
                     } else {
-                      return FutureStatus.error;
+                      return FutureStatus.none;
                     }
                   },
                   loading: () => FutureStatus.loading,
                   error: (e, s) => FutureStatus.error,
                 );
-                if (userImagesQuery == FutureStatus.data) {
-                  final data = userImagesFuture.value as QuerySnapshot;
-                  final userImages =
-                      data.docs.map((e) => e.data() as UserImageModel).toList();
+                if (userImagesQuery == FutureStatus.error ||
+                    userImagesQuery == FutureStatus.none) {
+                  return Center(
+                    child: QmText(
+                      text: S.of(context).DefaultError,
+                      maxWidth: width * .7,
+                    ),
+                  );
+                } else if (userImagesQuery == FutureStatus.loading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  final data =
+                      userImagesFuture.value as QuerySnapshot<UserImageModel>;
 
                   return GridView.builder(
                     padding: EdgeInsets.symmetric(
@@ -160,23 +171,22 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisSpacing: 0,
                       childAspectRatio: 1,
                     ),
-                    itemCount: userImages.length,
+                    itemCount: data.docs.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final image = userImages[index].image ?? '';
-                      final title = userImages[index].title ?? 'title';
-                      final description =
-                          userImages[index].description ?? 'description';
-                      final createdAt =
-                          userImages[index].createdAt ?? '11/27/2023';
+                      final imageEncoded = data.docs[index].data().imageEncoded;
+                      final image = base64Decode(imageEncoded);
+                      final title = data.docs[index].data().title;
+                      final description = data.docs[index].data().description;
+                      final createdAt = data.docs[index].data().createdAt;
                       return Container(
                         color: ColorConstants.primaryColor,
                         child: Column(
                           children: [
                             Expanded(
-                              child: Image.network(
-                                image,
+                              child: Image(
+                                image: MemoryImage(image),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -191,40 +201,9 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   );
-                } else if (userImagesQuery == FutureStatus.error) {
-                  return Center(
-                    child: QmText(
-                      text: S.of(context).DefaultError,
-                      maxWidth: width * .7,
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
                 }
               },
             ),
-            // GridView.builder(
-            //   padding: EdgeInsets.symmetric(
-            //     horizontal: width * .05,
-            //   ),
-            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //     crossAxisCount: isDesktop() ? 4 : 3,
-            //     mainAxisSpacing: 0,
-            //     crossAxisSpacing: 0,
-            //     childAspectRatio: 1,
-            //   ),
-            //   itemCount: 100,
-            //   shrinkWrap: true,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   itemBuilder: (context, index) {
-            //     return Container(
-            //       color: ColorConstants.primaryColor,
-            //       child: const Center(),
-            //     ).animate().fade();
-            //   },
-            // ),
           ],
         ),
       ),

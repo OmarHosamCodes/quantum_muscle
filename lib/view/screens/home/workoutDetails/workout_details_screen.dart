@@ -5,13 +5,10 @@ class WorkoutDetailsScreen extends ConsumerWidget {
     super.key,
     required this.workoutId,
     required this.arguments,
-    required this.width,
-    required this.height,
   });
   final String workoutId;
   final Map<String, dynamic> arguments;
-  final double width;
-  final double height;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final workoutName = arguments['workoutName'] as String;
@@ -19,6 +16,9 @@ class WorkoutDetailsScreen extends ConsumerWidget {
     final workoutExercises = arguments['workoutExercises'] as List<dynamic>;
     final workoutCreationDate = arguments['workoutCreationDate'] as String;
     final scrollController = ScrollController();
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     ref.watch(workoutsStreamProvider);
     return Scaffold(
       appBar: AppBar(),

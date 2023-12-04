@@ -42,22 +42,24 @@ export 'controllers/validation/validation_controller.dart';
 
 //* Utils
 
-export 'utils/auth/register_utile.dart';
-export 'utils/auth/login_utile.dart';
-export 'utils/auth/forgot_password_utile.dart';
-export 'utils/cloud/workouts_utile.dart';
+export 'utils/auth/register_util.dart';
+export 'utils/auth/login_util.dart';
+export 'utils/auth/forgot_password_util.dart';
+export 'utils/workouts/workouts_util.dart';
 
 //* Models
 
 export 'models/user_model.dart';
 export 'models/exercise_model.dart';
 export 'models/workout_model.dart';
+export 'models/user_image_model.dart';
 
 //* Constants
 
 export 'constants/color_constants.dart';
 export 'constants/asset_path_constants.dart';
 export 'constants/db_paths_constants.dart';
+export 'constants/routes_constants.dart';
 
 //* Packages
 
@@ -87,3 +89,4 @@ export 'package:flutter/foundation.dart' hide shortHash, describeIdentity;
 export 'package:uuid/uuid.dart';
 export 'package:slimy_card/slimy_card.dart';
 export 'dart:async' hide AsyncError;
+export 'package:url_strategy/url_strategy.dart';

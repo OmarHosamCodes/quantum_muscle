@@ -1,6 +1,7 @@
 import 'library.dart';
 
 void main() async {
+  if (kIsWeb) setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

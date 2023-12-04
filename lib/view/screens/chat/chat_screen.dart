@@ -7,10 +7,6 @@ final chatStreamProvider = StreamProvider<QuerySnapshot<ChatModel>>(
       .collection(DBPathsConstants.usersPath)
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection(DBPathsConstants.chatsPath)
-      //  .withConverter(
-      //   fromFirestore: chatsModel.fromMap,
-      //   toFirestore: (chatsModel model, _) => model.toMap(),
-      // )
       .withConverter(
         fromFirestore: ChatModel.fromMap,
         toFirestore: (ChatModel model, _) => model.toMap(),
@@ -61,7 +57,7 @@ class ChatScreen extends StatelessWidget {
               return ListTile(
                 onTap: () {},
                 leading: QmAvatar(
-                  chatImage,
+                  userImage: chatImage,
                 ),
                 title: QmText(text: chatSender),
                 subtitle: QmText(

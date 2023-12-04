@@ -30,8 +30,8 @@ dependencies:
   slimy_card:
     git:
       url: https://github.com/OmarHosamCodes/SlimyCard-Animated-Flutter-Package/
-  hooks_riverpod: ^2.4.9
   intl: ^0.18.1
+  url_strategy: ^0.2.0
 
 dev_dependencies:
   flutter_test:

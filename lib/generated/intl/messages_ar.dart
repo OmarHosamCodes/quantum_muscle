@@ -77,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "Language": MessageLookupByLibrary.simpleMessage("العربية"),
+        "LetPeopleKnow":
+            MessageLookupByLibrary.simpleMessage("دع الناس يعرفون من أنت"),
         "Likes": MessageLookupByLibrary.simpleMessage("إعجابات"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),

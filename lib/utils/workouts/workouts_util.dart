@@ -4,7 +4,7 @@ import '../../library.dart';
 
 final imageBytesProvider = StateProvider<Uint8List?>((ref) => Uint8List(0));
 
-class WorkoutUtile {
+class WorkoutUtil {
   File? imageFileToUpload;
   File? get getImageFileToUpload => imageFileToUpload!;
   set setImageFileToUpload(File imageFileToUpload) =>

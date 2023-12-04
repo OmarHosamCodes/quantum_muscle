@@ -1,16 +1,16 @@
 import '../library.dart';
 
 class UserImageModel {
-  String? title;
-  String? image;
-  String? createdAt;
-  String? description;
+  String title;
+  String imageEncoded;
+  String createdAt;
+  String description;
 
   UserImageModel({
-    this.title,
-    this.image,
-    this.createdAt,
-    this.description,
+    required this.title,
+    required this.imageEncoded,
+    required this.createdAt,
+    required this.description,
   });
 
   factory UserImageModel.fromMap(
@@ -20,7 +20,7 @@ class UserImageModel {
     final map = snapshot.data()!;
     return UserImageModel(
       title: map['title'],
-      image: map['image'],
+      imageEncoded: map['imageEncoded'],
       createdAt: map['created_at'],
       description: map['description'],
     );
@@ -28,7 +28,7 @@ class UserImageModel {
 
   Map<String, dynamic> toMap() => {
         'title': title,
-        'image': image,
+        'imageEncoded': imageEncoded,
         'created_at': createdAt,
         'description': description,
       };
