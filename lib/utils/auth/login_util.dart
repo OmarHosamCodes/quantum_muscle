@@ -2,9 +2,7 @@
 
 import '../../library.dart';
 
-class LoginUtil {
-  final firebaseAuth = FirebaseAuth.instance;
-
+class LoginUtil extends AuthUtil {
   Future<void> logUserIn({
     required String email,
     required String password,
@@ -23,6 +21,7 @@ class LoginUtil {
           .then((_) {
         if (firebaseAuth.currentUser != null) {
           context.pop();
+          context.go(Routes.homeR);
         } else {
           return;
         }

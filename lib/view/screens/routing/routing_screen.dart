@@ -10,31 +10,36 @@ final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
 class RoutingScreen extends ConsumerWidget {
   const RoutingScreen({
     super.key,
+    required this.child,
+    required this.state,
   });
+  final Widget child;
+  final GoRouterState state;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     bool isDrawerExist() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
+      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) ||
+          state.uri.toString() == Routes.authR) return false;
       return true;
     }
 
-    List<Widget> pages = [
-      const HomeScreen(),
-      const ChatScreen(),
-      const ProfileScreen(),
-    ];
+    // List<Widget> pages = [
+    //   const HomeScreen(),
+    //   const ChatScreen(),
+    //   const ProfileScreen(),
+    // ];
 
     final user = ref.watch(authStateChangesProvider);
 
     return Scaffold(
       extendBody: true,
-      //todo streambuilder for change of user
+      drawer: isDrawerExist() ? const RoutingDrawer() : null,
       body: user.when(
         data: (data) {
-          if (data == null) return const AuthScreen();
+          if (data == null) context.go(Routes.authR);
 
           return Row(
             children: [
@@ -47,10 +52,9 @@ class RoutingScreen extends ConsumerWidget {
               SizedBox(
                 width: isDrawerExist() ? width * .8 : width,
                 height: height,
-                child: PageView(
-                  controller: pageViewController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: pages.map((page) => SafeArea(child: page)).toList(),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: child,
                 ),
               ),
             ],

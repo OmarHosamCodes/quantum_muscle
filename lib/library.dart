@@ -46,6 +46,9 @@ export 'utils/auth/register_util.dart';
 export 'utils/auth/login_util.dart';
 export 'utils/auth/forgot_password_util.dart';
 export 'utils/workouts/workouts_util.dart';
+export 'utils/auth/auth_util.dart';
+export 'utils/auth/logout_util.dart';
+export 'utils/workouts/exercise_util.dart';
 
 //* Models
 
@@ -53,6 +56,7 @@ export 'models/user_model.dart';
 export 'models/exercise_model.dart';
 export 'models/workout_model.dart';
 export 'models/user_image_model.dart';
+export 'models/chat_model.dart';
 
 //* Constants
 
@@ -73,7 +77,6 @@ export 'package:eva_icons_flutter/eva_icons_flutter.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:firebase_storage/firebase_storage.dart';
-export 'package:cached_network_image/cached_network_image.dart';
 export 'dart:convert';
 export 'package:intl/message_lookup_by_library.dart';
 export 'package:intl/src/intl_helpers.dart';
@@ -90,3 +93,5 @@ export 'package:uuid/uuid.dart';
 export 'package:slimy_card/slimy_card.dart';
 export 'dart:async' hide AsyncError;
 export 'package:url_strategy/url_strategy.dart';
+export 'package:intl/intl.dart' hide TextDirection;
+export 'package:flutter/scheduler.dart';

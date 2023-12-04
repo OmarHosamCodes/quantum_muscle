@@ -8,13 +8,13 @@ class RoutingDrawer extends ConsumerWidget {
     void changeRoute(int index) {
       switch (index) {
         case 0:
-          pageViewController.jumpToPage(0);
+          context.go(Routes.homeR);
           break;
         case 1:
-          pageViewController.jumpToPage(1);
+          context.go(Routes.chatR);
           break;
         case 2:
-          pageViewController.jumpToPage(2);
+          context.go(Routes.profileR);
           break;
       }
     }
@@ -81,7 +81,7 @@ class RoutingDrawer extends ConsumerWidget {
             title: QmText(
               text: S.of(context).Logout,
             ),
-            onTap: () => FirebaseAuth.instance.signOut(),
+            onTap: () => LogoutUtil().logout(context),
           ),
         ],
       ),

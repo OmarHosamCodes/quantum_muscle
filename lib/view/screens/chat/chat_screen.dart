@@ -1,5 +1,3 @@
-import 'package:quantum_muscle/models/chat_model.dart';
-
 import '../../../library.dart';
 
 final chatStreamProvider = StreamProvider<QuerySnapshot<ChatModel>>(
@@ -20,16 +18,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: QmText(text: S.of(context).Chat),
-      ),
-      drawer: isDesktop() ? null : const RoutingDrawer(),
       body: Consumer(builder: (context, ref, child) {
         final chatSnapshot = ref.watch(chatStreamProvider);
         final chatQuery = chatSnapshot.whenOrNull(

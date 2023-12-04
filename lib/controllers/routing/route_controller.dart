@@ -2,29 +2,51 @@ import '/library.dart';
 
 class RoutingController {
   static final router = GoRouter(
-    initialLocation: Routes.initR,
+    initialLocation: Routes.homeR,
     routes: [
-      GoRoute(
-        path: Routes.initR,
-        builder: (context, state) => const RoutingScreen(),
+      ShellRoute(
+        builder: (context, state, child) => RoutingScreen(
+          state: state,
+          child: child,
+        ),
         routes: [
           GoRoute(
-            name: Routes.workoutRootR,
-            path: Routes.workoutDetailsR,
-            builder: (context, state) {
-              return WorkoutDetailsScreen(
-                workoutId: state.pathParameters['workoutId']!,
-                arguments: state.extra! as Map<String, dynamic>,
-              );
-            },
+            path: Routes.homeR,
+            builder: (context, state) => HomeScreen(
+              key: state.pageKey,
+            ),
+          ),
+          GoRoute(
+            path: Routes.chatR,
+            builder: (context, state) => ChatScreen(
+              key: state.pageKey,
+            ),
+          ),
+          GoRoute(
+            path: Routes.profileR,
+            builder: (context, state) => ProfileScreen(
+              key: state.pageKey,
+            ),
+          ),
+          GoRoute(
+            path: Routes.authR,
+            pageBuilder: (context, state) => NoTransitionPage(
+              child: AuthScreen(
+                key: state.pageKey,
+              ),
+            ),
           ),
         ],
       ),
       GoRoute(
-        path: Routes.authR,
-        builder: (context, state) => AuthScreen(
-          key: state.pageKey,
-        ),
+        name: Routes.workoutRootR,
+        path: Routes.workoutDetailsR,
+        builder: (context, state) {
+          return WorkoutDetailsScreen(
+            workoutId: state.pathParameters['workoutId']!,
+            arguments: state.extra! as Map<String, dynamic>,
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => RoutingErrorScreen(

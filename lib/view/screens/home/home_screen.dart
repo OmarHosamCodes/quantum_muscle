@@ -43,18 +43,6 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(
-        title: QmText(
-          text: S.of(context).Home,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(EvaIcons.bellOutline),
-          )
-        ],
-      ),
-      drawer: isDesktop() ? null : const RoutingDrawer(),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

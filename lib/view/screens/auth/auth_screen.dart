@@ -15,17 +15,19 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Consumer(builder: (context, ref, _) {
-            final locale = ref.watch(localStateProvider);
-            return IconButton(
-              onPressed: () => locale == const Locale('en')
-                  ? ref.read(localStateProvider.notifier).state =
-                      const Locale('ar')
-                  : ref.read(localStateProvider.notifier).state =
-                      const Locale('en'),
-              icon: const Icon(Icons.language),
-            );
-          }),
+          Consumer(
+            builder: (context, ref, _) {
+              final locale = ref.watch(localStateProvider);
+              return IconButton(
+                onPressed: () => locale == const Locale('en')
+                    ? ref.read(localStateProvider.notifier).state =
+                        const Locale('ar')
+                    : ref.read(localStateProvider.notifier).state =
+                        const Locale('en'),
+                icon: const Icon(Icons.language),
+              );
+            },
+          ),
         ],
       ),
       body: PageView(

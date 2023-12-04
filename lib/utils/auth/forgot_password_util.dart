@@ -1,10 +1,7 @@
 // ignore_for_file: unnecessary_getters_setters, unused_local_variable, use_build_context_synchronously
-
 import '../../library.dart';
 
-class ForgotPasswordUtil {
-  final firebaseAuth = FirebaseAuth.instance;
-  User? user = FirebaseAuth.instance.currentUser;
+class ForgotPasswordUtil extends AuthUtil {
   bool _isEmailSent = false;
   int _countDown = 30;
 

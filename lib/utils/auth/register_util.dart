@@ -2,13 +2,7 @@
 
 import '../../library.dart';
 
-class RegisterUtil {
-  final firebaseAuth = FirebaseAuth.instance;
-  final firebaseFirestore = FirebaseFirestore.instance;
-  final firebaseStorage = FirebaseStorage.instance;
-  UserModel userModel = UserModel();
-  late User? user = firebaseAuth.currentUser;
-
+class RegisterUtil extends AuthUtil {
   Future<void> register({
     required String email,
     required String password,
@@ -33,6 +27,9 @@ class RegisterUtil {
               userType: userType,
               context: context,
             );
+            context.pop();
+
+            context.go(Routes.homeR);
           } else {
             return;
           }

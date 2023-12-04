@@ -27,9 +27,6 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(
-        title: QmText(text: S.of(context).Profile),
-      ),
       drawer: isDesktop() ? null : const RoutingDrawer(),
       body: SingleChildScrollView(
         child: Column(

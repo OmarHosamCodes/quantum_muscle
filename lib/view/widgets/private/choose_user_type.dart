@@ -1,5 +1,4 @@
 import '../../../library.dart';
-import 'package:intl/intl.dart';
 
 enum UserType { trainer, trainee }
 
