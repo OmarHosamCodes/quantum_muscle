@@ -180,6 +180,16 @@ class S {
     );
   }
 
+  /// `Enter your new bio`
+  String get EnterNewBio {
+    return Intl.message(
+      'Enter your new bio',
+      name: 'EnterNewBio',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Enter a valid email`
   String get EnterValidEmail {
     return Intl.message(
@@ -205,6 +215,26 @@ class S {
     return Intl.message(
       'Enter a valid name',
       name: 'EnterValidName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid bio`
+  String get EnterValidBio {
+    return Intl.message(
+      'Enter a valid bio',
+      name: 'EnterValidBio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your new name`
+  String get EnterNewName {
+    return Intl.message(
+      'Enter your new name',
+      name: 'EnterNewName',
       desc: '',
       args: [],
     );
@@ -270,10 +300,10 @@ class S {
     );
   }
 
-  /// `No chat yet`
+  /// `No chat yet, click to start a new chat.`
   String get NoChat {
     return Intl.message(
-      'No chat yet',
+      'No chat yet, click to start a new chat.',
       name: 'NoChat',
       desc: '',
       args: [],
@@ -500,6 +530,16 @@ class S {
     );
   }
 
+  /// `Add Image`
+  String get AddImage {
+    return Intl.message(
+      'Add Image',
+      name: 'AddImage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add Workout Video`
   String get AddWorkoutVideo {
     return Intl.message(
@@ -635,6 +675,26 @@ class S {
     return Intl.message(
       'Let people know who you are',
       name: 'LetPeopleKnow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Image Name`
+  String get AddImageName {
+    return Intl.message(
+      'Add Image Name',
+      name: 'AddImageName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Image Description`
+  String get AddImageDescription {
+    return Intl.message(
+      'Add Image Description',
+      name: 'AddImageDescription',
       desc: '',
       args: [],
     );

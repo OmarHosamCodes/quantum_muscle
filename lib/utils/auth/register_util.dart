@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import '../../library.dart';
+import '/library.dart';
 
-class RegisterUtil extends AuthUtil {
+class RegisterUtil extends Utils {
   Future<void> register({
     required String email,
     required String password,
@@ -10,6 +10,7 @@ class RegisterUtil extends AuthUtil {
     required String userType,
     required GlobalKey<FormState> formKey,
     required BuildContext context,
+    required WidgetRef ref,
   }) async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
@@ -17,24 +18,22 @@ class RegisterUtil extends AuthUtil {
     try {
       openQmLoaderDialog(context: context);
 
-      await firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then(
-        (_) {
-          if (firebaseAuth.currentUser != null) {
-            afterSignUp(
-              userName: userName,
-              userType: userType,
-              context: context,
-            );
-            context.pop();
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
-            context.go(Routes.homeR);
-          } else {
-            return;
-          }
-        },
-      );
+      ref.invalidate(userFutureProvider);
+      ref.read(userFutureProvider);
+      if (firebaseAuth.currentUser != null) {
+        afterSignUp(
+          userName: userName,
+          userType: userType,
+          context: context,
+        );
+        context.pop();
+        RoutingController().changeRoute(0);
+      } else {
+        return;
+      }
     } on FirebaseAuthException catch (e) {
       context.pop();
 
@@ -55,9 +54,9 @@ class RegisterUtil extends AuthUtil {
       userModel.email = user!.email;
       userModel.ratID = "#${user!.uid.substring(0, 16)}";
       userModel.name = userName;
-      userModel.bio = "No Bio Yet";
+      userModel.bio = null;
       userModel.image = null;
-      userModel.userType = userType;
+      userModel.type = userType;
       userModel.weight = {"0": "0"};
       userModel.height = {"0": "0"};
       await firebaseFirestore

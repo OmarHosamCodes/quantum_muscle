@@ -1,4 +1,4 @@
-import '../../library.dart';
+import '/library.dart';
 
 class QmBlock extends StatelessWidget {
   const QmBlock({
@@ -59,6 +59,12 @@ class QmBlock extends StatelessWidget {
                     ],
                   )
                 : null,
+            boxShadow: [
+              BoxShadow(
+                color: ColorConstants.primaryColor.withOpacity(.5),
+                blurRadius: 10,
+              ),
+            ],
             color: isNormal ? color : Colors.transparent,
             borderRadius: borderRadius ?? BorderRadius.circular(10),
           ),

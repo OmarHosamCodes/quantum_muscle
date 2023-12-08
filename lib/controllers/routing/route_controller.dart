@@ -23,20 +23,18 @@ class RoutingController {
             ),
           ),
           GoRoute(
-            path: Routes.profileR,
+            path: Routes.myProfileR,
             builder: (context, state) => ProfileScreen(
               key: state.pageKey,
             ),
           ),
-          GoRoute(
-            path: Routes.authR,
-            pageBuilder: (context, state) => NoTransitionPage(
-              child: AuthScreen(
-                key: state.pageKey,
-              ),
-            ),
-          ),
         ],
+      ),
+      GoRoute(
+        path: Routes.authR,
+        builder: (context, state) => AuthScreen(
+          key: state.pageKey,
+        ),
       ),
       GoRoute(
         name: Routes.workoutRootR,
@@ -48,10 +46,34 @@ class RoutingController {
           );
         },
       ),
+      GoRoute(
+        name: Routes.editProfileRootR,
+        path: Routes.profileEditR,
+        builder: (context, state) => EditProfileScreen(
+          key: state.pageKey,
+          arguments: state.extra! as Map<String, dynamic>,
+        ),
+      ),
     ],
     errorBuilder: (context, state) => RoutingErrorScreen(
       key: state.pageKey,
       exception: state.error.toString(),
     ),
   );
+  void changeRoute(int index) {
+    switch (index) {
+      case 0:
+        router.go(Routes.homeR);
+        break;
+      case 1:
+        router.go(Routes.chatR);
+        break;
+      case 2:
+        router.go(Routes.myProfileR);
+        break;
+      case 3:
+        router.go(Routes.authR);
+        break;
+    }
+  }
 }

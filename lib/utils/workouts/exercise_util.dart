@@ -1,20 +1,16 @@
 // ignore_for_file: use_build_context_synchronously, unused_result
 
-import '../../library.dart';
+import '/library.dart';
 
 final exerciseImageBytesProvider =
     StateProvider<Uint8List?>((ref) => Uint8List(0));
 
-class ExerciseUtil {
+class ExerciseUtil extends Utils {
   File? imageFileToUpload;
   File? get getImageFileToUpload => imageFileToUpload!;
   set setImageFileToUpload(File imageFileToUpload) =>
       this.imageFileToUpload = imageFileToUpload;
 
-  final firebaseAuth = FirebaseAuth.instance;
-  final firebaseFirestore = FirebaseFirestore.instance;
-  final firebaseStorage = FirebaseStorage.instance;
-  late User? user = firebaseAuth.currentUser;
   static Future<void> chooseExerciseImageFromStorage(
       {required WidgetRef ref,
       required StateProvider<Uint8List?> provider}) async {
@@ -63,7 +59,7 @@ class ExerciseUtil {
         );
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
-            .doc(user!.uid)
+            .doc(userUid)
             .collection(DBPathsConstants.usersUserWorkoutsPath)
             .doc(workoutName)
             .set(

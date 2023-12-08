@@ -1,12 +1,15 @@
-import '../../library.dart';
+// ignore_for_file: use_build_context_synchronously
 
-class LogoutUtil extends AuthUtil {
-  void logout(BuildContext context) {
+import '/library.dart';
+
+class LogoutUtil extends Utils {
+  Future<void> logout(BuildContext context) async {
     openQmLoaderDialog(context: context);
-    firebaseAuth.signOut();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      timeStamp = const Duration(seconds: 5);
-      context.pop();
+    await firebaseAuth.signOut();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (firebaseAuth.currentUser == null) {
+        context.pop();
+      }
     });
   }
 }

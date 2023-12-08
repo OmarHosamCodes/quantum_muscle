@@ -13,7 +13,10 @@ class AuthScreen extends StatelessWidget {
       const RegisterScreen(),
     ];
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         actions: [
           Consumer(
             builder: (context, ref, _) {

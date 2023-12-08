@@ -1,4 +1,4 @@
-import '../../../library.dart';
+import '/library.dart';
 
 class ForgotPasswordTextWidget extends StatelessWidget {
   const ForgotPasswordTextWidget({

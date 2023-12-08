@@ -1,9 +1,8 @@
 import '/library.dart';
 
-final pageViewController = PageController();
 final firebaseAuthProvider = Provider((ref) => FirebaseAuth.instance);
 
-final authStateChangesProvider = StreamProvider.autoDispose<User?>((ref) {
+final authStateChangesProvider = StreamProvider<User?>((ref) {
   return ref.watch(firebaseAuthProvider).authStateChanges();
 });
 
@@ -26,22 +25,19 @@ class RoutingScreen extends ConsumerWidget {
       return true;
     }
 
-    // List<Widget> pages = [
-    //   const HomeScreen(),
-    //   const ChatScreen(),
-    //   const ProfileScreen(),
-    // ];
-
     final user = ref.watch(authStateChangesProvider);
 
-    return Scaffold(
-      extendBody: true,
-      drawer: isDrawerExist() ? const RoutingDrawer() : null,
-      body: user.when(
-        data: (data) {
-          if (data == null) context.go(Routes.authR);
+    return user.when(
+      data: (data) {
+        if (data == null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.mounted ? RoutingController().changeRoute(3) : null;
+          });
+        }
 
-          return Row(
+        return Scaffold(
+          extendBody: true,
+          body: Row(
             children: [
               isDrawerExist()
                   ? SizedBox(
@@ -58,13 +54,12 @@ class RoutingScreen extends ConsumerWidget {
                 ),
               ),
             ],
-          );
-        },
-        loading: () => const Center(child: QmCircularProgressIndicator()),
-        error: (error, stackTrace) {
-          return Center(child: QmText(text: S.of(context).DefaultError));
-        },
-      ),
+          ),
+        );
+      },
+      loading: () => const Center(child: QmCircularProgressIndicator()),
+      error: (error, stackTrace) =>
+          Center(child: QmText(text: S.of(context).DefaultError)),
     );
   }
 }

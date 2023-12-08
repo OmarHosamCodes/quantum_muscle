@@ -1,6 +1,4 @@
-import '../../../library.dart';
-
-enum UserType { trainer, trainee }
+import '/library.dart';
 
 class UserTypeChooser extends ConsumerWidget {
   const UserTypeChooser({
@@ -24,7 +22,7 @@ class UserTypeChooser extends ConsumerWidget {
       ColorConstants.primaryColorDark,
       ColorConstants.primaryColor,
     ];
-    String currentLocale = Intl.getCurrentLocale();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,16 +43,16 @@ class UserTypeChooser extends ConsumerWidget {
             decoration: BoxDecoration(
               color: userType == UserType.trainer ? colors[1] : colors[0],
               borderRadius: BorderRadius.only(
-                topLeft: currentLocale == 'en'
+                topLeft: Utils().isEnglish
                     ? const Radius.circular(10)
                     : const Radius.circular(0),
-                bottomLeft: currentLocale == 'en'
+                bottomLeft: Utils().isEnglish
                     ? const Radius.circular(10)
                     : const Radius.circular(0),
-                topRight: currentLocale == 'en'
+                topRight: Utils().isEnglish
                     ? const Radius.circular(0)
                     : const Radius.circular(10),
-                bottomRight: currentLocale == 'en'
+                bottomRight: Utils().isEnglish
                     ? const Radius.circular(0)
                     : const Radius.circular(10),
               ),
@@ -78,16 +76,16 @@ class UserTypeChooser extends ConsumerWidget {
             decoration: BoxDecoration(
               color: userType == UserType.trainee ? colors[1] : colors[0],
               borderRadius: BorderRadius.only(
-                topLeft: currentLocale == 'en'
+                topLeft: Utils().isEnglish
                     ? const Radius.circular(0)
                     : const Radius.circular(10),
-                bottomLeft: currentLocale == 'en'
+                bottomLeft: Utils().isEnglish
                     ? const Radius.circular(0)
                     : const Radius.circular(10),
-                topRight: currentLocale == 'en'
+                topRight: Utils().isEnglish
                     ? const Radius.circular(10)
                     : const Radius.circular(0),
-                bottomRight: currentLocale == 'en'
+                bottomRight: Utils().isEnglish
                     ? const Radius.circular(10)
                     : const Radius.circular(0),
               ),

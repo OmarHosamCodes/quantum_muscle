@@ -1,4 +1,4 @@
-import '../../../../library.dart';
+import '/library.dart';
 
 class WorkoutDetailsScreen extends ConsumerWidget {
   const WorkoutDetailsScreen({

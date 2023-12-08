@@ -1,209 +1,263 @@
-// ignore_for_file: must_be_immutable
+import '/library.dart';
 
-import '../../../library.dart';
-
-final userImagesFutureProvider = FutureProvider<QuerySnapshot<UserImageModel>>(
-  (ref) async => FirebaseFirestore.instance
-      .collection(DBPathsConstants.usersPath)
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection(DBPathsConstants.usersUserImgs)
-      .withConverter(
-        fromFirestore: UserImageModel.fromMap,
-        toFirestore: (userImages, _) => userImages.toMap(),
-      )
-      .get(),
-);
-
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
 
-    return Scaffold(
-      extendBody: true,
-      drawer: isDesktop() ? null : const RoutingDrawer(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Consumer(
-              builder: (context, ref, child) {
-                final userFuture = ref.watch(userFutureProvider);
-                final userQuery = userFuture.whenOrNull(
-                  data: (data) {
-                    if (data.exists) {
-                      return FutureStatus.data;
-                    } else {
-                      return FutureStatus.error;
-                    }
-                  },
-                  loading: () => FutureStatus.loading,
-                  error: (e, s) => FutureStatus.error,
-                );
-                if (userQuery == FutureStatus.data) {
-                  final data = userFuture.value as DocumentSnapshot;
-                  final userData = data.data() as Map<String, dynamic>;
-                  final userProfileImage = userData['image'] ?? '';
-                  final userName = userData['name'];
-                  final userBio =
-                      userData['bio'] ?? S.of(context).LetPeopleKnow;
-                  final userFollowers = userData['followers'] ?? "0";
-                  final userFollowing = userData['following'] ?? "0";
-                  final userLikes = userData['likes'] ?? "0";
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          QmAvatar(
-                            userImage: userProfileImage,
-                          ),
-                          Column(
-                            children: [
-                              QmText(text: userFollowers),
-                              QmText(
-                                text: S.of(context).Followers,
-                                isSeccoundary: true,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              QmText(text: userFollowing),
-                              QmText(
-                                text: S.of(context).Following,
-                                isSeccoundary: true,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              QmText(text: userLikes),
-                              QmText(
-                                text: S.of(context).Likes,
-                                isSeccoundary: true,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: height * .01),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width * .05,
-                        ),
-                        child: QmText(
-                          text: userName,
-                          isSeccoundary: true,
-                        ),
-                      ),
-                      SizedBox(height: height * .01),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width * .05,
-                        ),
-                        child: SizedBox(
-                          height: height * .3,
-                          width: width * .8,
-                          child: QmText(text: userBio),
-                        ),
-                      ),
-                    ],
-                  );
-                } else if (userQuery == FutureStatus.error) {
-                  return Center(
-                    child: QmText(text: S.of(context).DefaultError),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-            Consumer(
-              builder: (context, ref, child) {
-                final userImagesFuture = ref.watch(userImagesFutureProvider);
-                final userImagesQuery = userImagesFuture.whenOrNull(
-                  data: (data) {
-                    if (data.docs.isEmpty) {
-                      return data;
-                    } else {
-                      return FutureStatus.none;
-                    }
-                  },
-                  loading: () => FutureStatus.loading,
-                  error: (e, s) => FutureStatus.error,
-                );
-                if (userImagesQuery == FutureStatus.error ||
-                    userImagesQuery == FutureStatus.none) {
-                  return Center(
-                    child: QmText(
-                      text: S.of(context).DefaultError,
-                      maxWidth: width * .7,
-                    ),
-                  );
-                } else if (userImagesQuery == FutureStatus.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  final data =
-                      userImagesFuture.value as QuerySnapshot<UserImageModel>;
+    final userFuture = ref.watch(userFutureProvider);
+    final userQuery = userFuture.whenOrNull(
+      data: (data) {
+        if (data.data() != null) {
+          return data;
+        } else {
+          return ProviderStatus.none;
+        }
+      },
+      loading: () => ProviderStatus.loading,
+      error: (e, s) => ProviderStatus.error,
+    );
+    if (userQuery == ProviderStatus.loading) {
+      return const Center(
+        child: QmCircularProgressIndicator(),
+      );
+    } else if (userQuery == ProviderStatus.error) {
+      return Center(
+        child: QmText(text: S.of(context).DefaultError),
+      );
+    } else {
+      var data = userFuture.value as DocumentSnapshot;
+      var userData = data.data() as Map<String, dynamic>;
+      var userProfileImage = userData['image'] ?? '';
+      var userName = userData['name'];
+      var userBio = userData['bio'] ?? S.of(context).LetPeopleKnow;
+      var userFollowers = userData['followers'] ?? "0";
+      var userFollowing = userData['following'] ?? "0";
+      var userRatID = userData['ratID'];
+      var userImages = userData['images'] ?? [];
 
-                  return GridView.builder(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: width * .05,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: isDesktop() ? 4 : 3,
-                      mainAxisSpacing: 0,
-                      crossAxisSpacing: 0,
-                      childAspectRatio: 1,
-                    ),
-                    itemCount: data.docs.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final imageEncoded = data.docs[index].data().imageEncoded;
-                      final image = base64Decode(imageEncoded);
-                      final title = data.docs[index].data().title;
-                      final description = data.docs[index].data().description;
-                      final createdAt = data.docs[index].data().createdAt;
-                      return Container(
-                        color: ColorConstants.primaryColor,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Image(
-                                image: MemoryImage(image),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: height * .01),
-                            QmText(text: title),
-                            SizedBox(height: height * .01),
-                            QmText(text: description),
-                            SizedBox(height: height * .01),
-                            QmText(text: createdAt),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
+      return Scaffold(
+        floatingActionButton: _CustomFloatingActionButton(
+          userProfileImage: userProfileImage,
+          userName: userName,
+          userBio: userBio,
+          userImages: userImages,
+          ref: ref,
+        ),
+        appBar: AppBar(
+          actions: [
+            QmIconButton(
+              onPressed: () => context.push(
+                Routes.profileEditR,
+                extra: {
+                  'userProfileImage': userProfileImage,
+                  'userName': userName,
+                  'userBio': userBio,
+                },
+              ),
+              icon: EvaIcons.editOutline,
             ),
+            QmIconButton(
+              onPressed: () => lunchAddImageWidget(
+                context: context,
+                ref: ref,
+                indexToInsert: userImages.length,
+              ),
+              icon: EvaIcons.moreVerticalOutline,
+            )
           ],
         ),
-      ),
+        extendBody: true,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  QmAvatar(
+                    userImage: userProfileImage,
+                    radius: 40,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * .03,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        QmText(
+                          text: userName!,
+                        ),
+                        QmText(
+                          text: userRatID,
+                          isSeccoundary: true,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Visibility(
+                  //   visible: id != Utils().userRatID,
+                  //   child: Expanded(
+                  //     child: QmBlock(
+                  //       onTap: () {},
+                  //       width: double.maxFinite,
+                  //       height: height * .07,
+                  //       child: QmText(
+                  //         text: S.of(context).Follow,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+              SizedBox(
+                height: height * .01,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      QmText(
+                        text: userFollowers,
+                      ),
+                      SizedBox(
+                        width: width * .005,
+                      ),
+                      QmText(
+                        text: S.of(context).Followers,
+                        isSeccoundary: true,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: width * .005,
+                      ),
+                      QmText(
+                        text: userFollowing,
+                      ),
+                      SizedBox(
+                        width: width * .005,
+                      ),
+                      QmText(
+                        text: S.of(context).Following,
+                        isSeccoundary: true,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              QmText(
+                text: userBio,
+              ),
+              const Divider(
+                thickness: 1,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+}
+
+class _CustomFloatingActionButton extends StatefulWidget {
+  const _CustomFloatingActionButton({
+    required this.userProfileImage,
+    required this.userName,
+    required this.userBio,
+    required this.userImages,
+    required this.ref,
+  });
+  final String userProfileImage;
+  final String userName;
+  final String userBio;
+  final List userImages;
+  final WidgetRef ref;
+  @override
+  State<_CustomFloatingActionButton> createState() =>
+      __CustomFloatingActionButtonState();
+}
+
+class __CustomFloatingActionButtonState
+    extends State<_CustomFloatingActionButton>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+    );
+
+    final curvedAnimation =
+        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionBubble(
+      onPress: () => _animationController.isCompleted
+          ? _animationController.reverse()
+          : _animationController.forward(),
+      iconColor: ColorConstants.secondaryColor,
+      backGroundColor: ColorConstants.primaryColorDark,
+      animation: _animation,
+      animatedIconData: AnimatedIcons.menu_close,
+      items: [
+        Bubble(
+          title: S.of(context).EditProfile,
+          iconColor: ColorConstants.secondaryColor,
+          bubbleColor: ColorConstants.primaryColor,
+          icon: EvaIcons.edit,
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            color: ColorConstants.secondaryColor,
+          ),
+          onPress: () {
+            context.push(
+              Routes.profileEditR,
+              extra: {
+                'userProfileImage': widget.userProfileImage,
+                'userName': widget.userName,
+                'userBio': widget.userBio,
+              },
+            );
+          },
+        ),
+        Bubble(
+          title: S.of(context).AddImage,
+          icon: EvaIcons.image,
+          iconColor: ColorConstants.secondaryColor,
+          bubbleColor: ColorConstants.primaryColor,
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            color: ColorConstants.secondaryColor,
+          ),
+          onPress: () => lunchAddImageWidget(
+            context: context,
+            ref: widget.ref,
+            indexToInsert: widget.userImages.length,
+          ),
+        ),
+      ],
     );
   }
 }

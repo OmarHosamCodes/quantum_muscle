@@ -1,4 +1,4 @@
-import '../../library.dart';
+import '/library.dart';
 
 class QmText extends StatelessWidget {
   final String text;

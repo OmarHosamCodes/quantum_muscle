@@ -1,4 +1,4 @@
-import '../../../../library.dart';
+import '/library.dart';
 
 class BigAddWorkout extends StatefulWidget {
   const BigAddWorkout({
@@ -35,7 +35,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                 isAnimated = true;
               });
               Future.delayed(
-                const Duration(milliseconds: 500),
+                const Duration(milliseconds: 350),
                 () => setState(
                   () => isExpanded = true,
                 ),
@@ -52,31 +52,38 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                 key: formKey,
                 child: Row(
                   children: [
-                    Consumer(
-                      builder: (context, ref, _) {
-                        final imageRef = ref.watch(imageBytesProvider);
-                        return QmBlock(
-                          isNormal: true,
-                          onTap: () => workoutUtile.chooseImageFromStorage(
-                            ref,
-                            imageBytesProvider,
-                          ),
-                          color: ColorConstants.backgroundColor,
-                          width: widget.width * .3,
-                          height: widget.height * .9,
-                          child: Image(
-                            image: MemoryImage(
-                              imageRef!,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          final imageRef = ref.watch(imageBytesProvider);
+                          return QmBlock(
+                            borderRadius: BorderRadius.circular(10),
+                            isNormal: true,
+                            isAnimated: true,
+                            onTap: () => workoutUtile.chooseImageFromStorage(
+                              ref,
+                              imageBytesProvider,
                             ),
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(
-                                Icons.add_a_photo_outlined,
-                                color: ColorConstants.secondaryColor,
+                            color: ColorConstants.backgroundColor,
+                            width: widget.width * .3,
+                            height: widget.height * .9,
+                            child: Image(
+                              image: MemoryImage(
+                                imageRef!,
+                              ),
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(
+                                  Icons.add_a_photo_outlined,
+                                  color: ColorConstants.secondaryColor,
+                                );
+                              },
+                            ),
+                          ).animate().fadeIn(
+                                duration: const Duration(milliseconds: 500),
                               );
-                            },
-                          ),
-                        );
-                      },
+                        },
+                      ),
                     ),
                     SizedBox(width: widget.width * .05),
                     Expanded(
@@ -97,32 +104,35 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                               return null;
                             },
                           ),
-                          Consumer(builder: (context, ref, _) {
-                            final imageRef = ref.watch(imageBytesProvider);
-                            return QmBlock(
-                              isGradient: true,
-                              onTap: () => workoutUtile.addWorkout(
-                                formKey: formKey,
-                                context: context,
-                                workoutName: workoutNameTextController.text,
-                                imageFile: base64.encode(imageRef!),
-                                ref: ref,
-                                canPop: false,
-                              ),
-                              height: widget.height * .1,
-                              width: inputsWidth,
-                              child: QmText(
-                                text: S.of(context).AddWorkout,
-                                maxWidth: double.maxFinite,
-                              ),
-                            );
-                          }),
+                          Consumer(
+                            builder: (context, ref, _) {
+                              final imageRef = ref.watch(imageBytesProvider);
+                              return QmBlock(
+                                isGradient: true,
+                                onTap: () => workoutUtile.addWorkout(
+                                  formKey: formKey,
+                                  context: context,
+                                  workoutName: workoutNameTextController.text,
+                                  imageFile: base64.encode(imageRef!),
+                                  ref: ref,
+                                  canPop: false,
+                                ),
+                                height: widget.height * .1,
+                                width: inputsWidth,
+                                child: QmText(
+                                  text: S.of(context).AddWorkout,
+                                  maxWidth: double.maxFinite,
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(width: widget.width * .05),
                   ],
-                ))
+                ),
+              )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

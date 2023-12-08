@@ -1,5 +1,3 @@
-import '../library.dart';
-
 class UserImageModel {
   String title;
   String imageEncoded;
@@ -14,10 +12,8 @@ class UserImageModel {
   });
 
   factory UserImageModel.fromMap(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options,
+    Map<String, dynamic> map,
   ) {
-    final map = snapshot.data()!;
     return UserImageModel(
       title: map['title'],
       imageEncoded: map['imageEncoded'],

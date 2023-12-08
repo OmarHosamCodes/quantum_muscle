@@ -1,42 +1,54 @@
+import '/library.dart';
+
 class UserModel {
   String? ratID;
   String? name;
-  int? age;
   String? email;
+  int? age;
   String? phone;
   String? password;
-  String? userType;
+  String? type;
   Map<String, String>? height;
   Map<String, String>? weight;
   String? image;
   String? bio;
-
+  List? images = [];
+  String? followers;
+  String? following;
   UserModel({
     this.ratID,
     this.name,
-    this.age,
     this.email,
+    this.age,
     this.phone,
     this.password,
-    this.userType,
+    this.type,
     this.height,
     this.weight,
     this.image,
     this.bio,
+    this.images,
+    this.followers,
+    this.following,
   });
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromMap(
+      DocumentSnapshot<Map<String, dynamic>> doc, SnapshotOptions? options) {
+    var map = doc.data()!;
     return UserModel(
       ratID: map['ratID'],
       name: map['name'],
-      age: map['age'],
       email: map['email'],
+      age: map['age'],
       phone: map['phone'],
-      userType: map['userType'],
+      type: map['type'],
       height: map['height'],
       weight: map['weight'],
       image: map['image'],
       bio: map['bio'],
+      images: map['images'],
+      followers: map['followers'],
+      following: map['following'],
     );
   }
 
@@ -44,14 +56,17 @@ class UserModel {
     return {
       'ratID': ratID,
       'name': name,
-      'age': age,
       'email': email,
+      'age': age,
       'phone': phone,
-      'userType': userType,
+      'type': type,
       'height': height,
       'weight': weight,
       'image': image,
       'bio': bio,
+      'images': images,
+      'followers': followers,
+      'following': following,
     };
   }
 }

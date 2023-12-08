@@ -1,4 +1,4 @@
-import '../../../../library.dart';
+import '/library.dart';
 
 class SmallAddWorkout extends StatelessWidget {
   const SmallAddWorkout({

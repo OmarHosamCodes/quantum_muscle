@@ -25,6 +25,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Add": MessageLookupByLibrary.simpleMessage("إضافة"),
         "AddAPhoto": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
         "AddComment": MessageLookupByLibrary.simpleMessage("إضافة تعليق"),
+        "AddImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
+        "AddImageDescription":
+            MessageLookupByLibrary.simpleMessage("أدخل وصف الصورة"),
+        "AddImageName": MessageLookupByLibrary.simpleMessage("أدخل اسم الصورة"),
         "AddWorkout": MessageLookupByLibrary.simpleMessage("إضافة تمرين"),
         "AddWorkoutDescription":
             MessageLookupByLibrary.simpleMessage("أدخل وصف التمرين"),
@@ -55,10 +59,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "EnterExerciseTarget":
             MessageLookupByLibrary.simpleMessage("أدخل الهدف من التمرين"),
         "EnterName": MessageLookupByLibrary.simpleMessage("أدخل اسمك"),
+        "EnterNewBio": MessageLookupByLibrary.simpleMessage("أدخل نبذة عنك"),
+        "EnterNewName":
+            MessageLookupByLibrary.simpleMessage("أدخل اسمًا جديدًا"),
         "EnterPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور الخاصة بك"),
         "EnterRatID": MessageLookupByLibrary.simpleMessage(
             "أدخل معرف الفأر الجماوي الخاص بك"),
+        "EnterValidBio":
+            MessageLookupByLibrary.simpleMessage("أدخل نبذة صالحة"),
         "EnterValidEmail": MessageLookupByLibrary.simpleMessage(
             "أدخل بريدًا إلكترونيًا صالحًا"),
         "EnterValidName":
@@ -83,7 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
-        "NoChat": MessageLookupByLibrary.simpleMessage("لا توجد رسائل"),
+        "NoChat": MessageLookupByLibrary.simpleMessage(
+            "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة."),
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),

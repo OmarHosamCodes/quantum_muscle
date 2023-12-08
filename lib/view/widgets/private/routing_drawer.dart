@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import '/library.dart';
 
 class RoutingDrawer extends ConsumerWidget {
@@ -5,20 +7,6 @@ class RoutingDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void changeRoute(int index) {
-      switch (index) {
-        case 0:
-          context.go(Routes.homeR);
-          break;
-        case 1:
-          context.go(Routes.chatR);
-          break;
-        case 2:
-          context.go(Routes.profileR);
-          break;
-      }
-    }
-
     return Drawer(
       backgroundColor: ColorConstants.primaryColorDark,
       child: Column(
@@ -31,7 +19,7 @@ class RoutingDrawer extends ConsumerWidget {
             title: QmText(
               text: S.of(context).Home,
             ),
-            onTap: () => changeRoute(0),
+            onTap: () => RoutingController().changeRoute(0),
           ),
           ListTile(
             leading: const Icon(
@@ -41,7 +29,7 @@ class RoutingDrawer extends ConsumerWidget {
             title: QmText(
               text: S.of(context).Chat,
             ),
-            onTap: () => changeRoute(1),
+            onTap: () => RoutingController().changeRoute(1),
           ),
           ListTile(
             leading: const Icon(
@@ -51,7 +39,7 @@ class RoutingDrawer extends ConsumerWidget {
             title: QmText(
               text: S.of(context).Profile,
             ),
-            onTap: () => changeRoute(2),
+            onTap: () => RoutingController().changeRoute(2),
           ),
           const Spacer(),
           Consumer(
@@ -81,10 +69,18 @@ class RoutingDrawer extends ConsumerWidget {
             title: QmText(
               text: S.of(context).Logout,
             ),
-            onTap: () => LogoutUtil().logout(context),
+            onTap: () {
+              LogoutUtil()
+                  .logout(context)
+                  .then((value) => RoutingController().changeRoute(3));
+            },
           ),
         ],
       ),
-    );
+    ).animate().slideX(
+          begin: Utils().isEnglish ? -1 : 1,
+          end: 0,
+          duration: const Duration(milliseconds: 500),
+        );
   }
 }

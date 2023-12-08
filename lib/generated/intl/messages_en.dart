@@ -25,6 +25,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Add": MessageLookupByLibrary.simpleMessage("Add"),
         "AddAPhoto": MessageLookupByLibrary.simpleMessage("Add a photo"),
         "AddComment": MessageLookupByLibrary.simpleMessage("Add Comment"),
+        "AddImage": MessageLookupByLibrary.simpleMessage("Add Image"),
+        "AddImageDescription":
+            MessageLookupByLibrary.simpleMessage("Add Image Description"),
+        "AddImageName": MessageLookupByLibrary.simpleMessage("Add Image Name"),
         "AddWorkout": MessageLookupByLibrary.simpleMessage("Add Workout"),
         "AddWorkoutDescription":
             MessageLookupByLibrary.simpleMessage("Add Workout Description"),
@@ -55,9 +59,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "EnterExerciseTarget":
             MessageLookupByLibrary.simpleMessage("Enter Exercise Target"),
         "EnterName": MessageLookupByLibrary.simpleMessage("Enter your name"),
+        "EnterNewBio":
+            MessageLookupByLibrary.simpleMessage("Enter your new bio"),
+        "EnterNewName":
+            MessageLookupByLibrary.simpleMessage("Enter your new name"),
         "EnterPassword":
             MessageLookupByLibrary.simpleMessage("Enter your password"),
         "EnterRatID": MessageLookupByLibrary.simpleMessage("Enter your rat ID"),
+        "EnterValidBio":
+            MessageLookupByLibrary.simpleMessage("Enter a valid bio"),
         "EnterValidEmail":
             MessageLookupByLibrary.simpleMessage("Enter a valid email"),
         "EnterValidName":
@@ -82,7 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
-        "NoChat": MessageLookupByLibrary.simpleMessage("No chat yet"),
+        "NoChat": MessageLookupByLibrary.simpleMessage(
+            "No chat yet, click to start a new chat."),
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),

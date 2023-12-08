@@ -13,6 +13,7 @@ export 'view/screens/home/home_screen.dart';
 export 'view/screens/routing/routing_screen.dart';
 export 'view/screens/chat/chat_screen.dart';
 export 'view/screens/profile/profile_screen.dart';
+export 'view/screens/profile/editProfile/edit_profile_screen.dart';
 export 'view/screens/home/workoutDetails/workout_details_screen.dart';
 export 'view/screens/auth/auth_screen.dart';
 export 'view/screens/error/routing_error_screen.dart';
@@ -33,6 +34,8 @@ export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
 export 'view/widgets/private/workoutButtons/qm_icon_button.dart';
 export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
 export 'view/widgets/private/exerciseBlocks/add_exercise_block.dart';
+export 'view/widgets/private/profile/add_image_widget.dart';
+export 'view/widgets/private/edit_profile_text_field.dart';
 
 //* Controllers
 
@@ -46,9 +49,10 @@ export 'utils/auth/register_util.dart';
 export 'utils/auth/login_util.dart';
 export 'utils/auth/forgot_password_util.dart';
 export 'utils/workouts/workouts_util.dart';
-export 'utils/auth/auth_util.dart';
+export 'utils/utils.dart';
 export 'utils/auth/logout_util.dart';
 export 'utils/workouts/exercise_util.dart';
+export 'utils/profile/profile_util.dart';
 
 //* Models
 
@@ -57,6 +61,8 @@ export 'models/exercise_model.dart';
 export 'models/workout_model.dart';
 export 'models/user_image_model.dart';
 export 'models/chat_model.dart';
+export 'models/enums/provider_statues.dart';
+export 'models/enums/user_type.dart';
 
 //* Constants
 
@@ -86,7 +92,7 @@ export 'package:go_router/go_router.dart';
 export 'package:responsive_framework/responsive_framework.dart';
 export 'package:flutter_test/flutter_test.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
-// export 'package:flutter_animate/flutter_animate.dart';
+export 'package:flutter_animate/flutter_animate.dart';
 export 'dart:io' hide HeaderValue;
 export 'package:flutter/foundation.dart' hide shortHash, describeIdentity;
 export 'package:uuid/uuid.dart';
@@ -95,3 +101,5 @@ export 'dart:async' hide AsyncError;
 export 'package:url_strategy/url_strategy.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:flutter/scheduler.dart';
+export 'package:floating_action_bubble/floating_action_bubble.dart';
+export 'dart:ui' show ImageFilter;

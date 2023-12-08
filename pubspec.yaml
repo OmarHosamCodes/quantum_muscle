@@ -3,7 +3,7 @@ description: A new age of fitness
 
 publish_to: "none"
 
-version: 1.3.0
+version: 1.4.0
 
 environment:
   sdk: ">=3.2.1 <4.0.0"
@@ -31,6 +31,8 @@ dependencies:
       url: https://github.com/OmarHosamCodes/SlimyCard-Animated-Flutter-Package/
   intl: ^0.18.1
   url_strategy: ^0.2.0
+  flutter_animate: ^4.3.0
+  floating_action_bubble: ^1.1.4
 
 dev_dependencies:
   flutter_test:

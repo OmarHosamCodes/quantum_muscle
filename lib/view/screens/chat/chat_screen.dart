@@ -1,4 +1,4 @@
-import '../../../library.dart';
+import '/library.dart';
 
 final chatStreamProvider = StreamProvider<QuerySnapshot<ChatModel>>(
   (ref) => FirebaseFirestore.instance
@@ -9,6 +9,7 @@ final chatStreamProvider = StreamProvider<QuerySnapshot<ChatModel>>(
         fromFirestore: ChatModel.fromMap,
         toFirestore: (ChatModel model, _) => model.toMap(),
       )
+      .orderBy('timestamp', descending: true)
       .get()
       .asStream(),
 );
@@ -18,21 +19,31 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDrawerExist() {
+      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) ||
+          GoRouterState.of(context).uri.toString() == Routes.authR) {
+        return false;
+      }
+      return true;
+    }
+
     return Scaffold(
+      extendBody: true,
+      drawer: isDrawerExist() ? const RoutingDrawer() : null,
       body: Consumer(builder: (context, ref, child) {
         final chatSnapshot = ref.watch(chatStreamProvider);
         final chatQuery = chatSnapshot.whenOrNull(
           data: (data) {
             if (data.docs.isEmpty) {
-              return FutureStatus.error;
+              return ProviderStatus.error;
             } else {
-              return FutureStatus.data;
+              return ProviderStatus.data;
             }
           },
-          loading: () => FutureStatus.loading,
-          error: (e, s) => FutureStatus.error,
+          loading: () => ProviderStatus.loading,
+          error: (e, s) => ProviderStatus.error,
         );
-        if (chatQuery == FutureStatus.data) {
+        if (chatQuery == ProviderStatus.data) {
           final data = chatQuery as QuerySnapshot<ChatModel>;
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +71,7 @@ class ChatScreen extends StatelessWidget {
               );
             }).toList(),
           );
-        } else if (chatQuery == FutureStatus.error) {
+        } else if (chatQuery == ProviderStatus.error) {
           return Center(
             child: QmText(
               text: S.of(context).NoChat,

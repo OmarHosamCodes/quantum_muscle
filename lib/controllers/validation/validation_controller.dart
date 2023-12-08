@@ -1,6 +1,10 @@
 class ValidationController {
   static bool validateName(String name) {
-    return name.isNotEmpty && name.length >= 2 && name.length <= 20;
+    final nameRegex = RegExp(r'^[a-zA-Z\s]+$');
+    return name.isNotEmpty &&
+        nameRegex.hasMatch(name) &&
+        name.length >= 2 &&
+        name.length <= 20;
   }
 
   static bool validateEmail(String email) {
@@ -13,5 +17,17 @@ class ValidationController {
     final passwordRegex =
         RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$');
     return password.isNotEmpty && passwordRegex.hasMatch(password);
+  }
+
+  static bool validateBio(String bio) {
+    final bioRegex = RegExp(r'^[a-zA-Z\s]+$');
+    return bio.isNotEmpty && bioRegex.hasMatch(bio) && bio.length <= 250;
+  }
+
+  static bool validateDescription(String description) {
+    final descriptionRegex = RegExp(r'^[a-zA-Z\s]+$');
+    return description.isNotEmpty &&
+        descriptionRegex.hasMatch(description) &&
+        description.length <= 500;
   }
 }

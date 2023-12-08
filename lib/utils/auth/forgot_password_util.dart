@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_getters_setters, unused_local_variable, use_build_context_synchronously
-import '../../library.dart';
+import '/library.dart';
 
-class ForgotPasswordUtil extends AuthUtil {
+class ForgotPasswordUtil extends Utils {
   bool _isEmailSent = false;
   int _countDown = 30;
 

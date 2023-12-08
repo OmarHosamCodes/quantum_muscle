@@ -1,4 +1,4 @@
-import '../../../../library.dart';
+import '/library.dart';
 
 class QmIconButton extends StatelessWidget {
   const QmIconButton({super.key, required this.icon, this.onPressed});

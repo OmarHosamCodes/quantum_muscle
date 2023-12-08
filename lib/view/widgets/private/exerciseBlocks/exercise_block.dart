@@ -1,4 +1,4 @@
-import '../../../../library.dart';
+import '/library.dart';
 
 class ExerciseTile extends StatelessWidget {
   const ExerciseTile({

@@ -1,4 +1,4 @@
-import '../../../library.dart';
+import '/library.dart';
 
 final userFutureProvider = FutureProvider<DocumentSnapshot>(
   (ref) async => FirebaseFirestore.instance
@@ -19,9 +19,7 @@ final workoutsStreamProvider = StreamProvider<QuerySnapshot<WorkoutModel>?>(
       .asStream(),
 );
 final futureStateProvider =
-    StateProvider<FutureStatus>((ref) => FutureStatus.loading);
-
-enum FutureStatus { loading, error, data, none }
+    StateProvider<ProviderStatus>((ref) => ProviderStatus.loading);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -36,6 +34,14 @@ class HomeScreen extends StatelessWidget {
       return true;
     }
 
+    bool isDrawerExist() {
+      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) ||
+          GoRouterState.of(context).uri.toString() == Routes.authR) {
+        return false;
+      }
+      return true;
+    }
+
     bool isTablet() {
       if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
       return true;
@@ -43,6 +49,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
+      drawer: isDrawerExist() ? const RoutingDrawer() : null,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -54,42 +61,45 @@ class HomeScreen extends StatelessWidget {
                   final futureSnapshot = ref.watch(userFutureProvider);
                   final user = futureSnapshot.whenOrNull(
                     data: (data) {
-                      if (data.data() == null) {
-                        return FutureStatus.error;
+                      if (data.exists) {
+                        return ProviderStatus.data;
                       } else {
-                        return FutureStatus.data;
+                        return ProviderStatus.none;
                       }
                     },
-                    loading: () => FutureStatus.loading,
-                    error: (e, s) => FutureStatus.error,
+                    loading: () => ProviderStatus.loading,
+                    error: (e, s) => ProviderStatus.error,
                   );
-                  if (user == FutureStatus.data) {
-                    final data = futureSnapshot.value as DocumentSnapshot;
-                    return QmText(
-                      text:
-                          "${S.of(context).Hi}, ${data.get(DBPathsConstants.usersUserNamePath)}",
-                      maxWidth: double.maxFinite,
-                    );
-                  } else if (user == FutureStatus.error) {
+                  if (user == ProviderStatus.loading) {
+                    return const QmCircularProgressIndicator();
+                  } else if (user == ProviderStatus.error ||
+                      user == ProviderStatus.none) {
                     return QmText(
                       text:
                           "${S.of(context).Hi}, ${S.of(context).UserNamePlaceHolder}",
                       maxWidth: double.maxFinite,
                     );
                   } else {
-                    return const QmCircularProgressIndicator();
+                    final data = futureSnapshot.value
+                        as DocumentSnapshot<Map<String, dynamic>>;
+                    return QmText(
+                      text:
+                          "${S.of(context).Hi}, ${data.get(DBPathsConstants.usersUserNamePath)}",
+                      maxWidth: double.maxFinite,
+                    );
                   }
                 },
               ),
               //? search bar
               Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * .045,
-                    vertical: height * .025,
-                  ),
-                  child: HomeSearchBar(
-                    controller: searchBarTextController,
-                  )),
+                padding: EdgeInsets.symmetric(
+                  horizontal: width * .045,
+                  vertical: height * .025,
+                ),
+                child: HomeSearchBar(
+                  controller: searchBarTextController,
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: width * .05,
@@ -139,20 +149,20 @@ class HomeScreen extends StatelessWidget {
                   final workouts = streamSnapshot.when(
                     data: (data) {
                       if (data!.docs.isEmpty) {
-                        return FutureStatus.none;
+                        return ProviderStatus.none;
                       } else {
                         return data;
                       }
                     },
-                    loading: () => FutureStatus.loading,
-                    error: (e, s) => FutureStatus.error,
+                    loading: () => ProviderStatus.loading,
+                    error: (e, s) => ProviderStatus.error,
                   );
 
-                  if (workouts == FutureStatus.error ||
-                      workouts == FutureStatus.none) {
+                  if (workouts == ProviderStatus.error ||
+                      workouts == ProviderStatus.none) {
                     //todo gradient animation
                     return BigAddWorkout(width: width, height: height);
-                  } else if (workouts == FutureStatus.loading) {
+                  } else if (workouts == ProviderStatus.loading) {
                     return const QmCircularProgressIndicator();
                   } else {
                     final data = workouts as QuerySnapshot<WorkoutModel>?;
@@ -189,8 +199,7 @@ class HomeScreen extends StatelessWidget {
                           final workoutCreationDate =
                               workout.workoutCreationDate;
                           final workoutId = workout.workoutId ?? 'Invalid id';
-                          final workoutImageBytes =
-                              base64.decode(workoutImage!);
+                          final workoutImageBytes = base64Decode(workoutImage!);
 
                           return QmBlock(
                             padding: const EdgeInsets.all(10),
@@ -213,24 +222,25 @@ class HomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Flexible(
-                                  flex: 1,
-                                  fit: FlexFit.tight,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      QmText(
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: QmText(
                                         text: workoutName,
                                         maxWidth: double.maxFinite,
                                       ),
-                                      QmText(
+                                    ),
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: QmText(
                                         text: workoutCreationDate!,
                                         isSeccoundary: true,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                                 Flexible(
                                   flex: 1,
