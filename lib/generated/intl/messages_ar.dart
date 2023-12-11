@@ -92,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
+        "NoBio": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
             "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة."),
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),

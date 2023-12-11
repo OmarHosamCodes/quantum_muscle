@@ -3,8 +3,8 @@ import '/library.dart';
 class QmBlock extends StatelessWidget {
   const QmBlock({
     super.key,
-    required this.width,
-    required this.height,
+    this.width = 0,
+    this.height = 0,
     required this.child,
     this.padding,
     this.margin,
@@ -52,20 +52,20 @@ class QmBlock extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             gradient: isGradient
-                ? LinearGradient(
+                ? const LinearGradient(
                     colors: [
                       ColorConstants.primaryColor,
-                      ColorConstants.primaryColor.withOpacity(.5),
+                      ColorConstants.primaryColorDark,
                     ],
                   )
                 : null,
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                color: ColorConstants.primaryColor.withOpacity(.5),
-                blurRadius: 10,
+                color: ColorConstants.primaryColorDark,
+                blurRadius: 5,
               ),
             ],
-            color: isNormal ? color : Colors.transparent,
+            color: color,
             borderRadius: borderRadius ?? BorderRadius.circular(10),
           ),
           child: MouseRegion(

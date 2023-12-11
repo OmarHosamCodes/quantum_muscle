@@ -41,6 +41,16 @@ class RoutingDrawer extends ConsumerWidget {
             ),
             onTap: () => RoutingController().changeRoute(2),
           ),
+          ListTile(
+            leading: const Icon(
+              EvaIcons.searchOutline,
+              color: ColorConstants.secondaryColor,
+            ),
+            title: QmText(
+              text: S.of(context).Search,
+            ),
+            onTap: () => RoutingController().changeRoute(3),
+          ),
           const Spacer(),
           Consumer(
             builder: (context, ref, child) {
@@ -72,7 +82,7 @@ class RoutingDrawer extends ConsumerWidget {
             onTap: () {
               LogoutUtil()
                   .logout(context)
-                  .then((value) => RoutingController().changeRoute(3));
+                  .then((_) => RoutingController().changeRoute(4));
             },
           ),
         ],

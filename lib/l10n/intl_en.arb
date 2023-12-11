@@ -63,5 +63,6 @@
   "GoBackToLogin": "Go back to login",
   "LetPeopleKnow": "Let people know who you are",
   "AddImageName": "Add Image Name",
-  "AddImageDescription": "Add Image Description"
+  "AddImageDescription": "Add Image Description",
+  "NoBio": "No bio"
 }

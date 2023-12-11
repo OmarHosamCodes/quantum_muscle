@@ -13,10 +13,12 @@ export 'view/screens/home/home_screen.dart';
 export 'view/screens/routing/routing_screen.dart';
 export 'view/screens/chat/chat_screen.dart';
 export 'view/screens/profile/profile_screen.dart';
-export 'view/screens/profile/editProfile/edit_profile_screen.dart';
+export 'view/screens/profile/edit_profile_screen.dart';
 export 'view/screens/home/workoutDetails/workout_details_screen.dart';
 export 'view/screens/auth/auth_screen.dart';
 export 'view/screens/error/routing_error_screen.dart';
+export 'view/screens/profile/searched_profile_screen.dart';
+export 'view/screens/search/search_screen.dart';
 
 //* Widgets
 
@@ -27,15 +29,15 @@ export 'view/widgets/qm_dialog.dart';
 export 'view/widgets/qm_avatar.dart';
 export 'view/widgets/private/choose_user_type.dart';
 export 'view/widgets/private/forgot_password_text.dart';
-export 'view/widgets/private/home_search_bar.dart';
 export 'view/widgets/private/Routing_drawer.dart';
 export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
 export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
-export 'view/widgets/private/workoutButtons/qm_icon_button.dart';
+export 'view/widgets/qm_icon_button.dart';
 export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
 export 'view/widgets/private/exerciseBlocks/add_exercise_block.dart';
 export 'view/widgets/private/profile/add_image_widget.dart';
 export 'view/widgets/private/edit_profile_text_field.dart';
+export 'view/widgets/private/profile/follow_button.dart';
 
 //* Controllers
 

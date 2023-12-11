@@ -6,6 +6,7 @@ class Utils {
   final firebaseStorage = FirebaseStorage.instance;
   UserModel userModel = UserModel();
   User? get user => firebaseAuth.currentUser;
+  bool get isUserNull => user == null;
   String? get userUid => user!.uid;
   String? get userRatID => userUid!.substring(0, 16);
   String get local => Intl.getCurrentLocale();

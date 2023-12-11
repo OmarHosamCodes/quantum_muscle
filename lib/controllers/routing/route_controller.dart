@@ -28,7 +28,21 @@ class RoutingController {
               key: state.pageKey,
             ),
           ),
+          GoRoute(
+            path: Routes.searchR,
+            builder: (context, state) => SearchScreen(
+              key: state.pageKey,
+            ),
+          ),
         ],
+      ),
+      GoRoute(
+        name: Routes.profileRootR,
+        path: Routes.profileR,
+        builder: (context, state) => SearchedProfile(
+          key: state.pageKey,
+          userId: state.pathParameters['userId']!,
+        ),
       ),
       GoRoute(
         path: Routes.authR,
@@ -72,6 +86,9 @@ class RoutingController {
         router.go(Routes.myProfileR);
         break;
       case 3:
+        router.go(Routes.searchR);
+        break;
+      case 4:
         router.go(Routes.authR);
         break;
     }

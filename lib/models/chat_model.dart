@@ -1,6 +1,11 @@
 import '/library.dart';
 
 class ChatModel {
+  static const String userImageKey = 'userImage';
+  static const String senderKey = 'sender';
+  static const String messageKey = 'message';
+  static const String timestampKey = 'timestamp';
+
   final String userImage;
   final String sender;
   final String message;
@@ -18,18 +23,18 @@ class ChatModel {
   ) {
     final map = snapshot.data()!;
     return ChatModel(
-      userImage: map['userImage'],
-      sender: map['sender'],
-      message: map['message'],
-      timestamp: map['timestamp'],
+      userImage: map[userImageKey],
+      sender: map[senderKey],
+      message: map[messageKey],
+      timestamp: map[timestampKey].toDate(),
     );
   }
   Map<String, dynamic> toMap() {
     return {
-      'userImage': userImage,
-      'sender': sender,
-      'message': message,
-      'timestamp': timestamp,
+      userImageKey: userImage,
+      senderKey: sender,
+      messageKey: message,
+      timestampKey: timestamp,
     };
   }
 }

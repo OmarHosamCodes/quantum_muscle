@@ -28,7 +28,7 @@ class ProfileUtil extends Utils {
     ref.invalidate(userFutureProvider);
     ref.read(userFutureProvider);
     ref.read(userProfileImageProvider.notifier).state = '';
-    context.pop();
+    context.go(Routes.myProfileR);
   }
 
   static Future<void> chooseImage({
@@ -85,5 +85,44 @@ class ProfileUtil extends Utils {
     ref.read(addImageProvider.notifier).state = '';
 
     context.pop();
+  }
+
+  followOrUnFollow({
+    required String userId,
+    required BuildContext context,
+  }) async {
+    openQmLoaderDialog(context: context);
+    final userDoc = await firebaseFirestore
+        .collection(DBPathsConstants.usersPath)
+        .doc(userId)
+        .get();
+    final List userFollowers = userDoc.get(UserModel.followersKey);
+    if (userFollowers.contains(userId)) {
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid)
+          .update({
+        UserModel.followersKey: FieldValue.arrayRemove([userId])
+      });
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userId)
+          .update({
+        UserModel.followingKey: FieldValue.arrayRemove([userUid])
+      });
+    } else {
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid)
+          .update({
+        UserModel.followersKey: FieldValue.arrayUnion([userId])
+      });
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userId)
+          .update({
+        UserModel.followingKey: FieldValue.arrayUnion([userUid])
+      });
+    }
   }
 }

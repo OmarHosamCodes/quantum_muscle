@@ -32,15 +32,16 @@ class QmText extends StatelessWidget {
           overflow: overflow,
           text,
           style: style.copyWith(
-              color: color ??
-                  (isSeccoundary
-                      ? ColorConstants.tertiaryColor
-                      : ColorConstants.textColor),
-              fontSize: isSeccoundary
-                  ? style.fontSize! - 7
-                  : isHeadline
-                      ? style.fontSize! + 10
-                      : style.fontSize!),
+            color: color ??
+                (isSeccoundary
+                    ? ColorConstants.tertiaryColor
+                    : ColorConstants.textColor),
+            fontSize: isSeccoundary
+                ? style.fontSize! - 7
+                : isHeadline
+                    ? style.fontSize! + 10
+                    : style.fontSize!,
+          ),
         ),
       ),
     );

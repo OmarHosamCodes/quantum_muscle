@@ -2,6 +2,7 @@ import '/library.dart';
 
 class ColorConstants {
   static const Color primaryColor = Color.fromRGBO(0, 150, 136, 1);
+  static const Color primaryColorDisabled = Color.fromRGBO(0, 72, 65, 1);
   static const Color primaryColorDark = Color.fromRGBO(0, 105, 92, 1);
   static const Color secondaryColor = Color.fromRGBO(240, 240, 240, 1);
   static const Color tertiaryColor = Color.fromRGBO(194, 194, 194, 1);

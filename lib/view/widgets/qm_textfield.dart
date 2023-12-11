@@ -18,6 +18,7 @@ class QmTextField extends StatelessWidget {
   final double maxWidth;
   final Icon? prefixIcon; // New property for prefix icon
   final double? fontSize;
+  final void Function(String)? onChanged;
   const QmTextField({
     super.key,
     required this.height,
@@ -37,6 +38,7 @@ class QmTextField extends StatelessWidget {
     this.maxWidth = double.infinity,
     this.prefixIcon, // Initialize prefix icon property
     this.fontSize = 16.0,
+    this.onChanged,
   });
 
   @override
@@ -68,6 +70,7 @@ class QmTextField extends StatelessWidget {
       margin: margin,
       child: Center(
         child: TextFormField(
+          onChanged: onChanged,
           maxLength: maxLength,
           smartDashesType: SmartDashesType.enabled,
           smartQuotesType: SmartQuotesType.enabled,

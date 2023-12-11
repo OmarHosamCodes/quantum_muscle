@@ -59,6 +59,27 @@ class RegisterUtil extends Utils {
       userModel.type = userType;
       userModel.weight = {"0": "0"};
       userModel.height = {"0": "0"};
+      userModel.followers = [];
+      userModel.following = [];
+      userModel.images = [];
+      final tempSet = <String>{};
+      for (var i = 0; i < 1; i++) {
+        tempSet.addAll([
+          ...userModel.name!.split(' '),
+          userModel.name!,
+          userModel.name!.toLowerCase(),
+          userModel.name!.toUpperCase(),
+          ...userModel.name!.split('').map((e) => e.toLowerCase()),
+          ...userModel.name!.split('').map((e) => e.toUpperCase()),
+          userModel.ratID!,
+          userModel.email!,
+          userModel.type!,
+        ]);
+        tempSet.remove('');
+        tempSet.remove(' ');
+        tempSet.remove('  ');
+      }
+      userModel.tags = tempSet.toList();
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(user!.uid)

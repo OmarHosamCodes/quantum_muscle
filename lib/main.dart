@@ -39,10 +39,6 @@ class MyApp extends ConsumerWidget {
           const Breakpoint(start: 801, end: 1920, name: DESKTOP),
         ],
       ),
-      // routeInformationParser: RoutingController.router.routeInformationParser,
-      // routeInformationProvider:
-      //     RoutingController.router.routeInformationProvider,
-      // routerDelegate: RoutingController.router.routerDelegate,
       routerConfig: RoutingController.router,
     );
   }

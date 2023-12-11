@@ -92,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
+        "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
             "No chat yet, click to start a new chat."),
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),

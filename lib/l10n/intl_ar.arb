@@ -63,5 +63,6 @@
   "GoBackToLogin": "العودة إلى تسجيل الدخول",
   "LetPeopleKnow": "دع الناس يعرفون من أنت",
   "AddImageName": "أدخل اسم الصورة",
-  "AddImageDescription": "أدخل وصف الصورة"
+  "AddImageDescription": "أدخل وصف الصورة",
+  "NoBio": "لا يوجد نبذة"
 }

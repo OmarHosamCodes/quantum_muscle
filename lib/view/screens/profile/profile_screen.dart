@@ -31,26 +31,20 @@ class ProfileScreen extends ConsumerWidget {
     } else {
       var data = userFuture.value as DocumentSnapshot;
       var userData = data.data() as Map<String, dynamic>;
-      var userProfileImage = userData['image'] ?? '';
-      var userName = userData['name'];
-      var userBio = userData['bio'] ?? S.of(context).LetPeopleKnow;
-      var userFollowers = userData['followers'] ?? "0";
-      var userFollowing = userData['following'] ?? "0";
-      var userRatID = userData['ratID'];
-      var userImages = userData['images'] ?? [];
+      final String userName = userData[UserModel.nameKey];
+      final String userRatID = userData[UserModel.ratIDKey];
+      final String userProfileImage = userData[UserModel.imageKey] ?? '';
+      final String userBio =
+          userData[UserModel.bioKey] ?? S.of(context).LetPeopleKnow;
+      final List userFollowers = userData[UserModel.followersKey] ?? [];
+      final List userFollowing = userData[UserModel.followingKey] ?? [];
+      final List userImages = userData[UserModel.imagesKey] ?? [];
 
       return Scaffold(
-        floatingActionButton: _CustomFloatingActionButton(
-          userProfileImage: userProfileImage,
-          userName: userName,
-          userBio: userBio,
-          userImages: userImages,
-          ref: ref,
-        ),
         appBar: AppBar(
           actions: [
             QmIconButton(
-              onPressed: () => context.push(
+              onPressed: () => context.go(
                 Routes.profileEditR,
                 extra: {
                   'userProfileImage': userProfileImage,
@@ -66,7 +60,7 @@ class ProfileScreen extends ConsumerWidget {
                 ref: ref,
                 indexToInsert: userImages.length,
               ),
-              icon: EvaIcons.moreVerticalOutline,
+              icon: EvaIcons.image,
             )
           ],
         ),
@@ -91,7 +85,7 @@ class ProfileScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         QmText(
-                          text: userName!,
+                          text: userName,
                         ),
                         QmText(
                           text: userRatID,
@@ -100,19 +94,6 @@ class ProfileScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  // Visibility(
-                  //   visible: id != Utils().userRatID,
-                  //   child: Expanded(
-                  //     child: QmBlock(
-                  //       onTap: () {},
-                  //       width: double.maxFinite,
-                  //       height: height * .07,
-                  //       child: QmText(
-                  //         text: S.of(context).Follow,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
               SizedBox(
@@ -127,7 +108,7 @@ class ProfileScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmText(
-                        text: userFollowers,
+                        text: userFollowers.length.toString(),
                       ),
                       SizedBox(
                         width: width * .005,
@@ -146,7 +127,7 @@ class ProfileScreen extends ConsumerWidget {
                         width: width * .005,
                       ),
                       QmText(
-                        text: userFollowing,
+                        text: userFollowing.length.toString(),
                       ),
                       SizedBox(
                         width: width * .005,
@@ -170,94 +151,5 @@ class ProfileScreen extends ConsumerWidget {
         ),
       );
     }
-  }
-}
-
-class _CustomFloatingActionButton extends StatefulWidget {
-  const _CustomFloatingActionButton({
-    required this.userProfileImage,
-    required this.userName,
-    required this.userBio,
-    required this.userImages,
-    required this.ref,
-  });
-  final String userProfileImage;
-  final String userName;
-  final String userBio;
-  final List userImages;
-  final WidgetRef ref;
-  @override
-  State<_CustomFloatingActionButton> createState() =>
-      __CustomFloatingActionButtonState();
-}
-
-class __CustomFloatingActionButtonState
-    extends State<_CustomFloatingActionButton>
-    with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late AnimationController _animationController;
-
-  @override
-  void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 350),
-    );
-
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
-    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionBubble(
-      onPress: () => _animationController.isCompleted
-          ? _animationController.reverse()
-          : _animationController.forward(),
-      iconColor: ColorConstants.secondaryColor,
-      backGroundColor: ColorConstants.primaryColorDark,
-      animation: _animation,
-      animatedIconData: AnimatedIcons.menu_close,
-      items: [
-        Bubble(
-          title: S.of(context).EditProfile,
-          iconColor: ColorConstants.secondaryColor,
-          bubbleColor: ColorConstants.primaryColor,
-          icon: EvaIcons.edit,
-          titleStyle: const TextStyle(
-            fontSize: 16,
-            color: ColorConstants.secondaryColor,
-          ),
-          onPress: () {
-            context.push(
-              Routes.profileEditR,
-              extra: {
-                'userProfileImage': widget.userProfileImage,
-                'userName': widget.userName,
-                'userBio': widget.userBio,
-              },
-            );
-          },
-        ),
-        Bubble(
-          title: S.of(context).AddImage,
-          icon: EvaIcons.image,
-          iconColor: ColorConstants.secondaryColor,
-          bubbleColor: ColorConstants.primaryColor,
-          titleStyle: const TextStyle(
-            fontSize: 16,
-            color: ColorConstants.secondaryColor,
-          ),
-          onPress: () => lunchAddImageWidget(
-            context: context,
-            ref: widget.ref,
-            indexToInsert: widget.userImages.length,
-          ),
-        ),
-      ],
-    );
   }
 }

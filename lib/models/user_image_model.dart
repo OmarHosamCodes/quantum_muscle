@@ -1,4 +1,9 @@
 class UserImageModel {
+  static const String titleKey = 'title';
+  static const String imageEncodedKey = 'imageEncoded';
+  static const String createdAtKey = 'created_at';
+  static const String descriptionKey = 'description';
+
   String title;
   String imageEncoded;
   String createdAt;
@@ -15,17 +20,17 @@ class UserImageModel {
     Map<String, dynamic> map,
   ) {
     return UserImageModel(
-      title: map['title'],
-      imageEncoded: map['imageEncoded'],
-      createdAt: map['created_at'],
-      description: map['description'],
+      title: map[titleKey],
+      imageEncoded: map[imageEncodedKey],
+      createdAt: map[createdAtKey],
+      description: map[descriptionKey],
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'title': title,
-        'imageEncoded': imageEncoded,
-        'created_at': createdAt,
-        'description': description,
+        titleKey: title,
+        imageEncodedKey: imageEncoded,
+        createdAtKey: createdAt,
+        descriptionKey: description,
       };
 }

@@ -31,7 +31,7 @@ class RoutingScreen extends ConsumerWidget {
       data: (data) {
         if (data == null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.mounted ? RoutingController().changeRoute(3) : null;
+            context.mounted ? RoutingController().changeRoute(4) : null;
           });
         }
 

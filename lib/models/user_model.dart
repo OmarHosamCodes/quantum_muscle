@@ -1,6 +1,21 @@
 import '/library.dart';
 
 class UserModel {
+  static const String ratIDKey = 'ratID';
+  static const String nameKey = 'name';
+  static const String emailKey = 'email';
+  static const String ageKey = 'age';
+  static const String phoneKey = 'phone';
+  static const String typeKey = 'type';
+  static const String heightKey = 'height';
+  static const String weightKey = 'weight';
+  static const String imageKey = 'image';
+  static const String bioKey = 'bio';
+  static const String imagesKey = 'images';
+  static const String followersKey = 'followers';
+  static const String followingKey = 'following';
+  static const String tagsKey = 'tags';
+
   String? ratID;
   String? name;
   String? email;
@@ -13,8 +28,10 @@ class UserModel {
   String? image;
   String? bio;
   List? images = [];
-  String? followers;
-  String? following;
+  List? followers;
+  List? following;
+  List? tags;
+
   UserModel({
     this.ratID,
     this.name,
@@ -30,43 +47,46 @@ class UserModel {
     this.images,
     this.followers,
     this.following,
+    this.tags,
   });
 
   factory UserModel.fromMap(
       DocumentSnapshot<Map<String, dynamic>> doc, SnapshotOptions? options) {
     var map = doc.data()!;
     return UserModel(
-      ratID: map['ratID'],
-      name: map['name'],
-      email: map['email'],
-      age: map['age'],
-      phone: map['phone'],
-      type: map['type'],
-      height: map['height'],
-      weight: map['weight'],
-      image: map['image'],
-      bio: map['bio'],
-      images: map['images'],
-      followers: map['followers'],
-      following: map['following'],
+      ratID: map[ratIDKey],
+      name: map[nameKey],
+      email: map[emailKey],
+      age: map[ageKey],
+      phone: map[phoneKey],
+      type: map[typeKey],
+      height: map[heightKey],
+      weight: map[weightKey],
+      image: map[imageKey],
+      bio: map[bioKey],
+      images: map[imagesKey],
+      followers: map[followersKey],
+      following: map[followingKey],
+      tags: map[tagsKey],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'ratID': ratID,
-      'name': name,
-      'email': email,
-      'age': age,
-      'phone': phone,
-      'type': type,
-      'height': height,
-      'weight': weight,
-      'image': image,
-      'bio': bio,
-      'images': images,
-      'followers': followers,
-      'following': following,
+      ratIDKey: ratID,
+      nameKey: name,
+      emailKey: email,
+      ageKey: age,
+      phoneKey: phone,
+      typeKey: type,
+      heightKey: height,
+      weightKey: weight,
+      imageKey: image,
+      bioKey: bio,
+      imagesKey: images,
+      followersKey: followers,
+      followingKey: following,
+      tagsKey: tags,
     };
   }
 }

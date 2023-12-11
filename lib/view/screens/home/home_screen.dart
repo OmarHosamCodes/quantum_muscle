@@ -28,7 +28,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final searchBarTextController = TextEditingController();
     bool isDesktop() {
       if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
       return true;
@@ -96,9 +95,7 @@ class HomeScreen extends StatelessWidget {
                   horizontal: width * .045,
                   vertical: height * .025,
                 ),
-                child: HomeSearchBar(
-                  controller: searchBarTextController,
-                ),
+                // child: const HomeSearchBar(),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(

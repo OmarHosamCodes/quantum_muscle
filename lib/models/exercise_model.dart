@@ -1,4 +1,9 @@
 class ExerciseModel {
+  static const String exersiceNameKey = 'exerciseName';
+  static const String exerciseTargetKey = 'exerciseTarget';
+  static const String exerciseSetsKey = 'exerciseSets';
+  static const String exerciseImgEncodedKey = 'exerciseImgEncoded';
+
   String? exerciseName;
   String? exerciseTarget;
   String? exerciseImgEncoded;
@@ -13,19 +18,19 @@ class ExerciseModel {
 
   factory ExerciseModel.fromMap(Map<String, dynamic> map) {
     return ExerciseModel(
-      exerciseName: map['exerciseName'],
-      exerciseTarget: map['exerciseTarget'],
-      exerciseSets: map['exerciseSets'],
-      exerciseImgEncoded: map['exerciseImgEncoded'],
+      exerciseName: map[exersiceNameKey],
+      exerciseTarget: map[exerciseTargetKey],
+      exerciseSets: map[exerciseSetsKey],
+      exerciseImgEncoded: map[exerciseImgEncodedKey],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'exerciseName': exerciseName,
-      'exerciseTarget': exerciseTarget,
-      'exerciseSets': exerciseSets,
-      'exerciseImgEncoded': exerciseImgEncoded,
+      exersiceNameKey: exerciseName,
+      exerciseTargetKey: exerciseTarget,
+      exerciseSetsKey: exerciseSets,
+      exerciseImgEncodedKey: exerciseImgEncoded,
     };
   }
 }

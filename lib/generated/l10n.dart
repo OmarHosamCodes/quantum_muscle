@@ -699,6 +699,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No bio`
+  String get NoBio {
+    return Intl.message(
+      'No bio',
+      name: 'NoBio',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,6 +1,12 @@
 import '/library.dart';
 
 class WorkoutModel {
+  static const String workoutIdKey = 'workoutId';
+  static const String workoutNameKey = 'workoutName';
+  static const String workoutExercisesKey = 'workoutExercises';
+  static const String workoutImgEncodedKey = 'workoutImgEncoded';
+  static const String workoutCreationDateKey = 'workoutCreationDate';
+
   String? workoutId;
   String? workoutName;
   List? workoutExercises;
@@ -21,21 +27,21 @@ class WorkoutModel {
   ) {
     final map = snapshot.data()!;
     return WorkoutModel(
-      workoutId: map['workoutId'] ?? 'Invalid Id',
-      workoutName: map['workoutName'] ?? 'Invalid Name',
-      workoutExercises: map['workoutExercises'] ?? '',
-      workoutImgEncoded: map['workoutImgEncoded'] ?? 'Invalid Image',
-      workoutCreationDate: map['workoutCreationDate'] ?? '',
+      workoutId: map[workoutIdKey],
+      workoutName: map[workoutNameKey],
+      workoutExercises: map[workoutExercisesKey],
+      workoutImgEncoded: map[workoutImgEncodedKey],
+      workoutCreationDate: map[workoutCreationDateKey],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'workoutId': workoutId,
-      'workoutName': workoutName,
-      'workoutExercises': workoutExercises,
-      'workoutImgEncoded': workoutImgEncoded,
-      'workoutCreationDate': workoutCreationDate,
+      workoutIdKey: workoutId,
+      workoutNameKey: workoutName,
+      workoutExercisesKey: workoutExercises,
+      workoutImgEncodedKey: workoutImgEncoded,
+      workoutCreationDateKey: workoutCreationDate,
     };
   }
 }
