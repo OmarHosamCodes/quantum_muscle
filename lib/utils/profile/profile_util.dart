@@ -26,9 +26,10 @@ class ProfileUtil extends Utils {
       'image': userProfileImage,
     });
     ref.invalidate(userFutureProvider);
-    ref.read(userFutureProvider);
+    ref.read(userFutureProvider(Utils().userUid!));
     ref.read(userProfileImageProvider.notifier).state = '';
     context.go(Routes.myProfileR);
+    context.pop();
   }
 
   static Future<void> chooseImage({
@@ -81,7 +82,7 @@ class ProfileUtil extends Utils {
       SetOptions(merge: true),
     );
     ref.invalidate(userFutureProvider);
-    ref.read(userFutureProvider);
+    ref.read(userFutureProvider(Utils().userUid!));
     ref.read(addImageProvider.notifier).state = '';
 
     context.pop();
@@ -90,39 +91,62 @@ class ProfileUtil extends Utils {
   followOrUnFollow({
     required String userId,
     required BuildContext context,
+    required WidgetRef ref,
+    required bool isFollowing,
   }) async {
     openQmLoaderDialog(context: context);
-    final userDoc = await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userId)
-        .get();
-    final List userFollowers = userDoc.get(UserModel.followersKey);
-    if (userFollowers.contains(userId)) {
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userUid)
-          .update({
-        UserModel.followersKey: FieldValue.arrayRemove([userId])
-      });
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userId)
-          .update({
-        UserModel.followingKey: FieldValue.arrayRemove([userUid])
-      });
-    } else {
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userUid)
-          .update({
-        UserModel.followersKey: FieldValue.arrayUnion([userId])
-      });
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userId)
-          .update({
-        UserModel.followingKey: FieldValue.arrayUnion([userUid])
-      });
+    try {
+      if (isFollowing) {
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userUid)
+            .set(
+          {
+            UserModel.followingKey: FieldValue.arrayRemove([userId])
+          },
+          SetOptions(merge: true),
+        );
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userId)
+            .set(
+          {
+            UserModel.followersKey: FieldValue.arrayRemove([userUid])
+          },
+          SetOptions(merge: true),
+        );
+        context.pop();
+        ref.invalidate(userFutureProvider);
+        ref.invalidate(searchedProfileFutureProvider);
+        ref.read(userFutureProvider(Utils().userUid!));
+        ref.read(searchedProfileFutureProvider(userId));
+      } else if (!isFollowing) {
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userUid)
+            .update({
+          UserModel.followingKey: FieldValue.arrayUnion([userId])
+        });
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userId)
+            .update({
+          UserModel.followersKey: FieldValue.arrayUnion([userUid])
+        });
+        context.pop();
+        ref.invalidate(userFutureProvider);
+        ref.invalidate(searchedProfileFutureProvider);
+        ref.read(userFutureProvider(Utils().userUid!));
+        ref.read(searchedProfileFutureProvider(userId));
+      }
+    } on FirebaseException catch (e) {
+      context.pop();
+
+      openQmDialog(
+        context: context,
+        title: S.of(context).Failed,
+        message: e.message!,
+      );
     }
   }
 }

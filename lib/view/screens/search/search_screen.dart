@@ -53,7 +53,7 @@ class SearchScreenState extends State<SearchScreen> {
                 final String? image = userData[UserModel.imageKey] ?? '';
                 return ListTile(
                   leading: QmAvatar(
-                    userImage: image,
+                    imageUrl: image,
                     radius: 30,
                   ),
                   title: QmText(text: name),

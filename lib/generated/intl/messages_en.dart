@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Likes": MessageLookupByLibrary.simpleMessage("Likes"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "Message": MessageLookupByLibrary.simpleMessage("Message"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
@@ -98,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "ProfileDoesNotExist":
+            MessageLookupByLibrary.simpleMessage("Profile does not exist"),
         "RatID": MessageLookupByLibrary.simpleMessage("Rat ID"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),

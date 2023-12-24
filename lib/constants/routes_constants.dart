@@ -1,6 +1,7 @@
 class Routes {
   static String initR = '/';
   static String homeR = '/';
+  static String chatsR = '/chats';
   static String chatR = '/chat';
   static String profileRootR = 'profile';
   static String profileR = '/profile/:userId';

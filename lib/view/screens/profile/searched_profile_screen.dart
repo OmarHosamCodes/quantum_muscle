@@ -1,5 +1,12 @@
 import '/library.dart';
 
+final searchedProfileFutureProvider =
+    FutureProvider.family<DocumentSnapshot, String>((ref, userId) async {
+  final userRef = Utils().firebaseFirestore.collection('users').doc(userId);
+  final user = await userRef.get();
+  return user;
+});
+
 class SearchedProfile extends ConsumerWidget {
   const SearchedProfile({super.key, required this.userId});
   final String userId;
@@ -13,10 +20,7 @@ class SearchedProfile extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       body: FutureBuilder(
-        future: FirebaseFirestore.instance
-            .collection(DBPathsConstants.usersPath)
-            .doc(userId)
-            .get(),
+        future: ref.watch(searchedProfileFutureProvider(userId).future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -34,9 +38,8 @@ class SearchedProfile extends ConsumerWidget {
           final String userProfileImage = userData[UserModel.imageKey] ?? '';
           final String userBio =
               userData[UserModel.bioKey] ?? S.of(context).NoBio;
-          final List userFollowers = userData[UserModel.followersKey] ?? [];
-          final List userFollowing = userData[UserModel.followingKey] ?? [];
-
+          final List userFollowers = userData[UserModel.followersKey];
+          final List userFollowing = userData[UserModel.followingKey];
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -47,7 +50,7 @@ class SearchedProfile extends ConsumerWidget {
                   Row(
                     children: [
                       QmAvatar(
-                        userImage: userProfileImage,
+                        imageUrl: userProfileImage,
                         radius: 40,
                       ),
                       Padding(
@@ -69,16 +72,13 @@ class SearchedProfile extends ConsumerWidget {
                         ),
                       ),
                       Visibility(
-                        visible:
-                            userURI != (Utils().userUid ?? '') ? true : false,
-                        child: FollowButton(
+                        visible: userURI != (Utils().userUid ?? ''),
+                        child: FollowAndMessageButton(
                           userId: userURI,
                           height: height,
-                          isFollowing: userFollowers
-                                  .where((element) => element == userURI)
-                                  .isNotEmpty
-                              ? true
-                              : false,
+                          width: width,
+                          isFollowing: userFollowers.any(
+                              (element) => element == (Utils().userUid ?? '')),
                         ),
                       ),
                     ],

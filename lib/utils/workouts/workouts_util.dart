@@ -60,8 +60,6 @@ class WorkoutUtil extends Utils {
             .collection(DBPathsConstants.usersUserWorkoutsPath)
             .doc("$workoutName-$uniqueId")
             .set(workoutModel.toMap());
-        // ignore: unused_result
-        ref.refresh(workoutsStreamProvider);
         ref.invalidate(workoutsStreamProvider);
         ref.read(workoutsStreamProvider);
         canPop ? context.pop() : null;

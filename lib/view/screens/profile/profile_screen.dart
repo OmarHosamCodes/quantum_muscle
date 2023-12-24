@@ -8,7 +8,7 @@ class ProfileScreen extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final userFuture = ref.watch(userFutureProvider);
+    final userFuture = ref.watch(userFutureProvider(Utils().userUid!));
     final userQuery = userFuture.whenOrNull(
       data: (data) {
         if (data.data() != null) {
@@ -34,8 +34,7 @@ class ProfileScreen extends ConsumerWidget {
       final String userName = userData[UserModel.nameKey];
       final String userRatID = userData[UserModel.ratIDKey];
       final String userProfileImage = userData[UserModel.imageKey] ?? '';
-      final String userBio =
-          userData[UserModel.bioKey] ?? S.of(context).LetPeopleKnow;
+      final String? userBio = userData[UserModel.bioKey];
       final List userFollowers = userData[UserModel.followersKey] ?? [];
       final List userFollowing = userData[UserModel.followingKey] ?? [];
       final List userImages = userData[UserModel.imagesKey] ?? [];
@@ -44,12 +43,12 @@ class ProfileScreen extends ConsumerWidget {
         appBar: AppBar(
           actions: [
             QmIconButton(
-              onPressed: () => context.go(
+              onPressed: () => context.push(
                 Routes.profileEditR,
                 extra: {
                   'userProfileImage': userProfileImage,
                   'userName': userName,
-                  'userBio': userBio,
+                  'userBio': userBio ?? '',
                 },
               ),
               icon: EvaIcons.editOutline,
@@ -73,7 +72,7 @@ class ProfileScreen extends ConsumerWidget {
               Row(
                 children: [
                   QmAvatar(
-                    userImage: userProfileImage,
+                    imageUrl: userProfileImage,
                     radius: 40,
                   ),
                   Padding(
@@ -141,10 +140,10 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               QmText(
-                text: userBio,
+                text: userBio ?? S.of(context).LetPeopleKnow,
               ),
               const Divider(
-                thickness: 1,
+                thickness: .5,
               ),
             ],
           ),

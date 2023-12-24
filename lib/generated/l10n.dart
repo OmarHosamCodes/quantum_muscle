@@ -709,6 +709,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Profile does not exist`
+  String get ProfileDoesNotExist {
+    return Intl.message(
+      'Profile does not exist',
+      name: 'ProfileDoesNotExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get Message {
+    return Intl.message(
+      'Message',
+      name: 'Message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

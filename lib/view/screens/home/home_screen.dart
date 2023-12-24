@@ -1,15 +1,17 @@
 import '/library.dart';
 
-final userFutureProvider = FutureProvider<DocumentSnapshot>(
-  (ref) async => FirebaseFirestore.instance
+final userFutureProvider = FutureProvider.family<DocumentSnapshot, String>(
+  (ref, id) async => await Utils()
+      .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
-      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .doc(id)
       .get(),
 );
 final workoutsStreamProvider = StreamProvider<QuerySnapshot<WorkoutModel>?>(
-  (ref) => FirebaseFirestore.instance
+  (ref) => Utils()
+      .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
-      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .doc(Utils().userUid)
       .collection(DBPathsConstants.usersUserWorkoutsPath)
       .withConverter(
         fromFirestore: WorkoutModel.fromMap,
@@ -18,8 +20,6 @@ final workoutsStreamProvider = StreamProvider<QuerySnapshot<WorkoutModel>?>(
       .get()
       .asStream(),
 );
-final futureStateProvider =
-    StateProvider<ProviderStatus>((ref) => ProviderStatus.loading);
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -57,8 +57,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               Consumer(
                 builder: (context, ref, child) {
-                  final futureSnapshot = ref.watch(userFutureProvider);
-                  final user = futureSnapshot.whenOrNull(
+                  final userFutureSanpshot =
+                      ref.watch(userFutureProvider(Utils().userUid!));
+                  final user = userFutureSanpshot.whenOrNull(
                     data: (data) {
                       if (data.exists) {
                         return ProviderStatus.data;
@@ -79,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                       maxWidth: double.maxFinite,
                     );
                   } else {
-                    final data = futureSnapshot.value
+                    final data = userFutureSanpshot.value
                         as DocumentSnapshot<Map<String, dynamic>>;
                     return QmText(
                       text:

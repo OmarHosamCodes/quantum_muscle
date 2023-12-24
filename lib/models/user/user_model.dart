@@ -15,6 +15,7 @@ class UserModel {
   static const String followersKey = 'followers';
   static const String followingKey = 'following';
   static const String tagsKey = 'tags';
+  static const String friendsKey = 'friends';
 
   String? ratID;
   String? name;
@@ -31,6 +32,7 @@ class UserModel {
   List? followers;
   List? following;
   List? tags;
+  List? friends;
 
   UserModel({
     this.ratID,
@@ -48,6 +50,7 @@ class UserModel {
     this.followers,
     this.following,
     this.tags,
+    this.friends,
   });
 
   factory UserModel.fromMap(
@@ -68,6 +71,7 @@ class UserModel {
       followers: map[followersKey],
       following: map[followingKey],
       tags: map[tagsKey],
+      friends: map[friendsKey],
     );
   }
 
@@ -87,6 +91,7 @@ class UserModel {
       followersKey: followers,
       followingKey: following,
       tagsKey: tags,
+      friendsKey: friends,
     };
   }
 }

@@ -72,7 +72,7 @@ class EditProfileScreen extends StatelessWidget {
                       children: [
                         QmAvatar(
                           radius: 60,
-                          userImage: profileImageProvider != userProfileImage
+                          imageUrl: profileImageProvider != userProfileImage
                               ? profileImageProvider
                               : userProfileImage,
                         ),

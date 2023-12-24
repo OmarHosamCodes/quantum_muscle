@@ -22,7 +22,7 @@ class RegisterUtil extends Utils {
           email: email, password: password);
 
       ref.invalidate(userFutureProvider);
-      ref.read(userFutureProvider);
+      ref.read(userFutureProvider(Utils().userUid!));
       if (firebaseAuth.currentUser != null) {
         afterSignUp(
           userName: userName,

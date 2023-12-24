@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Likes": MessageLookupByLibrary.simpleMessage("إعجابات"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+        "Message": MessageLookupByLibrary.simpleMessage("رسالة"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "NoBio": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
@@ -98,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+        "ProfileDoesNotExist":
+            MessageLookupByLibrary.simpleMessage("الملف الشخصي غير موجود"),
         "RatID": MessageLookupByLibrary.simpleMessage("معرف الفأر الجماوي"),
         "Register": MessageLookupByLibrary.simpleMessage("تسجيل"),
         "Search": MessageLookupByLibrary.simpleMessage("بحث"),

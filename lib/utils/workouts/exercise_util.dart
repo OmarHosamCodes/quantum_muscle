@@ -76,7 +76,6 @@ class ExerciseUtil extends Utils {
         );
         ref.invalidate(workoutsStreamProvider);
         ref.read(workoutsStreamProvider);
-        ref.refresh(workoutsStreamProvider);
       } on FirebaseException catch (e) {
         openQmDialog(
           context: context,

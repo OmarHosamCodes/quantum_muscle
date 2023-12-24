@@ -1,17 +1,13 @@
 import '/library.dart';
 
-final chatStreamProvider = StreamProvider<QuerySnapshot<ChatModel>>(
-  (ref) => FirebaseFirestore.instance
-      .collection(DBPathsConstants.usersPath)
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection(DBPathsConstants.chatsPath)
-      .withConverter(
-        fromFirestore: ChatModel.fromMap,
-        toFirestore: (ChatModel model, _) => model.toMap(),
-      )
-      .orderBy('timestamp', descending: true)
-      .get()
-      .asStream(),
+final chatFutureProvider = StreamProvider.family<DocumentSnapshot?, String>(
+  (ref, chatId) {
+    return Utils()
+        .firebaseFirestore
+        .collection(DBPathsConstants.chatsPath)
+        .doc(chatId)
+        .snapshots(includeMetadataChanges: true);
+  },
 );
 
 class ChatScreen extends StatelessWidget {
@@ -28,59 +24,112 @@ class ChatScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      extendBody: true,
       drawer: isDrawerExist() ? const RoutingDrawer() : null,
-      body: Consumer(builder: (context, ref, child) {
-        final chatSnapshot = ref.watch(chatStreamProvider);
-        final chatQuery = chatSnapshot.whenOrNull(
-          data: (data) {
-            if (data.docs.isEmpty) {
-              return ProviderStatus.error;
-            } else {
-              return ProviderStatus.data;
-            }
-          },
-          loading: () => ProviderStatus.loading,
-          error: (e, s) => ProviderStatus.error,
-        );
-        if (chatQuery == ProviderStatus.data) {
-          final data = chatQuery as QuerySnapshot<ChatModel>;
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: data.docs.map((chat) {
-              final chatData = chat.data();
-              final chatSender = chatData.sender;
-              final chatLastMessage = chatData.message;
-              final chatImage = chatData.userImage;
-              final chatTime = chatData.timestamp;
+      body: Consumer(
+        builder: (context, ref, child) {
+          final userFuture = ref.watch(userFutureProvider(Utils().userUid!));
+          final user = userFuture.whenOrNull(
+            data: (data) {
+              if (data.exists) {
+                return data;
+              } else {
+                return ProviderStatus.none;
+              }
+            },
+            loading: () => ProviderStatus.loading,
+            error: (e, s) => ProviderStatus.error,
+          );
+          if (user == ProviderStatus.loading) {
+            return const Center(
+              child: QmCircularProgressIndicator(),
+            );
+          } else if (user == ProviderStatus.error) {
+            return Center(
+              child: QmText(text: S.of(context).DefaultError),
+            );
+          } else if (user == ProviderStatus.none) {
+            return Center(
+              child: QmText(
+                onTap: () => context.go(Routes.searchR),
+                text: S.of(context).NoChat,
+                maxWidth: double.maxFinite,
+              ),
+            );
+          } else {
+            final data = userFuture.value!;
+            final user = data.get(DBPathsConstants.chatsPath) as List;
 
-              return ListTile(
-                onTap: () {},
-                leading: QmAvatar(
-                  userImage: chatImage,
-                ),
-                title: QmText(text: chatSender),
-                subtitle: QmText(
-                  text: chatLastMessage,
-                  isSeccoundary: true,
-                ),
-                trailing: QmText(
-                  text: chatTime.toString(),
-                  isSeccoundary: true,
-                ),
-              );
-            }).toList(),
-          );
-        } else if (chatQuery == ProviderStatus.error) {
-          return Center(
-            child: QmText(
-              text: S.of(context).NoChat,
-            ),
-          );
-        } else {
-          return const Center(child: QmCircularProgressIndicator());
-        }
-      }),
+            return ListView.builder(
+              itemCount: user.length,
+              itemBuilder: (context, index) {
+                final chatDocId = user[index].keys.elementAt(index);
+                final chatUserId = user[index].values.elementAt(index);
+                return FutureBuilder(
+                  future: ref.watch(chatFutureProvider(chatDocId).future),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: QmCircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: QmText(text: S.of(context).DefaultError),
+                      );
+                    }
+                    // final chatData = snapshot.data!;
+                    // final chatUserData =
+                    //     chatData.data()! as Map<String, dynamic>;
+                    // final messages =
+                    //     chatUserData[ChatModel.messagesKey] as List<dynamic>;
+                    return FutureBuilder(
+                      future: ref.watch(userFutureProvider(chatUserId).future),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: QmCircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: QmText(text: S.of(context).DefaultError),
+                          );
+                        }
+                        final userData = snapshot.data!;
+                        final userUserData =
+                            userData.data()! as Map<String, dynamic>;
+                        final userName = userUserData[UserModel.nameKey];
+                        final userImage = userUserData[UserModel.imageKey];
+                        return ListTile(
+                          // leading: QmAvatar(
+                          //   imageUrl: userImage,
+                          // ),
+                          title: QmText(
+                            text: userName,
+                            // maxWidth: double.maxFinite,
+                          ),
+                          onTap: () => context.push(
+                            Routes.chatsR,
+                            extra: {
+                              'chatId': chatDocId,
+                              'chatUserId': chatUserId,
+                            },
+                          ),
+                        );
+                      },
+                    );
+                    // return ListTile(
+                    //   leading: QmText(
+                    //     text: chatUserId.toString(),
+                    //     maxWidth: double.maxFinite,
+                    //   ),
+                    // );
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

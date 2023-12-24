@@ -5,11 +5,11 @@ final isImageErrorStateProvider = Provider<bool>((ref) => false);
 class QmAvatar extends ConsumerWidget {
   const QmAvatar({
     super.key,
-    this.userImage,
+    this.imageUrl,
     this.onTap,
     this.radius = 25.0,
   });
-  final String? userImage;
+  final String? imageUrl;
   final void Function()? onTap;
   final double? radius;
 
@@ -22,7 +22,7 @@ class QmAvatar extends ConsumerWidget {
         onTap: onTap,
         child: CircleAvatar(
           radius: radius,
-          backgroundImage: MemoryImage(base64Decode(userImage!)),
+          backgroundImage: MemoryImage(base64Decode(imageUrl!)),
           onBackgroundImageError: (exception, stackTrace) {
             var _ = ref.read(isImageErrorStateProvider);
             _ = false;

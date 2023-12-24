@@ -17,7 +17,7 @@ class RoutingController {
             ),
           ),
           GoRoute(
-            path: Routes.chatR,
+            path: Routes.chatsR,
             builder: (context, state) => ChatScreen(
               key: state.pageKey,
             ),
@@ -80,7 +80,7 @@ class RoutingController {
         router.go(Routes.homeR);
         break;
       case 1:
-        router.go(Routes.chatR);
+        router.go(Routes.chatsR);
         break;
       case 2:
         router.go(Routes.myProfileR);

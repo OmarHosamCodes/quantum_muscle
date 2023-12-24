@@ -64,5 +64,7 @@
   "LetPeopleKnow": "Let people know who you are",
   "AddImageName": "Add Image Name",
   "AddImageDescription": "Add Image Description",
-  "NoBio": "No bio"
+  "NoBio": "No bio",
+  "ProfileDoesNotExist": "Profile does not exist",
+  "Message": "Message"
 }

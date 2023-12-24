@@ -22,22 +22,22 @@ export 'view/screens/search/search_screen.dart';
 
 //* Widgets
 
-export 'view/widgets/qm_block.dart';
-export 'view/widgets/qm_text.dart';
-export 'view/widgets/qm_textfield.dart';
-export 'view/widgets/qm_dialog.dart';
-export 'view/widgets/qm_avatar.dart';
+export 'view/widgets/public/qm_block.dart';
+export 'view/widgets/public/qm_text.dart';
+export 'view/widgets/public/qm_textfield.dart';
+export 'view/widgets/public/qm_dialog.dart';
+export 'view/widgets/public/qm_avatar.dart';
+export 'view/widgets/public/qm_icon_button.dart';
 export 'view/widgets/private/choose_user_type.dart';
 export 'view/widgets/private/forgot_password_text.dart';
 export 'view/widgets/private/Routing_drawer.dart';
 export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
 export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
-export 'view/widgets/qm_icon_button.dart';
 export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
 export 'view/widgets/private/exerciseBlocks/add_exercise_block.dart';
 export 'view/widgets/private/profile/add_image_widget.dart';
-export 'view/widgets/private/edit_profile_text_field.dart';
-export 'view/widgets/private/profile/follow_button.dart';
+export 'view/widgets/private/profile/edit_profile_text_field.dart';
+export 'view/widgets/private/profile/follow_and_message_button.dart';
 
 //* Controllers
 
@@ -50,19 +50,20 @@ export 'controllers/validation/validation_controller.dart';
 export 'utils/auth/register_util.dart';
 export 'utils/auth/login_util.dart';
 export 'utils/auth/forgot_password_util.dart';
-export 'utils/workouts/workouts_util.dart';
-export 'utils/utils.dart';
 export 'utils/auth/logout_util.dart';
+export 'utils/workouts/workouts_util.dart';
 export 'utils/workouts/exercise_util.dart';
+export 'utils/utils.dart';
 export 'utils/profile/profile_util.dart';
+export 'utils/chat/chat_util.dart';
 
 //* Models
 
-export 'models/user_model.dart';
-export 'models/exercise_model.dart';
-export 'models/workout_model.dart';
-export 'models/user_image_model.dart';
-export 'models/chat_model.dart';
+export 'models/user/user_model.dart';
+export 'models/workout/exercise_model.dart';
+export 'models/workout/workout_model.dart';
+export 'models/profile/user_image_model.dart';
+export 'models/chat/chat_model.dart';
 export 'models/enums/provider_statues.dart';
 export 'models/enums/user_type.dart';
 
