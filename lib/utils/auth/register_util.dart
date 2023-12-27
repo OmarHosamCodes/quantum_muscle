@@ -30,7 +30,7 @@ class RegisterUtil extends Utils {
           context: context,
         );
         context.pop();
-        RoutingController().changeRoute(0);
+        RoutingController().changeRoute(0, context);
       } else {
         return;
       }
@@ -39,7 +39,7 @@ class RegisterUtil extends Utils {
 
       openQmDialog(
         context: context,
-        title: S.of(context).Failed,
+        title: S.current.Failed,
         message: e.message!,
       );
     }
@@ -55,7 +55,7 @@ class RegisterUtil extends Utils {
       userModel.ratID = "#${user!.uid.substring(0, 16)}";
       userModel.name = userName;
       userModel.bio = null;
-      userModel.image = null;
+      userModel.profileImage = null;
       userModel.type = userType;
       userModel.weight = {"0": "0"};
       userModel.height = {"0": "0"};
@@ -69,13 +69,17 @@ class RegisterUtil extends Utils {
           userModel.name!,
           userModel.name!.toLowerCase(),
           userModel.name!.toUpperCase(),
-          ...userModel.name!.split('').map((e) => e.toLowerCase()),
-          ...userModel.name!.split('').map((e) => e.toUpperCase()),
+          ...userModel.name!
+              .split(SimpleConstants.emptyString)
+              .map((e) => e.toLowerCase()),
+          ...userModel.name!
+              .split(SimpleConstants.emptyString)
+              .map((e) => e.toUpperCase()),
           userModel.ratID!,
           userModel.email!,
           userModel.type!,
         ]);
-        tempSet.remove('');
+        tempSet.remove(SimpleConstants.emptyString);
         tempSet.remove(' ');
         tempSet.remove('  ');
       }

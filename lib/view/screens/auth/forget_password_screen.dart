@@ -1,7 +1,7 @@
 import '/library.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+class ForgetPasswordScreen extends StatelessWidget {
+  const ForgetPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         height: maxHeight,
                         width: maxWidth,
                         controller: forgotPasswordTextController,
-                        hintText: S.of(context).EnterEmail,
+                        hintText: S.current.EnterEmail,
                       ),
                       Consumer(
                         builder: (context, ref, _) {
@@ -65,7 +65,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             isGradient: true,
                             maxWidth: maxWidth,
                             onTap: () {
-                              ForgotPasswordUtil().sendResetEmail(
+                              ForgetPasswordUtil().sendResetEmail(
                                 email: forgotPasswordTextController.text,
                                 context: context,
                               );
@@ -73,12 +73,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                             margin: margin,
                             width: maxWidth,
                             height: maxHeight,
-                            child: ForgotPasswordUtil().countDown != 30
+                            child: ForgetPasswordUtil().countDown != 30
                                 ? QmText(
-                                    text: ForgotPasswordUtil()
+                                    text: ForgetPasswordUtil()
                                         .countDown
                                         .toString())
-                                : QmText(text: S.of(context).SendEmail),
+                                : QmText(text: S.current.SendEmail),
                           );
                         },
                       ),
@@ -86,7 +86,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         onTap: () => authPageController.jumpToPage(
                           1,
                         ),
-                        text: S.of(context).GoBackToLogin,
+                        text: S.current.GoBackToLogin,
                       ),
                     ],
                   ),

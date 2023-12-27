@@ -31,6 +31,18 @@ class QmBlock extends StatelessWidget {
   final bool isNormal;
   final BorderRadius? borderRadius;
 
+  Duration get containerAnimationDuration =>
+      isAnimated ? SimpleConstants.fastAnimationDuration : Duration.zero;
+  Gradient? get containerGradient => isGradient
+      ? const LinearGradient(
+          colors: [
+            ColorConstants.primaryColor,
+            ColorConstants.accentColor,
+          ],
+        )
+      : null;
+  BorderRadius? get containerBorderRadius =>
+      borderRadius ?? BorderRadius.circular(10);
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -38,8 +50,7 @@ class QmBlock extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
-          duration:
-              isAnimated ? const Duration(milliseconds: 250) : Duration.zero,
+          duration: containerAnimationDuration,
           constraints: BoxConstraints(
             minHeight: height,
             minWidth: width,
@@ -51,16 +62,9 @@ class QmBlock extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            gradient: isGradient
-                ? const LinearGradient(
-                    colors: [
-                      ColorConstants.primaryColor,
-                      ColorConstants.primaryColorDark,
-                    ],
-                  )
-                : null,
+            gradient: containerGradient,
             color: color,
-            borderRadius: borderRadius ?? BorderRadius.circular(10),
+            borderRadius: containerBorderRadius,
           ),
           child: MouseRegion(
             cursor: SystemMouseCursors.cell,

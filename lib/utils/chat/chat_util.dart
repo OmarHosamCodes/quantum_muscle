@@ -6,63 +6,102 @@ class ChatUtil extends Utils {
   Future<void> startChat({
     required String userId,
     required BuildContext context,
+    required WidgetRef ref,
   }) async {
     final String uniqueId = const Uuid().v8();
     openQmLoaderDialog(context: context);
-    final userChats = await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userId)
-        .get()
-        .then((value) => value.get(DBPathsConstants.chatsPath)) as List?;
-    final myChats = await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userUid)
-        .get()
-        .then((value) => value.get(DBPathsConstants.chatsPath)) as List?;
-    // if (userChats != null && userChats.contains(uniqueId))
-    try {
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userUid)
-          .update(
-        {
-          DBPathsConstants.chatsPath: FieldValue.arrayUnion([
-            {
-              uniqueId: userId,
-            }
-          ]),
-        },
-      );
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userId)
-          .update(
-        {
-          DBPathsConstants.chatsPath: FieldValue.arrayUnion([
-            {
-              uniqueId: userUid,
-            }
-          ]),
-        },
-      );
-      await firebaseFirestore
-          .collection(DBPathsConstants.chatsPath)
-          .doc(uniqueId)
-          .set(
-        {
-          ChatModel.messagesKey: [],
-        },
-      );
+    final userDocRef =
+        firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userId);
+    final myDocRef =
+        firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
+    if (await userDocRef.get().then(
+              (value) =>
+                  (value.data()![UserModel.chatsKey] as List).indexWhere(
+                      (element) =>
+                          (element as Map).values.contains(userUid!)) !=
+                  -1,
+            ) &&
+        await myDocRef.get().then(
+              (value) =>
+                  (value.data()![UserModel.chatsKey] as List).indexWhere(
+                      (element) => (element as Map).values.contains(userId)) !=
+                  -1,
+            )) {
       context.pop();
-
       context.go(Routes.chatsR);
-    } on FirebaseException catch (e) {
-      context.pop();
-      openQmDialog(
-        context: context,
-        title: S.of(context).Failed,
-        message: e.message!,
-      );
+    } else {
+      try {
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userUid)
+            .update(
+          {
+            UserModel.chatsKey: FieldValue.arrayUnion(
+              [
+                {
+                  uniqueId: userId,
+                }
+              ],
+            ),
+          },
+        );
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userId)
+            .update(
+          {
+            UserModel.chatsKey: FieldValue.arrayUnion(
+              [
+                {
+                  uniqueId: userUid,
+                }
+              ],
+            ),
+          },
+        );
+        final initMessage = MessageModel(
+            senderId: PrivateConstants.serverSenderId,
+            timestamp: Timestamp.now(),
+            message: PrivateConstants.serverChatInitialMessage,
+            type: PrivateConstants.serverMessageType);
+        await firebaseFirestore
+            .collection(UserModel.chatsKey)
+            .doc(uniqueId)
+            .collection(ChatModel.messagesKey)
+            .doc()
+            .set(initMessage.toMap());
+
+        ref.invalidate(chatFutureProvider(userUid!));
+        ref.read(chatFutureProvider(userUid!));
+        ref.invalidate(userFutureProvider(userUid!));
+        ref.read(userFutureProvider(userUid!));
+
+        context.pop();
+        context.go(Routes.chatsR);
+      } on FirebaseException catch (e) {
+        context.pop();
+        openQmDialog(
+          context: context,
+          title: S.of(context).Failed,
+          message: e.message!,
+        );
+      }
     }
+  }
+
+  Future<void> addTextMessage({
+    required String chatId,
+    required String message,
+  }) async {
+    await firebaseFirestore
+        .collection(DBPathsConstants.chatsPath)
+        .doc(chatId)
+        .collection(DBPathsConstants.chatsMessagesPath)
+        .add({
+      MessageModel.messageKey: message,
+      MessageModel.senderIdKey: Utils().userUid,
+      MessageModel.timestampKey: Timestamp.now(),
+      MessageModel.typeKey: MessageType.text.name,
+    });
   }
 }

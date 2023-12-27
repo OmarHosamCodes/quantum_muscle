@@ -65,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
                       children: [
                         Image.asset(AssetPathConstants.registerImgPath),
                         QmText(
-                          text: S.of(context).CreateAnAccount,
+                          text: S.current.CreateAnAccount,
                         )
                       ],
                     ),
@@ -88,13 +88,13 @@ class RegisterScreen extends StatelessWidget {
                             width: maxWidth,
                             maxLength: 20,
                             controller: nameTextController,
-                            hintText: S.of(context).EnterName,
+                            hintText: S.current.EnterName,
                             keyboardType: TextInputType.name,
                             hasNext: true,
                             validator: (value) {
                               if (ValidationController.validateName(value!) ==
                                   false) {
-                                return S.of(context).EnterValidName;
+                                return S.current.EnterValidName;
                               }
                               return null;
                             },
@@ -105,13 +105,13 @@ class RegisterScreen extends StatelessWidget {
                             height: maxHeight,
                             width: maxWidth,
                             controller: emailTextController,
-                            hintText: S.of(context).EnterEmail,
+                            hintText: S.current.EnterEmail,
                             hasNext: true,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (ValidationController.validateEmail(value!) ==
                                   false) {
-                                return S.of(context).EnterValidEmail;
+                                return S.current.EnterValidEmail;
                               }
                               return null;
                             },
@@ -122,7 +122,7 @@ class RegisterScreen extends StatelessWidget {
                             height: maxHeight,
                             width: maxWidth,
                             controller: passwordTextController,
-                            hintText: S.of(context).EnterPassword,
+                            hintText: S.current.EnterPassword,
                             hasNext: false,
                             obscureText: true,
                             maxLength: 21,
@@ -130,7 +130,7 @@ class RegisterScreen extends StatelessWidget {
                               if (ValidationController.validatePassword(
                                       value!) ==
                                   false) {
-                                return S.of(context).EnterValidPassword;
+                                return S.current.EnterValidPassword;
                               }
                               return null;
                             },
@@ -159,7 +159,7 @@ class RegisterScreen extends StatelessWidget {
                               1,
                             ),
                             text:
-                                "${S.of(context).AlreadyMember} ${S.of(context).Login}",
+                                "${S.current.AlreadyMember} ${S.current.Login}",
                           ),
                         ],
                       ),
@@ -219,7 +219,7 @@ class _SubmitButton extends ConsumerWidget {
       margin: margin,
       width: maxWidth,
       height: maxHeight,
-      child: QmText(text: S.of(context).Register),
+      child: QmText(text: S.current.Register),
     );
   }
 }

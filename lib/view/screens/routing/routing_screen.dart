@@ -19,34 +19,26 @@ class RoutingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    bool isDrawerExist() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) ||
-          state.uri.toString() == Routes.authR) return false;
-      return true;
-    }
-
     final user = ref.watch(authStateChangesProvider);
 
     return user.when(
       data: (data) {
         if (data == null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.mounted ? RoutingController().changeRoute(4) : null;
+            context.mounted
+                ? RoutingController().changeRoute(4, context)
+                : null;
           });
         }
 
         return Scaffold(
+          appBar: AppBar(),
           extendBody: true,
+          drawer: const RoutingDrawer(),
           body: Row(
             children: [
-              isDrawerExist()
-                  ? SizedBox(
-                      width: width * .2,
-                      child: const RoutingDrawer(),
-                    )
-                  : const SizedBox(),
               SizedBox(
-                width: isDrawerExist() ? width * .8 : width,
+                width: width,
                 height: height,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -59,7 +51,7 @@ class RoutingScreen extends ConsumerWidget {
       },
       loading: () => const Center(child: QmCircularProgressIndicator()),
       error: (error, stackTrace) =>
-          Center(child: QmText(text: S.of(context).DefaultError)),
+          Center(child: QmText(text: S.current.DefaultError)),
     );
   }
 }

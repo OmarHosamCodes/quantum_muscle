@@ -51,10 +51,10 @@ class ExerciseUtil extends Utils {
           exerciseImgEncoded: imageFile,
           exerciseTarget: exerciseName,
           exerciseSets: [
-            '',
-            '',
-            '',
-            '',
+            SimpleConstants.emptyString,
+            SimpleConstants.emptyString,
+            SimpleConstants.emptyString,
+            SimpleConstants.emptyString,
           ],
         );
         await firebaseFirestore

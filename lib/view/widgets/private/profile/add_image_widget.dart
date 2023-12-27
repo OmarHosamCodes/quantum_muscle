@@ -6,7 +6,7 @@ void lunchAddImageWidget({
   required int indexToInsert,
 }) {
   showModalBottomSheet(
-    backgroundColor: ColorConstants.primaryColorDark,
+    backgroundColor: ColorConstants.accentColor,
     context: context,
     builder: (context) {
       return _AddImageWidget(
@@ -76,10 +76,10 @@ class _AddImageWidget extends StatelessWidget {
                   controller: imageNameTextController,
                   height: height * .07,
                   width: double.maxFinite,
-                  hintText: S.of(context).AddImageName,
+                  hintText: S.current.AddImageName,
                   validator: (value) {
                     if (ValidationController.validateName(value!) == false) {
-                      return S.of(context).EnterValidName;
+                      return S.current.EnterValidName;
                     }
                     return null;
                   },
@@ -89,11 +89,11 @@ class _AddImageWidget extends StatelessWidget {
                   controller: imageDescriptionTextController,
                   height: height * .07,
                   width: double.maxFinite,
-                  hintText: S.of(context).AddImageDescription,
+                  hintText: S.current.AddImageDescription,
                   validator: (value) {
                     if (ValidationController.validateDescription(value!) ==
                         false) {
-                      return S.of(context).EnterValidName;
+                      return S.current.EnterValidName;
                     }
                     return null;
                   },
@@ -129,7 +129,7 @@ class _AddImageWidget extends StatelessWidget {
                 height: height * .1,
                 width: double.maxFinite,
                 child: QmText(
-                  text: S.of(context).AddImage,
+                  text: S.current.AddImage,
                   maxWidth: double.maxFinite,
                 ),
               );

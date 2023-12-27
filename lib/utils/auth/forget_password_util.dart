@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_getters_setters, unused_local_variable, use_build_context_synchronously
 import '/library.dart';
 
-class ForgotPasswordUtil extends Utils {
+class ForgetPasswordUtil extends Utils {
   bool _isEmailSent = false;
   int _countDown = 30;
 
@@ -23,20 +23,21 @@ class ForgotPasswordUtil extends Utils {
       }
       openQmDialog(
         context: context,
-        title: S.of(context).Success,
-        message: S.of(context).EmailSentSuccessfully,
+        title: S.current.Success,
+        message: S.current.EmailSentSuccessfully,
       );
       isEmailSent = true;
       startTimer();
     } on FirebaseAuthException catch (e) {
       openQmDialog(
         context: context,
-        title: S.of(context).DefaultError,
+        title: S.current.DefaultError,
         message: e.message!,
       );
     }
   }
 
+  //todo needs testing
   void startTimer() {
     Timer timer = Timer.periodic(const Duration(seconds: 1), (internalTimer) {
       if (countDown == 0) {

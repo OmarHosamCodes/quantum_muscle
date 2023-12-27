@@ -66,5 +66,20 @@
   "AddImageDescription": "Add Image Description",
   "NoBio": "No bio",
   "ProfileDoesNotExist": "Profile does not exist",
-  "Message": "Message"
+  "Message": "Message",
+  "YouAlreadyHaveAChatWithThisUser": "You already have a chat with this user",
+  "JustNow": "just now",
+  "MinutesAgo": "minutes ago",
+  "DaysAgo": "days ago",
+  "HoursAgo": "hours ago",
+  "WeeksAgo": "weeks ago",
+  "MonthsAgo": "months ago",
+  "YearsAgo": "years ago",
+  "MinuteAgo": "minute ago",
+  "HourAgo": "hour ago",
+  "WeekAgo": "week ago",
+  "DayAgo": "day ago",
+  "MonthAgo": "month ago",
+  "YearAgo": "year ago",
+  "TypeMessage": "Type a message..."
 }

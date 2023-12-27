@@ -35,7 +35,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                 isAnimated = true;
               });
               Future.delayed(
-                const Duration(milliseconds: 350),
+                SimpleConstants.slowAnimationDuration,
                 () => setState(
                   () => isExpanded = true,
                 ),
@@ -75,12 +75,13 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(
                                   Icons.add_a_photo_outlined,
-                                  color: ColorConstants.secondaryColor,
+                                  color: ColorConstants.iconColor,
                                 );
                               },
                             ),
                           ).animate().fadeIn(
-                                duration: const Duration(milliseconds: 500),
+                                duration:
+                                    SimpleConstants.verySlowAnimationDuration,
                               );
                         },
                       ),
@@ -95,11 +96,11 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                             height: widget.height * .1,
                             width: inputsWidth,
                             controller: workoutNameTextController,
-                            hintText: S.of(context).AddWorkoutName,
+                            hintText: S.current.AddWorkoutName,
                             validator: (value) {
                               if (ValidationController.validateName(value!) ==
                                   false) {
-                                return S.of(context).EnterValidName;
+                                return S.current.EnterValidName;
                               }
                               return null;
                             },
@@ -108,7 +109,8 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                             builder: (context, ref, _) {
                               final imageRef = ref.watch(imageBytesProvider);
                               return QmBlock(
-                                isGradient: true,
+                                isGradient: false,
+                                color: ColorConstants.primaryColor,
                                 onTap: () => workoutUtile.addWorkout(
                                   formKey: formKey,
                                   context: context,
@@ -120,7 +122,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                 height: widget.height * .1,
                                 width: inputsWidth,
                                 child: QmText(
-                                  text: S.of(context).AddWorkout,
+                                  text: S.current.AddWorkout,
                                   maxWidth: double.maxFinite,
                                 ),
                               );
@@ -139,14 +141,14 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                 children: [
                   const Icon(
                     EvaIcons.plusCircleOutline,
-                    color: ColorConstants.secondaryColor,
+                    color: ColorConstants.iconColor,
                   ),
                   SizedBox(
                     width: widget.width * .05,
                   ),
                   QmText(
-                    text: S.of(context).AddWorkout,
-                    maxWidth: widget.width,
+                    text: S.current.AddWorkout,
+                    maxWidth: double.maxFinite,
                   ),
                 ],
               ),

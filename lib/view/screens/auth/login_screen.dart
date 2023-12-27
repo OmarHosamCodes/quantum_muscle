@@ -62,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         Image.asset(AssetPathConstants.loginImgPath),
                         QmText(
-                          text: S.of(context).WelcomeBack,
+                          text: S.current.WelcomeBack,
                           maxWidth: double.maxFinite,
                         ),
                       ],
@@ -85,13 +85,13 @@ class LoginScreen extends StatelessWidget {
                             height: maxHeight,
                             width: maxWidth,
                             controller: emailTextController,
-                            hintText: S.of(context).EnterEmail,
+                            hintText: S.current.EnterEmail,
                             keyboardType: TextInputType.emailAddress,
                             hasNext: true,
                             validator: (value) {
                               if (ValidationController.validateEmail(value!) ==
                                   false) {
-                                return S.of(context).EnterValidEmail;
+                                return S.current.EnterValidEmail;
                               }
                               return null;
                             },
@@ -102,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                             height: maxHeight,
                             width: maxWidth,
                             controller: passwordTextController,
-                            hintText: S.of(context).EnterPassword,
+                            hintText: S.current.EnterPassword,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             maxLength: 21,
@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                               if (ValidationController.validatePassword(
                                       value!) ==
                                   false) {
-                                return S.of(context).EnterValidPassword;
+                                return S.current.EnterValidPassword;
                               }
                               return null;
                             },
@@ -135,7 +135,7 @@ class LoginScreen extends StatelessWidget {
                                 width: maxWidth,
                                 height: maxHeight,
                                 child: QmText(
-                                  text: S.of(context).Login,
+                                  text: S.current.Login,
                                 ),
                               );
                             },
@@ -145,7 +145,7 @@ class LoginScreen extends StatelessWidget {
                               2,
                             ),
                             text:
-                                "${S.of(context).NotAMember} ${S.of(context).Register}",
+                                "${S.current.NotAMember} ${S.current.Register}",
                             maxWidth: double.maxFinite,
                           ),
                         ],

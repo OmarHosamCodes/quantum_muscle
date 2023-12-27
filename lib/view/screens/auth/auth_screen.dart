@@ -8,7 +8,7 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> authScreens = [
-      const ForgotPasswordScreen(),
+      const ForgetPasswordScreen(),
       const LoginScreen(),
       const RegisterScreen(),
     ];
@@ -20,14 +20,13 @@ class AuthScreen extends StatelessWidget {
         actions: [
           Consumer(
             builder: (context, ref, _) {
-              final locale = ref.watch(localStateProvider);
-              return IconButton(
-                onPressed: () => locale == const Locale('en')
-                    ? ref.read(localStateProvider.notifier).state =
-                        const Locale('ar')
-                    : ref.read(localStateProvider.notifier).state =
-                        const Locale('en'),
-                icon: const Icon(Icons.language),
+              return QmIconButton(
+                onPressed: () => Utils().isEnglish
+                    ? ref.read(localeStateProvider.notifier).state =
+                        const Locale(SimpleConstants.arabicLocale)
+                    : ref.read(localeStateProvider.notifier).state =
+                        const Locale(SimpleConstants.englishLocale),
+                icon: EvaIcons.globe,
               );
             },
           ),

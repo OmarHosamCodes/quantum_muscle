@@ -1,8 +1,8 @@
 import '/library.dart';
 
 class RoutingErrorScreen extends StatelessWidget {
-  const RoutingErrorScreen({super.key, required this.exception});
-  final String exception;
+  const RoutingErrorScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +12,7 @@ class RoutingErrorScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             QmText(
-              text: exception,
+              text: S.current.DefaultError,
               maxWidth: double.maxFinite,
             ),
             QmIconButton(

@@ -9,13 +9,14 @@ class UserModel {
   static const String typeKey = 'type';
   static const String heightKey = 'height';
   static const String weightKey = 'weight';
-  static const String imageKey = 'image';
+  static const String profileImageKey = 'profileImage';
   static const String bioKey = 'bio';
   static const String imagesKey = 'images';
   static const String followersKey = 'followers';
   static const String followingKey = 'following';
   static const String tagsKey = 'tags';
   static const String friendsKey = 'friends';
+  static const String chatsKey = 'chats';
 
   String? ratID;
   String? name;
@@ -26,13 +27,13 @@ class UserModel {
   String? type;
   Map<String, String>? height;
   Map<String, String>? weight;
-  String? image;
+  String? profileImage;
   String? bio;
   List? images = [];
   List? followers;
   List? following;
   List? tags;
-  List? friends;
+  List? chats;
 
   UserModel({
     this.ratID,
@@ -44,13 +45,13 @@ class UserModel {
     this.type,
     this.height,
     this.weight,
-    this.image,
+    this.profileImage,
     this.bio,
     this.images,
     this.followers,
     this.following,
     this.tags,
-    this.friends,
+    this.chats,
   });
 
   factory UserModel.fromMap(
@@ -65,13 +66,13 @@ class UserModel {
       type: map[typeKey],
       height: map[heightKey],
       weight: map[weightKey],
-      image: map[imageKey],
+      profileImage: map[profileImageKey],
       bio: map[bioKey],
       images: map[imagesKey],
       followers: map[followersKey],
       following: map[followingKey],
       tags: map[tagsKey],
-      friends: map[friendsKey],
+      chats: map[chatsKey],
     );
   }
 
@@ -85,13 +86,13 @@ class UserModel {
       typeKey: type,
       heightKey: height,
       weightKey: weight,
-      imageKey: image,
+      profileImageKey: profileImage,
       bioKey: bio,
       imagesKey: images,
       followersKey: followers,
       followingKey: following,
       tagsKey: tags,
-      friendsKey: friends,
+      chatsKey: chats,
     };
   }
 }

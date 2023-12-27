@@ -75,7 +75,7 @@ class AddExerciseTile extends StatelessWidget {
                       height: height * .2,
                       width: width,
                       controller: exerciseNameTextController,
-                      hintText: S.of(context).EnterExerciseName,
+                      hintText: S.current.EnterExerciseName,
                       fontSize: 25,
                     ),
                     const SizedBox(
@@ -85,7 +85,7 @@ class AddExerciseTile extends StatelessWidget {
                       height: height * .2,
                       width: width,
                       controller: exerciseTargetTextController,
-                      hintText: S.of(context).EnterExerciseTarget,
+                      hintText: S.current.EnterExerciseTarget,
                       fontSize: 25,
                     ),
                   ],

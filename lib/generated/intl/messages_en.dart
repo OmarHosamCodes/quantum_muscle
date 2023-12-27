@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Comments": MessageLookupByLibrary.simpleMessage("Comments"),
         "CreateAnAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
+        "DayAgo": MessageLookupByLibrary.simpleMessage("day ago"),
+        "DaysAgo": MessageLookupByLibrary.simpleMessage("days ago"),
         "DefaultError": MessageLookupByLibrary.simpleMessage(
             "Something went wrong, please try again later"),
         "EditProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
@@ -85,6 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Go back to login"),
         "Hi": MessageLookupByLibrary.simpleMessage("Hi"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
+        "HourAgo": MessageLookupByLibrary.simpleMessage("hour ago"),
+        "HoursAgo": MessageLookupByLibrary.simpleMessage("hours ago"),
+        "JustNow": MessageLookupByLibrary.simpleMessage("just now"),
         "Language": MessageLookupByLibrary.simpleMessage("English"),
         "LetPeopleKnow":
             MessageLookupByLibrary.simpleMessage("Let people know who you are"),
@@ -92,6 +97,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "Message": MessageLookupByLibrary.simpleMessage("Message"),
+        "MinuteAgo": MessageLookupByLibrary.simpleMessage("minute ago"),
+        "MinutesAgo": MessageLookupByLibrary.simpleMessage("minutes ago"),
+        "MonthAgo": MessageLookupByLibrary.simpleMessage("month ago"),
+        "MonthsAgo": MessageLookupByLibrary.simpleMessage("months ago"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
@@ -111,10 +120,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "Trainee": MessageLookupByLibrary.simpleMessage("Trainee"),
         "Trainer": MessageLookupByLibrary.simpleMessage("Trainer"),
         "TryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+        "TypeMessage":
+            MessageLookupByLibrary.simpleMessage("Type a message..."),
         "Unfollow": MessageLookupByLibrary.simpleMessage("Unfollow"),
         "UserNamePlaceHolder":
             MessageLookupByLibrary.simpleMessage("User Name"),
+        "WeekAgo": MessageLookupByLibrary.simpleMessage("week ago"),
+        "WeeksAgo": MessageLookupByLibrary.simpleMessage("weeks ago"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !"),
-        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts:")
+        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts:"),
+        "YearAgo": MessageLookupByLibrary.simpleMessage("year ago"),
+        "YearsAgo": MessageLookupByLibrary.simpleMessage("years ago"),
+        "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(
+            "You already have a chat with this user")
       };
 }

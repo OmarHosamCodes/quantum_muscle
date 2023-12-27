@@ -1,7 +1,7 @@
 import 'library.dart';
 
 void main() async {
-  if (kIsWeb) setPathUrlStrategy();
+  setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -12,14 +12,15 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final localStateProvider = StateProvider<Locale>((ref) => const Locale('en'));
+final localeStateProvider =
+    StateProvider<Locale>((ref) => const Locale(SimpleConstants.englishLocale));
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = ref.watch(localStateProvider);
+    final locale = ref.watch(localeStateProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       locale: locale,

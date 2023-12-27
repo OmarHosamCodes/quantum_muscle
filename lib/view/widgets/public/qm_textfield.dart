@@ -19,6 +19,7 @@ class QmTextField extends StatelessWidget {
   final Icon? prefixIcon; // New property for prefix icon
   final double? fontSize;
   final void Function(String)? onChanged;
+  final Color fieldColor;
   const QmTextField({
     super.key,
     required this.height,
@@ -39,21 +40,28 @@ class QmTextField extends StatelessWidget {
     this.prefixIcon, // Initialize prefix icon property
     this.fontSize = 16.0,
     this.onChanged,
+    this.fieldColor = ColorConstants.secondaryColor,
   });
+  BorderRadius get borderRadiusValue {
+    if (borderRadius != null) {
+      return borderRadius!;
+    }
+    return BorderRadius.circular(10.0);
+  }
+
+  TextInputAction get finalInputAction {
+    if (isExpanded) {
+      return TextInputAction.newline;
+    }
+    if (hasNext) {
+      return TextInputAction.next;
+    } else {
+      return TextInputAction.done;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextInputAction finalInputAction() {
-      if (isExpanded) {
-        return TextInputAction.newline;
-      }
-      if (hasNext) {
-        return TextInputAction.next;
-      } else {
-        return TextInputAction.done;
-      }
-    }
-
     return Container(
       constraints: BoxConstraints(
         minHeight: height,
@@ -64,7 +72,7 @@ class QmTextField extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: ColorConstants.secondaryColor,
+        color: fieldColor,
         borderRadius: borderRadius ?? BorderRadius.circular(10.0),
       ),
       margin: margin,
@@ -77,19 +85,19 @@ class QmTextField extends StatelessWidget {
           expands: isExpanded,
           keyboardType: keyboardType,
           style: TextStyle(
-            color: ColorConstants.textFieldColor,
+            color: ColorConstants.textColor,
             fontSize: fontSize,
           ),
           textAlignVertical: TextAlignVertical.top,
           maxLines: isExpanded ? null : 1,
-          cursorColor: ColorConstants.tertiaryColor,
+          cursorColor: ColorConstants.textSeccondaryColor,
           controller: controller,
           obscureText: obscureText,
-          textInputAction: finalInputAction(),
+          textInputAction: finalInputAction,
           decoration: InputDecoration(
-            counterText: '',
+            counterText: SimpleConstants.emptyString,
             border: OutlineInputBorder(
-              borderRadius: borderRadius ?? BorderRadius.circular(10.0),
+              borderRadius: borderRadiusValue,
               borderSide: BorderSide.none,
             ),
             focusedBorder: const OutlineInputBorder(
@@ -97,7 +105,8 @@ class QmTextField extends StatelessWidget {
             ),
             filled: false,
             hintText: hintText,
-            hintStyle: const TextStyle(color: ColorConstants.hintColor),
+            hintStyle:
+                const TextStyle(color: ColorConstants.textSeccondaryColor),
             prefixIcon: prefixIcon, // Add prefix icon
           ),
           initialValue: initialValue,

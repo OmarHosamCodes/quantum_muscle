@@ -19,12 +19,12 @@ class LoginUtil extends Utils {
         password: password,
       );
       ref.invalidate(userFutureProvider);
-      ref.read(userFutureProvider);
+      ref.read(userFutureProvider(Utils().userUid!));
       WidgetsBinding.instance.addPostFrameCallback(
         (_) {
           if (user != null) {
             context.pop();
-            RoutingController().changeRoute(0);
+            RoutingController().changeRoute(0, context);
           } else {
             return;
           }
@@ -35,7 +35,7 @@ class LoginUtil extends Utils {
 
       openQmDialog(
         context: context,
-        title: S.of(context).Failed,
+        title: S.current.Failed,
         message: e.message!,
       );
     }

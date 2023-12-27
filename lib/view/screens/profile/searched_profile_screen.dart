@@ -1,12 +1,5 @@
 import '/library.dart';
 
-final searchedProfileFutureProvider =
-    FutureProvider.family<DocumentSnapshot, String>((ref, userId) async {
-  final userRef = Utils().firebaseFirestore.collection('users').doc(userId);
-  final user = await userRef.get();
-  return user;
-});
-
 class SearchedProfile extends ConsumerWidget {
   const SearchedProfile({super.key, required this.userId});
   final String userId;
@@ -20,7 +13,7 @@ class SearchedProfile extends ConsumerWidget {
     return Scaffold(
       extendBody: true,
       body: FutureBuilder(
-        future: ref.watch(searchedProfileFutureProvider(userId).future),
+        future: ref.watch(userFutureProvider(userId).future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -28,16 +21,16 @@ class SearchedProfile extends ConsumerWidget {
             );
           } else if (snapshot.hasError) {
             return Center(
-              child: QmText(text: S.of(context).DefaultError),
+              child: QmText(text: S.current.DefaultError),
             );
           }
           final data = snapshot.data!;
           final userData = data.data() as Map<String, dynamic>;
           final String userName = userData[UserModel.nameKey];
           final String userRatID = userData[UserModel.ratIDKey];
-          final String userProfileImage = userData[UserModel.imageKey] ?? '';
-          final String userBio =
-              userData[UserModel.bioKey] ?? S.of(context).NoBio;
+          final String userProfileImage = userData[UserModel.profileImageKey] ??
+              SimpleConstants.emptyString;
+          final String userBio = userData[UserModel.bioKey] ?? S.current.NoBio;
           final List userFollowers = userData[UserModel.followersKey];
           final List userFollowing = userData[UserModel.followingKey];
           return SingleChildScrollView(
@@ -72,13 +65,15 @@ class SearchedProfile extends ConsumerWidget {
                         ),
                       ),
                       Visibility(
-                        visible: userURI != (Utils().userUid ?? ''),
+                        visible: userURI !=
+                            (Utils().userUid ?? SimpleConstants.emptyString),
                         child: FollowAndMessageButton(
                           userId: userURI,
                           height: height,
                           width: width,
-                          isFollowing: userFollowers.any(
-                              (element) => element == (Utils().userUid ?? '')),
+                          isFollowing: userFollowers.any((element) =>
+                              element ==
+                              (Utils().userUid ?? SimpleConstants.emptyString)),
                         ),
                       ),
                     ],
@@ -101,7 +96,7 @@ class SearchedProfile extends ConsumerWidget {
                             width: width * .005,
                           ),
                           QmText(
-                            text: S.of(context).Followers,
+                            text: S.current.Followers,
                             isSeccoundary: true,
                           ),
                         ],
@@ -120,7 +115,7 @@ class SearchedProfile extends ConsumerWidget {
                             width: width * .005,
                           ),
                           QmText(
-                            text: S.of(context).Following,
+                            text: S.current.Following,
                             isSeccoundary: true,
                           ),
                         ],

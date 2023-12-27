@@ -45,6 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
         "Comments": MessageLookupByLibrary.simpleMessage("تعليقات"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+        "DayAgo": MessageLookupByLibrary.simpleMessage("منذ يوم"),
+        "DaysAgo": MessageLookupByLibrary.simpleMessage("منذ يوم"),
         "DefaultError": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ. يرجى إعادة المحاولة لاحقا."),
         "EditProfile":
@@ -85,6 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("العودة إلى تسجيل الدخول"),
         "Hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+        "HourAgo": MessageLookupByLibrary.simpleMessage("منذ ساعة"),
+        "HoursAgo": MessageLookupByLibrary.simpleMessage("ساعات مضت"),
+        "JustNow": MessageLookupByLibrary.simpleMessage("الآن"),
         "Language": MessageLookupByLibrary.simpleMessage("العربية"),
         "LetPeopleKnow":
             MessageLookupByLibrary.simpleMessage("دع الناس يعرفون من أنت"),
@@ -92,6 +97,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "Message": MessageLookupByLibrary.simpleMessage("رسالة"),
+        "MinuteAgo": MessageLookupByLibrary.simpleMessage("منذ دقيقة"),
+        "MinutesAgo": MessageLookupByLibrary.simpleMessage("دقائق مضت"),
+        "MonthAgo": MessageLookupByLibrary.simpleMessage("منذ شهر"),
+        "MonthsAgo": MessageLookupByLibrary.simpleMessage("أشهر مضت"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "NoBio": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
@@ -111,10 +120,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "Trainee": MessageLookupByLibrary.simpleMessage("المتدرب"),
         "Trainer": MessageLookupByLibrary.simpleMessage("المدرب"),
         "TryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
+        "TypeMessage": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
         "Unfollow": MessageLookupByLibrary.simpleMessage("إلغاء المتابعة"),
         "UserNamePlaceHolder":
             MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+        "WeekAgo": MessageLookupByLibrary.simpleMessage("منذ أسبوع"),
+        "WeeksAgo": MessageLookupByLibrary.simpleMessage("أسابيع مضت"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),
-        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين:")
+        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين:"),
+        "YearAgo": MessageLookupByLibrary.simpleMessage("منذ سنة"),
+        "YearsAgo": MessageLookupByLibrary.simpleMessage("سنوات مضت"),
+        "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(
+            "لديك بالفعل محادثة مع هذا المستخدم")
       };
 }

@@ -66,7 +66,7 @@ class ExerciseTile extends StatelessWidget {
               flex: 1,
               child: QmIconButton(
                 onPressed: () => pageController.previousPage(
-                  duration: const Duration(milliseconds: 200),
+                  duration: SimpleConstants.fastAnimationDuration,
                   curve: Curves.bounceOut,
                 ),
                 icon: EvaIcons.arrowBack,
@@ -100,7 +100,7 @@ class ExerciseTile extends StatelessWidget {
               flex: 1,
               child: QmIconButton(
                 onPressed: () => pageController.nextPage(
-                  duration: const Duration(milliseconds: 200),
+                  duration: SimpleConstants.fastAnimationDuration,
                   curve: Curves.bounceIn,
                 ),
                 icon: EvaIcons.arrowForward,

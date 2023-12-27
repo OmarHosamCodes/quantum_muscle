@@ -21,7 +21,7 @@ class ForgotPasswordTextWidget extends StatelessWidget {
         child: QmText(
           onTap: () => authPageController.jumpToPage(0),
           isSeccoundary: true,
-          text: S.of(context).ForgotPassword,
+          text: S.current.ForgotPassword,
         ),
       ),
     );

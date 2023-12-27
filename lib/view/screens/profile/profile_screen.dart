@@ -26,43 +26,21 @@ class ProfileScreen extends ConsumerWidget {
       );
     } else if (userQuery == ProviderStatus.error) {
       return Center(
-        child: QmText(text: S.of(context).DefaultError),
+        child: QmText(text: S.current.DefaultError),
       );
     } else {
       var data = userFuture.value as DocumentSnapshot;
       var userData = data.data() as Map<String, dynamic>;
       final String userName = userData[UserModel.nameKey];
       final String userRatID = userData[UserModel.ratIDKey];
-      final String userProfileImage = userData[UserModel.imageKey] ?? '';
+      final String userProfileImage =
+          userData[UserModel.profileImageKey] ?? SimpleConstants.emptyString;
       final String? userBio = userData[UserModel.bioKey];
       final List userFollowers = userData[UserModel.followersKey] ?? [];
       final List userFollowing = userData[UserModel.followingKey] ?? [];
       final List userImages = userData[UserModel.imagesKey] ?? [];
 
       return Scaffold(
-        appBar: AppBar(
-          actions: [
-            QmIconButton(
-              onPressed: () => context.push(
-                Routes.profileEditR,
-                extra: {
-                  'userProfileImage': userProfileImage,
-                  'userName': userName,
-                  'userBio': userBio ?? '',
-                },
-              ),
-              icon: EvaIcons.editOutline,
-            ),
-            QmIconButton(
-              onPressed: () => lunchAddImageWidget(
-                context: context,
-                ref: ref,
-                indexToInsert: userImages.length,
-              ),
-              icon: EvaIcons.image,
-            )
-          ],
-        ),
         extendBody: true,
         body: SingleChildScrollView(
           child: Column(
@@ -93,6 +71,33 @@ class ProfileScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  const Spacer(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      QmIconButton(
+                        onPressed: () => context.push(
+                          Routes.profileEditR,
+                          extra: {
+                            UserModel.profileImageKey: userProfileImage,
+                            UserModel.nameKey: userName,
+                            UserModel.bioKey:
+                                userBio ?? SimpleConstants.emptyString,
+                          },
+                        ),
+                        icon: EvaIcons.editOutline,
+                      ),
+                      QmIconButton(
+                        onPressed: () => lunchAddImageWidget(
+                          context: context,
+                          ref: ref,
+                          indexToInsert: userImages.length,
+                        ),
+                        icon: EvaIcons.image,
+                      ),
+                    ],
+                  )
                 ],
               ),
               SizedBox(
@@ -113,7 +118,7 @@ class ProfileScreen extends ConsumerWidget {
                         width: width * .005,
                       ),
                       QmText(
-                        text: S.of(context).Followers,
+                        text: S.current.Followers,
                         isSeccoundary: true,
                       ),
                     ],
@@ -132,7 +137,7 @@ class ProfileScreen extends ConsumerWidget {
                         width: width * .005,
                       ),
                       QmText(
-                        text: S.of(context).Following,
+                        text: S.current.Following,
                         isSeccoundary: true,
                       ),
                     ],
@@ -140,7 +145,7 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               QmText(
-                text: userBio ?? S.of(context).LetPeopleKnow,
+                text: userBio ?? S.current.LetPeopleKnow,
               ),
               const Divider(
                 thickness: .5,

@@ -66,5 +66,20 @@
   "AddImageDescription": "أدخل وصف الصورة",
   "NoBio": "لا يوجد نبذة",
   "ProfileDoesNotExist": "الملف الشخصي غير موجود",
-  "Message": "رسالة"
+  "Message": "رسالة",
+  "YouAlreadyHaveAChatWithThisUser": "لديك بالفعل محادثة مع هذا المستخدم",
+  "JustNow": "الآن",
+  "MinutesAgo": "دقائق مضت",
+  "DaysAgo": "منذ يوم",
+  "HoursAgo": "ساعات مضت",
+  "WeeksAgo": "أسابيع مضت",
+  "MonthsAgo": "أشهر مضت",
+  "YearsAgo": "سنوات مضت",
+  "MinuteAgo": "منذ دقيقة",
+  "HourAgo": "منذ ساعة",
+  "WeekAgo": "منذ أسبوع",
+  "DayAgo": "منذ يوم",
+  "MonthAgo": "منذ شهر",
+  "YearAgo": "منذ سنة",
+  "TypeMessage": "اكتب رسالة..."
 }

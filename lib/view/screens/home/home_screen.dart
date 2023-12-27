@@ -33,14 +33,6 @@ class HomeScreen extends StatelessWidget {
       return true;
     }
 
-    bool isDrawerExist() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) ||
-          GoRouterState.of(context).uri.toString() == Routes.authR) {
-        return false;
-      }
-      return true;
-    }
-
     bool isTablet() {
       if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
       return true;
@@ -48,7 +40,6 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      drawer: isDrawerExist() ? const RoutingDrawer() : null,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -75,8 +66,7 @@ class HomeScreen extends StatelessWidget {
                   } else if (user == ProviderStatus.error ||
                       user == ProviderStatus.none) {
                     return QmText(
-                      text:
-                          "${S.of(context).Hi}, ${S.of(context).UserNamePlaceHolder}",
+                      text: "${S.current.Hi}, ${S.current.UserNamePlaceHolder}",
                       maxWidth: double.maxFinite,
                     );
                   } else {
@@ -84,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                         as DocumentSnapshot<Map<String, dynamic>>;
                     return QmText(
                       text:
-                          "${S.of(context).Hi}, ${data.get(DBPathsConstants.usersUserNamePath)}",
+                          "${S.current.Hi}, ${data.get(DBPathsConstants.usersUserNamePath)}",
                       maxWidth: double.maxFinite,
                     );
                   }
@@ -116,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmText(
-                        text: S.of(context).Slogan,
+                        text: S.current.Slogan,
                         maxWidth: 150,
                       ),
                       SizedBox(
@@ -136,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    QmText(text: S.of(context).Workouts),
+                    QmText(text: S.current.Workouts),
                   ],
                 ),
               ),
@@ -190,7 +180,8 @@ class HomeScreen extends StatelessWidget {
                           );
                         } else {
                           final workout = data.docs[index].data();
-                          final workoutName = workout.workoutName ?? '';
+                          final workoutName = workout.workoutName ??
+                              SimpleConstants.emptyString;
                           final workoutExercises =
                               workout.workoutExercises ?? [];
                           final workoutImage = workout.workoutImgEncoded;
@@ -207,13 +198,16 @@ class HomeScreen extends StatelessWidget {
                             onTap: () => context.goNamed(
                               Routes.workoutRootR,
                               pathParameters: {
-                                'workoutId': workoutId,
+                                WorkoutModel.workoutIdKey: workoutId,
                               },
                               extra: {
-                                'workoutName': workoutName,
-                                'workoutImage': workoutImageBytes,
-                                'workoutExercises': workoutExercises,
-                                'workoutCreationDate': workoutCreationDate,
+                                WorkoutModel.workoutNameKey: workoutName,
+                                WorkoutModel.workoutImgEncodedKey:
+                                    workoutImageBytes,
+                                WorkoutModel.workoutExercisesKey:
+                                    workoutExercises,
+                                WorkoutModel.workoutCreationDateKey:
+                                    workoutCreationDate,
                               },
                             ),
                             child: Column(

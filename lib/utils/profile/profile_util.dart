@@ -2,11 +2,14 @@
 
 import '/library.dart';
 
-final userProfileImageProvider = StateProvider<String?>((ref) => '');
-final addImageProvider = StateProvider<String?>((ref) => '');
+final userProfileImageProvider =
+    StateProvider<String?>((ref) => SimpleConstants.emptyString);
+final addImageProvider =
+    StateProvider<String?>((ref) => SimpleConstants.emptyString);
 
 class ProfileUtil extends Utils {
-  late final userRef = firebaseFirestore.collection('users').doc(userUid);
+  late final userRef =
+      firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
   File? imageFileToUpload;
   File? get getImageFileToUpload => imageFileToUpload!;
   set setImageFileToUpload(File imageFileToUpload) =>
@@ -20,16 +23,42 @@ class ProfileUtil extends Utils {
     required WidgetRef ref,
   }) async {
     openQmLoaderDialog(context: context);
-    await userRef.update({
-      'name': userName,
-      'bio': userBio,
-      'image': userProfileImage,
-    });
-    ref.invalidate(userFutureProvider);
-    ref.read(userFutureProvider(Utils().userUid!));
-    ref.read(userProfileImageProvider.notifier).state = '';
-    context.go(Routes.myProfileR);
-    context.pop();
+    if (user != null) {
+      try {
+        Reference storageRef = firebaseStorage
+            .ref()
+            .child(DBPathsConstants.usersPath)
+            .child(userUid!)
+            .child('${UserModel.profileImageKey}.png');
+        storageRef
+            .putString(userProfileImage!, format: PutStringFormat.base64)
+            .then(
+              (_) async => await userRef.set(
+                {
+                  UserModel.nameKey: userName,
+                  UserModel.bioKey: userBio,
+                  UserModel.profileImageKey: await storageRef.getDownloadURL(),
+                },
+                SetOptions(merge: true),
+              ),
+            );
+
+        ref.invalidate(userFutureProvider);
+        ref.read(userFutureProvider(Utils().userUid!));
+        ref.read(userProfileImageProvider.notifier).state =
+            SimpleConstants.emptyString;
+        context.go(Routes.myProfileR);
+        context.pop();
+      } on FirebaseException catch (e) {
+        context.pop();
+
+        openQmDialog(
+          context: context,
+          title: S.of(context).Failed,
+          message: e.message!,
+        );
+      }
+    }
   }
 
   static Future<void> chooseImage({
@@ -66,6 +95,7 @@ class ProfileUtil extends Utils {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
     openQmLoaderDialog(context: context);
+
     await firebaseFirestore
         .collection(DBPathsConstants.usersPath)
         .doc(userUid)
@@ -83,7 +113,7 @@ class ProfileUtil extends Utils {
     );
     ref.invalidate(userFutureProvider);
     ref.read(userFutureProvider(Utils().userUid!));
-    ref.read(addImageProvider.notifier).state = '';
+    ref.read(addImageProvider.notifier).state = SimpleConstants.emptyString;
 
     context.pop();
   }
@@ -117,9 +147,8 @@ class ProfileUtil extends Utils {
         );
         context.pop();
         ref.invalidate(userFutureProvider);
-        ref.invalidate(searchedProfileFutureProvider);
         ref.read(userFutureProvider(Utils().userUid!));
-        ref.read(searchedProfileFutureProvider(userId));
+        ref.read(userFutureProvider(userId));
       } else if (!isFollowing) {
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
@@ -135,9 +164,9 @@ class ProfileUtil extends Utils {
         });
         context.pop();
         ref.invalidate(userFutureProvider);
-        ref.invalidate(searchedProfileFutureProvider);
+
         ref.read(userFutureProvider(Utils().userUid!));
-        ref.read(searchedProfileFutureProvider(userId));
+        ref.read(userFutureProvider(userId));
       }
     } on FirebaseException catch (e) {
       context.pop();

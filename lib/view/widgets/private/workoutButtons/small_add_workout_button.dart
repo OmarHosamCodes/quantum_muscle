@@ -16,7 +16,7 @@ class SmallAddWorkout extends StatelessWidget {
       height: height,
       isGradient: true,
       onTap: () => showModalBottomSheet(
-        backgroundColor: ColorConstants.primaryColorDark,
+        backgroundColor: ColorConstants.accentColor,
         context: context,
         builder: (context) => AddWorkoutBottomSheet(
           height: height,
@@ -25,7 +25,7 @@ class SmallAddWorkout extends StatelessWidget {
       child: QmIconButton(
         icon: EvaIcons.plus,
         onPressed: () => showModalBottomSheet(
-          backgroundColor: ColorConstants.primaryColorDark,
+          backgroundColor: ColorConstants.accentColor,
           context: context,
           builder: (context) => AddWorkoutBottomSheet(
             height: height,
@@ -89,10 +89,10 @@ class AddWorkoutBottomSheet extends StatelessWidget {
               controller: workoutNameTextController,
               height: height * .1,
               width: double.maxFinite,
-              hintText: S.of(context).AddWorkoutName,
+              hintText: S.current.AddWorkoutName,
               validator: (value) {
                 if (ValidationController.validateName(value!) == false) {
-                  return S.of(context).EnterValidName;
+                  return S.current.EnterValidName;
                 }
                 return null;
               },
@@ -114,7 +114,7 @@ class AddWorkoutBottomSheet extends StatelessWidget {
                 height: height * .1,
                 width: double.maxFinite,
                 child: QmText(
-                  text: S.of(context).AddWorkout,
+                  text: S.current.AddWorkout,
                   maxWidth: double.maxFinite,
                 ),
               );

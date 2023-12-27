@@ -19,7 +19,7 @@ class UserTypeChooser extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userType = ref.watch(userTypeStateProvider);
     final List<Color> colors = [
-      ColorConstants.primaryColorDark,
+      ColorConstants.disabledColor,
       ColorConstants.primaryColor,
     ];
 
@@ -57,7 +57,7 @@ class UserTypeChooser extends ConsumerWidget {
                     : const Radius.circular(10),
               ),
             ),
-            child: Center(child: QmText(text: S.of(context).Trainer)),
+            child: Center(child: QmText(text: S.current.Trainer)),
           ),
         ),
         GestureDetector(
@@ -90,7 +90,7 @@ class UserTypeChooser extends ConsumerWidget {
                     : const Radius.circular(0),
               ),
             ),
-            child: Center(child: QmText(text: S.of(context).Trainee)),
+            child: Center(child: QmText(text: S.current.Trainee)),
           ),
         ),
       ],

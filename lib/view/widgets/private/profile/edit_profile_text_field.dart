@@ -48,11 +48,11 @@ class EditProfileTextField extends StatelessWidget {
         smartDashesType: SmartDashesType.enabled,
         smartQuotesType: SmartQuotesType.enabled,
         style: const TextStyle(
-          color: ColorConstants.secondaryColor,
+          color: ColorConstants.textColor,
           fontSize: 16.0,
         ),
         textAlignVertical: TextAlignVertical.top,
-        cursorColor: ColorConstants.tertiaryColor,
+        cursorColor: ColorConstants.textSeccondaryColor,
         controller: controller,
         textInputAction: finalInputAction(),
         decoration: InputDecoration(
@@ -64,7 +64,7 @@ class EditProfileTextField extends StatelessWidget {
           ),
           filled: false,
           hintText: hintText,
-          hintStyle: const TextStyle(color: ColorConstants.secondaryColor),
+          hintStyle: const TextStyle(color: ColorConstants.textColor),
         ),
         initialValue: initialValue,
         autovalidateMode: AutovalidateMode.onUserInteraction,

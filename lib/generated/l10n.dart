@@ -729,6 +729,156 @@ class S {
       args: [],
     );
   }
+
+  /// `You already have a chat with this user`
+  String get YouAlreadyHaveAChatWithThisUser {
+    return Intl.message(
+      'You already have a chat with this user',
+      name: 'YouAlreadyHaveAChatWithThisUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `just now`
+  String get JustNow {
+    return Intl.message(
+      'just now',
+      name: 'JustNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minutes ago`
+  String get MinutesAgo {
+    return Intl.message(
+      'minutes ago',
+      name: 'MinutesAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days ago`
+  String get DaysAgo {
+    return Intl.message(
+      'days ago',
+      name: 'DaysAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hours ago`
+  String get HoursAgo {
+    return Intl.message(
+      'hours ago',
+      name: 'HoursAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `weeks ago`
+  String get WeeksAgo {
+    return Intl.message(
+      'weeks ago',
+      name: 'WeeksAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `months ago`
+  String get MonthsAgo {
+    return Intl.message(
+      'months ago',
+      name: 'MonthsAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `years ago`
+  String get YearsAgo {
+    return Intl.message(
+      'years ago',
+      name: 'YearsAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minute ago`
+  String get MinuteAgo {
+    return Intl.message(
+      'minute ago',
+      name: 'MinuteAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hour ago`
+  String get HourAgo {
+    return Intl.message(
+      'hour ago',
+      name: 'HourAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `week ago`
+  String get WeekAgo {
+    return Intl.message(
+      'week ago',
+      name: 'WeekAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day ago`
+  String get DayAgo {
+    return Intl.message(
+      'day ago',
+      name: 'DayAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `month ago`
+  String get MonthAgo {
+    return Intl.message(
+      'month ago',
+      name: 'MonthAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `year ago`
+  String get YearAgo {
+    return Intl.message(
+      'year ago',
+      name: 'YearAgo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type a message...`
+  String get TypeMessage {
+    return Intl.message(
+      'Type a message...',
+      name: 'TypeMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

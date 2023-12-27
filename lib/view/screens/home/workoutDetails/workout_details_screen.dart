@@ -11,10 +11,14 @@ class WorkoutDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workoutName = arguments['workoutName'] as String;
-    final workoutImage = arguments['workoutImage'] as Uint8List;
-    final workoutExercises = arguments['workoutExercises'] as List<dynamic>;
-    final workoutCreationDate = arguments['workoutCreationDate'] as String;
+    final workoutName = arguments[WorkoutModel.workoutNameKey] as String;
+    final workoutImage =
+        arguments[WorkoutModel.workoutImgEncodedKey] as Uint8List;
+    final workoutCreationDate =
+        arguments[WorkoutModel.workoutCreationDateKey] as String;
+    final workoutExercises =
+        arguments[WorkoutModel.workoutExercisesKey] as List;
+
     final scrollController = ScrollController();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

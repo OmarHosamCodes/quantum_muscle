@@ -35,7 +35,7 @@ class SearchScreenState extends State<SearchScreen> {
             child: QmTextField(
               height: height * 0.1,
               width: width * 0.9,
-              hintText: S.of(context).Search,
+              hintText: S.current.Search,
               controller: _searchController,
               onChanged: (value) => _performSearch(),
             ),
@@ -50,7 +50,8 @@ class SearchScreenState extends State<SearchScreen> {
 
                 final String name = userData[UserModel.nameKey];
                 final String ratID = userData[UserModel.ratIDKey];
-                final String? image = userData[UserModel.imageKey] ?? '';
+                final String? image = userData[UserModel.profileImageKey] ??
+                    SimpleConstants.emptyString;
                 return ListTile(
                   leading: QmAvatar(
                     imageUrl: image,

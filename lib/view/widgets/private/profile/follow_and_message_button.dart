@@ -13,7 +13,9 @@ class FollowAndMessageButton extends ConsumerWidget {
   final double height;
   final double width;
   final bool isFollowing;
-
+  Radius get containerBottomBorderRadius =>
+      isFollowing ? const Radius.circular(0) : const Radius.circular(10);
+  get followText => isFollowing ? S.current.Unfollow : S.current.Follow;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Expanded(
@@ -31,25 +33,20 @@ class FollowAndMessageButton extends ConsumerWidget {
                 isFollowing: isFollowing,
               ),
               color: isFollowing
-                  ? ColorConstants.primaryColorDisabled
+                  ? ColorConstants.disabledColor
                   : ColorConstants.primaryColor,
               width: double.maxFinite,
               height: height * .075,
               borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(10),
                 topRight: const Radius.circular(10),
-                bottomLeft: isFollowing
-                    ? const Radius.circular(0)
-                    : const Radius.circular(10),
-                bottomRight: isFollowing
-                    ? const Radius.circular(0)
-                    : const Radius.circular(10),
+                bottomLeft: containerBottomBorderRadius,
+                bottomRight: containerBottomBorderRadius,
               ),
               child: QmText(
-                text:
-                    isFollowing ? S.of(context).Unfollow : S.of(context).Follow,
+                text: followText,
               ),
-            ).animate().fade(duration: const Duration(milliseconds: 350)),
+            ).animate().fade(duration: SimpleConstants.slowAnimationDuration),
             const SizedBox(height: 10),
             Visibility(
               visible: isFollowing,
@@ -58,8 +55,9 @@ class FollowAndMessageButton extends ConsumerWidget {
                 onTap: () => ChatUtil().startChat(
                   userId: userId,
                   context: context,
+                  ref: ref,
                 ),
-                color: ColorConstants.tertiaryColor,
+                color: ColorConstants.accentColor,
                 width: double.maxFinite,
                 height: height * .075,
                 borderRadius: const BorderRadius.only(
@@ -69,10 +67,10 @@ class FollowAndMessageButton extends ConsumerWidget {
                   bottomRight: Radius.circular(10),
                 ),
                 child: QmText(
-                  text: S.of(context).Message,
+                  text: S.current.Message,
                 ),
               ),
-            ).animate().fade(duration: const Duration(milliseconds: 350)),
+            ).animate().fade(duration: SimpleConstants.slowAnimationDuration),
           ],
         ),
       ),

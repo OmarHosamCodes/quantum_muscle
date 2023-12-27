@@ -8,9 +8,10 @@ export 'main.dart';
 export 'firebase_options.dart';
 export 'view/screens/auth/login_screen.dart';
 export 'view/screens/auth/register_screen.dart';
-export 'view/screens/auth/forgot_password_screen.dart';
+export 'view/screens/auth/forget_password_screen.dart';
 export 'view/screens/home/home_screen.dart';
 export 'view/screens/routing/routing_screen.dart';
+export 'view/screens/chat/chats_screen.dart';
 export 'view/screens/chat/chat_screen.dart';
 export 'view/screens/profile/profile_screen.dart';
 export 'view/screens/profile/edit_profile_screen.dart';
@@ -26,11 +27,12 @@ export 'view/widgets/public/qm_block.dart';
 export 'view/widgets/public/qm_text.dart';
 export 'view/widgets/public/qm_textfield.dart';
 export 'view/widgets/public/qm_dialog.dart';
+export 'view/widgets/public/qm_loader.dart';
 export 'view/widgets/public/qm_avatar.dart';
 export 'view/widgets/public/qm_icon_button.dart';
-export 'view/widgets/private/choose_user_type.dart';
-export 'view/widgets/private/forgot_password_text.dart';
-export 'view/widgets/private/Routing_drawer.dart';
+export 'view/widgets/private/auth/choose_user_type.dart';
+export 'view/widgets/private/auth/forgot_password_text.dart';
+export 'view/widgets/private/routing/Routing_drawer.dart';
 export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
 export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
 export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
@@ -38,6 +40,7 @@ export 'view/widgets/private/exerciseBlocks/add_exercise_block.dart';
 export 'view/widgets/private/profile/add_image_widget.dart';
 export 'view/widgets/private/profile/edit_profile_text_field.dart';
 export 'view/widgets/private/profile/follow_and_message_button.dart';
+export 'view/widgets/private/chat/message_bubble.dart';
 
 //* Controllers
 
@@ -49,7 +52,7 @@ export 'controllers/validation/validation_controller.dart';
 
 export 'utils/auth/register_util.dart';
 export 'utils/auth/login_util.dart';
-export 'utils/auth/forgot_password_util.dart';
+export 'utils/auth/forget_password_util.dart';
 export 'utils/auth/logout_util.dart';
 export 'utils/workouts/workouts_util.dart';
 export 'utils/workouts/exercise_util.dart';
@@ -66,6 +69,8 @@ export 'models/profile/user_image_model.dart';
 export 'models/chat/chat_model.dart';
 export 'models/enums/provider_statues.dart';
 export 'models/enums/user_type.dart';
+export 'models/chat/message_model.dart';
+export 'models/enums/message_type.dart';
 
 //* Constants
 
@@ -73,6 +78,9 @@ export 'constants/color_constants.dart';
 export 'constants/asset_path_constants.dart';
 export 'constants/db_paths_constants.dart';
 export 'constants/routes_constants.dart';
+export 'constants/private_constants.dart';
+export 'constants/message_type_constants.dart';
+export 'constants/simple_constants.dart';
 
 //* Packages
 
@@ -106,3 +114,5 @@ export 'package:intl/intl.dart' hide TextDirection;
 export 'package:flutter/scheduler.dart';
 export 'package:floating_action_bubble/floating_action_bubble.dart';
 export 'dart:ui' show ImageFilter;
+export 'package:cached_network_image/cached_network_image.dart'
+    show CachedNetworkImageProvider;

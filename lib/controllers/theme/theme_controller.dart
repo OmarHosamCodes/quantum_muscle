@@ -6,6 +6,7 @@ class ThemeController {
     appBarTheme: const AppBarTheme(
       backgroundColor: ColorConstants.backgroundColor,
       elevation: 0,
+      scrolledUnderElevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: ColorConstants.secondaryColor),
     ),

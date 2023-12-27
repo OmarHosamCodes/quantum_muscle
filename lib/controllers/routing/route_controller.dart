@@ -18,7 +18,7 @@ class RoutingController {
           ),
           GoRoute(
             path: Routes.chatsR,
-            builder: (context, state) => ChatScreen(
+            builder: (context, state) => ChatsScreen(
               key: state.pageKey,
             ),
           ),
@@ -53,12 +53,11 @@ class RoutingController {
       GoRoute(
         name: Routes.workoutRootR,
         path: Routes.workoutDetailsR,
-        builder: (context, state) {
-          return WorkoutDetailsScreen(
-            workoutId: state.pathParameters['workoutId']!,
-            arguments: state.extra! as Map<String, dynamic>,
-          );
-        },
+        builder: (context, state) => WorkoutDetailsScreen(
+          key: state.pageKey,
+          workoutId: state.pathParameters['workoutId']!,
+          arguments: state.extra! as Map<String, dynamic>,
+        ),
       ),
       GoRoute(
         name: Routes.editProfileRootR,
@@ -68,28 +67,42 @@ class RoutingController {
           arguments: state.extra! as Map<String, dynamic>,
         ),
       ),
+      GoRoute(
+        name: Routes.chatRootR,
+        path: Routes.chatR,
+        builder: (context, state) => ChatScreen(
+          key: state.pageKey,
+          chatId: state.pathParameters['chatId']!,
+          chatUserId: state.pathParameters['chatUserId']!,
+          arguments: state.extra! as Map<String, dynamic>,
+        ),
+      ),
     ],
     errorBuilder: (context, state) => RoutingErrorScreen(
       key: state.pageKey,
-      exception: state.error.toString(),
     ),
   );
-  void changeRoute(int index) {
+  void changeRoute(int index, BuildContext context) {
     switch (index) {
       case 0:
         router.go(Routes.homeR);
+        context.pop();
         break;
       case 1:
         router.go(Routes.chatsR);
+        context.pop();
         break;
       case 2:
         router.go(Routes.myProfileR);
+        context.pop();
         break;
       case 3:
         router.go(Routes.searchR);
+        context.pop();
         break;
       case 4:
         router.go(Routes.authR);
+        context.pop();
         break;
     }
   }

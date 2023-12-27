@@ -6,9 +6,9 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userName = arguments['userName'] as String;
-    final userProfileImage = arguments['userProfileImage'] as String;
-    final userBio = arguments['userBio'] as String;
+    final userName = arguments[UserModel.nameKey] as String;
+    final userProfileImage = arguments[UserModel.profileImageKey] as String;
+    final userBio = arguments[UserModel.bioKey] as String;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final nameTextcontroller = TextEditingController(text: userName);
@@ -27,7 +27,7 @@ class EditProfileScreen extends StatelessWidget {
                   icon: EvaIcons.arrowBack,
                 ),
                 QmText(
-                  text: S.of(context).EditProfile,
+                  text: S.current.EditProfile,
                 ),
                 Consumer(
                   builder: (context, ref, _) {
@@ -57,10 +57,6 @@ class EditProfileScreen extends StatelessWidget {
               builder: (context, ref, _) {
                 final profileImageProvider =
                     ref.watch(userProfileImageProvider);
-                if (profileImageProvider != userProfileImage) {
-                  var _ = ref.read(isImageErrorStateProvider);
-                  _ = false;
-                }
 
                 return Center(
                   child: GestureDetector(
@@ -71,10 +67,12 @@ class EditProfileScreen extends StatelessWidget {
                     child: Stack(
                       children: [
                         QmAvatar(
+                          isNetworkImage:
+                              profileImageProvider != userProfileImage,
                           radius: 60,
                           imageUrl: profileImageProvider != userProfileImage
-                              ? profileImageProvider
-                              : userProfileImage,
+                              ? userProfileImage
+                              : profileImageProvider,
                         ),
                         Positioned(
                           bottom: 0,
@@ -107,11 +105,11 @@ class EditProfileScreen extends StatelessWidget {
                     height: height * 0.07,
                     width: width * 0.9,
                     controller: nameTextcontroller,
-                    hintText: S.of(context).EnterNewName,
+                    hintText: S.current.EnterNewName,
                     maxLength: 20,
                     validator: (value) {
                       if (ValidationController.validateName(value!) == false) {
-                        return S.of(context).EnterValidName;
+                        return S.current.EnterValidName;
                       }
                       return null;
                     },
@@ -121,12 +119,12 @@ class EditProfileScreen extends StatelessWidget {
                     height: height * 0.3,
                     width: width * 0.9,
                     controller: bioTextcontroller,
-                    hintText: S.of(context).EnterNewBio,
+                    hintText: S.current.EnterNewBio,
                     maxLength: 250,
                     maxLines: 3,
                     validator: (value) {
                       if (ValidationController.validateBio(value!) == false) {
-                        return S.of(context).EnterValidBio;
+                        return S.current.EnterValidBio;
                       }
                       return null;
                     },

@@ -13,7 +13,9 @@ class QmText extends StatelessWidget {
     super.key,
     required this.text,
     this.style = const TextStyle(
-        fontSize: 20, fontFamily: 'family', color: ColorConstants.textColor),
+        fontSize: 20,
+        fontFamily: SimpleConstants.fontFamily,
+        color: ColorConstants.textColor),
     this.isSeccoundary = false,
     this.isHeadline = false,
     this.onTap,
@@ -21,7 +23,21 @@ class QmText extends StatelessWidget {
     this.color,
     this.overflow,
   });
+  double get fontSize {
+    if (isSeccoundary) {
+      return 13;
+    } else if (isHeadline) {
+      return 30;
+    } else {
+      return style.fontSize!;
+    }
+  }
 
+  Color? get textColor =>
+      color ??
+      (isSeccoundary
+          ? ColorConstants.textSeccondaryColor
+          : ColorConstants.textColor);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -32,15 +48,8 @@ class QmText extends StatelessWidget {
           overflow: overflow,
           text,
           style: style.copyWith(
-            color: color ??
-                (isSeccoundary
-                    ? ColorConstants.tertiaryColor
-                    : ColorConstants.textColor),
-            fontSize: isSeccoundary
-                ? style.fontSize! - 7
-                : isHeadline
-                    ? style.fontSize! + 10
-                    : style.fontSize!,
+            color: textColor,
+            fontSize: fontSize,
           ),
         ),
       ),
