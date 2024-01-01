@@ -7,71 +7,73 @@ class RoutingDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final routingController = RoutingController.instants;
     return Drawer(
       backgroundColor: ColorConstants.disabledColor,
       child: Column(
         children: [
           ListTile(
-            leading: const QmIconButton(
-              icon: EvaIcons.homeOutline,
+            leading: const Icon(
+              EvaIcons.homeOutline,
+              color: ColorConstants.iconColor,
             ),
             title: QmText(
               text: S.current.Home,
             ),
-            onTap: () => RoutingController().changeRoute(0, context),
+            onTap: () => routingController.changeDrawerRoute(0, context),
           ),
           ListTile(
-            leading: const QmIconButton(
-              icon: EvaIcons.messageSquareOutline,
+            leading: const Icon(
+              EvaIcons.messageSquareOutline,
+              color: ColorConstants.iconColor,
             ),
             title: QmText(
               text: S.current.Chat,
             ),
-            onTap: () => RoutingController().changeRoute(1, context),
+            onTap: () => routingController.changeDrawerRoute(1, context),
           ),
           ListTile(
-            leading: const QmIconButton(
-              icon: EvaIcons.personOutline,
+            leading: const Icon(
+              EvaIcons.personOutline,
+              color: ColorConstants.iconColor,
             ),
             title: QmText(
               text: S.current.Profile,
             ),
-            onTap: () => RoutingController().changeRoute(2, context),
+            onTap: () => routingController.changeDrawerRoute(2, context),
           ),
           ListTile(
-            leading: const QmIconButton(
-              icon: EvaIcons.searchOutline,
+            leading: const Icon(
+              EvaIcons.searchOutline,
+              color: ColorConstants.iconColor,
             ),
             title: QmText(
               text: S.current.Search,
             ),
-            onTap: () => RoutingController().changeRoute(3, context),
+            onTap: () => routingController.changeDrawerRoute(3, context),
           ),
           const Spacer(),
           Consumer(
             builder: (context, ref, child) {
-              final locale = ref.watch(localeStateProvider);
               return ListTile(
-                leading: const QmIconButton(
-                  icon: EvaIcons.globe,
+                leading: const Icon(
+                  EvaIcons.globe,
+                  color: ColorConstants.primaryColor,
                 ),
                 title: QmText(
                   text: S.current.Language,
                 ),
                 onTap: () {
                   context.pop();
-                  locale == const Locale(SimpleConstants.englishLocale)
-                      ? ref.read(localeStateProvider.notifier).state =
-                          const Locale(SimpleConstants.arabicLocale)
-                      : ref.read(localeStateProvider.notifier).state =
-                          const Locale(SimpleConstants.englishLocale);
+                  Utils().toggleLocale(ref);
                 },
               );
             },
           ),
           ListTile(
-            leading: const QmIconButton(
-              icon: EvaIcons.logOutOutline,
+            leading: const Icon(
+              EvaIcons.logOutOutline,
+              color: ColorConstants.logoutColor,
             ),
             title: QmText(
               text: S.current.Logout,
@@ -79,7 +81,7 @@ class RoutingDrawer extends ConsumerWidget {
             onTap: () {
               LogoutUtil()
                   .logout(context)
-                  .then((_) => RoutingController().changeRoute(4, context));
+                  .then((_) => routingController.changeDrawerRoute(4, context));
             },
           ),
         ],

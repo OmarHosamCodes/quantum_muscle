@@ -55,7 +55,6 @@ class SearchScreenState extends State<SearchScreen> {
                 return ListTile(
                   leading: QmAvatar(
                     imageUrl: image,
-                    radius: 30,
                   ),
                   title: QmText(text: name),
                   subtitle: QmText(

@@ -42,6 +42,7 @@ class _AddImageWidget extends StatelessWidget {
                 onTap: () => ProfileUtil.chooseImage(
                   ref: ref,
                   provider: addImageProvider,
+                  context: context,
                 ),
                 color: ColorConstants.backgroundColor,
                 width: double.maxFinite,

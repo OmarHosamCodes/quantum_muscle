@@ -3,38 +3,44 @@ import '/library.dart';
 class WorkoutDetailsScreen extends ConsumerWidget {
   const WorkoutDetailsScreen({
     super.key,
-    required this.workoutId,
     required this.arguments,
   });
-  final String workoutId;
+
   final Map<String, dynamic> arguments;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workoutName = arguments[WorkoutModel.workoutNameKey] as String;
-    final workoutImage =
-        arguments[WorkoutModel.workoutImgEncodedKey] as Uint8List;
+    final workoutName = arguments[WorkoutModel.nameKey] as String;
+    final workoutImage = arguments[WorkoutModel.imgUrlKey] as String;
     final workoutCreationDate =
-        arguments[WorkoutModel.workoutCreationDateKey] as String;
-    final workoutExercises =
-        arguments[WorkoutModel.workoutExercisesKey] as List;
-
-    final scrollController = ScrollController();
+        arguments[WorkoutModel.creationDateKey] as Timestamp;
+    final workoutId = arguments[WorkoutModel.idKey] as String;
+    final workoutIndex = arguments["index"] as int;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    bool isDesktop() {
+      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
+      return true;
+    }
 
-    ref.watch(workoutsStreamProvider);
+    bool isTablet() {
+      if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
+      return true;
+    }
+
+    ref.watch(workoutsStreamProvider(Utils.instants.userUid!));
     return Scaffold(
-      appBar: AppBar(),
       body: Column(
         children: [
           SizedBox(
             height: height * 0.2,
             width: width,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                QmIconButton(
+                    icon: EvaIcons.arrowBack, onPressed: () => context.pop()),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +49,7 @@ class WorkoutDetailsScreen extends ConsumerWidget {
                       text: workoutName,
                     ),
                     QmText(
-                      text: workoutCreationDate,
+                      text: Utils().timeAgo(workoutCreationDate),
                       isSeccoundary: true,
                     ),
                   ],
@@ -51,7 +57,7 @@ class WorkoutDetailsScreen extends ConsumerWidget {
                 Hero(
                   tag: workoutId,
                   child: Image(
-                    image: MemoryImage(
+                    image: CachedNetworkImageProvider(
                       workoutImage,
                     ),
                     fit: BoxFit.scaleDown,
@@ -88,35 +94,57 @@ class WorkoutDetailsScreen extends ConsumerWidget {
               ],
             ),
           ),
-          Expanded(
-            child: Scrollbar(
-              controller: scrollController,
-              child: ListView.builder(
-                controller: scrollController,
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: workoutExercises.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == workoutExercises.length) {
-                    return AddExerciseTile(
-                      width: height,
-                      height: height,
-                      indexToInsert: workoutExercises.length,
-                      workoutName: "$workoutName-$workoutId",
-                    );
-                  } else {
-                    final exercise = ExerciseModel.fromMap(
-                        workoutExercises[index]['E$index']);
-                    return ExerciseTile(
-                      exercise: exercise,
-                      width: width,
-                      height: height,
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
+          Consumer(builder: (context, ref, _) {
+            final workoutStream =
+                ref.watch(workoutsStreamProvider(Utils.instants.userUid!));
+            return workoutStream.when(
+              data: (data) {
+                final exercises = data!.docs[workoutIndex].data().exercises;
+                return Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: StaggeredGrid.count(
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 10.0,
+                      crossAxisCount: isDesktop()
+                          ? 3
+                          : isTablet()
+                              ? 2
+                              : 1,
+                      children: List.generate(
+                        exercises.length + 1,
+                        (index) {
+                          if (index == exercises.length) {
+                            return AddExerciseTile(
+                              width: height,
+                              height: height,
+                              indexToInsert: exercises.length,
+                              workoutName: workoutName,
+                              id: workoutId,
+                            );
+                          } else {
+                            final exercise = ExerciseModel.fromMap(
+                                exercises[index]['$index']);
+
+                            return ExerciseTile(
+                              width: width,
+                              height: height,
+                              showcaseUrl: exercise.showcaseUrl,
+                              name: exercise.name,
+                              target: exercise.target,
+                              sets: exercise.sets,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                );
+              },
+              error: (error, stackTrace) => QmText(text: error.toString()),
+              loading: () => const QmCircularProgressIndicator(),
+            );
+          }),
         ],
       ),
     );

@@ -1,24 +1,24 @@
 import '/library.dart';
 
 class WorkoutModel {
-  static const String workoutIdKey = 'workoutId';
-  static const String workoutNameKey = 'workoutName';
-  static const String workoutExercisesKey = 'workoutExercises';
-  static const String workoutImgEncodedKey = 'workoutImgEncoded';
-  static const String workoutCreationDateKey = 'workoutCreationDate';
+  static const String idKey = 'Id';
+  static const String nameKey = 'Name';
+  static const String exercisesKey = 'Exercises';
+  static const String imgUrlKey = 'ImgUrl';
+  static const String creationDateKey = 'CreationDate';
 
-  String? workoutId;
-  String? workoutName;
-  List? workoutExercises;
-  String? workoutImgEncoded;
-  String? workoutCreationDate;
+  String id;
+  String name;
+  List exercises;
+  String imgUrl;
+  Timestamp creationDate;
 
   WorkoutModel({
-    required this.workoutId,
-    required this.workoutName,
-    required this.workoutExercises,
-    required this.workoutImgEncoded,
-    required this.workoutCreationDate,
+    required this.id,
+    required this.name,
+    required this.exercises,
+    required this.imgUrl,
+    required this.creationDate,
   });
 
   factory WorkoutModel.fromMap(
@@ -27,21 +27,21 @@ class WorkoutModel {
   ) {
     final map = snapshot.data()!;
     return WorkoutModel(
-      workoutId: map[workoutIdKey],
-      workoutName: map[workoutNameKey],
-      workoutExercises: map[workoutExercisesKey],
-      workoutImgEncoded: map[workoutImgEncodedKey],
-      workoutCreationDate: map[workoutCreationDateKey],
+      id: map[idKey],
+      name: map[nameKey],
+      exercises: map[exercisesKey],
+      imgUrl: map[imgUrlKey],
+      creationDate: map[creationDateKey],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      workoutIdKey: workoutId,
-      workoutNameKey: workoutName,
-      workoutExercisesKey: workoutExercises,
-      workoutImgEncodedKey: workoutImgEncoded,
-      workoutCreationDateKey: workoutCreationDate,
+      idKey: id,
+      nameKey: name,
+      exercisesKey: exercises,
+      imgUrlKey: imgUrl,
+      creationDateKey: creationDate,
     };
   }
 }

@@ -1,21 +1,25 @@
 import '/library.dart';
 
 final userFutureProvider = FutureProvider.family<DocumentSnapshot, String>(
-  (ref, id) async => await Utils()
-      .firebaseFirestore
+  (ref, id) async => await Utils.instants.firebaseFirestore
       .collection(DBPathsConstants.usersPath)
       .doc(id)
       .get(),
 );
-final workoutsStreamProvider = StreamProvider<QuerySnapshot<WorkoutModel>?>(
-  (ref) => Utils()
-      .firebaseFirestore
+
+final workoutsStreamProvider =
+    StreamProvider.family<QuerySnapshot<WorkoutModel>?, String>(
+  (ref, id) => Utils.instants.firebaseFirestore
       .collection(DBPathsConstants.usersPath)
       .doc(Utils().userUid)
       .collection(DBPathsConstants.usersUserWorkoutsPath)
       .withConverter(
         fromFirestore: WorkoutModel.fromMap,
         toFirestore: (workout, _) => workout.toMap(),
+      )
+      .orderBy(
+        WorkoutModel.creationDateKey,
+        descending: true,
       )
       .get()
       .asStream(),
@@ -46,47 +50,11 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  final userFutureSanpshot =
-                      ref.watch(userFutureProvider(Utils().userUid!));
-                  final user = userFutureSanpshot.whenOrNull(
-                    data: (data) {
-                      if (data.exists) {
-                        return ProviderStatus.data;
-                      } else {
-                        return ProviderStatus.none;
-                      }
-                    },
-                    loading: () => ProviderStatus.loading,
-                    error: (e, s) => ProviderStatus.error,
-                  );
-                  if (user == ProviderStatus.loading) {
-                    return const QmCircularProgressIndicator();
-                  } else if (user == ProviderStatus.error ||
-                      user == ProviderStatus.none) {
-                    return QmText(
-                      text: "${S.current.Hi}, ${S.current.UserNamePlaceHolder}",
-                      maxWidth: double.maxFinite,
-                    );
-                  } else {
-                    final data = userFutureSanpshot.value
-                        as DocumentSnapshot<Map<String, dynamic>>;
-                    return QmText(
-                      text:
-                          "${S.current.Hi}, ${data.get(DBPathsConstants.usersUserNamePath)}",
-                      maxWidth: double.maxFinite,
-                    );
-                  }
-                },
-              ),
-              //? search bar
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: width * .045,
                   vertical: height * .025,
                 ),
-                // child: const HomeSearchBar(),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -132,140 +100,129 @@ class HomeScreen extends StatelessWidget {
               ),
               Consumer(
                 builder: (context, ref, _) {
-                  final streamSnapshot = ref.watch(workoutsStreamProvider);
+                  final workoutsSnapshot = ref
+                      .watch(workoutsStreamProvider(Utils.instants.userUid!));
 
-                  final workouts = streamSnapshot.when(
+                  return workoutsSnapshot.when(
                     data: (data) {
                       if (data!.docs.isEmpty) {
-                        return ProviderStatus.none;
+                        return BigAddWorkout(width: width, height: height);
                       } else {
-                        return data;
-                      }
-                    },
-                    loading: () => ProviderStatus.loading,
-                    error: (e, s) => ProviderStatus.error,
-                  );
+                        return GridView.builder(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * .05,
+                          ),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: isDesktop()
+                                ? 4
+                                : isTablet()
+                                    ? 3
+                                    : 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 1.1,
+                          ),
+                          itemCount: data.docs.length + 1,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            if (index == data.docs.length) {
+                              return SmallAddWorkout(
+                                width: width,
+                                height: height,
+                              );
+                            } else {
+                              final workout = data.docs[index].data();
+                              final workoutName = workout.name;
+                              final workoutExercises = workout.exercises;
+                              final workoutImgUrl = workout.imgUrl;
+                              final workoutCreationDate = workout.creationDate;
+                              final workoutId = workout.id;
 
-                  if (workouts == ProviderStatus.error ||
-                      workouts == ProviderStatus.none) {
-                    //todo gradient animation
-                    return BigAddWorkout(width: width, height: height);
-                  } else if (workouts == ProviderStatus.loading) {
-                    return const QmCircularProgressIndicator();
-                  } else {
-                    final data = workouts as QuerySnapshot<WorkoutModel>?;
-
-                    return GridView.builder(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: width * .05,
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: isDesktop()
-                            ? 4
-                            : isTablet()
-                                ? 3
-                                : 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 1.1,
-                      ),
-                      itemCount: data!.docs.length + 1,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        if (index == data.docs.length) {
-                          return SmallAddWorkout(
-                            width: width,
-                            height: height,
-                          );
-                        } else {
-                          final workout = data.docs[index].data();
-                          final workoutName = workout.workoutName ??
-                              SimpleConstants.emptyString;
-                          final workoutExercises =
-                              workout.workoutExercises ?? [];
-                          final workoutImage = workout.workoutImgEncoded;
-                          final workoutCreationDate =
-                              workout.workoutCreationDate;
-                          final workoutId = workout.workoutId ?? 'Invalid id';
-                          final workoutImageBytes = base64Decode(workoutImage!);
-
-                          return QmBlock(
-                            padding: const EdgeInsets.all(10),
-                            width: 0,
-                            height: 0,
-                            isGradient: false,
-                            onTap: () => context.goNamed(
-                              Routes.workoutRootR,
-                              pathParameters: {
-                                WorkoutModel.workoutIdKey: workoutId,
-                              },
-                              extra: {
-                                WorkoutModel.workoutNameKey: workoutName,
-                                WorkoutModel.workoutImgEncodedKey:
-                                    workoutImageBytes,
-                                WorkoutModel.workoutExercisesKey:
-                                    workoutExercises,
-                                WorkoutModel.workoutCreationDateKey:
-                                    workoutCreationDate,
-                              },
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              return QmBlock(
+                                padding: const EdgeInsets.all(10),
+                                width: 0,
+                                height: 0,
+                                isGradient: false,
+                                onTap: () => context.pushNamed(
+                                  Routes.workoutRootR,
+                                  extra: {
+                                    WorkoutModel.nameKey: workoutName,
+                                    WorkoutModel.imgUrlKey: workoutImgUrl,
+                                    WorkoutModel.exercisesKey: workoutExercises,
+                                    WorkoutModel.creationDateKey:
+                                        workoutCreationDate,
+                                    WorkoutModel.idKey: workoutId,
+                                    "index": index,
+                                  },
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: QmText(
-                                        text: workoutName,
-                                        maxWidth: double.maxFinite,
-                                      ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: QmText(
+                                            text: workoutName,
+                                            maxWidth: double.maxFinite,
+                                          ),
+                                        ),
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: QmText(
+                                            text: Utils()
+                                                .timeAgo(workoutCreationDate),
+                                            isSeccoundary: true,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: QmText(
-                                        text: workoutCreationDate!,
-                                        isSeccoundary: true,
+                                    Flexible(
+                                      flex: 1,
+                                      fit: FlexFit.tight,
+                                      child: Hero(
+                                        tag: workoutId,
+                                        child: Image(
+                                          image: CachedNetworkImageProvider(
+                                              workoutImgUrl),
+                                          fit: BoxFit.scaleDown,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return const Icon(
+                                              Icons.add_a_photo_outlined,
+                                              color:
+                                                  ColorConstants.secondaryColor,
+                                            );
+                                          },
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return const QmCircularProgressIndicator();
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                Flexible(
-                                  flex: 1,
-                                  fit: FlexFit.tight,
-                                  child: Hero(
-                                    tag: workoutId,
-                                    child: Image(
-                                      image: MemoryImage(workoutImageBytes),
-                                      fit: BoxFit.scaleDown,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const Icon(
-                                          Icons.add_a_photo_outlined,
-                                          color: ColorConstants.secondaryColor,
-                                        );
-                                      },
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return const QmCircularProgressIndicator();
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  }
+                              );
+                            }
+                          },
+                        );
+                      }
+                    },
+                    loading: () => const QmCircularProgressIndicator(),
+                    error: (e, s) =>
+                        BigAddWorkout(width: width, height: height),
+                  );
                 },
               ),
             ],

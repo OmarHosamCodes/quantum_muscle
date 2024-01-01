@@ -1,36 +1,50 @@
-class ExerciseModel {
-  static const String exersiceNameKey = 'exerciseName';
-  static const String exerciseTargetKey = 'exerciseTarget';
-  static const String exerciseSetsKey = 'exerciseSets';
-  static const String exerciseImgEncodedKey = 'exerciseImgEncoded';
+import '/library.dart';
 
-  String? exerciseName;
-  String? exerciseTarget;
-  String? exerciseImgEncoded;
-  List<dynamic>? exerciseSets;
+class ExerciseModel {
+  static const String idKey = 'id';
+  static const String nameKey = 'name';
+  static const String targetKey = 'target';
+  static const String setsKey = 'sets';
+  static const String showcaseUrlKey = 'showcaseUrl';
+  static const String showcaseTypeKey = 'showcaseType';
+
+  String id;
+  String name;
+  String target;
+  String showcaseUrl;
+  List<dynamic> sets;
+  ExerciseShowcase showcaseType;
 
   ExerciseModel({
-    this.exerciseName,
-    this.exerciseTarget,
-    this.exerciseSets,
-    this.exerciseImgEncoded,
+    required this.id,
+    required this.name,
+    required this.target,
+    required this.sets,
+    required this.showcaseUrl,
+    required this.showcaseType,
   });
 
   factory ExerciseModel.fromMap(Map<String, dynamic> map) {
     return ExerciseModel(
-      exerciseName: map[exersiceNameKey],
-      exerciseTarget: map[exerciseTargetKey],
-      exerciseSets: map[exerciseSetsKey],
-      exerciseImgEncoded: map[exerciseImgEncodedKey],
+      id: map[idKey],
+      name: map[nameKey],
+      target: map[targetKey],
+      sets: map[setsKey],
+      showcaseUrl: map[showcaseUrlKey],
+      showcaseType: ExerciseShowcase.values.firstWhere(
+        (element) => element.toString() == map[showcaseTypeKey],
+      ),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      exersiceNameKey: exerciseName,
-      exerciseTargetKey: exerciseTarget,
-      exerciseSetsKey: exerciseSets,
-      exerciseImgEncodedKey: exerciseImgEncoded,
+      idKey: id,
+      nameKey: name,
+      targetKey: target,
+      setsKey: sets,
+      showcaseUrlKey: showcaseUrl,
+      showcaseTypeKey: showcaseType.toString(),
     };
   }
 }

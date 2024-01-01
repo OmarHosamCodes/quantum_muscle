@@ -7,7 +7,7 @@ class RegisterUtil extends Utils {
     required String email,
     required String password,
     required String userName,
-    required String userType,
+    required UserType userType,
     required GlobalKey<FormState> formKey,
     required BuildContext context,
     required WidgetRef ref,
@@ -30,7 +30,7 @@ class RegisterUtil extends Utils {
           context: context,
         );
         context.pop();
-        RoutingController().changeRoute(0, context);
+        RoutingController.instants.changeRoute(0);
       } else {
         return;
       }
@@ -47,10 +47,11 @@ class RegisterUtil extends Utils {
 
   Future<void> afterSignUp({
     required String userName,
-    required String userType,
+    required UserType userType,
     required BuildContext context,
   }) async {
     if (user != null) {
+      final userModel = UserModel();
       userModel.email = user!.email;
       userModel.ratID = "#${user!.uid.substring(0, 16)}";
       userModel.name = userName;
@@ -77,7 +78,7 @@ class RegisterUtil extends Utils {
               .map((e) => e.toUpperCase()),
           userModel.ratID!,
           userModel.email!,
-          userModel.type!,
+          userModel.type!.name,
         ]);
         tempSet.remove(SimpleConstants.emptyString);
         tempSet.remove(' ');
@@ -88,6 +89,8 @@ class RegisterUtil extends Utils {
           .collection(DBPathsConstants.usersPath)
           .doc(user!.uid)
           .set(userModel.toMap());
+      await user!.updateDisplayName(userName);
+      await user!.reload();
     }
   }
 }

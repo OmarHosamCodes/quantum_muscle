@@ -14,40 +14,37 @@ class RoutingScreen extends ConsumerWidget {
   });
   final Widget child;
   final GoRouterState state;
+  bool get getDrawerExist {
+    if (state.uri.toString() == Routes.homeR ||
+        state.uri.toString() == Routes.chatsR ||
+        state.uri.toString() == Routes.myProfileR ||
+        state.uri.toString() == Routes.searchR) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     final user = ref.watch(authStateChangesProvider);
-
+    final routingController = RoutingController.instants;
     return user.when(
       data: (data) {
         if (data == null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.mounted
-                ? RoutingController().changeRoute(4, context)
-                : null;
+            context.mounted ? routingController.changeRoute(4) : null;
           });
         }
 
-        return Scaffold(
-          appBar: AppBar(),
-          extendBody: true,
-          drawer: const RoutingDrawer(),
-          body: Row(
-            children: [
-              SizedBox(
-                width: width,
-                height: height,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: child,
-                ),
-              ),
-            ],
-          ),
-        );
+        return context.mounted
+            ? Scaffold(
+                appBar: getDrawerExist ? AppBar() : null,
+                extendBody: true,
+                drawer: getDrawerExist ? const RoutingDrawer() : null,
+                body: child,
+              )
+            : const QmCircularProgressIndicator();
       },
       loading: () => const Center(child: QmCircularProgressIndicator()),
       error: (error, stackTrace) =>

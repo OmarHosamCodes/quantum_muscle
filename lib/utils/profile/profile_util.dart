@@ -21,7 +21,10 @@ class ProfileUtil extends Utils {
     required String? userProfileImage,
     required BuildContext context,
     required WidgetRef ref,
+    required GlobalKey<FormState> formKey,
   }) async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
     openQmLoaderDialog(context: context);
     if (user != null) {
       try {
@@ -33,22 +36,25 @@ class ProfileUtil extends Utils {
         storageRef
             .putString(userProfileImage!, format: PutStringFormat.base64)
             .then(
-              (_) async => await userRef.set(
-                {
-                  UserModel.nameKey: userName,
-                  UserModel.bioKey: userBio,
-                  UserModel.profileImageKey: await storageRef.getDownloadURL(),
-                },
-                SetOptions(merge: true),
-              ),
+          (_) async {
+            await userRef.set(
+              {
+                UserModel.nameKey: userName,
+                UserModel.bioKey: userBio,
+                UserModel.profileImageKey: await storageRef.getDownloadURL(),
+              },
+              SetOptions(merge: true),
             );
-
-        ref.invalidate(userFutureProvider);
-        ref.read(userFutureProvider(Utils().userUid!));
-        ref.read(userProfileImageProvider.notifier).state =
-            SimpleConstants.emptyString;
-        context.go(Routes.myProfileR);
-        context.pop();
+            ref.invalidate(userFutureProvider);
+            ref.read(userFutureProvider(Utils().userUid!));
+            ref.read(userProfileImageProvider.notifier).state =
+                SimpleConstants.emptyString;
+            ref.invalidate(userProfileImageProvider);
+            ref.read(userProfileImageProvider);
+            context.go(Routes.myProfileR);
+            context.pop();
+          },
+        );
       } on FirebaseException catch (e) {
         context.pop();
 
@@ -64,13 +70,16 @@ class ProfileUtil extends Utils {
   static Future<void> chooseImage({
     required WidgetRef ref,
     required StateProvider<String?> provider,
+    required BuildContext context,
   }) async {
+    openQmLoaderDialog(context: context);
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {
       if (kIsWeb) {
         final imageXFile = XFile(image.path);
         ref.read(provider.notifier).state =
             base64Encode(await imageXFile.readAsBytes());
+        context.pop();
       } else if (await Permission.storage.request().isGranted) {
         final image =
             await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -78,8 +87,10 @@ class ProfileUtil extends Utils {
 
         ref.read(provider.notifier).state =
             base64Encode(await imageFile.readAsBytes());
+        context.pop();
       } else {
         await Permission.storage.request();
+        context.pop();
       }
     }
   }

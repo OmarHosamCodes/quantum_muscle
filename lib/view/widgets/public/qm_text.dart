@@ -13,9 +13,10 @@ class QmText extends StatelessWidget {
     super.key,
     required this.text,
     this.style = const TextStyle(
-        fontSize: 20,
-        fontFamily: SimpleConstants.fontFamily,
-        color: ColorConstants.textColor),
+      fontSize: 20,
+      fontFamily: SimpleConstants.fontFamily,
+      color: ColorConstants.textColor,
+    ),
     this.isSeccoundary = false,
     this.isHeadline = false,
     this.onTap,

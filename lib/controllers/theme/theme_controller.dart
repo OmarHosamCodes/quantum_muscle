@@ -4,18 +4,18 @@ class ThemeController {
   static ThemeData theme = ThemeData(
     scaffoldBackgroundColor: ColorConstants.backgroundColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: ColorConstants.backgroundColor,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: true,
-      iconTheme: IconThemeData(color: ColorConstants.secondaryColor),
+      iconTheme: IconThemeData(color: ColorConstants.iconColor),
+      backgroundColor: Colors.transparent,
     ),
     tabBarTheme: const TabBarTheme(
-      labelColor: ColorConstants.secondaryColor,
-      unselectedLabelColor: ColorConstants.secondaryColor,
+      labelColor: ColorConstants.textColor,
+      unselectedLabelColor: ColorConstants.disabledColor,
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
-          color: ColorConstants.primaryColor,
+          color: ColorConstants.secondaryColor,
           width: 2.0,
         ),
       ),
@@ -27,6 +27,15 @@ class ThemeController {
       ),
       trackColor: MaterialStateProperty.all<Color>(
         ColorConstants.secondaryColor,
+      ),
+    ),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: ColorConstants.disabledColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      endShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
       ),
     ),
   );

@@ -12,7 +12,7 @@ class QmAvatar extends ConsumerWidget {
   });
   final String? imageUrl;
   final void Function()? onTap;
-  final double? radius;
+  final double radius;
   final bool isNetworkImage;
 
   String get imageURL => imageUrl ?? SimpleConstants.emptyString;
@@ -29,9 +29,10 @@ class QmAvatar extends ConsumerWidget {
       child: InkWell(
         onTap: onTap,
         child: AnimatedContainer(
+          padding: const EdgeInsets.all(5.0),
           duration: SimpleConstants.fastAnimationDuration,
-          height: radius! * 2,
-          width: radius! * 2,
+          height: radius * 2,
+          width: radius * 2,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -39,17 +40,15 @@ class QmAvatar extends ConsumerWidget {
               width: borderWidth,
             ),
           ),
-          child: ClipRect(
-            clipper: const CustomRectClipper(),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
             child: Image(
-              image: isNetworkImage
-                  ? CachedNetworkImageProvider(imageURL)
-                  : MemoryImage(base64Decode(imageURL))
-                      as ImageProvider<Object>,
+              image: imageProvider,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                return const QmIconButton(
-                  icon: EvaIcons.person,
+                return const Icon(
+                  EvaIcons.person,
+                  color: ColorConstants.iconColor,
                 );
               },
               loadingBuilder: (context, child, loadingProgress) {

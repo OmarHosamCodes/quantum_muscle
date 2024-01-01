@@ -1,10 +1,10 @@
 import '/library.dart';
 
 class Utils {
+  static Utils get instants => Utils();
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
   FirebaseStorage get firebaseStorage => FirebaseStorage.instance;
-  UserModel userModel = UserModel();
   User? get user => firebaseAuth.currentUser;
   bool get isUserNull => user == null;
   String? get userUid => user!.uid;
@@ -12,8 +12,16 @@ class Utils {
   String get locale => Intl.getCurrentLocale();
   bool get isEnglish => locale == SimpleConstants.englishLocale;
   bool get isArabic => locale == SimpleConstants.arabicLocale;
-
   String get isOneExist => isEnglish ? '1' : SimpleConstants.emptyString;
+
+  void toggleLocale(WidgetRef ref) {
+    isEnglish
+        ? ref.read(localeStateProvider.notifier).state =
+            const Locale(SimpleConstants.arabicLocale)
+        : ref.read(localeStateProvider.notifier).state =
+            const Locale(SimpleConstants.englishLocale);
+  }
+
   String timeAgo(Timestamp timestamp) {
     final now = DateTime.now();
     final difference = now.difference(timestamp.toDate());

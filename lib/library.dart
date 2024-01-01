@@ -30,6 +30,7 @@ export 'view/widgets/public/qm_dialog.dart';
 export 'view/widgets/public/qm_loader.dart';
 export 'view/widgets/public/qm_avatar.dart';
 export 'view/widgets/public/qm_icon_button.dart';
+export 'view/widgets/public/qm_nice_touch.dart';
 export 'view/widgets/private/auth/choose_user_type.dart';
 export 'view/widgets/private/auth/forgot_password_text.dart';
 export 'view/widgets/private/routing/Routing_drawer.dart';
@@ -71,6 +72,7 @@ export 'models/enums/provider_statues.dart';
 export 'models/enums/user_type.dart';
 export 'models/chat/message_model.dart';
 export 'models/enums/message_type.dart';
+export 'models/enums/exercise_showcase.dart';
 
 //* Constants
 
@@ -81,6 +83,8 @@ export 'constants/routes_constants.dart';
 export 'constants/private_constants.dart';
 export 'constants/message_type_constants.dart';
 export 'constants/simple_constants.dart';
+export 'constants/exercise_showcase_constants.dart';
+export 'constants/user_type_constants.dart';
 
 //* Packages
 
@@ -116,3 +120,4 @@ export 'package:floating_action_bubble/floating_action_bubble.dart';
 export 'dart:ui' show ImageFilter;
 export 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
+export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

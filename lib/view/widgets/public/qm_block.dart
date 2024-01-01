@@ -5,7 +5,7 @@ class QmBlock extends StatelessWidget {
     super.key,
     required this.width,
     required this.height,
-    required this.child,
+    this.child,
     this.padding,
     this.margin,
     this.onTap,
@@ -19,7 +19,7 @@ class QmBlock extends StatelessWidget {
   });
   final double width;
   final double height;
-  final Widget child;
+  final Widget? child;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final void Function()? onTap;

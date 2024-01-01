@@ -25,17 +25,22 @@ class ColorConstants {
   // static const Color primaryColor = Color(0xFF7f3cbe);
   // static const Color secondaryColor = Color(0xFF491b74);
   // static const Color accentColor = Color(0xFF661bac);
-  static const Color disabledColor = Color(0x33339966);
-  static const Color backgroundColor = Color(0xFF151515);
+  static const Color disabledColor = Color(0xF61B3025);
+  static const Color backgroundColor = Color.fromRGBO(21, 21, 21, 1);
+  // static const Color backgroundColor = Color.fromRGBO(53, 53, 53, 1);
+
   static const Color iconColor = Color(0xFFf5f2f8);
   static const Color textColor = Color(0xFFf5f2f8);
   static const Color textSeccondaryColor = Color(0x7EFFFFFF);
-  static const Color errorColor = Color(0xFFFF0000);
+  static const Color errorColor = Color(0xFFFF5252);
+  static const Color logoutColor = Color(0xFFFF5252);
+  // static const Color successColor = Color(0xFF00FF00);
+  // static const Color warningColor = Color(0xFFFFFF00);
   static const Color hintColor = backgroundColor;
   static const Color drawerTextColor = backgroundColor;
-  static const Color textFieldColor = backgroundColor;
+  static const Color textFieldColor = disabledColor;
   static const Color userChatBubbleColor = primaryColor;
   static const Color otherChatBubbleColor = accentColor;
   static const Color userChatBubbleTextColor = textColor;
-  static Color serverChatBubbleColor = disabledColor;
+  static const Color serverChatBubbleColor = disabledColor;
 }

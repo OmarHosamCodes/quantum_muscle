@@ -54,14 +54,16 @@ class ChatsScreen extends StatelessWidget {
             );
           } else {
             final data = userFuture.value!;
-            final user = data.get(DBPathsConstants.chatsPath) as List;
+            final chats =
+                data.get(DBPathsConstants.chatsPath) as List<dynamic>? ?? [];
 
             return ListView.builder(
-              itemCount: user.length,
+              itemCount: chats.length,
               itemBuilder: (context, index) {
-                final userElements = user[index] as Map<String, dynamic>;
-                final chatDocId = userElements.keys.elementAt(index);
-                final chatUserId = userElements.values.elementAt(index);
+                final chatsElements =
+                    chats[index] as Map<String, dynamic>? ?? {};
+                final chatDocId = chatsElements.keys.elementAt(index);
+                final chatUserId = chatsElements.values.elementAt(index);
                 return FutureBuilder(
                   future: ref.watch(chatFutureProvider(chatDocId).future),
                   builder: (context, snapshot) {
@@ -109,13 +111,17 @@ class ChatsScreen extends StatelessWidget {
                           return Center(
                             child: QmText(text: S.current.DefaultError),
                           );
+                        } else if (!snapshot.hasData) {
+                          return Center(
+                            child: QmText(text: S.current.NoChat),
+                          );
                         }
                         final userData = snapshot.data!;
                         final userUserData =
                             userData.data()! as Map<String, dynamic>;
-                        final userName = userUserData[UserModel.nameKey];
-                        final userProfileImage =
-                            userUserData[UserModel.profileImageKey];
+                        final String userName = userUserData[UserModel.nameKey];
+                        final String? userProfileImage =
+                            userUserData[UserModel.profileImageKey] ?? '';
                         return ListTile(
                           leading: QmAvatar(
                             imageUrl: userProfileImage,

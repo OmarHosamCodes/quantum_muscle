@@ -14,6 +14,7 @@ doc/api/
 # dotenv environment variables file
 .env*
 lib/constants/private_constants.dart
+cors.json
 # Avoid committing generated Javascript files:
 *.dart.js
 *.info.json      # Produced by the --dump-info flag.

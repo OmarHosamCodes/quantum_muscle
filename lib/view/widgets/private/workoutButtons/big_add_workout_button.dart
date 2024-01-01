@@ -20,7 +20,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
   final workoutNameTextController = TextEditingController();
   final workoutDescriptionTextController = TextEditingController();
   static const double inputsWidth = 250;
-  final workoutUtile = WorkoutUtil();
+  final workoutUtile = WorkoutUtil.instance;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -112,12 +112,11 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                 isGradient: false,
                                 color: ColorConstants.primaryColor,
                                 onTap: () => workoutUtile.addWorkout(
-                                  formKey: formKey,
                                   context: context,
+                                  formKey: formKey,
                                   workoutName: workoutNameTextController.text,
-                                  imageFile: base64.encode(imageRef!),
+                                  imageFile: base64Encode(imageRef!),
                                   ref: ref,
-                                  canPop: false,
                                 ),
                                 height: widget.height * .1,
                                 width: inputsWidth,

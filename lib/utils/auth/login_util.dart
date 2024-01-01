@@ -24,7 +24,7 @@ class LoginUtil extends Utils {
         (_) {
           if (user != null) {
             context.pop();
-            RoutingController().changeRoute(0, context);
+            RoutingController.instants.changeRoute(0);
           } else {
             return;
           }

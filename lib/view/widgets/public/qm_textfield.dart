@@ -16,7 +16,6 @@ class QmTextField extends StatelessWidget {
   final EdgeInsets? margin;
   final double maxHeight;
   final double maxWidth;
-  final Icon? prefixIcon; // New property for prefix icon
   final double? fontSize;
   final void Function(String)? onChanged;
   final Color fieldColor;
@@ -35,12 +34,11 @@ class QmTextField extends StatelessWidget {
     this.maxLength,
     this.borderRadius,
     this.margin,
-    this.maxHeight = double.infinity,
-    this.maxWidth = double.infinity,
-    this.prefixIcon, // Initialize prefix icon property
+    this.maxHeight = double.maxFinite,
+    this.maxWidth = double.maxFinite,
     this.fontSize = 16.0,
     this.onChanged,
-    this.fieldColor = ColorConstants.secondaryColor,
+    this.fieldColor = ColorConstants.textFieldColor,
   });
   BorderRadius get borderRadiusValue {
     if (borderRadius != null) {
@@ -73,11 +71,13 @@ class QmTextField extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         color: fieldColor,
-        borderRadius: borderRadius ?? BorderRadius.circular(10.0),
+        borderRadius: borderRadiusValue,
       ),
       margin: margin,
       child: Center(
         child: TextFormField(
+          textAlign: TextAlign.left,
+          strutStyle: const StrutStyle(height: 1.0),
           onChanged: onChanged,
           maxLength: maxLength,
           smartDashesType: SmartDashesType.enabled,
@@ -95,6 +95,10 @@ class QmTextField extends StatelessWidget {
           obscureText: obscureText,
           textInputAction: finalInputAction,
           decoration: InputDecoration(
+            errorStyle: const TextStyle(
+              color: ColorConstants.errorColor,
+              fontSize: 14.0,
+            ),
             counterText: SimpleConstants.emptyString,
             border: OutlineInputBorder(
               borderRadius: borderRadiusValue,
@@ -107,8 +111,13 @@ class QmTextField extends StatelessWidget {
             hintText: hintText,
             hintStyle:
                 const TextStyle(color: ColorConstants.textSeccondaryColor),
-            prefixIcon: prefixIcon, // Add prefix icon
+            contentPadding: const EdgeInsets.only(
+              left: 10.0,
+              right: 10.0,
+              top: 10.0,
+            ),
           ),
+          enableSuggestions: true,
           initialValue: initialValue,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,

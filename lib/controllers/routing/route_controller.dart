@@ -1,6 +1,7 @@
 import '/library.dart';
 
 class RoutingController {
+  static RoutingController get instants => RoutingController();
   static final router = GoRouter(
     initialLocation: Routes.homeR,
     routes: [
@@ -17,6 +18,7 @@ class RoutingController {
             ),
           ),
           GoRoute(
+            name: Routes.chatsRootR,
             path: Routes.chatsR,
             builder: (context, state) => ChatsScreen(
               key: state.pageKey,
@@ -34,6 +36,12 @@ class RoutingController {
               key: state.pageKey,
             ),
           ),
+          GoRoute(
+            path: Routes.authR,
+            builder: (context, state) => AuthScreen(
+              key: state.pageKey,
+            ),
+          ),
         ],
       ),
       GoRoute(
@@ -45,17 +53,10 @@ class RoutingController {
         ),
       ),
       GoRoute(
-        path: Routes.authR,
-        builder: (context, state) => AuthScreen(
-          key: state.pageKey,
-        ),
-      ),
-      GoRoute(
         name: Routes.workoutRootR,
         path: Routes.workoutDetailsR,
         builder: (context, state) => WorkoutDetailsScreen(
           key: state.pageKey,
-          workoutId: state.pathParameters['workoutId']!,
           arguments: state.extra! as Map<String, dynamic>,
         ),
       ),
@@ -82,7 +83,7 @@ class RoutingController {
       key: state.pageKey,
     ),
   );
-  void changeRoute(int index, BuildContext context) {
+  void changeDrawerRoute(int index, BuildContext context) {
     switch (index) {
       case 0:
         router.go(Routes.homeR);
@@ -103,6 +104,26 @@ class RoutingController {
       case 4:
         router.go(Routes.authR);
         context.pop();
+        break;
+    }
+  }
+
+  void changeRoute(int index) {
+    switch (index) {
+      case 0:
+        router.go(Routes.homeR);
+        break;
+      case 1:
+        router.go(Routes.chatsR);
+        break;
+      case 2:
+        router.go(Routes.myProfileR);
+        break;
+      case 3:
+        router.go(Routes.searchR);
+        break;
+      case 4:
+        router.go(Routes.authR);
         break;
     }
   }

@@ -23,7 +23,7 @@ class ChatScreen extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-            height: height * 0.08,
+            height: height * 0.06,
             child: Row(
               children: [
                 QmIconButton(
@@ -51,6 +51,9 @@ class ChatScreen extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: QmCircularProgressIndicator(),
+                      );
                     } else if (snapshot.hasError) {
                       return Center(
                         child: QmText(text: S.current.DefaultError),

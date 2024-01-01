@@ -1,14 +1,16 @@
 import '/library.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends ConsumerWidget {
   const EditProfileScreen({super.key, required this.arguments});
   final Map<String, dynamic> arguments;
 
+  String? get userProfileImage =>
+      arguments[UserModel.profileImageKey] as String?;
+
+  String get userName => arguments[UserModel.nameKey] as String;
+  String get userBio => arguments[UserModel.bioKey] as String;
   @override
-  Widget build(BuildContext context) {
-    final userName = arguments[UserModel.nameKey] as String;
-    final userProfileImage = arguments[UserModel.profileImageKey] as String;
-    final userBio = arguments[UserModel.bioKey] as String;
+  Widget build(BuildContext context, WidgetRef ref) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final nameTextcontroller = TextEditingController(text: userName);
@@ -35,15 +37,19 @@ class EditProfileScreen extends StatelessWidget {
                         ref.watch(userProfileImageProvider);
                     return QmIconButton(
                       onPressed: () {
+                        if (profileImageProvider ==
+                                SimpleConstants.emptyString &&
+                            nameTextcontroller.text == userName &&
+                            (bioTextcontroller.text == userBio ||
+                                bioTextcontroller.text ==
+                                    SimpleConstants.emptyString)) {}
                         ProfileUtil().updateProfile(
                           context: context,
                           userName: nameTextcontroller.text,
                           userBio: bioTextcontroller.text,
-                          userProfileImage:
-                              profileImageProvider != userProfileImage
-                                  ? profileImageProvider
-                                  : userProfileImage,
+                          userProfileImage: profileImageProvider,
                           ref: ref,
+                          formKey: fromKey,
                         );
                       },
                       icon: EvaIcons.checkmark,
@@ -58,21 +64,19 @@ class EditProfileScreen extends StatelessWidget {
                 final profileImageProvider =
                     ref.watch(userProfileImageProvider);
 
-                return Center(
-                  child: GestureDetector(
-                    onTap: () => ProfileUtil.chooseImage(
-                      ref: ref,
-                      provider: userProfileImageProvider,
-                    ),
+                return GestureDetector(
+                  onTap: () => ProfileUtil.chooseImage(
+                    ref: ref,
+                    provider: userProfileImageProvider,
+                    context: context,
+                  ),
+                  child: Center(
                     child: Stack(
                       children: [
                         QmAvatar(
-                          isNetworkImage:
-                              profileImageProvider != userProfileImage,
-                          radius: 60,
-                          imageUrl: profileImageProvider != userProfileImage
-                              ? userProfileImage
-                              : profileImageProvider,
+                          isNetworkImage: false,
+                          radius: 65,
+                          imageUrl: profileImageProvider,
                         ),
                         Positioned(
                           bottom: 0,
@@ -85,8 +89,7 @@ class EditProfileScreen extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
-                              Icons.camera_alt,
-                              color: ColorConstants.secondaryColor,
+                              EvaIcons.camera,
                             ),
                           ),
                         ),

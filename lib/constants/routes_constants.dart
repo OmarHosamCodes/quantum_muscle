@@ -2,6 +2,7 @@ class Routes {
   static String initR = '/';
   static String homeR = '/';
   static String chatsR = '/chats';
+  static String chatsRootR = 'chats';
   static String chatRootR = 'chat';
   static String chatR = '/chat/:chatId/:chatUserId';
   static String profileRootR = 'profile';
@@ -10,7 +11,7 @@ class Routes {
   static String profileEditR = '/edit-profile';
   static String authR = '/auth';
   static String workoutRootR = 'workout';
-  static String workoutDetailsR = '/workout/:workoutId';
+  static String workoutDetailsR = '/workout';
   static String editProfileRootR = 'editProfile';
   static String searchR = '/search';
 }
