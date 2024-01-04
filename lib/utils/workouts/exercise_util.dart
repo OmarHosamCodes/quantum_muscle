@@ -2,31 +2,11 @@
 
 import '/library.dart';
 
-final exerciseImageBytesProvider = StateProvider<Uint8List?>((ref) => null);
+final exerciseImageBytesProvider =
+    StateProvider<Uint8List?>((ref) => Uint8List(0));
 
 class ExerciseUtil extends Utils {
   static ExerciseUtil get instance => ExerciseUtil();
-  Future<void> chooseExerciseImageFromStorage({
-    required WidgetRef ref,
-    required StateProvider<Uint8List?> provider,
-  }) async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      if (kIsWeb) {
-        final imageXFile = XFile(image.path);
-
-        ref.read(provider.notifier).state = await imageXFile.readAsBytes();
-      } else if (await Permission.storage.request().isGranted) {
-        final image =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
-        final imageFile = File(image!.path);
-
-        ref.read(provider.notifier).state = await imageFile.readAsBytes();
-      } else {
-        await Permission.storage.request();
-      }
-    }
-  }
 
   Future<void> addExercise({
     required GlobalKey<FormState> formKey,
@@ -87,7 +67,7 @@ class ExerciseUtil extends Utils {
           },
         ).then((_) {
           ref.invalidate(workoutsStreamProvider);
-          ref.read(workoutsStreamProvider(Utils.instants.userUid!));
+          ref.read(workoutsStreamProvider(Utils().userUid!));
           ref.read(exerciseImageBytesProvider.notifier).state = null;
           context.pop();
         });

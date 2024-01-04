@@ -31,7 +31,7 @@
   "Search": "Search",
   "Hi": "Hi",
   "Slogan": "Start Making Difference",
-  "Workouts": "Workouts:",
+  "Workouts": "Workouts",
   "Followers": "Followers",
   "Following": "Following",
   "Follow": "Follow",
@@ -81,5 +81,8 @@
   "DayAgo": "day ago",
   "MonthAgo": "month ago",
   "YearAgo": "year ago",
-  "TypeMessage": "Type a message..."
+  "TypeMessage": "Type a message...",
+  "Programs": "Programs",
+  "AddProgram": "Add Program",
+  "AddProgramName": "Add Program Name"
 }

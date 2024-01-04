@@ -11,8 +11,9 @@ class ThemeController {
       backgroundColor: Colors.transparent,
     ),
     tabBarTheme: const TabBarTheme(
+      dividerColor: ColorConstants.accentColor,
       labelColor: ColorConstants.textColor,
-      unselectedLabelColor: ColorConstants.disabledColor,
+      unselectedLabelColor: ColorConstants.accentColor,
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
           color: ColorConstants.secondaryColor,

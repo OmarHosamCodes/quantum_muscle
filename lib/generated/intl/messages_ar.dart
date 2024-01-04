@@ -29,6 +29,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "AddImageDescription":
             MessageLookupByLibrary.simpleMessage("أدخل وصف الصورة"),
         "AddImageName": MessageLookupByLibrary.simpleMessage("أدخل اسم الصورة"),
+        "AddProgram": MessageLookupByLibrary.simpleMessage("إضافة برنامج"),
+        "AddProgramName":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم البرنامج"),
         "AddWorkout": MessageLookupByLibrary.simpleMessage("إضافة تمرين"),
         "AddWorkoutDescription":
             MessageLookupByLibrary.simpleMessage("أدخل وصف التمرين"),
@@ -110,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "ProfileDoesNotExist":
             MessageLookupByLibrary.simpleMessage("الملف الشخصي غير موجود"),
+        "Programs": MessageLookupByLibrary.simpleMessage("برامج"),
         "RatID": MessageLookupByLibrary.simpleMessage("معرف الفأر الجماوي"),
         "Register": MessageLookupByLibrary.simpleMessage("تسجيل"),
         "Search": MessageLookupByLibrary.simpleMessage("بحث"),
@@ -127,7 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeekAgo": MessageLookupByLibrary.simpleMessage("منذ أسبوع"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("أسابيع مضت"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),
-        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين:"),
+        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين"),
         "YearAgo": MessageLookupByLibrary.simpleMessage("منذ سنة"),
         "YearsAgo": MessageLookupByLibrary.simpleMessage("سنوات مضت"),
         "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(

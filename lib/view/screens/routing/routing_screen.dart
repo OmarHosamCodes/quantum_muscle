@@ -18,7 +18,8 @@ class RoutingScreen extends ConsumerWidget {
     if (state.uri.toString() == Routes.homeR ||
         state.uri.toString() == Routes.chatsR ||
         state.uri.toString() == Routes.myProfileR ||
-        state.uri.toString() == Routes.searchR) {
+        state.uri.toString() == Routes.searchR ||
+        state.uri.toString() == Routes.programsR) {
       return true;
     } else {
       return false;
@@ -27,28 +28,23 @@ class RoutingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authStateChangesProvider);
-    final routingController = RoutingController.instants;
-    return user.when(
-      data: (data) {
-        if (data == null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.mounted ? routingController.changeRoute(4) : null;
-          });
-        }
+    //todo add loading screen
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        switch (snapshot.data) {
+          case User():
+            return Scaffold(
+              appBar: getDrawerExist ? AppBar() : null,
+              extendBody: true,
+              drawer: getDrawerExist ? const RoutingDrawer() : null,
+              body: child,
+            );
 
-        return context.mounted
-            ? Scaffold(
-                appBar: getDrawerExist ? AppBar() : null,
-                extendBody: true,
-                drawer: getDrawerExist ? const RoutingDrawer() : null,
-                body: child,
-              )
-            : const QmCircularProgressIndicator();
+          case null:
+            return const AuthScreen();
+        }
       },
-      loading: () => const Center(child: QmCircularProgressIndicator()),
-      error: (error, stackTrace) =>
-          Center(child: QmText(text: S.current.DefaultError)),
     );
   }
 }

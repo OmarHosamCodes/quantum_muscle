@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId "com.ohc.qm"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -62,5 +62,6 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-firestore:25.12.0'
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

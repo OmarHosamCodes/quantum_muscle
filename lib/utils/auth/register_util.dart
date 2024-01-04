@@ -23,7 +23,7 @@ class RegisterUtil extends Utils {
 
       ref.invalidate(userFutureProvider);
       ref.read(userFutureProvider(Utils().userUid!));
-      if (firebaseAuth.currentUser != null) {
+      if (user != null) {
         afterSignUp(
           userName: userName,
           userType: userType,
@@ -31,8 +31,6 @@ class RegisterUtil extends Utils {
         );
         context.pop();
         RoutingController.instants.changeRoute(0);
-      } else {
-        return;
       }
     } on FirebaseAuthException catch (e) {
       context.pop();
@@ -51,46 +49,48 @@ class RegisterUtil extends Utils {
     required BuildContext context,
   }) async {
     if (user != null) {
-      final userModel = UserModel();
-      userModel.email = user!.email;
-      userModel.ratID = "#${user!.uid.substring(0, 16)}";
-      userModel.name = userName;
-      userModel.bio = null;
-      userModel.profileImage = null;
-      userModel.type = userType;
-      userModel.weight = {"0": "0"};
-      userModel.height = {"0": "0"};
-      userModel.followers = [];
-      userModel.following = [];
-      userModel.images = [];
       final tempSet = <String>{};
       for (var i = 0; i < 1; i++) {
         tempSet.addAll([
-          ...userModel.name!.split(' '),
-          userModel.name!,
-          userModel.name!.toLowerCase(),
-          userModel.name!.toUpperCase(),
-          ...userModel.name!
+          ...userName.split(' '),
+          userName,
+          userName.toLowerCase(),
+          userName.toUpperCase(),
+          ...userName
               .split(SimpleConstants.emptyString)
               .map((e) => e.toLowerCase()),
-          ...userModel.name!
+          ...userName
               .split(SimpleConstants.emptyString)
               .map((e) => e.toUpperCase()),
-          userModel.ratID!,
-          userModel.email!,
-          userModel.type!.name,
+          "#${user!.uid.substring(0, 16)}",
+          user!.email!,
         ]);
         tempSet.remove(SimpleConstants.emptyString);
         tempSet.remove(' ');
         tempSet.remove('  ');
       }
-      userModel.tags = tempSet.toList();
+      final userModel = UserModel(
+        ratID: "#${user!.uid.substring(0, 16)}",
+        name: userName,
+        email: user!.email,
+        age: null,
+        phone: null,
+        type: userType,
+        weight: {"0": "0"},
+        height: {"0": "0"},
+        profileImage: null,
+        bio: null,
+        followers: [],
+        following: [],
+        images: [],
+        tags: tempSet.toList(),
+        chats: [],
+      );
+
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
-          .doc(user!.uid)
+          .doc(userUid)
           .set(userModel.toMap());
-      await user!.updateDisplayName(userName);
-      await user!.reload();
     }
   }
 }

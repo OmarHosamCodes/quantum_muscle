@@ -43,6 +43,7 @@ class ProfileScreen extends ConsumerWidget {
       return Scaffold(
         extendBody: true,
         body: SingleChildScrollView(
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

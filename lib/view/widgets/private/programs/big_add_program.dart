@@ -1,7 +1,7 @@
 import '/library.dart';
 
-class BigAddWorkout extends StatefulWidget {
-  const BigAddWorkout({
+class BigAddProgramButton extends StatefulWidget {
+  const BigAddProgramButton({
     super.key,
     required this.width,
     required this.height,
@@ -10,17 +10,17 @@ class BigAddWorkout extends StatefulWidget {
   final double height;
 
   @override
-  State<BigAddWorkout> createState() => _BigAddWorkoutState();
+  State<BigAddProgramButton> createState() => _BigAddProgramButtonState();
 }
 
-class _BigAddWorkoutState extends State<BigAddWorkout> {
+class _BigAddProgramButtonState extends State<BigAddProgramButton> {
   late double height = widget.height * .2;
   bool isAnimated = false;
   bool isExpanded = false;
   final workoutNameTextController = TextEditingController();
   final workoutDescriptionTextController = TextEditingController();
   static const double inputsWidth = 250;
-  final workoutUtil = WorkoutUtil.instance;
+  final programsutil = ProgramsUtil.instance;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -56,14 +56,14 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                       padding: const EdgeInsets.all(10.0),
                       child: Consumer(
                         builder: (context, ref, _) {
-                          final imageRef = ref.watch(workoutImageBytesProvider);
+                          final imageRef = ref.watch(programImageBytesProvider);
                           return QmBlock(
                             borderRadius: BorderRadius.circular(10),
                             isNormal: true,
                             isAnimated: true,
-                            onTap: () => workoutUtil.chooseImageFromStorage(
-                              ref: ref,
-                              provider: workoutImageBytesProvider,
+                            onTap: () => programsutil.chooseImageFromStorage(
+                              ref,
+                              workoutImageBytesProvider,
                             ),
                             color: ColorConstants.backgroundColor,
                             width: widget.width * .3,
@@ -112,10 +112,10 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                               return QmBlock(
                                 isGradient: false,
                                 color: ColorConstants.primaryColor,
-                                onTap: () => workoutUtil.addWorkout(
+                                onTap: () => programsutil.addProgram(
                                   context: context,
                                   formKey: formKey,
-                                  workoutName: workoutNameTextController.text,
+                                  programName: workoutNameTextController.text,
                                   imageFile: base64Encode(imageRef!),
                                   ref: ref,
                                 ),
@@ -123,7 +123,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                 width: inputsWidth,
                                 child: QmText(
                                   text: S.current.AddWorkout,
-                                  maxWidth: widget.width * .5,
+                                  maxWidth: double.maxFinite,
                                 ),
                               );
                             },
@@ -148,7 +148,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                   ),
                   QmText(
                     text: S.current.AddWorkout,
-                    maxWidth: widget.width * .5,
+                    maxWidth: double.maxFinite,
                   ),
                 ],
               ),

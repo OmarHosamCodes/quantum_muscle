@@ -1,7 +1,8 @@
 import '/library.dart';
 
 final userFutureProvider = FutureProvider.family<DocumentSnapshot, String>(
-  (ref, id) async => await Utils.instants.firebaseFirestore
+  (ref, id) async => await Utils()
+      .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
       .doc(id)
       .get(),
@@ -9,7 +10,8 @@ final userFutureProvider = FutureProvider.family<DocumentSnapshot, String>(
 
 final workoutsStreamProvider =
     StreamProvider.family<QuerySnapshot<WorkoutModel>?, String>(
-  (ref, id) => Utils.instants.firebaseFirestore
+  (ref, id) => Utils()
+      .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
       .doc(Utils().userUid)
       .collection(DBPathsConstants.usersUserWorkoutsPath)
@@ -100,8 +102,8 @@ class HomeScreen extends StatelessWidget {
               ),
               Consumer(
                 builder: (context, ref, _) {
-                  final workoutsSnapshot = ref
-                      .watch(workoutsStreamProvider(Utils.instants.userUid!));
+                  final workoutsSnapshot =
+                      ref.watch(workoutsStreamProvider(Utils().userUid!));
 
                   return workoutsSnapshot.when(
                     data: (data) {

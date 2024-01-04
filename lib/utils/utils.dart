@@ -1,7 +1,6 @@
 import '/library.dart';
 
 class Utils {
-  static Utils get instants => Utils();
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
   FirebaseStorage get firebaseStorage => FirebaseStorage.instance;
@@ -13,14 +12,6 @@ class Utils {
   bool get isEnglish => locale == SimpleConstants.englishLocale;
   bool get isArabic => locale == SimpleConstants.arabicLocale;
   String get isOneExist => isEnglish ? '1' : SimpleConstants.emptyString;
-
-  void toggleLocale(WidgetRef ref) {
-    isEnglish
-        ? ref.read(localeStateProvider.notifier).state =
-            const Locale(SimpleConstants.arabicLocale)
-        : ref.read(localeStateProvider.notifier).state =
-            const Locale(SimpleConstants.englishLocale);
-  }
 
   String timeAgo(Timestamp timestamp) {
     final now = DateTime.now();
@@ -53,6 +44,27 @@ class Utils {
         return years == 1
             ? '$isOneExist ${S.current.YearAgo}'
             : '$years ${S.current.YearsAgo}';
+    }
+  }
+
+  Future<void> chooseImageFromStorage(
+      {required WidgetRef ref,
+      required StateProvider<Uint8List?> provider}) async {
+    late final XFile? image;
+
+    image = await ImagePicker().pickImage(source: ImageSource.gallery) ??
+        XFile.fromData(Uint8List(0));
+
+    if (kIsWeb) {
+      final imageXFile = XFile(image.path);
+      ref.read(provider.notifier).state = await imageXFile.readAsBytes();
+    } else {
+      if (await Permission.storage.isDenied) {
+        await Permission.storage.request();
+      }
+      final imageFile = File(image.path);
+
+      ref.read(provider.notifier).state = await imageFile.readAsBytes();
     }
   }
 }

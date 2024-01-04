@@ -2,11 +2,13 @@
 
 import '/library.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends HookWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final emailTextController = useTextEditingController();
+    final passwordTextController = useTextEditingController();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final maxWidth = width * .6;

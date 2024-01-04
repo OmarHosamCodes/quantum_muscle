@@ -29,6 +29,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "AddImageDescription":
             MessageLookupByLibrary.simpleMessage("Add Image Description"),
         "AddImageName": MessageLookupByLibrary.simpleMessage("Add Image Name"),
+        "AddProgram": MessageLookupByLibrary.simpleMessage("Add Program"),
+        "AddProgramName":
+            MessageLookupByLibrary.simpleMessage("Add Program Name"),
         "AddWorkout": MessageLookupByLibrary.simpleMessage("Add Workout"),
         "AddWorkoutDescription":
             MessageLookupByLibrary.simpleMessage("Add Workout Description"),
@@ -110,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "ProfileDoesNotExist":
             MessageLookupByLibrary.simpleMessage("Profile does not exist"),
+        "Programs": MessageLookupByLibrary.simpleMessage("Programs"),
         "RatID": MessageLookupByLibrary.simpleMessage("Rat ID"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
@@ -128,7 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeekAgo": MessageLookupByLibrary.simpleMessage("week ago"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("weeks ago"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !"),
-        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts:"),
+        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts"),
         "YearAgo": MessageLookupByLibrary.simpleMessage("year ago"),
         "YearsAgo": MessageLookupByLibrary.simpleMessage("years ago"),
         "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(

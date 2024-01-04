@@ -53,12 +53,12 @@ class AddWorkoutBottomSheet extends StatelessWidget {
         children: [
           Consumer(
             builder: (context, ref, _) {
-              final imageRef = ref.watch(imageBytesProvider);
+              final imageRef = ref.watch(workoutImageBytesProvider);
               return QmBlock(
                 isNormal: true,
                 onTap: () => workoutUtile.chooseImageFromStorage(
-                  ref,
-                  imageBytesProvider,
+                  ref: ref,
+                  provider: workoutImageBytesProvider,
                 ),
                 color: ColorConstants.backgroundColor,
                 width: double.maxFinite,
@@ -76,7 +76,7 @@ class AddWorkoutBottomSheet extends StatelessWidget {
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(
                       Icons.add_a_photo_outlined,
-                      color: ColorConstants.secondaryColor,
+                      color: ColorConstants.iconColor,
                     );
                   },
                 ),
@@ -100,7 +100,7 @@ class AddWorkoutBottomSheet extends StatelessWidget {
           ),
           Consumer(
             builder: (context, ref, _) {
-              final imageRef = ref.watch(imageBytesProvider);
+              final imageRef = ref.watch(workoutImageBytesProvider);
               return QmBlock(
                 isGradient: true,
                 onTap: () => workoutUtile.addWorkout(

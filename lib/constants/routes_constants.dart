@@ -1,17 +1,18 @@
 class Routes {
-  static String initR = '/';
-  static String homeR = '/';
-  static String chatsR = '/chats';
-  static String chatsRootR = 'chats';
-  static String chatRootR = 'chat';
-  static String chatR = '/chat/:chatId/:chatUserId';
-  static String profileRootR = 'profile';
-  static String profileR = '/profile/:userId';
-  static String myProfileR = '/my-profile';
-  static String profileEditR = '/edit-profile';
-  static String authR = '/auth';
-  static String workoutRootR = 'workout';
-  static String workoutDetailsR = '/workout';
-  static String editProfileRootR = 'editProfile';
-  static String searchR = '/search';
+  static const String initR = '/';
+  static const String homeR = '/';
+  static const String chatsR = '/chats';
+  static const String chatsRootR = 'chats';
+  static const String chatRootR = 'chat';
+  static const String chatR = '/chat/:chatId/:chatUserId';
+  static const String profileRootR = 'profile';
+  static const String profileR = '/profile/:userId';
+  static const String myProfileR = '/my-profile';
+  static const String profileEditR = '/edit-profile';
+  static const String authR = '/auth';
+  static const String workoutRootR = 'workout';
+  static const String workoutDetailsR = '/workout';
+  static const String editProfileRootR = 'editProfile';
+  static const String searchR = '/search';
+  static const String programsR = '/programs';
 }

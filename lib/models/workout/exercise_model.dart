@@ -32,7 +32,7 @@ class ExerciseModel {
       sets: map[setsKey],
       showcaseUrl: map[showcaseUrlKey],
       showcaseType: ExerciseShowcase.values.firstWhere(
-        (element) => element.toString() == map[showcaseTypeKey],
+        (element) => element.name == map[showcaseTypeKey],
       ),
     );
   }
@@ -44,7 +44,7 @@ class ExerciseModel {
       targetKey: target,
       setsKey: sets,
       showcaseUrlKey: showcaseUrl,
-      showcaseTypeKey: showcaseType.toString(),
+      showcaseTypeKey: showcaseType.name,
     };
   }
 }

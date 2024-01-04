@@ -64,7 +64,7 @@ class UserModel {
       age: map[ageKey],
       phone: map[phoneKey],
       type: UserType.values.firstWhere(
-        (element) => element.toString() == map[typeKey],
+        (element) => element.name == map[typeKey],
       ),
       height: map[heightKey],
       weight: map[weightKey],
@@ -85,7 +85,7 @@ class UserModel {
       emailKey: email,
       ageKey: age,
       phoneKey: phone,
-      typeKey: type,
+      typeKey: type!.name,
       heightKey: height,
       weightKey: weight,
       profileImageKey: profileImage,

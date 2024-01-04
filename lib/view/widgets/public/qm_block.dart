@@ -1,6 +1,6 @@
 import '/library.dart';
 
-class QmBlock extends StatelessWidget {
+class QmBlock<T> extends StatelessWidget {
   const QmBlock({
     super.key,
     required this.width,

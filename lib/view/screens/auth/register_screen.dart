@@ -2,15 +2,15 @@ import '/library.dart';
 
 final userTypeStateProvider =
     StateProvider<UserType>((ref) => UserType.trainee);
-final nameTextController = TextEditingController();
-final emailTextController = TextEditingController();
-final passwordTextController = TextEditingController();
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends HookWidget {
   const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final nameTextController = useTextEditingController();
+    final emailTextController = useTextEditingController();
+    final passwordTextController = useTextEditingController();
     final formKey = GlobalKey<FormState>();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;

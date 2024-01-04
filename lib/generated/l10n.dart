@@ -370,10 +370,10 @@ class S {
     );
   }
 
-  /// `Workouts:`
+  /// `Workouts`
   String get Workouts {
     return Intl.message(
-      'Workouts:',
+      'Workouts',
       name: 'Workouts',
       desc: '',
       args: [],
@@ -875,6 +875,36 @@ class S {
     return Intl.message(
       'Type a message...',
       name: 'TypeMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Programs`
+  String get Programs {
+    return Intl.message(
+      'Programs',
+      name: 'Programs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Program`
+  String get AddProgram {
+    return Intl.message(
+      'Add Program',
+      name: 'AddProgram',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Program Name`
+  String get AddProgramName {
+    return Intl.message(
+      'Add Program Name',
+      name: 'AddProgramName',
       desc: '',
       args: [],
     );

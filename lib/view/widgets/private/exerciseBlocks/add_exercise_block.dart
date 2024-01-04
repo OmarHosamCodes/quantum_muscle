@@ -23,13 +23,12 @@ class AddExerciseTile extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     return Consumer(
       builder: (context, ref, _) {
-        final exerciseImageRef =
-            ref.read(exerciseImageBytesProvider.notifier).state;
+        final exerciseImageRef = ref.watch(exerciseImageBytesProvider);
 
         return SlimyCard(
           onTap: () async {
             bool isValid = formKey.currentState!.validate();
-            if (isValid && exerciseImageRef != null) {
+            if (isValid) {
               await exerciseUtil.addExercise(
                 formKey: formKey,
                 context: context,
@@ -52,12 +51,12 @@ class AddExerciseTile extends StatelessWidget {
             width: width * .9,
             height: height * .2,
             isNormal: true,
-            onTap: () => exerciseUtil.chooseExerciseImageFromStorage(
+            onTap: () => exerciseUtil.chooseImageFromStorage(
               ref: ref,
               provider: exerciseImageBytesProvider,
             ),
             child: Image(
-              image: MemoryImage(exerciseImageRef ?? Uint8List(0)),
+              image: MemoryImage(exerciseImageRef!),
               fit: BoxFit.scaleDown,
               errorBuilder: (context, error, stackTrace) {
                 return const Icon(

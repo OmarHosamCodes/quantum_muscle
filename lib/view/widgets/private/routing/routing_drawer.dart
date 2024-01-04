@@ -52,6 +52,16 @@ class RoutingDrawer extends ConsumerWidget {
             ),
             onTap: () => routingController.changeDrawerRoute(3, context),
           ),
+          ListTile(
+            leading: const Icon(
+              EvaIcons.archive,
+              color: ColorConstants.iconColor,
+            ),
+            title: QmText(
+              text: S.current.Programs,
+            ),
+            onTap: () => routingController.changeDrawerRoute(4, context),
+          ),
           const Spacer(),
           Consumer(
             builder: (context, ref, child) {
@@ -65,7 +75,11 @@ class RoutingDrawer extends ConsumerWidget {
                 ),
                 onTap: () {
                   context.pop();
-                  Utils().toggleLocale(ref);
+                  Utils().isEnglish
+                      ? ref.read(localeStateProvider.notifier).state =
+                          const Locale(SimpleConstants.arabicLocale)
+                      : ref.read(localeStateProvider.notifier).state =
+                          const Locale(SimpleConstants.englishLocale);
                 },
               );
             },
@@ -79,9 +93,7 @@ class RoutingDrawer extends ConsumerWidget {
               text: S.current.Logout,
             ),
             onTap: () {
-              LogoutUtil()
-                  .logout(context)
-                  .then((_) => routingController.changeDrawerRoute(4, context));
+              LogoutUtil().logout(context);
             },
           ),
         ],

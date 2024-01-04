@@ -28,7 +28,7 @@ class WorkoutDetailsScreen extends ConsumerWidget {
       return true;
     }
 
-    ref.watch(workoutsStreamProvider(Utils.instants.userUid!));
+    ref.watch(workoutsStreamProvider(Utils().userUid!));
     return Scaffold(
       body: Column(
         children: [
@@ -96,7 +96,7 @@ class WorkoutDetailsScreen extends ConsumerWidget {
           ),
           Consumer(builder: (context, ref, _) {
             final workoutStream =
-                ref.watch(workoutsStreamProvider(Utils.instants.userUid!));
+                ref.watch(workoutsStreamProvider(Utils().userUid!));
             return workoutStream.when(
               data: (data) {
                 final exercises = data!.docs[workoutIndex].data().exercises;

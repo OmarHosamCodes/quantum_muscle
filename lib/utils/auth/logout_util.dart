@@ -4,7 +4,6 @@ import '/library.dart';
 
 class LogoutUtil extends Utils {
   Future<void> logout(BuildContext context) async {
-    openQmLoaderDialog(context: context);
     await firebaseAuth.signOut();
   }
 }

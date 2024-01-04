@@ -37,12 +37,18 @@ class RoutingController {
             ),
           ),
           GoRoute(
-            path: Routes.authR,
-            builder: (context, state) => AuthScreen(
+            path: Routes.programsR,
+            builder: (context, state) => ProgramsScreen(
               key: state.pageKey,
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: Routes.authR,
+        builder: (context, state) => AuthScreen(
+          key: state.pageKey,
+        ),
       ),
       GoRoute(
         name: Routes.profileRootR,
@@ -102,6 +108,10 @@ class RoutingController {
         context.pop();
         break;
       case 4:
+        router.go(Routes.programsR);
+        context.pop();
+        break;
+      case 5:
         router.go(Routes.authR);
         context.pop();
         break;
@@ -123,6 +133,9 @@ class RoutingController {
         router.go(Routes.searchR);
         break;
       case 4:
+        router.go(Routes.programsR);
+        break;
+      case 5:
         router.go(Routes.authR);
         break;
     }

@@ -31,7 +31,7 @@
   "Search": "بحث",
   "Hi": "مرحبا",
   "Slogan": "ابدأ في صنع الفرق",
-  "Workouts": "تمارين:",
+  "Workouts": "تمارين",
   "Followers": "متابعون",
   "Following": "متابعة",
   "Follow": "تابع",
@@ -81,5 +81,8 @@
   "DayAgo": "منذ يوم",
   "MonthAgo": "منذ شهر",
   "YearAgo": "منذ سنة",
-  "TypeMessage": "اكتب رسالة..."
+  "TypeMessage": "اكتب رسالة...",
+  "Programs": "برامج",
+  "AddProgram": "إضافة برنامج",
+  "AddProgramName": "أدخل اسم البرنامج"
 }

@@ -2,7 +2,7 @@ import '/library.dart';
 
 final authPageController = PageController(initialPage: 1);
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends HookWidget {
   const AuthScreen({super.key});
 
   @override
@@ -21,7 +21,11 @@ class AuthScreen extends StatelessWidget {
           Consumer(
             builder: (context, ref, _) {
               return QmIconButton(
-                onPressed: () => Utils().toggleLocale(ref),
+                onPressed: () => Utils().isEnglish
+                    ? ref.read(localeStateProvider.notifier).state =
+                        const Locale(SimpleConstants.arabicLocale)
+                    : ref.read(localeStateProvider.notifier).state =
+                        const Locale(SimpleConstants.englishLocale),
                 icon: EvaIcons.globe,
               );
             },
