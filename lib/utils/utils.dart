@@ -49,22 +49,28 @@ class Utils {
 
   Future<void> chooseImageFromStorage(
       {required WidgetRef ref,
-      required StateProvider<Uint8List?> provider}) async {
-    late final XFile? image;
+      required StateProvider<String?> provider}) async {
+    late XFile? image;
 
     image = await ImagePicker().pickImage(source: ImageSource.gallery) ??
         XFile.fromData(Uint8List(0));
 
     if (kIsWeb) {
       final imageXFile = XFile(image.path);
-      ref.read(provider.notifier).state = await imageXFile.readAsBytes();
+      ref.read(provider.notifier).state =
+          base64Encode(await imageXFile.readAsBytes());
     } else {
       if (await Permission.storage.isDenied) {
         await Permission.storage.request();
       }
       final imageFile = File(image.path);
 
-      ref.read(provider.notifier).state = await imageFile.readAsBytes();
+      ref.read(provider.notifier).state =
+          base64Encode(await imageFile.readAsBytes());
     }
+  }
+
+  Future<void> copyToClipboard({required String text}) async {
+    await Clipboard.setData(ClipboardData(text: text));
   }
 }

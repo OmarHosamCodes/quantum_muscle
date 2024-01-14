@@ -9,15 +9,6 @@ class WorkoutsScreen extends ConsumerWidget {
         ref.watch(workoutsStreamProvider(Utils().userUid!));
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
-
-    bool isTablet() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
-      return true;
-    }
 
     return Scaffold(
       body: workoutsSnapshot.when(
@@ -25,49 +16,32 @@ class WorkoutsScreen extends ConsumerWidget {
           if (data!.docs.isEmpty) {
             return BigAddWorkout(width: width, height: height);
           } else {
-            return GridView.builder(
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(
                 horizontal: width * .05,
               ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: isDesktop()
-                    ? 4
-                    : isTablet()
-                        ? 3
-                        : 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.1,
-              ),
               itemCount: data.docs.length + 1,
-              shrinkWrap: true,
+              shrinkWrap: false,
               itemBuilder: (context, index) {
                 if (index == data.docs.length) {
                   return SmallAddWorkout(
-                    width: width,
-                    height: height,
+                    width: width * .2,
+                    height: height * .2,
                   );
                 } else {
                   final workout = data.docs[index].data();
-                  final workoutName = workout.name;
-                  final workoutExercises = workout.exercises;
-                  final workoutImgUrl = workout.imgUrl;
-                  final workoutCreationDate = workout.creationDate;
-                  final workoutId = workout.id;
 
                   return QmBlock(
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
                     padding: const EdgeInsets.all(10),
-                    width: 0,
-                    height: 0,
+                    width: width * .2,
+                    height: height * .2,
                     isGradient: false,
                     onTap: () => context.pushNamed(
                       Routes.workoutRootR,
                       extra: {
-                        WorkoutModel.nameKey: workoutName,
-                        WorkoutModel.imgUrlKey: workoutImgUrl,
-                        WorkoutModel.exercisesKey: workoutExercises,
-                        WorkoutModel.creationDateKey: workoutCreationDate,
-                        WorkoutModel.idKey: workoutId,
+                        WorkoutModel.modelKey: workout,
                         "index": index,
                       },
                     ),
@@ -82,14 +56,14 @@ class WorkoutsScreen extends ConsumerWidget {
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: QmText(
-                                text: workoutName,
+                                text: workout.name,
                                 maxWidth: double.maxFinite,
                               ),
                             ),
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: QmText(
-                                text: Utils().timeAgo(workoutCreationDate),
+                                text: Utils().timeAgo(workout.creationDate),
                                 isSeccoundary: true,
                               ),
                             ),
@@ -98,18 +72,11 @@ class WorkoutsScreen extends ConsumerWidget {
                         Flexible(
                           flex: 1,
                           fit: FlexFit.tight,
-                          child: Draggable(
-                            data: {
-                              WorkoutModel.nameKey: workoutName,
-                              WorkoutModel.imgUrlKey: workoutImgUrl,
-                              WorkoutModel.exercisesKey: workoutExercises,
-                              WorkoutModel.creationDateKey: workoutCreationDate,
-                              WorkoutModel.idKey: workoutId,
-                              "index": index,
-                            },
+                          child: Draggable<WorkoutModel>(
+                            data: workout,
                             feedback: QmBlock(
                               padding: const EdgeInsets.all(10),
-                              color: ColorConstants.disabledColor,
+                              color: ColorConstants.secondaryColor,
                               width: width * .2,
                               height: height * .2,
                               child: Column(
@@ -120,10 +87,10 @@ class WorkoutsScreen extends ConsumerWidget {
                                     flex: 1,
                                     fit: FlexFit.tight,
                                     child: Hero(
-                                      tag: workoutId,
+                                      tag: workout.id,
                                       child: Image(
                                         image: CachedNetworkImageProvider(
-                                            workoutImgUrl),
+                                            workout.imgUrl),
                                         fit: BoxFit.scaleDown,
                                         errorBuilder:
                                             (context, error, stackTrace) {
@@ -145,20 +112,21 @@ class WorkoutsScreen extends ConsumerWidget {
                                   ),
                                   Flexible(
                                     flex: 1,
-                                    fit: FlexFit.tight,
+                                    fit: FlexFit.loose,
                                     child: QmText(
-                                      text: workoutName,
+                                      text: workout.name,
                                       maxWidth: double.maxFinite,
+                                      overflow: TextOverflow.clip,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             child: Hero(
-                              tag: workoutId,
+                              tag: workout.id,
                               child: Image(
                                 image:
-                                    CachedNetworkImageProvider(workoutImgUrl),
+                                    CachedNetworkImageProvider(workout.imgUrl),
                                 fit: BoxFit.scaleDown,
                                 errorBuilder: (context, error, stackTrace) {
                                   return const Icon(

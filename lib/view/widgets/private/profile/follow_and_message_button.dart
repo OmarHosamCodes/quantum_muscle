@@ -57,7 +57,7 @@ class FollowAndMessageButton extends ConsumerWidget {
                   context: context,
                   ref: ref,
                 ),
-                color: ColorConstants.accentColor,
+                color: ColorConstants.secondaryColor,
                 width: double.maxFinite,
                 height: height * .075,
                 borderRadius: const BorderRadius.only(

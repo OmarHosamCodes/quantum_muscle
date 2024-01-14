@@ -2,7 +2,7 @@ import '/library.dart';
 
 final borderWidthStateProvider = StateProvider<double>((ref) => 2);
 
-class QmAvatar extends ConsumerWidget {
+class QmAvatar extends StatelessWidget {
   const QmAvatar({
     super.key,
     this.imageUrl,
@@ -15,63 +15,38 @@ class QmAvatar extends ConsumerWidget {
   final double radius;
   final bool isNetworkImage;
 
-  String get imageURL => imageUrl ?? SimpleConstants.emptyString;
+  String? get imageURL => imageUrl;
   ImageProvider get imageProvider => isNetworkImage
-      ? CachedNetworkImageProvider(imageURL)
-      : MemoryImage(base64Decode(imageURL)) as ImageProvider<Object>;
+      ? CachedNetworkImageProvider(imageURL!)
+      : MemoryImage(base64Decode(imageURL!)) as ImageProvider<Object>;
+
+  bool get hasError => false;
+  set hasError(bool value) {
+    hasError = value;
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final borderWidth = ref.watch(borderWidthStateProvider);
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => ref.read(borderWidthStateProvider.notifier).state = 20,
-      onExit: (_) => ref.read(borderWidthStateProvider.notifier).state = 2,
-      child: InkWell(
-        onTap: onTap,
-        child: AnimatedContainer(
-          padding: const EdgeInsets.all(5.0),
-          duration: SimpleConstants.fastAnimationDuration,
-          height: radius * 2,
-          width: radius * 2,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: ColorConstants.primaryColor,
-              width: borderWidth,
-            ),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(radius),
-            child: Image(
-              image: imageProvider,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(
-                  EvaIcons.person,
-                  color: ColorConstants.iconColor,
-                );
-              },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return const Center(
-                  child: QmCircularProgressIndicator(),
-                );
-              },
-            ),
-          ),
+  Widget build(BuildContext context) {
+    const borderWidth = 5;
+    // Null check for imageUrl
+    if (imageUrl == null || hasError) {
+      return CircleAvatar(
+        radius: radius - borderWidth,
+        backgroundColor: ColorConstants.primaryColor,
+        child: const Icon(
+          EvaIcons.person,
+          color: ColorConstants.iconColor,
         ),
+      );
+    }
+    return InkWell(
+      onTap: onTap,
+      child: CircleAvatar(
+        radius: radius - borderWidth,
+        backgroundColor: ColorConstants.primaryColor,
+        backgroundImage: imageProvider,
+        onBackgroundImageError: (exception, stackTrace) => hasError = true,
       ),
     );
   }
-}
-
-class CustomRectClipper extends CustomClipper<Rect> {
-  const CustomRectClipper();
-  @override
-  Rect getClip(Size size) {
-    return Rect.fromLTWH(0, 0, size.width, size.height);
-  }
-
-  @override
-  bool shouldReclip(CustomRectClipper oldClipper) => false;
 }

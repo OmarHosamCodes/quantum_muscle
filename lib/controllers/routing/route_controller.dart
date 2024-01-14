@@ -45,9 +45,11 @@ class RoutingController {
         ],
       ),
       GoRoute(
-        path: Routes.authR,
-        builder: (context, state) => AuthScreen(
+        name: Routes.programRootR,
+        path: Routes.programDetailsR,
+        builder: (context, state) => ProgramDetailsScreen(
           key: state.pageKey,
+          arguments: state.extra! as Map<String, dynamic>,
         ),
       ),
       GoRoute(
@@ -55,7 +57,7 @@ class RoutingController {
         path: Routes.profileR,
         builder: (context, state) => SearchedProfile(
           key: state.pageKey,
-          userId: state.pathParameters['userId']!,
+          userId: state.pathParameters[UserModel.idKey]!,
         ),
       ),
       GoRoute(

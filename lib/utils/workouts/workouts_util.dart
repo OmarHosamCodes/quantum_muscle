@@ -2,8 +2,7 @@
 
 import '/library.dart';
 
-final workoutImageBytesProvider =
-    StateProvider<Uint8List?>((ref) => Uint8List(0));
+final workoutImageBytesProvider = StateProvider<String?>((ref) => null);
 
 class WorkoutUtil extends Utils {
   static WorkoutUtil get instance => WorkoutUtil();

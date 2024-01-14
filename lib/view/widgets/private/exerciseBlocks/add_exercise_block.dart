@@ -23,7 +23,7 @@ class AddExerciseTile extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     return Consumer(
       builder: (context, ref, _) {
-        final exerciseImageRef = ref.watch(exerciseImageBytesProvider);
+        final exerciseImageRef = ref.watch(exerciseImageBytesProvider) ?? '';
 
         return SlimyCard(
           onTap: () async {
@@ -38,7 +38,7 @@ class AddExerciseTile extends StatelessWidget {
                 exerciseName: exerciseNameTextController.text,
                 exerciseTarget: exerciseTargetTextController.text,
                 indexToInsert: indexToInsert,
-                showcaseFile: base64Encode(exerciseImageRef),
+                showcaseFile: exerciseImageRef,
                 showcaseType: ExerciseShowcaseConstants.image,
               );
             }
@@ -56,7 +56,7 @@ class AddExerciseTile extends StatelessWidget {
               provider: exerciseImageBytesProvider,
             ),
             child: Image(
-              image: MemoryImage(exerciseImageRef!),
+              image: MemoryImage(base64Decode(exerciseImageRef)),
               fit: BoxFit.scaleDown,
               errorBuilder: (context, error, stackTrace) {
                 return const Icon(

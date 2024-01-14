@@ -6,6 +6,7 @@ enum MessageType {
   video,
   audio,
   file,
+  request,
   server,
 }
 
@@ -22,6 +23,8 @@ extension MessageTypeExtension on MessageType {
         return MessageTypeConstants.audio;
       case MessageType.file:
         return MessageTypeConstants.file;
+      case MessageType.request:
+        return MessageTypeConstants.request;
       case MessageType.server:
         return MessageTypeConstants.server;
     }

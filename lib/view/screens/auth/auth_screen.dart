@@ -2,7 +2,7 @@ import '/library.dart';
 
 final authPageController = PageController(initialPage: 1);
 
-class AuthScreen extends HookWidget {
+class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
   @override
@@ -13,6 +13,7 @@ class AuthScreen extends HookWidget {
       const RegisterScreen(),
     ];
     return Scaffold(
+      backgroundColor: ColorConstants.backgroundColor,
       extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(

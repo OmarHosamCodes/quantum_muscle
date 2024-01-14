@@ -37,20 +37,20 @@ class EditProfileScreen extends ConsumerWidget {
                         ref.watch(userProfileImageProvider);
                     return QmIconButton(
                       onPressed: () {
-                        if (profileImageProvider ==
-                                SimpleConstants.emptyString &&
+                        if (!(profileImageProvider == null &&
                             nameTextcontroller.text == userName &&
                             (bioTextcontroller.text == userBio ||
                                 bioTextcontroller.text ==
-                                    SimpleConstants.emptyString)) {}
-                        ProfileUtil().updateProfile(
-                          context: context,
-                          userName: nameTextcontroller.text,
-                          userBio: bioTextcontroller.text,
-                          userProfileImage: profileImageProvider,
-                          ref: ref,
-                          formKey: fromKey,
-                        );
+                                    SimpleConstants.emptyString))) {
+                          ProfileUtil().updateProfile(
+                            context: context,
+                            userName: nameTextcontroller.text,
+                            userBio: bioTextcontroller.text,
+                            userProfileImage: profileImageProvider!,
+                            ref: ref,
+                            formKey: fromKey,
+                          );
+                        }
                       },
                       icon: EvaIcons.checkmark,
                     );
@@ -65,10 +65,9 @@ class EditProfileScreen extends ConsumerWidget {
                     ref.watch(userProfileImageProvider);
 
                 return GestureDetector(
-                  onTap: () => ProfileUtil.chooseImage(
+                  onTap: () => Utils().chooseImageFromStorage(
                     ref: ref,
                     provider: userProfileImageProvider,
-                    context: context,
                   ),
                   child: Center(
                     child: Stack(
@@ -90,6 +89,7 @@ class EditProfileScreen extends ConsumerWidget {
                             ),
                             child: const Icon(
                               EvaIcons.camera,
+                              color: ColorConstants.iconColor,
                             ),
                           ),
                         ),

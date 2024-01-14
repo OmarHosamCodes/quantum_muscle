@@ -32,6 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "AddProgram": MessageLookupByLibrary.simpleMessage("إضافة برنامج"),
         "AddProgramName":
             MessageLookupByLibrary.simpleMessage("أدخل اسم البرنامج"),
+        "AddTrainee": MessageLookupByLibrary.simpleMessage("إضافة متدرب"),
+        "AddTraineeId":
+            MessageLookupByLibrary.simpleMessage("أدخل معرف المتدرب"),
         "AddWorkout": MessageLookupByLibrary.simpleMessage("إضافة تمرين"),
         "AddWorkoutDescription":
             MessageLookupByLibrary.simpleMessage("أدخل وصف التمرين"),
@@ -108,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoBio": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
             "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة."),
+        "NoPrograms":
+            MessageLookupByLibrary.simpleMessage("لا توجد برامج حتى الآن"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
@@ -119,9 +124,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "Search": MessageLookupByLibrary.simpleMessage("بحث"),
         "SendEmail":
             MessageLookupByLibrary.simpleMessage("إرسال بريد إلكتروني"),
+        "SendRequest": MessageLookupByLibrary.simpleMessage("إرسال طلب"),
         "Slogan": MessageLookupByLibrary.simpleMessage("ابدأ في صنع الفرق"),
         "Success": MessageLookupByLibrary.simpleMessage("نجاح"),
         "Trainee": MessageLookupByLibrary.simpleMessage("المتدرب"),
+        "Trainees": MessageLookupByLibrary.simpleMessage("المتدربون:"),
         "Trainer": MessageLookupByLibrary.simpleMessage("المدرب"),
         "TryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
         "TypeMessage": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
@@ -131,7 +138,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeekAgo": MessageLookupByLibrary.simpleMessage("منذ أسبوع"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("أسابيع مضت"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),
-        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين"),
+        "WillYouJoinProgram":
+            MessageLookupByLibrary.simpleMessage("هل ستنضم إلى هذا البرنامج؟"),
+        "WorkoutAlreadyExistsInProgram": MessageLookupByLibrary.simpleMessage(
+            "التمرين موجود بالفعل في البرنامج"),
+        "Workouts": MessageLookupByLibrary.simpleMessage("تمارين:"),
         "YearAgo": MessageLookupByLibrary.simpleMessage("منذ سنة"),
         "YearsAgo": MessageLookupByLibrary.simpleMessage("سنوات مضت"),
         "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(

@@ -56,7 +56,8 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                       padding: const EdgeInsets.all(10.0),
                       child: Consumer(
                         builder: (context, ref, _) {
-                          final imageRef = ref.watch(workoutImageBytesProvider);
+                          String? imageRef =
+                              ref.watch(workoutImageBytesProvider) ?? '';
                           return QmBlock(
                             borderRadius: BorderRadius.circular(10),
                             isNormal: true,
@@ -70,7 +71,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                             height: widget.height * .9,
                             child: Image(
                               image: MemoryImage(
-                                imageRef!,
+                                base64Decode(imageRef),
                               ),
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(
@@ -116,7 +117,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                   context: context,
                                   formKey: formKey,
                                   workoutName: workoutNameTextController.text,
-                                  imageFile: base64Encode(imageRef!),
+                                  imageFile: imageRef!,
                                   ref: ref,
                                 ),
                                 height: widget.height * .1,

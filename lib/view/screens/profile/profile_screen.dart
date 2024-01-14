@@ -32,7 +32,7 @@ class ProfileScreen extends ConsumerWidget {
       var data = userFuture.value as DocumentSnapshot;
       var userData = data.data() as Map<String, dynamic>;
       final String userName = userData[UserModel.nameKey];
-      final String userRatID = userData[UserModel.ratIDKey];
+      final String userId = userData[UserModel.idKey];
       final String userProfileImage =
           userData[UserModel.profileImageKey] ?? SimpleConstants.emptyString;
       final String? userBio = userData[UserModel.bioKey];
@@ -65,9 +65,19 @@ class ProfileScreen extends ConsumerWidget {
                         QmText(
                           text: userName,
                         ),
-                        QmText(
-                          text: userRatID,
-                          isSeccoundary: true,
+                        Row(
+                          children: [
+                            QmText(
+                              text: "#$userId",
+                              isSeccoundary: true,
+                            ),
+                            QmIconButton(
+                              onPressed: () => Utils().copyToClipboard(
+                                text: userId,
+                              ),
+                              icon: EvaIcons.copyOutline,
+                            )
+                          ],
                         ),
                       ],
                     ),

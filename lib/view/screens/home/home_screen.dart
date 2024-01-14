@@ -16,7 +16,7 @@ final workoutsStreamProvider =
       .doc(Utils().userUid)
       .collection(DBPathsConstants.usersUserWorkoutsPath)
       .withConverter(
-        fromFirestore: WorkoutModel.fromMap,
+        fromFirestore: WorkoutModel.fromFirestore,
         toFirestore: (workout, _) => workout.toMap(),
       )
       .orderBy(

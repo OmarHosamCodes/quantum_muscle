@@ -3,14 +3,14 @@ import '/library.dart';
 final userTypeStateProvider =
     StateProvider<UserType>((ref) => UserType.trainee);
 
-class RegisterScreen extends HookWidget {
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final nameTextController = useTextEditingController();
-    final emailTextController = useTextEditingController();
-    final passwordTextController = useTextEditingController();
+    final nameTextController = TextEditingController();
+    final emailTextController = TextEditingController();
+    final passwordTextController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -22,9 +22,6 @@ class RegisterScreen extends HookWidget {
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: QmNiceTouch(
-        alignment: Utils().isEnglish ? Alignment.topLeft : Alignment.topRight,
-        width: width * .25,
-        height: height * .25,
         child: Center(
           child: ResponsiveRowColumn(
             rowMainAxisAlignment: MainAxisAlignment.center,

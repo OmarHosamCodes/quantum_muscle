@@ -1,6 +1,7 @@
 import '/library.dart';
 
 class UserModel {
+  static const String idKey = 'id';
   static const String ratIDKey = 'ratID';
   static const String nameKey = 'name';
   static const String emailKey = 'email';
@@ -17,7 +18,9 @@ class UserModel {
   static const String tagsKey = 'tags';
   static const String friendsKey = 'friends';
   static const String chatsKey = 'chats';
+  static const String programsKey = 'programs';
 
+  String? id;
   String? ratID;
   String? name;
   String? email;
@@ -34,8 +37,10 @@ class UserModel {
   List? following;
   List? tags;
   List? chats;
+  List? programs;
 
   UserModel({
+    this.id,
     this.ratID,
     this.name,
     this.email,
@@ -52,12 +57,14 @@ class UserModel {
     this.following,
     this.tags,
     this.chats,
+    this.programs,
   });
 
   factory UserModel.fromMap(
       DocumentSnapshot<Map<String, dynamic>> doc, SnapshotOptions? options) {
     var map = doc.data()!;
     return UserModel(
+      id: map[idKey],
       ratID: map[ratIDKey],
       name: map[nameKey],
       email: map[emailKey],
@@ -75,11 +82,13 @@ class UserModel {
       following: map[followingKey],
       tags: map[tagsKey],
       chats: map[chatsKey],
+      programs: map[programsKey],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      idKey: id,
       ratIDKey: ratID,
       nameKey: name,
       emailKey: email,
@@ -95,6 +104,7 @@ class UserModel {
       followingKey: following,
       tagsKey: tags,
       chatsKey: chats,
+      programsKey: programs,
     };
   }
 }

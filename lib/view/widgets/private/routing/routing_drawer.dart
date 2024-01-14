@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import '/library.dart';
 
 class RoutingDrawer extends ConsumerWidget {
@@ -8,8 +6,9 @@ class RoutingDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final routingController = RoutingController.instants;
+    final locale = Intl.getCurrentLocale();
     return Drawer(
-      backgroundColor: ColorConstants.disabledColor,
+      backgroundColor: ColorConstants.secondaryColor,
       child: Column(
         children: [
           ListTile(
@@ -68,14 +67,14 @@ class RoutingDrawer extends ConsumerWidget {
               return ListTile(
                 leading: const Icon(
                   EvaIcons.globe,
-                  color: ColorConstants.primaryColor,
+                  color: ColorConstants.iconColor,
                 ),
                 title: QmText(
                   text: S.current.Language,
                 ),
                 onTap: () {
                   context.pop();
-                  Utils().isEnglish
+                  locale == SimpleConstants.englishLocale
                       ? ref.read(localeStateProvider.notifier).state =
                           const Locale(SimpleConstants.arabicLocale)
                       : ref.read(localeStateProvider.notifier).state =

@@ -22,6 +22,7 @@ export 'view/screens/profile/searched_profile_screen.dart';
 export 'view/screens/search/search_screen.dart';
 export 'view/screens/programs/programs_screen.dart';
 export 'view/screens/programs/workouts/workouts_screen.dart';
+export 'view/screens/programs/program_details_screen.dart';
 
 //* Widgets
 
@@ -36,7 +37,7 @@ export 'view/widgets/public/qm_nice_touch.dart';
 export 'view/widgets/private/programs/programs_showcase.dart';
 export 'view/widgets/private/auth/choose_user_type.dart';
 export 'view/widgets/private/auth/forgot_password_text.dart';
-export 'view/widgets/private/routing/Routing_drawer.dart';
+export 'view/widgets/private/routing/routing_drawer.dart';
 export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
 export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
 export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
@@ -45,6 +46,9 @@ export 'view/widgets/private/profile/add_image_widget.dart';
 export 'view/widgets/private/profile/edit_profile_text_field.dart';
 export 'view/widgets/private/profile/follow_and_message_button.dart';
 export 'view/widgets/private/chat/message_bubble.dart';
+export 'view/widgets/private/programs/add_program.dart';
+export 'view/widgets/private/programs/program_block.dart';
+export 'view/widgets/private/programs/trainee_sheet.dart';
 
 //* Controllers
 
@@ -73,7 +77,6 @@ export 'models/workout/workout_model.dart';
 export 'models/profile/user_image_model.dart';
 export 'models/chat/chat_model.dart';
 export 'models/programs/program_model.dart';
-export 'models/programs/program_showcase_block_model.dart';
 export 'models/enums/provider_statues.dart';
 export 'models/enums/user_type.dart';
 export 'models/chat/message_model.dart';
@@ -127,5 +130,4 @@ export 'dart:ui' show ImageFilter;
 export 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-export 'package:flutter_hooks/flutter_hooks.dart';
-export 'package:hooks_riverpod/hooks_riverpod.dart';
+export 'package:pattern_background/pattern_background.dart';

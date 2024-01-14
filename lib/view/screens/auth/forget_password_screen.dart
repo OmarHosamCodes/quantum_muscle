@@ -15,10 +15,6 @@ class ForgetPasswordScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: QmNiceTouch(
-        alignment:
-            Utils().isEnglish ? Alignment.centerLeft : Alignment.centerRight,
-        width: width * .25,
-        height: height * .25,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

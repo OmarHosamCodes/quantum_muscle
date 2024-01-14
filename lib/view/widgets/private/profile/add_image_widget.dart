@@ -6,7 +6,7 @@ void lunchAddImageWidget({
   required int indexToInsert,
 }) {
   showModalBottomSheet(
-    backgroundColor: ColorConstants.accentColor,
+    backgroundColor: ColorConstants.secondaryColor,
     context: context,
     builder: (context) {
       return _AddImageWidget(

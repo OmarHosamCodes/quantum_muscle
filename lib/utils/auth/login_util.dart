@@ -11,24 +11,22 @@ class LoginUtil extends Utils {
     required WidgetRef ref,
   }) async {
     final isValid = formKey.currentState!.validate();
-    if (isValid) {
-      try {
-        await firebaseAuth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+    if (!isValid) return;
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(
+        email: email.toLowerCase(),
+        password: password,
+      );
+      if (user != null) {
         ref.invalidate(userFutureProvider);
         ref.read(userFutureProvider(Utils().userUid!));
-        // if (user != null) RoutingController.instants.changeRoute(0);
-      } on FirebaseAuthException catch (e) {
-        context.pop();
-
-        openQmDialog(
-          context: context,
-          title: S.current.Failed,
-          message: e.message!,
-        );
       }
+    } on FirebaseAuthException catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.message!,
+      );
     }
   }
 }

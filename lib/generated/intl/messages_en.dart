@@ -32,6 +32,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "AddProgram": MessageLookupByLibrary.simpleMessage("Add Program"),
         "AddProgramName":
             MessageLookupByLibrary.simpleMessage("Add Program Name"),
+        "AddTrainee": MessageLookupByLibrary.simpleMessage("Add Trainee"),
+        "AddTraineeId": MessageLookupByLibrary.simpleMessage("Add Trainee ID"),
         "AddWorkout": MessageLookupByLibrary.simpleMessage("Add Workout"),
         "AddWorkoutDescription":
             MessageLookupByLibrary.simpleMessage("Add Workout Description"),
@@ -108,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
         "NoChat": MessageLookupByLibrary.simpleMessage(
             "No chat yet, click to start a new chat."),
+        "NoPrograms": MessageLookupByLibrary.simpleMessage("No programs yet"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
@@ -118,10 +121,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "SendEmail": MessageLookupByLibrary.simpleMessage("Send Email"),
+        "SendRequest": MessageLookupByLibrary.simpleMessage("Send Request"),
         "Slogan":
             MessageLookupByLibrary.simpleMessage("Start Making Difference"),
         "Success": MessageLookupByLibrary.simpleMessage("Success"),
         "Trainee": MessageLookupByLibrary.simpleMessage("Trainee"),
+        "Trainees": MessageLookupByLibrary.simpleMessage("Trainees:"),
         "Trainer": MessageLookupByLibrary.simpleMessage("Trainer"),
         "TryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "TypeMessage":
@@ -132,7 +137,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeekAgo": MessageLookupByLibrary.simpleMessage("week ago"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("weeks ago"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !"),
-        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts"),
+        "WillYouJoinProgram": MessageLookupByLibrary.simpleMessage(
+            "Will you join this program ?"),
+        "WorkoutAlreadyExistsInProgram": MessageLookupByLibrary.simpleMessage(
+            "Workout already exists in program"),
+        "Workouts": MessageLookupByLibrary.simpleMessage("Workouts:"),
         "YearAgo": MessageLookupByLibrary.simpleMessage("year ago"),
         "YearsAgo": MessageLookupByLibrary.simpleMessage("years ago"),
         "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(

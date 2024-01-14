@@ -6,12 +6,14 @@ class MessageModel {
   static const String timestampKey = 'timestamp';
   static const String messageUrlKey = 'messageUrl';
   static const String typeKey = 'type';
+  static const String programRequestIdKey = 'programRequestId';
 
   final String senderId;
   final String message;
   final String? messageUrl;
   final Timestamp timestamp;
   final MessageType type;
+  final String? programRequestId;
 
   MessageModel({
     required this.senderId,
@@ -19,23 +21,22 @@ class MessageModel {
     required this.timestamp,
     this.messageUrl,
     this.type = MessageType.text,
+    this.programRequestId,
   }) : assert(message != SimpleConstants.emptyString);
 
   factory MessageModel.fromMap(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options,
-  ) {
-    final map = snapshot.data()!;
-    return MessageModel(
-      senderId: map[senderIdKey],
-      message: map[messageKey],
-      timestamp: map[timestampKey],
-      messageUrl: map[messageUrlKey],
-      type: MessageType.values.firstWhere(
-        (element) => element.name == map[typeKey],
-      ),
-    );
-  }
+    Map<String, dynamic> map,
+  ) =>
+      MessageModel(
+        senderId: map[senderIdKey],
+        message: map[messageKey],
+        timestamp: map[timestampKey],
+        messageUrl: map[messageUrlKey],
+        type: MessageType.values.firstWhere(
+          (element) => element.name == map[typeKey],
+        ),
+        programRequestId: map[programRequestIdKey],
+      );
 
   Map<String, dynamic> toMap() => {
         senderIdKey: senderId,
@@ -43,5 +44,6 @@ class MessageModel {
         timestampKey: timestamp,
         messageUrlKey: messageUrl,
         typeKey: type.name,
+        programRequestIdKey: programRequestId,
       };
 }

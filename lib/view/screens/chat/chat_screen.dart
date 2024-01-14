@@ -61,31 +61,19 @@ class ChatScreen extends StatelessWidget {
                     }
                     final messages = snapshot.data!.docs;
                     return ListView.builder(
+                      padding: const EdgeInsets.all(10),
                       reverse: true,
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
                         final messageData =
                             messages[index].data()! as Map<String, dynamic>;
-                        final messageText =
-                            messageData[MessageModel.messageKey] as String;
-                        final messageSender =
-                            messageData[MessageModel.senderIdKey] as String;
-                        final messageTimestamp =
-                            messageData[MessageModel.timestampKey] as Timestamp;
-                        final messageUrl =
-                            messageData[MessageModel.messageUrlKey]
-                                    as String? ??
-                                SimpleConstants.emptyString;
-                        final messageType =
-                            messageData[MessageModel.typeKey] as String;
+                        final message = MessageModel.fromMap(messageData);
 
                         return MessageBubble(
-                          messageSender: messageSender,
-                          messageText: messageText,
-                          messageTimestamp: messageTimestamp,
-                          messageUrl: messageUrl,
-                          messageType: messageType,
+                          message: message,
                           chatUserId: chatUserId,
+                          chatId: chatId,
+                          messageId: messages[index].id,
                         );
                       },
                     );
@@ -102,7 +90,7 @@ class ChatScreen extends StatelessWidget {
                 SizedBox(
                   width: width * 0.6,
                   child: QmTextField(
-                    fieldColor: ColorConstants.accentColor,
+                    fieldColor: ColorConstants.secondaryColor,
                     height: height * 0.09,
                     width: width * .6,
                     controller: messageTextController,

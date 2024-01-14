@@ -11,6 +11,7 @@ class SearchedProfile extends ConsumerWidget {
     final String userURI =
         GoRouterState.of(context).uri.toString().split('/profile/')[1];
     return Scaffold(
+      backgroundColor: ColorConstants.backgroundColor,
       extendBody: true,
       body: FutureBuilder(
         future: ref.watch(userFutureProvider(userId).future),
@@ -27,7 +28,7 @@ class SearchedProfile extends ConsumerWidget {
           final data = snapshot.data!;
           final userData = data.data() as Map<String, dynamic>;
           final String userName = userData[UserModel.nameKey];
-          final String userRatID = userData[UserModel.ratIDKey];
+          final String userId = userData[UserModel.idKey];
           final String userProfileImage = userData[UserModel.profileImageKey] ??
               SimpleConstants.emptyString;
           final String userBio = userData[UserModel.bioKey] ?? S.current.NoBio;
@@ -57,9 +58,19 @@ class SearchedProfile extends ConsumerWidget {
                             QmText(
                               text: userName,
                             ),
-                            QmText(
-                              text: userRatID,
-                              isSeccoundary: true,
+                            Row(
+                              children: [
+                                QmText(
+                                  text: "#$userId",
+                                  isSeccoundary: true,
+                                ),
+                                QmIconButton(
+                                  onPressed: () => Utils().copyToClipboard(
+                                    text: userId,
+                                  ),
+                                  icon: EvaIcons.copyOutline,
+                                )
+                              ],
                             ),
                           ],
                         ),

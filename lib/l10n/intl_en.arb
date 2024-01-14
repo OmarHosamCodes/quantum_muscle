@@ -27,11 +27,12 @@
   "NoChat": "No chat yet, click to start a new chat.",
   "Trainer": "Trainer",
   "Trainee": "Trainee",
+  "Trainees": "Trainees:",
   "SendEmail": "Send Email",
   "Search": "Search",
   "Hi": "Hi",
   "Slogan": "Start Making Difference",
-  "Workouts": "Workouts",
+  "Workouts": "Workouts:",
   "Followers": "Followers",
   "Following": "Following",
   "Follow": "Follow",
@@ -84,5 +85,11 @@
   "TypeMessage": "Type a message...",
   "Programs": "Programs",
   "AddProgram": "Add Program",
-  "AddProgramName": "Add Program Name"
+  "AddProgramName": "Add Program Name",
+  "NoPrograms": "No programs yet",
+  "SendRequest": "Send Request",
+  "AddTraineeId": "Add Trainee ID",
+  "AddTrainee": "Add Trainee",
+  "WillYouJoinProgram": "Will you join this program ?",
+  "WorkoutAlreadyExistsInProgram": "Workout already exists in program"
 }

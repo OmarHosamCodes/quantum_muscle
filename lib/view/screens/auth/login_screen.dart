@@ -2,13 +2,13 @@
 
 import '/library.dart';
 
-class LoginScreen extends HookWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final emailTextController = useTextEditingController();
-    final passwordTextController = useTextEditingController();
+    final emailTextController = TextEditingController();
+    final passwordTextController = TextEditingController();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final maxWidth = width * .6;
@@ -19,10 +19,6 @@ class LoginScreen extends HookWidget {
       extendBodyBehindAppBar: true,
       extendBody: true,
       body: QmNiceTouch(
-        alignment:
-            Utils().isEnglish ? Alignment.bottomLeft : Alignment.bottomRight,
-        width: width * .25,
-        height: height * .25,
         child: Center(
           child: ResponsiveRowColumn(
             rowMainAxisAlignment: MainAxisAlignment.center,

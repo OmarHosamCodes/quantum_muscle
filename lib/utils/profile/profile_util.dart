@@ -2,10 +2,8 @@
 
 import '/library.dart';
 
-final userProfileImageProvider =
-    StateProvider<String?>((ref) => SimpleConstants.emptyString);
-final addImageProvider =
-    StateProvider<String?>((ref) => SimpleConstants.emptyString);
+final userProfileImageProvider = StateProvider<String?>((ref) => null);
+final addImageProvider = StateProvider<String?>((ref) => null);
 
 class ProfileUtil extends Utils {
   late final userRef =
@@ -47,8 +45,7 @@ class ProfileUtil extends Utils {
             );
             ref.invalidate(userFutureProvider);
             ref.read(userFutureProvider(Utils().userUid!));
-            ref.read(userProfileImageProvider.notifier).state =
-                SimpleConstants.emptyString;
+            ref.read(userProfileImageProvider.notifier).state = null;
             ref.invalidate(userProfileImageProvider);
             ref.read(userProfileImageProvider);
             context.go(Routes.myProfileR);

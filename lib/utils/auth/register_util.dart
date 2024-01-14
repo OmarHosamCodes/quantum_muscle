@@ -69,7 +69,9 @@ class RegisterUtil extends Utils {
         tempSet.remove(' ');
         tempSet.remove('  ');
       }
+
       final userModel = UserModel(
+        id: user!.uid,
         ratID: "#${user!.uid.substring(0, 16)}",
         name: userName,
         email: user!.email,
@@ -85,6 +87,7 @@ class RegisterUtil extends Utils {
         images: [],
         tags: tempSet.toList(),
         chats: [],
+        programs: [],
       );
 
       await firebaseFirestore

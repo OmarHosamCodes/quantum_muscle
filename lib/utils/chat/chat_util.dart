@@ -14,19 +14,14 @@ class ChatUtil extends Utils {
         firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userId);
     final myDocRef =
         firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
-    if (await userDocRef.get().then(
-              (value) =>
-                  (value.data()![UserModel.chatsKey] as List).indexWhere(
-                      (element) =>
-                          (element as Map).values.contains(userUid!)) !=
-                  -1,
-            ) &&
-        await myDocRef.get().then(
-              (value) =>
-                  (value.data()![UserModel.chatsKey] as List).indexWhere(
-                      (element) => (element as Map).values.contains(userId)) !=
-                  -1,
-            )) {
+    if (await userDocRef.get().then((value) =>
+            (value.data()![UserModel.chatsKey] as List).indexWhere(
+                (element) => (element as Map).values.contains(userUid!)) !=
+            -1) &&
+        await myDocRef.get().then((value) =>
+            (value.data()![UserModel.chatsKey] as List).indexWhere(
+                (element) => (element as Map).values.contains(userId)) !=
+            -1)) {
       context.pop();
       context.go(Routes.chatsR);
     } else {
@@ -34,31 +29,23 @@ class ChatUtil extends Utils {
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userUid)
-            .update(
-          {
-            UserModel.chatsKey: FieldValue.arrayUnion(
-              [
-                {
-                  uniqueId: userId,
-                }
-              ],
-            ),
-          },
-        );
+            .update({
+          UserModel.chatsKey: FieldValue.arrayUnion([
+            {
+              uniqueId: userId,
+            }
+          ])
+        });
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userId)
-            .update(
-          {
-            UserModel.chatsKey: FieldValue.arrayUnion(
-              [
-                {
-                  uniqueId: userUid,
-                }
-              ],
-            ),
-          },
-        );
+            .update({
+          UserModel.chatsKey: FieldValue.arrayUnion([
+            {
+              uniqueId: userUid,
+            }
+          ])
+        });
         final initMessage = MessageModel(
             senderId: PrivateConstants.serverSenderId,
             timestamp: Timestamp.now(),
@@ -102,6 +89,43 @@ class ChatUtil extends Utils {
       MessageModel.senderIdKey: Utils().userUid,
       MessageModel.timestampKey: Timestamp.now(),
       MessageModel.typeKey: MessageType.text.name,
+    });
+  }
+
+  Future<void> removeMessage({
+    required String chatId,
+    required String messageId,
+    required BuildContext context,
+  }) async {
+    try {
+      await firebaseFirestore
+          .collection(DBPathsConstants.chatsPath)
+          .doc(chatId)
+          .collection(DBPathsConstants.chatsMessagesPath)
+          .doc(messageId)
+          .delete();
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<void> addRequestMessage({
+    required String chatId,
+    required String message,
+  }) async {
+    await firebaseFirestore
+        .collection(DBPathsConstants.chatsPath)
+        .doc(chatId)
+        .collection(DBPathsConstants.chatsMessagesPath)
+        .add({
+      MessageModel.messageKey: message,
+      MessageModel.senderIdKey: Utils().userUid,
+      MessageModel.timestampKey: Timestamp.now(),
+      MessageModel.typeKey: MessageType.request.name,
     });
   }
 }

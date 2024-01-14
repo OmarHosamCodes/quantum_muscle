@@ -31,7 +31,7 @@ class _QmDialog extends StatelessWidget {
         text: message,
         isSeccoundary: true,
       ),
-      backgroundColor: ColorConstants.accentColor,
+      backgroundColor: ColorConstants.secondaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),

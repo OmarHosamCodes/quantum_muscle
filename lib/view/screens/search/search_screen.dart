@@ -49,7 +49,7 @@ class SearchScreenState extends State<SearchScreen> {
                     _searchResults[index].data() as Map<String, dynamic>;
 
                 final String name = userData[UserModel.nameKey];
-                final String ratID = userData[UserModel.ratIDKey];
+                final String id = userData[UserModel.idKey];
                 final String? image = userData[UserModel.profileImageKey] ??
                     SimpleConstants.emptyString;
                 return ListTile(
@@ -58,14 +58,14 @@ class SearchScreenState extends State<SearchScreen> {
                   ),
                   title: QmText(text: name),
                   subtitle: QmText(
-                    text: ratID,
+                    text: id,
                     isSeccoundary: true,
                   ),
                   onTap: () {
                     context.goNamed(
                       Routes.profileRootR,
                       pathParameters: {
-                        'userId': _searchResults[index].id,
+                        UserModel.idKey: _searchResults[index].id,
                       },
                     );
                   },

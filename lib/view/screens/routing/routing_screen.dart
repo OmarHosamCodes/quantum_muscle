@@ -35,10 +35,12 @@ class RoutingScreen extends ConsumerWidget {
         switch (snapshot.data) {
           case User():
             return Scaffold(
+              backgroundColor: ColorConstants.backgroundColor,
               appBar: getDrawerExist ? AppBar() : null,
+              extendBodyBehindAppBar: true,
               extendBody: true,
               drawer: getDrawerExist ? const RoutingDrawer() : null,
-              body: child,
+              body: QmNiceTouch(child: SafeArea(child: child)),
             );
 
           case null:

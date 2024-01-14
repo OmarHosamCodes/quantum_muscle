@@ -27,11 +27,12 @@
   "NoChat": "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة.",
   "Trainer": "المدرب",
   "Trainee": "المتدرب",
+  "Trainees": "المتدربون:",
   "SendEmail": "إرسال بريد إلكتروني",
   "Search": "بحث",
   "Hi": "مرحبا",
   "Slogan": "ابدأ في صنع الفرق",
-  "Workouts": "تمارين",
+  "Workouts": "تمارين:",
   "Followers": "متابعون",
   "Following": "متابعة",
   "Follow": "تابع",
@@ -84,5 +85,11 @@
   "TypeMessage": "اكتب رسالة...",
   "Programs": "برامج",
   "AddProgram": "إضافة برنامج",
-  "AddProgramName": "أدخل اسم البرنامج"
+  "AddProgramName": "أدخل اسم البرنامج",
+  "NoPrograms": "لا توجد برامج حتى الآن",
+  "SendRequest": "إرسال طلب",
+  "AddTraineeId": "أدخل معرف المتدرب",
+  "AddTrainee": "إضافة متدرب",
+  "WillYouJoinProgram": "هل ستنضم إلى هذا البرنامج؟",
+  "WorkoutAlreadyExistsInProgram": "التمرين موجود بالفعل في البرنامج"
 }

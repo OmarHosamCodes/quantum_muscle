@@ -3,33 +3,51 @@ import '/library.dart';
 class MessageBubble extends StatelessWidget {
   const MessageBubble({
     super.key,
-    required this.messageSender,
-    required this.messageText,
-    required this.messageTimestamp,
+    required this.message,
     required this.chatUserId,
-    this.messageUrl,
-    required this.messageType,
+    required this.messageId,
+    required this.chatId,
   });
 
-  final String messageSender;
-  final String messageText;
-  final Timestamp messageTimestamp;
-  final String? messageUrl;
-  final String messageType;
+  final MessageModel message;
   final String chatUserId;
+  final String messageId;
+  final String chatId;
 
   @override
   Widget build(BuildContext context) {
-    CrossAxisAlignment messageAlignment(String messageSender) {
-      if (messageSender == Utils().userUid) {
+    bool isMe = message.senderId == Utils().userUid;
+    CrossAxisAlignment messageAlignment(String messagesenderId) {
+      if (isMe) {
         return CrossAxisAlignment.end;
-      } else if (messageSender == chatUserId) {
+      } else {
         return CrossAxisAlignment.start;
       }
-      return CrossAxisAlignment.center;
     }
 
-    switch (messageType) {
+    Color messageColor(String senderId) {
+      if (isMe) {
+        return ColorConstants.userChatBubbleColor;
+      } else {
+        return ColorConstants.otherChatBubbleColor;
+      }
+    }
+
+    EdgeInsets messagePadding(String senderId) {
+      if (isMe) {
+        return const EdgeInsets.only(
+          left: 80,
+          right: 10,
+        );
+      } else {
+        return const EdgeInsets.only(
+          left: 10,
+          right: 80,
+        );
+      }
+    }
+
+    switch (message.type.name) {
       case MessageTypeConstants.server:
         return Center(
           child: Container(
@@ -39,7 +57,7 @@ class MessageBubble extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(10),
             child: QmText(
-              text: messageText,
+              text: message.message,
               color: ColorConstants.textColor,
               isSeccoundary: true,
             ),
@@ -47,27 +65,25 @@ class MessageBubble extends StatelessWidget {
         );
       case MessageTypeConstants.text:
         return Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: messagePadding(message.senderId),
           child: Column(
-            crossAxisAlignment: messageAlignment(messageSender),
+            crossAxisAlignment: messageAlignment(message.senderId),
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: messageSender == Utils().userUid
-                      ? ColorConstants.userChatBubbleColor
-                      : ColorConstants.otherChatBubbleColor,
+                  color: messageColor(message.senderId),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.all(10),
                 child: QmText(
-                  text: messageText,
+                  text: message.message,
                   color: ColorConstants.textColor,
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 2),
               QmText(
                 text: Utils().timeAgo(
-                  messageTimestamp,
+                  message.timestamp,
                 ),
                 isSeccoundary: true,
               ),
@@ -78,13 +94,11 @@ class MessageBubble extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            crossAxisAlignment: messageAlignment(messageSender),
+            crossAxisAlignment: messageAlignment(message.senderId),
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: messageSender == Utils().userUid
-                      ? ColorConstants.userChatBubbleColor
-                      : ColorConstants.otherChatBubbleColor,
+                  color: messageColor(message.senderId),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.all(10),
@@ -96,26 +110,26 @@ class MessageBubble extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                          image: NetworkImage(messageUrl!),
+                          image: NetworkImage(message.messageUrl!),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     QmText(
-                      text: messageText,
+                      text: message.message,
                       color: ColorConstants.textColor,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 2),
               QmText(
                 text: Utils().timeAgo(
-                  messageTimestamp,
+                  message.timestamp,
                 ),
                 isSeccoundary: true,
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 2),
               GestureDetector(
                 onTap: () {
                   //   context.go(
@@ -131,7 +145,7 @@ class MessageBubble extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                      image: NetworkImage(messageUrl!),
+                      image: NetworkImage(message.messageUrl!),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -140,34 +154,100 @@ class MessageBubble extends StatelessWidget {
             ],
           ),
         );
+      case MessageTypeConstants.request:
+        return Padding(
+          padding: messagePadding(message.senderId),
+          child: Column(
+            crossAxisAlignment: messageAlignment(message.senderId),
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: messageColor(message.senderId),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: FittedBox(
+                  child: Column(
+                    children: [
+                      QmText(
+                        text: message.message,
+                        color: ColorConstants.textColor,
+                      ),
+                      Visibility(
+                        visible: !isMe,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: ColorConstants.primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              Consumer(builder: (context, ref, _) {
+                                return QmIconButton(
+                                  icon: EvaIcons.checkmark,
+                                  iconColor: ColorConstants.iconColor,
+                                  onPressed: () => ProgramsUtil().acceptRequest(
+                                    context: context,
+                                    chatId: chatId,
+                                    ref: ref,
+                                    programId: message.programRequestId!,
+                                  ),
+                                );
+                              }),
+                              QmIconButton(
+                                icon: EvaIcons.close,
+                                iconColor: ColorConstants.iconColor,
+                                onPressed: () => ChatUtil().removeMessage(
+                                  context: context,
+                                  chatId: chatId,
+                                  messageId: messageId,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 2),
+              QmText(
+                text: Utils().timeAgo(
+                  message.timestamp,
+                ),
+                isSeccoundary: true,
+              ),
+            ],
+          ),
+        );
+      default:
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: messageAlignment(message.senderId),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: messageColor(message.senderId),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: QmText(
+                  text: message.message,
+                  color: ColorConstants.textColor,
+                ),
+              ),
+              const SizedBox(width: 10),
+              QmText(
+                text: Utils().timeAgo(
+                  message.timestamp,
+                ),
+              ),
+            ],
+          ),
+        );
     }
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        crossAxisAlignment: messageAlignment(messageSender),
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: messageSender == Utils().userUid
-                  ? ColorConstants.primaryColor
-                  : ColorConstants.accentColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.all(10),
-            child: QmText(
-              text: messageText,
-              color: ColorConstants.textColor,
-            ),
-          ),
-          const SizedBox(width: 10),
-          QmText(
-            text: Utils().timeAgo(
-              messageTimestamp,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

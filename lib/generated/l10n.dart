@@ -330,6 +330,16 @@ class S {
     );
   }
 
+  /// `Trainees:`
+  String get Trainees {
+    return Intl.message(
+      'Trainees:',
+      name: 'Trainees',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send Email`
   String get SendEmail {
     return Intl.message(
@@ -370,10 +380,10 @@ class S {
     );
   }
 
-  /// `Workouts`
+  /// `Workouts:`
   String get Workouts {
     return Intl.message(
-      'Workouts',
+      'Workouts:',
       name: 'Workouts',
       desc: '',
       args: [],
@@ -905,6 +915,66 @@ class S {
     return Intl.message(
       'Add Program Name',
       name: 'AddProgramName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No programs yet`
+  String get NoPrograms {
+    return Intl.message(
+      'No programs yet',
+      name: 'NoPrograms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Request`
+  String get SendRequest {
+    return Intl.message(
+      'Send Request',
+      name: 'SendRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Trainee ID`
+  String get AddTraineeId {
+    return Intl.message(
+      'Add Trainee ID',
+      name: 'AddTraineeId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Trainee`
+  String get AddTrainee {
+    return Intl.message(
+      'Add Trainee',
+      name: 'AddTrainee',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Will you join this program ?`
+  String get WillYouJoinProgram {
+    return Intl.message(
+      'Will you join this program ?',
+      name: 'WillYouJoinProgram',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Workout already exists in program`
+  String get WorkoutAlreadyExistsInProgram {
+    return Intl.message(
+      'Workout already exists in program',
+      name: 'WorkoutAlreadyExistsInProgram',
       desc: '',
       args: [],
     );

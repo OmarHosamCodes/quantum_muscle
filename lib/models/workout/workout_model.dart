@@ -6,6 +6,7 @@ class WorkoutModel {
   static const String exercisesKey = 'Exercises';
   static const String imgUrlKey = 'ImgUrl';
   static const String creationDateKey = 'CreationDate';
+  static const String modelKey = 'WorkoutModel';
 
   String id;
   String name;
@@ -21,11 +22,22 @@ class WorkoutModel {
     required this.creationDate,
   });
 
-  factory WorkoutModel.fromMap(
+  factory WorkoutModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
   ) {
     final map = snapshot.data()!;
+    return WorkoutModel(
+      id: map[idKey],
+      name: map[nameKey],
+      exercises: map[exercisesKey],
+      imgUrl: map[imgUrlKey],
+      creationDate: map[creationDateKey],
+    );
+  }
+  factory WorkoutModel.fromMap(
+    Map<String, dynamic> map,
+  ) {
     return WorkoutModel(
       id: map[idKey],
       name: map[nameKey],

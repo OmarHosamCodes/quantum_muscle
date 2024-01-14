@@ -16,6 +16,7 @@ class QmBlock<T> extends StatelessWidget {
     this.isGradient = false,
     this.isNormal = true,
     this.borderRadius,
+    this.border,
   });
   final double width;
   final double height;
@@ -30,6 +31,7 @@ class QmBlock<T> extends StatelessWidget {
   final bool isGradient;
   final bool isNormal;
   final BorderRadius? borderRadius;
+  final Border? border;
 
   Duration get containerAnimationDuration =>
       isAnimated ? SimpleConstants.fastAnimationDuration : Duration.zero;
@@ -37,7 +39,7 @@ class QmBlock<T> extends StatelessWidget {
       ? const LinearGradient(
           colors: [
             ColorConstants.primaryColor,
-            ColorConstants.accentColor,
+            ColorConstants.secondaryColor,
           ],
         )
       : null;
@@ -65,6 +67,7 @@ class QmBlock<T> extends StatelessWidget {
             gradient: containerGradient,
             color: color,
             borderRadius: containerBorderRadius,
+            border: border,
           ),
           child: MouseRegion(
             cursor: SystemMouseCursors.cell,
