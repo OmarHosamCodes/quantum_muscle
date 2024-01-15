@@ -37,23 +37,20 @@ class WorkoutModel {
   }
   factory WorkoutModel.fromMap(
     Map<String, dynamic> map,
-  ) {
-    return WorkoutModel(
-      id: map[idKey],
-      name: map[nameKey],
-      exercises: map[exercisesKey],
-      imgUrl: map[imgUrlKey],
-      creationDate: map[creationDateKey],
-    );
-  }
+  ) =>
+      WorkoutModel(
+        id: map[idKey],
+        name: map[nameKey],
+        exercises: map[exercisesKey],
+        imgUrl: map[imgUrlKey],
+        creationDate: map[creationDateKey],
+      );
 
-  Map<String, dynamic> toMap() {
-    return {
-      idKey: id,
-      nameKey: name,
-      exercisesKey: exercises,
-      imgUrlKey: imgUrl,
-      creationDateKey: creationDate,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        idKey: id,
+        nameKey: name,
+        exercisesKey: exercises,
+        imgUrlKey: imgUrl,
+        creationDateKey: creationDate,
+      };
 }

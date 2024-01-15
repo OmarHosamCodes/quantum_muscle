@@ -18,8 +18,8 @@ class LoginUtil extends Utils {
         password: password,
       );
       if (user != null) {
-        ref.invalidate(userFutureProvider);
-        ref.read(userFutureProvider(Utils().userUid!));
+        ref.invalidate(userProvider);
+        ref.read(userProvider(Utils().userUid!));
       }
     } on FirebaseAuthException catch (e) {
       openQmDialog(

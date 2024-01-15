@@ -24,8 +24,7 @@ class ExerciseModel {
     required this.showcaseType,
   });
 
-  factory ExerciseModel.fromMap(Map<String, dynamic> map) {
-    return ExerciseModel(
+  factory ExerciseModel.fromMap(Map<String, dynamic> map) => ExerciseModel(
       id: map[idKey],
       name: map[nameKey],
       target: map[targetKey],
@@ -33,18 +32,14 @@ class ExerciseModel {
       showcaseUrl: map[showcaseUrlKey],
       showcaseType: ExerciseShowcase.values.firstWhere(
         (element) => element.name == map[showcaseTypeKey],
-      ),
-    );
-  }
+      ));
 
-  Map<String, dynamic> toMap() {
-    return {
-      idKey: id,
-      nameKey: name,
-      targetKey: target,
-      setsKey: sets,
-      showcaseUrlKey: showcaseUrl,
-      showcaseTypeKey: showcaseType.name,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+        idKey: id,
+        nameKey: name,
+        targetKey: target,
+        setsKey: sets,
+        showcaseUrlKey: showcaseUrl,
+        showcaseTypeKey: showcaseType.name,
+      };
 }

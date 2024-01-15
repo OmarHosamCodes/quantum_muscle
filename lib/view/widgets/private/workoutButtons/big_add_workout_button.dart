@@ -20,7 +20,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
   final workoutNameTextController = TextEditingController();
   final workoutDescriptionTextController = TextEditingController();
   static const double inputsWidth = 250;
-  final workoutUtil = WorkoutUtil.instance;
+  final workoutUtil = WorkoutUtil();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

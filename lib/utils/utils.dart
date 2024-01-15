@@ -5,12 +5,9 @@ class Utils {
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
   FirebaseStorage get firebaseStorage => FirebaseStorage.instance;
   User? get user => firebaseAuth.currentUser;
-  bool get isUserNull => user == null;
   String? get userUid => user!.uid;
-  String? get userRatID => userUid!.substring(0, 16);
   String get locale => Intl.getCurrentLocale();
   bool get isEnglish => locale == SimpleConstants.englishLocale;
-  bool get isArabic => locale == SimpleConstants.arabicLocale;
   String get isOneExist => isEnglish ? '1' : SimpleConstants.emptyString;
 
   String timeAgo(Timestamp timestamp) {

@@ -2,11 +2,10 @@
 
 import '/library.dart';
 
+//todo try to make it inside the class
 final workoutImageBytesProvider = StateProvider<String?>((ref) => null);
 
 class WorkoutUtil extends Utils {
-  static WorkoutUtil get instance => WorkoutUtil();
-
   Future<void> addWorkout({
     required BuildContext context,
     required GlobalKey<FormState> formKey,
@@ -50,8 +49,8 @@ class WorkoutUtil extends Utils {
                 )
                 .then(
               (_) {
-                ref.invalidate(workoutsStreamProvider);
-                ref.read(workoutsStreamProvider(Utils().userUid!));
+                ref.invalidate(workoutsProvider);
+                ref.read(workoutsProvider(Utils().userUid!));
                 while (context.canPop()) {
                   context.pop();
                 }

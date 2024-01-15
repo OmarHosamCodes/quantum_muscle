@@ -14,7 +14,7 @@ class SearchedProfile extends ConsumerWidget {
       backgroundColor: ColorConstants.backgroundColor,
       extendBody: true,
       body: FutureBuilder(
-        future: ref.watch(userFutureProvider(userId).future),
+        future: ref.watch(userProvider(userId).future),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -26,14 +26,7 @@ class SearchedProfile extends ConsumerWidget {
             );
           }
           final data = snapshot.data!;
-          final userData = data.data() as Map<String, dynamic>;
-          final String userName = userData[UserModel.nameKey];
-          final String userId = userData[UserModel.idKey];
-          final String userProfileImage = userData[UserModel.profileImageKey] ??
-              SimpleConstants.emptyString;
-          final String userBio = userData[UserModel.bioKey] ?? S.current.NoBio;
-          final List userFollowers = userData[UserModel.followersKey];
-          final List userFollowing = userData[UserModel.followingKey];
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -44,7 +37,7 @@ class SearchedProfile extends ConsumerWidget {
                   Row(
                     children: [
                       QmAvatar(
-                        imageUrl: userProfileImage,
+                        imageUrl: data.profileImage,
                         radius: 40,
                       ),
                       Padding(
@@ -56,7 +49,7 @@ class SearchedProfile extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             QmText(
-                              text: userName,
+                              text: data.name,
                             ),
                             Row(
                               children: [
@@ -82,7 +75,7 @@ class SearchedProfile extends ConsumerWidget {
                           userId: userURI,
                           height: height,
                           width: width,
-                          isFollowing: userFollowers.any((element) =>
+                          isFollowing: data.following.any((element) =>
                               element ==
                               (Utils().userUid ?? SimpleConstants.emptyString)),
                         ),
@@ -101,7 +94,7 @@ class SearchedProfile extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           QmText(
-                            text: userFollowers.length.toString(),
+                            text: data.followers.length.toString(),
                           ),
                           SizedBox(
                             width: width * .005,
@@ -120,7 +113,7 @@ class SearchedProfile extends ConsumerWidget {
                             width: width * .005,
                           ),
                           QmText(
-                            text: userFollowing.length.toString(),
+                            text: data.following.length.toString(),
                           ),
                           SizedBox(
                             width: width * .005,
@@ -134,7 +127,7 @@ class SearchedProfile extends ConsumerWidget {
                     ],
                   ),
                   QmText(
-                    text: userBio,
+                    text: data.bio,
                   ),
                   const Divider(
                     thickness: 1,

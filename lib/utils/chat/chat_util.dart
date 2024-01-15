@@ -58,10 +58,10 @@ class ChatUtil extends Utils {
             .doc()
             .set(initMessage.toMap());
 
-        ref.invalidate(chatFutureProvider(userUid!));
-        ref.read(chatFutureProvider(userUid!));
-        ref.invalidate(userFutureProvider(userUid!));
-        ref.read(userFutureProvider(userUid!));
+        ref.invalidate(chatProvider(userUid!));
+        ref.read(chatProvider(userUid!));
+        ref.invalidate(userProvider(userUid!));
+        ref.read(userProvider(userUid!));
 
         context.pop();
         context.go(Routes.chatsR);

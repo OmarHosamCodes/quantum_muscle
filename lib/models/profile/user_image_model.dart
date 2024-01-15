@@ -18,14 +18,13 @@ class UserImageModel {
 
   factory UserImageModel.fromMap(
     Map<String, dynamic> map,
-  ) {
-    return UserImageModel(
-      title: map[titleKey],
-      imageEncoded: map[imageEncodedKey],
-      createdAt: map[createdAtKey],
-      description: map[descriptionKey],
-    );
-  }
+  ) =>
+      UserImageModel(
+        title: map[titleKey],
+        imageEncoded: map[imageEncodedKey],
+        createdAt: map[createdAtKey],
+        description: map[descriptionKey],
+      );
 
   Map<String, dynamic> toMap() => {
         titleKey: title,

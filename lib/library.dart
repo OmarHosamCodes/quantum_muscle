@@ -68,6 +68,11 @@ export 'utils/workouts/exercise_util.dart';
 export 'utils/profile/profile_util.dart';
 export 'utils/chat/chat_util.dart';
 export 'utils/programs/programs_util.dart';
+export 'utils/providers/user_provider.dart';
+export 'utils/providers/programs_provider.dart';
+export 'utils/providers/workouts_provider.dart';
+export 'utils/providers/chats_provider.dart';
+export 'utils/providers/local_provider.dart';
 
 //* Models
 
@@ -77,7 +82,6 @@ export 'models/workout/workout_model.dart';
 export 'models/profile/user_image_model.dart';
 export 'models/chat/chat_model.dart';
 export 'models/programs/program_model.dart';
-export 'models/enums/provider_statues.dart';
 export 'models/enums/user_type.dart';
 export 'models/chat/message_model.dart';
 export 'models/enums/message_type.dart';

@@ -1,8 +1,5 @@
 import '/library.dart';
 
-final userTypeStateProvider =
-    StateProvider<UserType>((ref) => UserType.trainee);
-
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
@@ -171,7 +168,7 @@ class _SubmitButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userType = ref.watch(userTypeStateProvider);
+    final userType = ref.watch(userTypeProvider);
 
     return QmBlock(
       isGradient: true,

@@ -1,71 +1,65 @@
 import '/library.dart';
 
-final chatFutureProvider = FutureProvider.family<QuerySnapshot?, String>(
-  (ref, chatId) {
-    return Utils()
-        .firebaseFirestore
-        .collection(DBPathsConstants.chatsPath)
-        .doc(chatId)
-        .collection(ChatModel.messagesKey)
-        .orderBy(MessageModel.timestampKey)
-        // .withConverter(
-        //   fromFirestore: MessageModel.fromMap,
-        //   toFirestore: (message, _) => message.toMap(),
-        // )
-        .get();
-  },
-);
-
-class ChatsScreen extends StatelessWidget {
+class ChatsScreen extends ConsumerWidget {
   const ChatsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer(
-        builder: (context, ref, child) {
-          final userFuture = ref.watch(userFutureProvider(Utils().userUid!));
-          final user = userFuture.whenOrNull(
-            data: (data) {
-              if (data.exists) {
-                return data;
-              } else {
-                return ProviderStatus.none;
-              }
-            },
-            loading: () => ProviderStatus.loading,
-            error: (e, s) => ProviderStatus.error,
-          );
-          if (user == ProviderStatus.loading) {
-            return const Center(
-              child: QmCircularProgressIndicator(),
-            );
-          } else if (user == ProviderStatus.error) {
-            return Center(
-              child: QmText(text: S.current.DefaultError),
-            );
-          } else if (user == ProviderStatus.none) {
-            return Center(
-              child: QmText(
-                onTap: () => context.go(Routes.searchR),
-                text: S.current.NoChat,
-                maxWidth: double.maxFinite,
-              ),
-            );
-          } else {
-            final data = userFuture.value!;
-            final chats =
-                data.get(DBPathsConstants.chatsPath) as List<dynamic>? ?? [];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userFuture = ref.watch(userProvider(Utils().userUid!));
 
-            return ListView.builder(
-              itemCount: chats.length,
-              itemBuilder: (context, index) {
-                final chatsElements =
-                    chats[index] as Map<String, dynamic>? ?? {};
-                final chatDocId = chatsElements.keys.elementAt(index);
-                final chatUserId = chatsElements.values.elementAt(index);
+    return Scaffold(
+        body: userFuture.whenOrNull(
+      data: (model) {
+        if (model.chats.isEmpty) {
+          return Center(
+            child: QmText(text: S.current.DefaultError),
+          );
+        }
+
+        return ListView.builder(
+          itemCount: model.chats.length,
+          itemBuilder: (context, index) {
+            final chatsElements =
+                model.chats[index] as Map<String, dynamic>? ?? {};
+            final chatDocId = chatsElements.keys.elementAt(index);
+            final chatUserId = chatsElements.values.elementAt(index);
+            return FutureBuilder(
+              future: ref.watch(chatProvider(chatDocId).future),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: QmCircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: QmText(text: S.current.DefaultError),
+                  );
+                } else if (snapshot.data!.docs.isEmpty) {
+                  return Center(
+                    child: QmText(text: S.current.NoChat),
+                  );
+                }
+
+                final messages = snapshot.data!.docs
+                    .map((e) => e.data()! as Map<String, dynamic>);
+                final String lastMessage =
+                    messages.last[MessageModel.messageKey] ??
+                        SimpleConstants.emptyString;
+                final String lastMessageSender =
+                    messages.last[MessageModel.senderIdKey] ??
+                        SimpleConstants.emptyString;
+                Color lastMessageColor(String lastMessageSender) {
+                  if (lastMessageSender == Utils().userUid) {
+                    return ColorConstants.textSeccondaryColor;
+                  } else {
+                    return ColorConstants.textColor;
+                  }
+                }
+
+                final lastMessageTimestamp =
+                    messages.last[MessageModel.timestampKey];
                 return FutureBuilder(
-                  future: ref.watch(chatFutureProvider(chatDocId).future),
+                  future: ref.watch(userProvider(chatUserId).future),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -75,94 +69,57 @@ class ChatsScreen extends StatelessWidget {
                       return Center(
                         child: QmText(text: S.current.DefaultError),
                       );
-                    } else if (snapshot.data!.docs.isEmpty) {
+                    } else if (!snapshot.hasData) {
                       return Center(
                         child: QmText(text: S.current.NoChat),
                       );
                     }
-
-                    final chatData = snapshot.data!.docs
-                        .map((e) => e.data()! as Map<String, dynamic>);
-                    final String lastMessage =
-                        chatData.last[MessageModel.messageKey] ??
-                            SimpleConstants.emptyString;
-                    final String lastMessageSender =
-                        chatData.last[MessageModel.senderIdKey] ??
-                            SimpleConstants.emptyString;
-                    Color lastMessageColor(String lastMessageSender) {
-                      if (lastMessageSender == Utils().userUid) {
-                        return ColorConstants.textSeccondaryColor;
-                      } else {
-                        return ColorConstants.textColor;
-                      }
-                    }
-
-                    final lastMessageTimestamp =
-                        chatData.last[MessageModel.timestampKey];
-                    return FutureBuilder(
-                      future: ref.watch(userFutureProvider(chatUserId).future),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: QmCircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: QmText(text: S.current.DefaultError),
-                          );
-                        } else if (!snapshot.hasData) {
-                          return Center(
-                            child: QmText(text: S.current.NoChat),
-                          );
-                        }
-                        final userData = snapshot.data!;
-                        final userUserData =
-                            userData.data()! as Map<String, dynamic>;
-                        final String userName = userUserData[UserModel.nameKey];
-                        final String? userProfileImage =
-                            userUserData[UserModel.profileImageKey] ?? '';
-                        return ListTile(
-                          leading: QmAvatar(
-                            imageUrl: userProfileImage,
-                          ),
-                          title: QmText(
-                            text: userName,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          subtitle: QmText(
-                            text: lastMessage,
-                            color: lastMessageColor(lastMessageSender),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          trailing: QmText(
-                            text: Utils().timeAgo(
-                              lastMessageTimestamp,
-                            ),
-                            isSeccoundary: true,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          onTap: () => context.pushNamed(
-                            Routes.chatRootR,
-                            pathParameters: {
-                              'chatId': chatDocId,
-                              'chatUserId': chatUserId,
-                            },
-                            extra: {
-                              UserModel.nameKey: userName,
-                              UserModel.profileImageKey: userProfileImage,
-                            },
-                          ),
-                        );
-                      },
+                    final userData = snapshot.data!;
+                    return ListTile(
+                      leading: QmAvatar(
+                        imageUrl: userData.profileImage,
+                      ),
+                      title: QmText(
+                        text: userData.name,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: QmText(
+                        text: lastMessage,
+                        color: lastMessageColor(lastMessageSender),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: QmText(
+                        text: Utils().timeAgo(
+                          lastMessageTimestamp,
+                        ),
+                        isSeccoundary: true,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onTap: () => context.pushNamed(
+                        Routes.chatRootR,
+                        pathParameters: {
+                          'chatId': chatDocId,
+                          'chatUserId': chatUserId,
+                        },
+                        extra: {
+                          UserModel.nameKey: userData.name,
+                          UserModel.profileImageKey: userData.profileImage,
+                        },
+                      ),
                     );
                   },
                 );
               },
             );
-          }
-        },
+          },
+        );
+      },
+      loading: () => const Center(
+        child: QmCircularProgressIndicator(),
       ),
-    );
+      error: (e, s) => Center(
+        child: QmText(text: S.current.DefaultError),
+      ),
+    ));
   }
 }

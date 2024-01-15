@@ -43,8 +43,8 @@ class ProfileUtil extends Utils {
               },
               SetOptions(merge: true),
             );
-            ref.invalidate(userFutureProvider);
-            ref.read(userFutureProvider(Utils().userUid!));
+            ref.invalidate(userProvider);
+            ref.read(userProvider(Utils().userUid!));
             ref.read(userProfileImageProvider.notifier).state = null;
             ref.invalidate(userProfileImageProvider);
             ref.read(userProfileImageProvider);
@@ -119,8 +119,8 @@ class ProfileUtil extends Utils {
       },
       SetOptions(merge: true),
     );
-    ref.invalidate(userFutureProvider);
-    ref.read(userFutureProvider(Utils().userUid!));
+    ref.invalidate(userProvider);
+    ref.read(userProvider(Utils().userUid!));
     ref.read(addImageProvider.notifier).state = SimpleConstants.emptyString;
 
     context.pop();
@@ -154,9 +154,9 @@ class ProfileUtil extends Utils {
           SetOptions(merge: true),
         );
         context.pop();
-        ref.invalidate(userFutureProvider);
-        ref.read(userFutureProvider(Utils().userUid!));
-        ref.read(userFutureProvider(userId));
+        ref.invalidate(userProvider);
+        ref.read(userProvider(Utils().userUid!));
+        ref.read(userProvider(userId));
       } else if (!isFollowing) {
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
@@ -171,10 +171,10 @@ class ProfileUtil extends Utils {
           UserModel.followersKey: FieldValue.arrayUnion([userUid])
         });
         context.pop();
-        ref.invalidate(userFutureProvider);
+        ref.invalidate(userProvider);
 
-        ref.read(userFutureProvider(Utils().userUid!));
-        ref.read(userFutureProvider(userId));
+        ref.read(userProvider(Utils().userUid!));
+        ref.read(userProvider(userId));
       }
     } on FirebaseException catch (e) {
       context.pop();

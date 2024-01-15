@@ -12,15 +12,12 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final localeStateProvider =
-    StateProvider<Locale>((ref) => const Locale(SimpleConstants.englishLocale));
-
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = ref.watch(localeStateProvider);
+    final locale = ref.watch(localeProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       locale: locale,

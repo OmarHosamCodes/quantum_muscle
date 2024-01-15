@@ -24,7 +24,7 @@ class WorkoutDetailsScreen extends ConsumerWidget {
       return true;
     }
 
-    ref.watch(workoutsStreamProvider(Utils().userUid!));
+    final workoutStream = ref.watch(workoutsProvider(Utils().userUid!));
     return Scaffold(
       body: Column(
         children: [
@@ -93,58 +93,52 @@ class WorkoutDetailsScreen extends ConsumerWidget {
               ],
             ),
           ),
-          Consumer(
-            builder: (context, ref, _) {
-              final workoutStream =
-                  ref.watch(workoutsStreamProvider(Utils().userUid!));
-              return workoutStream.when(
-                data: (data) {
-                  final exercises = data!.docs[workoutIndex].data().exercises;
-                  return Expanded(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: StaggeredGrid.count(
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        crossAxisCount: isDesktop()
-                            ? 3
-                            : isTablet()
-                                ? 2
-                                : 1,
-                        children: List.generate(
-                          exercises.length + 1,
-                          (index) {
-                            if (index == exercises.length) {
-                              return AddExerciseTile(
-                                width: height,
-                                height: height,
-                                indexToInsert: exercises.length,
-                                workoutName: workout.name,
-                                id: workout.id,
-                              );
-                            } else {
-                              final exercise = ExerciseModel.fromMap(
-                                  exercises[index]['$index']);
+          workoutStream.when(
+            data: (data) {
+              final exercises = data[workoutIndex].exercises;
+              return Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: StaggeredGrid.count(
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    crossAxisCount: isDesktop()
+                        ? 3
+                        : isTablet()
+                            ? 2
+                            : 1,
+                    children: List.generate(
+                      exercises.length + 1,
+                      (index) {
+                        if (index == exercises.length) {
+                          return AddExerciseTile(
+                            width: height,
+                            height: height,
+                            indexToInsert: exercises.length,
+                            workoutName: workout.name,
+                            id: workout.id,
+                          );
+                        } else {
+                          final exercise =
+                              ExerciseModel.fromMap(exercises[index]['$index']);
 
-                              return ExerciseTile(
-                                width: width,
-                                height: height,
-                                showcaseUrl: exercise.showcaseUrl,
-                                name: exercise.name,
-                                target: exercise.target,
-                                sets: exercise.sets,
-                              );
-                            }
-                          },
-                        ),
-                      ),
+                          return ExerciseTile(
+                            width: width,
+                            height: height,
+                            showcaseUrl: exercise.showcaseUrl,
+                            name: exercise.name,
+                            target: exercise.target,
+                            sets: exercise.sets,
+                          );
+                        }
+                      },
                     ),
-                  );
-                },
-                error: (error, stackTrace) => QmText(text: error.toString()),
-                loading: () => const QmCircularProgressIndicator(),
+                  ),
+                ),
               );
             },
+            error: (error, stackTrace) => QmText(text: error.toString()),
+            loading: () => const QmCircularProgressIndicator(),
           ),
         ],
       ),

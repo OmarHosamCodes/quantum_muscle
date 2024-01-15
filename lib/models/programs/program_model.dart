@@ -27,16 +27,14 @@ class ProgramModel {
     this.workouts,
     required this.creationDate,
   });
-  factory ProgramModel.fromMap(Map<String, dynamic> map) {
-    return ProgramModel(
-      name: map[nameKey],
-      id: map[idKey],
-      trainerId: map[trainerIdKey],
-      traineesIds: map[traineesIdsKey],
-      workouts: map[workoutsKey],
-      creationDate: map[creationDateKey],
-    );
-  }
+  factory ProgramModel.fromMap(Map<String, dynamic> map) => ProgramModel(
+        name: map[nameKey],
+        id: map[idKey],
+        trainerId: map[trainerIdKey],
+        traineesIds: map[traineesIdsKey],
+        workouts: map[workoutsKey],
+        creationDate: map[creationDateKey],
+      );
 
   Map<String, dynamic> toMap() => {
         nameKey: name,

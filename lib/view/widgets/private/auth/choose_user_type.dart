@@ -17,7 +17,7 @@ class UserTypeChooser extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userType = ref.watch(userTypeStateProvider);
+    final userType = ref.watch(userTypeProvider);
     final List<Color> colors = [
       ColorConstants.disabledColor,
       ColorConstants.primaryColor,
@@ -29,7 +29,7 @@ class UserTypeChooser extends ConsumerWidget {
       children: [
         GestureDetector(
           onTap: () =>
-              ref.read(userTypeStateProvider.notifier).state = UserType.trainer,
+              ref.read(userTypeProvider.notifier).state = UserType.trainer,
           child: Container(
             margin: margin,
             constraints: BoxConstraints(
@@ -62,7 +62,7 @@ class UserTypeChooser extends ConsumerWidget {
         ),
         GestureDetector(
           onTap: () =>
-              ref.read(userTypeStateProvider.notifier).state = UserType.trainee,
+              ref.read(userTypeProvider.notifier).state = UserType.trainee,
           child: Container(
             margin: margin,
             constraints: BoxConstraints(

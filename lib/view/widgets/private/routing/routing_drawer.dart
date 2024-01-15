@@ -75,9 +75,9 @@ class RoutingDrawer extends ConsumerWidget {
                 onTap: () {
                   context.pop();
                   locale == SimpleConstants.englishLocale
-                      ? ref.read(localeStateProvider.notifier).state =
+                      ? ref.read(localeProvider.notifier).state =
                           const Locale(SimpleConstants.arabicLocale)
-                      : ref.read(localeStateProvider.notifier).state =
+                      : ref.read(localeProvider.notifier).state =
                           const Locale(SimpleConstants.englishLocale);
                 },
               );

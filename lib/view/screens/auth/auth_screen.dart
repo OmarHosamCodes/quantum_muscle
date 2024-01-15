@@ -23,9 +23,9 @@ class AuthScreen extends StatelessWidget {
             builder: (context, ref, _) {
               return QmIconButton(
                 onPressed: () => Utils().isEnglish
-                    ? ref.read(localeStateProvider.notifier).state =
+                    ? ref.read(localeProvider.notifier).state =
                         const Locale(SimpleConstants.arabicLocale)
-                    : ref.read(localeStateProvider.notifier).state =
+                    : ref.read(localeProvider.notifier).state =
                         const Locale(SimpleConstants.englishLocale),
                 icon: EvaIcons.globe,
               );

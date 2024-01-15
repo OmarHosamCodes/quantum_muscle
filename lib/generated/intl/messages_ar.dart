@@ -52,7 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Comments": MessageLookupByLibrary.simpleMessage("تعليقات"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "DayAgo": MessageLookupByLibrary.simpleMessage("منذ يوم"),
-        "DaysAgo": MessageLookupByLibrary.simpleMessage("منذ يوم"),
+        "DaysAgo": MessageLookupByLibrary.simpleMessage("أيام مضت"),
         "DefaultError": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ. يرجى إعادة المحاولة لاحقا."),
         "EditProfile":

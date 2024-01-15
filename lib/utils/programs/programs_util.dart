@@ -38,8 +38,8 @@ class ProgramsUtil extends Utils {
 
     ref.invalidate(programsProvider);
     ref.read(programsProvider);
-    ref.invalidate(userFutureProvider(userUid!));
-    ref.read(userFutureProvider(userUid!));
+    ref.invalidate(userProvider(userUid!));
+    ref.read(userProvider(userUid!));
   }
 
   Future<void> deleteProgram({
@@ -74,8 +74,8 @@ class ProgramsUtil extends Utils {
     }
     ref.invalidate(programsProvider);
     ref.read(programsProvider);
-    ref.invalidate(userFutureProvider(userUid!));
-    ref.read(userFutureProvider(userUid!));
+    ref.invalidate(userProvider(userUid!));
+    ref.read(userProvider(userUid!));
     while (context.canPop()) {
       context.pop();
     }
@@ -172,8 +172,8 @@ class ProgramsUtil extends Utils {
         context.pop();
         ref.invalidate(programsProvider);
         ref.read(programsProvider);
-        ref.invalidate(userFutureProvider(userUid!));
-        ref.read(userFutureProvider(userUid!));
+        ref.invalidate(userProvider(userUid!));
+        ref.read(userProvider(userUid!));
       } else {
         context.pop();
         openQmDialog(

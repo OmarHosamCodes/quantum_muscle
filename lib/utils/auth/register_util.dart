@@ -16,20 +16,17 @@ class RegisterUtil extends Utils {
     if (!isValid) return;
 
     try {
-      openQmLoaderDialog(context: context);
-
       await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      ref.invalidate(userFutureProvider);
-      ref.read(userFutureProvider(Utils().userUid!));
+      ref.invalidate(userProvider);
+      ref.read(userProvider(Utils().userUid!));
       if (user != null) {
         afterSignUp(
           userName: userName,
           userType: userType,
           context: context,
         );
-        context.pop();
         RoutingController.instants.changeRoute(0);
       }
     } on FirebaseAuthException catch (e) {
@@ -74,14 +71,14 @@ class RegisterUtil extends Utils {
         id: user!.uid,
         ratID: "#${user!.uid.substring(0, 16)}",
         name: userName,
-        email: user!.email,
-        age: null,
-        phone: null,
+        email: user!.email!,
+        age: 0,
+        phone: '0',
         type: userType,
         weight: {"0": "0"},
         height: {"0": "0"},
-        profileImage: null,
-        bio: null,
+        profileImage: '',
+        bio: '',
         followers: [],
         following: [],
         images: [],

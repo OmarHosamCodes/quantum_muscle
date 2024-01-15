@@ -65,8 +65,8 @@ class ExerciseUtil extends Utils {
             );
           },
         ).then((_) {
-          ref.invalidate(workoutsStreamProvider);
-          ref.read(workoutsStreamProvider(Utils().userUid!));
+          ref.invalidate(workoutsProvider);
+          ref.read(workoutsProvider(Utils().userUid!));
           ref.read(exerciseImageBytesProvider.notifier).state = null;
           context.pop();
         });

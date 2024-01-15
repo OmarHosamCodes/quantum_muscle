@@ -8,12 +8,12 @@ class MessageModel {
   static const String typeKey = 'type';
   static const String programRequestIdKey = 'programRequestId';
 
-  final String senderId;
-  final String message;
-  final String? messageUrl;
-  final Timestamp timestamp;
-  final MessageType type;
-  final String? programRequestId;
+  String senderId;
+  String message;
+  String? messageUrl;
+  Timestamp timestamp;
+  MessageType type;
+  String? programRequestId;
 
   MessageModel({
     required this.senderId,

@@ -1,7 +1,5 @@
 import '/library.dart';
 
-final borderWidthStateProvider = StateProvider<double>((ref) => 2);
-
 class QmAvatar extends StatelessWidget {
   const QmAvatar({
     super.key,
@@ -28,8 +26,7 @@ class QmAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const borderWidth = 5;
-    // Null check for imageUrl
-    if (imageUrl == null || hasError) {
+    if (imageUrl == SimpleConstants.emptyString || hasError) {
       return CircleAvatar(
         radius: radius - borderWidth,
         backgroundColor: ColorConstants.primaryColor,

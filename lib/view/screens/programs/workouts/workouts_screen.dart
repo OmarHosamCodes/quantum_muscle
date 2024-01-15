@@ -5,15 +5,14 @@ class WorkoutsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workoutsSnapshot =
-        ref.watch(workoutsStreamProvider(Utils().userUid!));
+    final workoutsSnapshot = ref.watch(workoutsProvider(Utils().userUid!));
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: workoutsSnapshot.when(
         data: (data) {
-          if (data!.docs.isEmpty) {
+          if (data.isEmpty) {
             return BigAddWorkout(width: width, height: height);
           } else {
             return ListView.builder(
@@ -21,16 +20,16 @@ class WorkoutsScreen extends ConsumerWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: width * .05,
               ),
-              itemCount: data.docs.length + 1,
+              itemCount: data.length + 1,
               shrinkWrap: false,
               itemBuilder: (context, index) {
-                if (index == data.docs.length) {
+                if (index == data.length) {
                   return SmallAddWorkout(
                     width: width * .2,
                     height: height * .2,
                   );
                 } else {
-                  final workout = data.docs[index].data();
+                  final workout = data[index];
 
                   return QmBlock(
                     margin: const EdgeInsets.symmetric(horizontal: 5),
