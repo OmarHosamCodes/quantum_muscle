@@ -6,8 +6,8 @@ class QmNiceTouch extends StatelessWidget {
     required this.child,
     this.color = ColorConstants.primaryColor,
   });
-  final Widget child;
 
+  final Widget child;
   final Color color;
 
   @override

@@ -50,3 +50,103 @@ class RoutingScreen extends ConsumerWidget {
     );
   }
 }
+
+// class SideDrawer extends StatelessWidget {
+//   const SideDrawer({
+//     super.key,
+//     required this.width,
+//     required this.height,
+//     required this.child,
+//   });
+//   final double width;
+//   final double height;
+//   final Widget child;
+//   @override
+//   Widget build(BuildContext context) {
+//     final routingController = RoutingController();
+//     final locale = Intl.getCurrentLocale();
+//     SizedBox smallSpace() => const SizedBox(height: 10);
+
+//     return Container(
+//       width: width,
+//       height: height,
+//       color: ColorConstants.disabledColor,
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.all(10.0),
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 QmIconButton(
+//                   icon: EvaIcons.homeOutline,
+//                   onPressed: () => routingController.changeRoute(0),
+//                 ),
+//                 smallSpace(),
+//                 QmIconButton(
+//                   icon: EvaIcons.messageSquareOutline,
+//                   onPressed: () => routingController.changeRoute(1),
+//                 ),
+//                 smallSpace(),
+//                 QmIconButton(
+//                   icon: EvaIcons.personOutline,
+//                   onPressed: () => routingController.changeRoute(2),
+//                 ),
+//                 smallSpace(),
+//                 QmIconButton(
+//                   icon: EvaIcons.searchOutline,
+//                   onPressed: () => routingController.changeRoute(3),
+//                 ),
+//                 smallSpace(),
+//                 QmIconButton(
+//                   icon: EvaIcons.archive,
+//                   onPressed: () => routingController.changeRoute(4),
+//                 ),
+//                 smallSpace(),
+//                 const Spacer(),
+//                 Consumer(
+//                   builder: (context, ref, child) {
+//                     return QmIconButton(
+//                       icon: EvaIcons.globe,
+//                       onPressed: () {
+//                         locale == SimpleConstants.englishLocale
+//                             ? ref.read(localeProvider).value =
+//                                 const Locale(SimpleConstants.arabicLocale)
+//                             : ref.read(localeProvider) =
+//                                 const Locale(SimpleConstants.englishLocale);
+//                       },
+//                     );
+//                   },
+//                 ),
+//                 QmIconButton(
+//                   icon: EvaIcons.logOutOutline,
+//                   iconColor: ColorConstants.logoutColor,
+//                   onPressed: () {
+//                     LogoutUtil().logout(context);
+//                   },
+//                 ),
+//               ],
+//             ),
+//           ),
+//           Expanded(
+//             child: Padding(
+//               padding: EdgeInsets.only(
+//                 top: 10,
+//                 bottom: 10,
+//                 left: locale == SimpleConstants.englishLocale ? 0 : 10,
+//                 right: locale == SimpleConstants.englishLocale ? 10 : 0,
+//               ),
+//               child: ClipRRect(
+//                 borderRadius: BorderRadius.circular(10),
+//                 child: child,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

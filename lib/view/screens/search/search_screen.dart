@@ -11,9 +11,9 @@ class SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<DocumentSnapshot> _searchResults = [];
 
-  _performSearch() async {
-    // Perform the Firestore query based on the user's "name" field
-    final QuerySnapshot query = await FirebaseFirestore.instance
+  void _performSearch() async {
+    final QuerySnapshot query = await Utils()
+        .firebaseFirestore
         .collection(DBPathsConstants.usersPath)
         .where(UserModel.tagsKey, arrayContains: _searchController.text)
         .get();
@@ -27,18 +27,24 @@ class SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: QmTextField(
-              height: height * 0.1,
-              width: width * 0.9,
-              hintText: S.current.Search,
-              controller: _searchController,
-              onChanged: (value) => _performSearch(),
-            ),
+          Consumer(
+            builder: (context, ref, _) {
+              ref.watch(localeProvider);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: QmTextField(
+                  height: height * 0.1,
+                  width: width * 0.9,
+                  hintText: S.current.Search,
+                  controller: _searchController,
+                  onChanged: (value) => _performSearch(),
+                ),
+              );
+            },
           ),
           Expanded(
             child: ListView.builder(
@@ -50,8 +56,7 @@ class SearchScreenState extends State<SearchScreen> {
 
                 final String name = userData[UserModel.nameKey];
                 final String id = userData[UserModel.idKey];
-                final String? image = userData[UserModel.profileImageKey] ??
-                    SimpleConstants.emptyString;
+                final String image = userData[UserModel.profileImageKey];
                 return ListTile(
                   leading: QmAvatar(
                     imageUrl: image,

@@ -91,5 +91,12 @@
   "AddTraineeId": "أدخل معرف المتدرب",
   "AddTrainee": "إضافة متدرب",
   "WillYouJoinProgram": "هل ستنضم إلى هذا البرنامج؟",
-  "WorkoutAlreadyExistsInProgram": "التمرين موجود بالفعل في البرنامج"
+  "WorkoutAlreadyExistsInProgram": "التمرين موجود بالفعل في البرنامج",
+  "TotalWorkouts": "إجمالي التمارين",
+  "TotalExercises": "إجمالي التمارين",
+  "TotalPrograms": "إجمالي البرامج",
+  "TotalClients": "إجمالي العملاء",
+  "TotalFollowers": "إجمالي المتابعين",
+  "NoSet": "لا توجد مجموعة",
+  "WeightXReps": "الوزن X عدد المرات"
 }

@@ -111,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoChat": MessageLookupByLibrary.simpleMessage(
             "No chat yet, click to start a new chat."),
         "NoPrograms": MessageLookupByLibrary.simpleMessage("No programs yet"),
+        "NoSet": MessageLookupByLibrary.simpleMessage("No set"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
@@ -125,6 +126,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Slogan":
             MessageLookupByLibrary.simpleMessage("Start Making Difference"),
         "Success": MessageLookupByLibrary.simpleMessage("Success"),
+        "TotalClients": MessageLookupByLibrary.simpleMessage("Total Clients"),
+        "TotalExercises":
+            MessageLookupByLibrary.simpleMessage("Total Exercises"),
+        "TotalFollowers":
+            MessageLookupByLibrary.simpleMessage("Total Followers"),
+        "TotalPrograms": MessageLookupByLibrary.simpleMessage("Total Programs"),
+        "TotalWorkouts": MessageLookupByLibrary.simpleMessage("Total Workouts"),
         "Trainee": MessageLookupByLibrary.simpleMessage("Trainee"),
         "Trainees": MessageLookupByLibrary.simpleMessage("Trainees:"),
         "Trainer": MessageLookupByLibrary.simpleMessage("Trainer"),
@@ -136,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("User Name"),
         "WeekAgo": MessageLookupByLibrary.simpleMessage("week ago"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("weeks ago"),
+        "WeightXReps": MessageLookupByLibrary.simpleMessage("Weight x Reps"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !"),
         "WillYouJoinProgram": MessageLookupByLibrary.simpleMessage(
             "Will you join this program ?"),

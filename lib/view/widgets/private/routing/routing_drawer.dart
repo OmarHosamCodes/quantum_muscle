@@ -5,7 +5,7 @@ class RoutingDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final routingController = RoutingController.instants;
+    final routingController = RoutingController();
     final locale = Intl.getCurrentLocale();
     return Drawer(
       backgroundColor: ColorConstants.secondaryColor,

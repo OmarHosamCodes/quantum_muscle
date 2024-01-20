@@ -1,19 +1,21 @@
 import '/library.dart';
 
-class WorkoutDetailsScreen extends ConsumerWidget {
+class WorkoutDetailsScreen extends StatelessWidget {
   const WorkoutDetailsScreen({
     super.key,
     required this.arguments,
   });
 
   final Map<String, dynamic> arguments;
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final workout = arguments[WorkoutModel.modelKey] as WorkoutModel;
-    final workoutIndex = arguments["index"] as int;
+    final showAddButton = arguments['showAddButton'] as bool;
+    final programId = arguments['ProgramId'] as String?;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final workoutCollectionName = "${workout.name}-${workout.id}";
+    final workoutAndExercises = {workoutCollectionName: workout.exercises};
     bool isDesktop() {
       if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
       return true;
@@ -24,7 +26,6 @@ class WorkoutDetailsScreen extends ConsumerWidget {
       return true;
     }
 
-    final workoutStream = ref.watch(workoutsProvider(Utils().userUid!));
     return Scaffold(
       body: Column(
         children: [
@@ -80,7 +81,10 @@ class WorkoutDetailsScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       QmIconButton(
-                        onPressed: () {},
+                        onPressed: () => WorkoutUtil().deleteWorkout(
+                          workoutCollectionName: workoutCollectionName,
+                          context: context,
+                        ),
                         icon: EvaIcons.trash,
                       ),
                       QmIconButton(
@@ -93,52 +97,61 @@ class WorkoutDetailsScreen extends ConsumerWidget {
               ],
             ),
           ),
-          workoutStream.when(
-            data: (data) {
-              final exercises = data[workoutIndex].exercises;
-              return Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: StaggeredGrid.count(
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    crossAxisCount: isDesktop()
-                        ? 3
-                        : isTablet()
-                            ? 2
-                            : 1,
-                    children: List.generate(
-                      exercises.length + 1,
-                      (index) {
-                        if (index == exercises.length) {
-                          return AddExerciseTile(
-                            width: height,
-                            height: height,
-                            indexToInsert: exercises.length,
-                            workoutName: workout.name,
-                            id: workout.id,
-                          );
-                        } else {
-                          final exercise =
-                              ExerciseModel.fromMap(exercises[index]['$index']);
+          Consumer(
+            builder: (context, ref, child) {
+              final exercisesWatcher =
+                  ref.watch(exercisesProvider(workoutAndExercises));
+              return exercisesWatcher.when(
+                data: (exercises) {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: StaggeredGrid.count(
+                        crossAxisSpacing: 10.0,
+                        mainAxisSpacing: 10.0,
+                        crossAxisCount: isDesktop()
+                            ? 3
+                            : isTablet()
+                                ? 2
+                                : 1,
+                        children: List.generate(
+                          exercises.length + 1,
+                          (index) {
+                            if (index == exercises.length && showAddButton) {
+                              return AddExerciseTile(
+                                width: height,
+                                height: height,
+                                workout: workout,
+                                programId: programId,
+                                workoutCollectionName: workoutCollectionName,
+                                workoutAndExercises: workoutAndExercises,
+                              );
+                            } else {
+                              final exercise = exercises[index];
 
-                          return ExerciseTile(
-                            width: width,
-                            height: height,
-                            showcaseUrl: exercise.showcaseUrl,
-                            name: exercise.name,
-                            target: exercise.target,
-                            sets: exercise.sets,
-                          );
-                        }
-                      },
+                              return ExerciseTile(
+                                width: width,
+                                height: height,
+                                exercise: exercise,
+                                workoutCollectionName: workoutCollectionName,
+                                workoutAndExercises: workoutAndExercises,
+                              );
+                            }
+                          },
+                        ),
+                      ),
                     ),
+                  );
+                },
+                loading: () =>
+                    const Center(child: QmCircularProgressIndicator()),
+                error: (error, stackTrace) => Center(
+                  child: QmText(
+                    text: error.toString(),
                   ),
                 ),
               );
             },
-            error: (error, stackTrace) => QmText(text: error.toString()),
-            loading: () => const QmCircularProgressIndicator(),
           ),
         ],
       ),

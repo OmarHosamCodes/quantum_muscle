@@ -1,7 +1,6 @@
 import '/library.dart';
 
 class RoutingController {
-  static RoutingController get instants => RoutingController();
   static final router = GoRouter(
     initialLocation: Routes.homeR,
     routes: [
@@ -81,14 +80,15 @@ class RoutingController {
         path: Routes.chatR,
         builder: (context, state) => ChatScreen(
           key: state.pageKey,
-          chatId: state.pathParameters['chatId']!,
-          chatUserId: state.pathParameters['chatUserId']!,
+          chatId: state.pathParameters[ChatModel.chatIdKey]!,
+          chatUserId: state.pathParameters[ChatModel.chatUserIdKey]!,
           arguments: state.extra! as Map<String, dynamic>,
         ),
       ),
     ],
     errorBuilder: (context, state) => RoutingErrorScreen(
       key: state.pageKey,
+      error: state.error.toString(),
     ),
   );
   void changeDrawerRoute(int index, BuildContext context) {

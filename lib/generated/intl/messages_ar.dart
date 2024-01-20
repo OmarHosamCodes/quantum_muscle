@@ -113,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة."),
         "NoPrograms":
             MessageLookupByLibrary.simpleMessage("لا توجد برامج حتى الآن"),
+        "NoSet": MessageLookupByLibrary.simpleMessage("لا توجد مجموعة"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
@@ -127,6 +128,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "SendRequest": MessageLookupByLibrary.simpleMessage("إرسال طلب"),
         "Slogan": MessageLookupByLibrary.simpleMessage("ابدأ في صنع الفرق"),
         "Success": MessageLookupByLibrary.simpleMessage("نجاح"),
+        "TotalClients": MessageLookupByLibrary.simpleMessage("إجمالي العملاء"),
+        "TotalExercises":
+            MessageLookupByLibrary.simpleMessage("إجمالي التمارين"),
+        "TotalFollowers":
+            MessageLookupByLibrary.simpleMessage("إجمالي المتابعين"),
+        "TotalPrograms": MessageLookupByLibrary.simpleMessage("إجمالي البرامج"),
+        "TotalWorkouts":
+            MessageLookupByLibrary.simpleMessage("إجمالي التمارين"),
         "Trainee": MessageLookupByLibrary.simpleMessage("المتدرب"),
         "Trainees": MessageLookupByLibrary.simpleMessage("المتدربون:"),
         "Trainer": MessageLookupByLibrary.simpleMessage("المدرب"),
@@ -137,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "WeekAgo": MessageLookupByLibrary.simpleMessage("منذ أسبوع"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("أسابيع مضت"),
+        "WeightXReps":
+            MessageLookupByLibrary.simpleMessage("الوزن X عدد المرات"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),
         "WillYouJoinProgram":
             MessageLookupByLibrary.simpleMessage("هل ستنضم إلى هذا البرنامج؟"),

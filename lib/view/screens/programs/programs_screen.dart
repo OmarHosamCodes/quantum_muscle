@@ -8,23 +8,35 @@ class ProgramsScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: height * .6,
-            child: Consumer(
-              builder: (context, ref, child) {
-                final programsFuture = ref.watch(programsProvider);
-                return programsFuture.when(
-                  data: (data) {
-                    return ProgramsShowcase(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Consumer(
+              builder: (context, ref, _) {
+                ref.watch(localeProvider);
+                final programsWatcher = ref.watch(programsProvider);
+                final userWatcher = ref.watch(userProvider(Utils().userUid!));
+                bool isTrainee() {
+                  if (userWatcher.valueOrNull!.type == UserType.trainee) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                }
+
+                return programsWatcher.when(
+                  data: (data) => SizedBox(
+                    height: height * .5,
+                    child: ProgramsShowcase(
                       width: width,
                       height: height,
                       programs: data,
-                    );
-                  },
+                      isTrainee: isTrainee(),
+                    ),
+                  ),
                   loading: () => const Center(
                     child: QmCircularProgressIndicator(),
                   ),
@@ -34,17 +46,15 @@ class ProgramsScreen extends StatelessWidget {
                 );
               },
             ),
-          ),
-          Expanded(
-            child: SizedBox(
-              height: height * .4,
+            SizedBox(
+              height: height * .5,
               child: const WorkoutsScreen(),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          )
-        ],
+            const SizedBox(
+              height: 20,
+            )
+          ],
+        ),
       ),
     );
   }

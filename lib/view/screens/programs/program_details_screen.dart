@@ -1,30 +1,5 @@
 import '/library.dart';
 
-final programTraineesAvatarsProvider =
-    FutureProvider.family<List<String?>, String>((ref, programId) async {
-  final programTrainees = await Utils()
-      .firebaseFirestore
-      .collection(UserModel.programsKey)
-      .doc(programId)
-      .get()
-      .then((program) =>
-          program.get(ProgramModel.traineesIdsKey) as List<dynamic>);
-  final programTraineesAvatars = await Future.wait(
-    programTrainees
-        .map(
-          (traineeId) async => await Utils()
-              .firebaseFirestore
-              .collection(DBPathsConstants.usersPath)
-              .doc(traineeId)
-              .get()
-              .then((trainee) =>
-                  trainee.get(UserModel.profileImageKey) as String?),
-        )
-        .toList(),
-  );
-  return programTraineesAvatars;
-});
-
 class ProgramDetailsScreen extends StatelessWidget {
   const ProgramDetailsScreen({
     super.key,
@@ -35,6 +10,7 @@ class ProgramDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final program = arguments[ProgramModel.modelKey] as ProgramModel;
+    final isTrainee = arguments['isTrainee'] as bool;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -78,13 +54,16 @@ class ProgramDetailsScreen extends StatelessWidget {
                                 onPressed: () => ProgramsUtil().deleteProgram(
                                   context: context,
                                   programId: program.id,
-                                  traineesIds: program.traineesIds as List,
+                                  traineesIds: program.traineesIds,
                                   ref: ref,
                                 ),
                                 icon: EvaIcons.trash,
                               ),
                               QmIconButton(
-                                onPressed: () => openAddTraineeSheet(context),
+                                onPressed: () => openAddTraineeSheet(
+                                  context,
+                                  programRequestId: program.id,
+                                ),
                                 icon: EvaIcons.personAdd,
                               ),
                             ],
@@ -139,19 +118,21 @@ class ProgramDetailsScreen extends StatelessWidget {
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: program.workouts!.length,
+              itemCount: program.workouts.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 childAspectRatio: 1.0,
               ),
               itemBuilder: (context, index) {
-                final workoutData = program.workouts![index];
+                final workoutData = program.workouts[index];
                 final workout = WorkoutModel.fromMap(workoutData);
                 return GestureDetector(
-                  onTap: () => context.push(
+                  onTap: () => context.pushNamed(
                     Routes.workoutRootR,
                     extra: {
                       WorkoutModel.modelKey: workout,
+                      "showAddButton": isTrainee ? false : true,
+                      "programId": program.id,
                     },
                   ),
                   child: Padding(

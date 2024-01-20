@@ -91,5 +91,12 @@
   "AddTraineeId": "Add Trainee ID",
   "AddTrainee": "Add Trainee",
   "WillYouJoinProgram": "Will you join this program ?",
-  "WorkoutAlreadyExistsInProgram": "Workout already exists in program"
+  "WorkoutAlreadyExistsInProgram": "Workout already exists in program",
+  "TotalWorkouts": "Total Workouts",
+  "TotalExercises": "Total Exercises",
+  "TotalPrograms": "Total Programs",
+  "TotalClients": "Total Clients",
+  "TotalFollowers": "Total Followers",
+  "NoSet": "No set",
+  "WeightXReps": "Weight x Reps"
 }

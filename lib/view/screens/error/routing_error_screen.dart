@@ -1,8 +1,11 @@
 import '/library.dart';
 
 class RoutingErrorScreen extends StatelessWidget {
-  const RoutingErrorScreen({super.key});
-
+  const RoutingErrorScreen({
+    super.key,
+    this.error,
+  });
+  final String? error;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,11 +15,11 @@ class RoutingErrorScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             QmText(
-              text: S.current.DefaultError,
+              text: error ?? 'Error',
               maxWidth: double.maxFinite,
             ),
             QmIconButton(
-              onPressed: () => context.go(Routes.initR),
+              onPressed: () => RoutingController().changeRoute(0),
               icon: Icons.home,
             ),
           ],

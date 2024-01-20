@@ -85,6 +85,7 @@ class ProgramsUtil extends Utils {
     required BuildContext context,
     required String traineeId,
     required WidgetRef ref,
+    required String programRequestId,
   }) async {
     try {
       openQmLoaderDialog(context: context);
@@ -102,6 +103,7 @@ class ProgramsUtil extends Utils {
       ChatUtil().addRequestMessage(
         chatId: chatId.first.keys.first,
         message: S.current.WillYouJoinProgram,
+        programRequestId: programRequestId,
       );
       context.pop();
     } catch (e) {
@@ -114,24 +116,44 @@ class ProgramsUtil extends Utils {
   }
 
   //todo needs testing
-  Future<void> acceptRequest(
-      {required BuildContext context,
-      required String chatId,
-      required WidgetRef ref,
-      required String programId}) async {
+  Future<void> acceptRequest({
+    required BuildContext context,
+    required String chatId,
+    required WidgetRef ref,
+    required String programId,
+    required String messageId,
+  }) async {
+    openQmLoaderDialog(context: context);
     try {
-      openQmLoaderDialog(context: context);
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(userUid)
-          .set(
+          .set({
+        UserModel.programsKey: FieldValue.arrayUnion(
+          [programId],
+        )
+      }, SetOptions(merge: true));
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersUserProgramsPath)
+          .doc(programId)
+          .update(
         {
-          UserModel.programsKey: FieldValue.arrayUnion(
-            [programId],
-          ),
+          ProgramModel.traineesIdsKey: FieldValue.arrayUnion(
+            [userUid],
+          )
         },
-        SetOptions(merge: true),
       );
+      await ChatUtil().removeMessage(
+        chatId: chatId,
+        messageId: messageId,
+        context: context,
+      );
+      RoutingController().changeRoute(4);
+
+      ref.invalidate(programsProvider);
+      ref.read(programsProvider);
+      ref.invalidate(userProvider(userUid!));
+      ref.read(userProvider(userUid!));
       context.pop();
     } catch (e) {
       openQmDialog(

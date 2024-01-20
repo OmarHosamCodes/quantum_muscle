@@ -8,4 +8,5 @@ class DBPathsConstants {
   static const String usersUserWorkoutsPath = 'workouts';
   static const String usersUserImgs = 'images';
   static const String usersUserProgramsPath = 'programs';
+  static const String usersUserProgramsAndWorkoutsExercisesPath = 'exercises';
 }

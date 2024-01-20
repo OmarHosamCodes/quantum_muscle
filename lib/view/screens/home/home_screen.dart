@@ -1,3 +1,5 @@
+import 'package:fl_chart/fl_chart.dart';
+
 import '/library.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,15 +9,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
-
-    bool isTablet() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
-      return true;
-    }
 
     return Scaffold(
       extendBody: true,
@@ -50,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       QmText(
                         text: S.current.Slogan,
-                        maxWidth: 150,
+                        maxWidth: 140,
                       ),
                       SizedBox(
                         width: width * .05,
@@ -62,6 +55,58 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              Consumer(
+                builder: (context, ref, _) {
+                  final generalAnalytics = ref.watch(generalAnalyticsProvider(
+                      Utils().userUid ?? SimpleConstants.emptyString));
+
+                  return generalAnalytics.maybeWhen(
+                    // todo fix this
+                    data: (data) => AspectRatio(
+                      aspectRatio: 1.0,
+                      child: PieChart(
+                        PieChartData(sections: [
+                          PieChartSectionData(
+                            color: ColorConstants.primaryColor,
+                            value: data.totalPrograms!.toDouble(),
+                            title: data.totalPrograms.toString(),
+                            radius: 40,
+                          ),
+                          PieChartSectionData(
+                            color: ColorConstants.secondaryColor,
+                            value: data.totalClients!.toDouble(),
+                            title: data.totalClients.toString(),
+                            radius: 40,
+                          ),
+                          PieChartSectionData(
+                            color: ColorConstants.disabledColor,
+                            value: data.totalWorkouts!.toDouble(),
+                            title: data.totalWorkouts.toString(),
+                            radius: 40,
+                          ),
+                          PieChartSectionData(
+                            color: ColorConstants.primaryColor,
+                            value: data.totalExercises!.toDouble(),
+                            title: data.totalExercises.toString(),
+                            radius: 40,
+                          ),
+                          PieChartSectionData(
+                            color: ColorConstants.secondaryColor,
+                            value: data.totalFollowers!.toDouble(),
+                            title: data.totalFollowers.toString(),
+                            radius: 40,
+                          ),
+                        ], centerSpaceRadius: 10),
+                        swapAnimationDuration:
+                            const Duration(milliseconds: 150),
+                      ),
+                    ),
+                    orElse: () => QmText(
+                      text: S.current.DefaultError,
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),

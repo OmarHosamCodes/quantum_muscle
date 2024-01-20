@@ -8,16 +8,17 @@ class ProfileScreen extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final userFuture = ref.watch(userProvider(Utils().userUid!));
+    final userWatcher = ref.watch(userProvider(Utils().userUid!));
+    ref.watch(localeProvider);
     return Scaffold(
-      body: userFuture.when(
+      body: userWatcher.when(
         error: (error, stackTrace) => Center(
-          child: QmText(text: error.toString()),
+          child: QmText(text: S.current.DefaultError),
         ),
         loading: () => const Center(
           child: QmCircularProgressIndicator(),
         ),
-        data: (data) {
+        data: (user) {
           return Scaffold(
             extendBody: true,
             body: SingleChildScrollView(
@@ -29,7 +30,7 @@ class ProfileScreen extends ConsumerWidget {
                   Row(
                     children: [
                       QmAvatar(
-                        imageUrl: data.profileImage,
+                        imageUrl: user.profileImage,
                         radius: 40,
                       ),
                       Padding(
@@ -41,17 +42,17 @@ class ProfileScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             QmText(
-                              text: data.name,
+                              text: user.name,
                             ),
                             Row(
                               children: [
                                 QmText(
-                                  text: "#${data.id}",
+                                  text: "#${user.id}",
                                   isSeccoundary: true,
                                 ),
                                 QmIconButton(
                                   onPressed: () => Utils().copyToClipboard(
-                                    text: data.id,
+                                    text: user.id,
                                   ),
                                   icon: EvaIcons.copyOutline,
                                 )
@@ -68,7 +69,7 @@ class ProfileScreen extends ConsumerWidget {
                           QmIconButton(
                             onPressed: () => context.push(
                               Routes.profileEditR,
-                              extra: {UserModel.modelKey: data},
+                              extra: {UserModel.modelKey: user},
                             ),
                             icon: EvaIcons.editOutline,
                           ),
@@ -76,7 +77,7 @@ class ProfileScreen extends ConsumerWidget {
                             onPressed: () => lunchAddImageWidget(
                               context: context,
                               ref: ref,
-                              indexToInsert: data.images.length,
+                              indexToInsert: user.images.length,
                             ),
                             icon: EvaIcons.image,
                           ),
@@ -96,7 +97,7 @@ class ProfileScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           QmText(
-                            text: data.followers.length.toString(),
+                            text: user.followers.length.toString(),
                           ),
                           SizedBox(
                             width: width * .005,
@@ -115,7 +116,7 @@ class ProfileScreen extends ConsumerWidget {
                             width: width * .005,
                           ),
                           QmText(
-                            text: data.following.length.toString(),
+                            text: user.following.length.toString(),
                           ),
                           SizedBox(
                             width: width * .005,
@@ -129,9 +130,9 @@ class ProfileScreen extends ConsumerWidget {
                     ],
                   ),
                   QmText(
-                    text: data.bio == SimpleConstants.emptyString
+                    text: user.bio == SimpleConstants.emptyString
                         ? S.current.LetPeopleKnow
-                        : data.bio,
+                        : user.bio,
                   ),
                   const Divider(
                     thickness: .5,

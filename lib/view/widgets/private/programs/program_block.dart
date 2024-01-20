@@ -8,6 +8,7 @@ class ProgramBlock extends ConsumerStatefulWidget {
     required this.program,
     required this.programs,
     required this.borderRadius,
+    required this.isTrainee,
   });
 
   final double width;
@@ -15,6 +16,7 @@ class ProgramBlock extends ConsumerStatefulWidget {
   final ProgramModel program;
   final List<ProgramModel> programs;
   final BorderRadius borderRadius;
+  final bool isTrainee;
 
   @override
   ConsumerState<ProgramBlock> createState() => _ProgramBlockState();
@@ -86,10 +88,10 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                         children: [
                           QmText(
                               text:
-                                  "${S.current.Workouts}${(widget.program.workouts ?? []).length.toString()}"),
+                                  "${S.current.Workouts}${(widget.program.workouts).length.toString()}"),
                           QmText(
                               text:
-                                  "${S.current.Trainees}${(widget.program.traineesIds ?? []).length.toString()}"),
+                                  "${S.current.Trainees}${(widget.program.traineesIds).length.toString()}"),
                         ],
                       ),
                     ),
@@ -104,6 +106,7 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                           Routes.programRootR,
                           extra: {
                             ProgramModel.modelKey: widget.program,
+                            "isTrainee": widget.isTrainee,
                           },
                         ),
                         iconSize: 25.0,

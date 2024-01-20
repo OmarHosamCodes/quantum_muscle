@@ -75,7 +75,7 @@ class SearchedProfile extends ConsumerWidget {
                           userId: userURI,
                           height: height,
                           width: width,
-                          isFollowing: data.following.any((element) =>
+                          isFollowing: data.followers.any((element) =>
                               element ==
                               (Utils().userUid ?? SimpleConstants.emptyString)),
                         ),

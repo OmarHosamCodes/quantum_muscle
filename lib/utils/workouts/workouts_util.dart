@@ -13,7 +13,7 @@ class WorkoutUtil extends Utils {
     required String imageFile,
     required WidgetRef ref,
   }) async {
-    final isValid = formKey.currentState!.validate();
+    bool isValid = formKey.currentState!.validate();
     if (!isValid) return;
     openQmLoaderDialog(context: context);
 
@@ -29,42 +29,62 @@ class WorkoutUtil extends Utils {
             .child("$workoutName-$id")
             .child("$workoutName-showcase.png");
 
-        storageRef.putString(imageFile, format: PutStringFormat.base64).then(
-          (_) async {
-            final workoutModel = WorkoutModel(
-              id: id,
-              name: workoutName,
-              imgUrl: await storageRef.getDownloadURL(),
-              exercises: [],
-              creationDate: Timestamp.now(),
-            );
-            await firebaseFirestore
-                .collection(DBPathsConstants.usersPath)
-                .doc(userUid)
-                .collection(DBPathsConstants.usersUserWorkoutsPath)
-                .doc("$workoutName-$id")
-                .set(
-                  workoutModel.toMap(),
-                  SetOptions(merge: true),
-                )
-                .then(
-              (_) {
-                ref.invalidate(workoutsProvider);
-                ref.read(workoutsProvider(Utils().userUid!));
-                while (context.canPop()) {
-                  context.pop();
-                }
-              },
-            );
-          },
+        await storageRef.putString(imageFile, format: PutStringFormat.base64);
+
+        WorkoutModel workoutModel = WorkoutModel(
+          id: id,
+          name: workoutName,
+          imgUrl: await storageRef.getDownloadURL(),
+          exercises: [],
+          creationDate: Timestamp.now(),
         );
-      } on FirebaseException catch (e) {
+
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userUid)
+            .collection(DBPathsConstants.usersUserWorkoutsPath)
+            .doc("$workoutName-$id")
+            .set(
+              workoutModel.toMap(),
+              SetOptions(merge: true),
+            );
+
+        while (context.canPop()) {
+          context.pop();
+        }
+      } catch (e) {
+        context.pop();
         openQmDialog(
           context: context,
           title: S.of(context).Failed,
-          message: e.message!,
+          message: e.toString(),
         );
       }
+    }
+  }
+
+  Future<void> deleteWorkout({
+    required String workoutCollectionName,
+    required BuildContext context,
+  }) async {
+    openQmLoaderDialog(context: context);
+    try {
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid)
+          .collection(DBPathsConstants.usersUserWorkoutsPath)
+          .doc(workoutCollectionName)
+          .delete();
+      while (context.canPop()) {
+        context.pop();
+      }
+    } catch (e) {
+      context.pop();
+      openQmDialog(
+        context: context,
+        title: S.of(context).Failed,
+        message: e.toString(),
+      );
     }
   }
 }

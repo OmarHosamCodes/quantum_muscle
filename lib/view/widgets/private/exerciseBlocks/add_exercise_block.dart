@@ -1,114 +1,121 @@
+// ignore_for_file: use_build_context_synchronously
+
 import '/library.dart';
 
-class AddExerciseTile extends StatelessWidget {
+class AddExerciseTile extends ConsumerWidget {
   const AddExerciseTile({
     super.key,
     required this.width,
     required this.height,
-    required this.indexToInsert,
-    required this.workoutName,
-    required this.id,
+    required this.workout,
+    this.programId,
+    required this.workoutCollectionName,
+    required this.workoutAndExercises,
   });
   final double width;
   final double height;
-  final int indexToInsert;
-  final String workoutName;
-  final String id;
+  final WorkoutModel workout;
+  final String? programId;
+  final String workoutCollectionName;
+  final Map<String, List<dynamic>> workoutAndExercises;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final exerciseNameTextController = TextEditingController();
     final exerciseTargetTextController = TextEditingController();
-    final ExerciseUtil exerciseUtil = ExerciseUtil.instance;
-    final formKey = GlobalKey<FormState>();
-    return Consumer(
-      builder: (context, ref, _) {
-        final exerciseImageRef = ref.watch(exerciseImageBytesProvider) ?? '';
+    final ExerciseUtil exerciseUtil = ExerciseUtil();
+    String? imageSource = ref.watch(exerciseImageBytesProvider) ?? '';
+    Uint8List imageBytes() => base64Decode(imageSource);
 
-        return SlimyCard(
-          onTap: () async {
-            bool isValid = formKey.currentState!.validate();
-            if (isValid) {
-              await exerciseUtil.addExercise(
-                formKey: formKey,
-                context: context,
-                ref: ref,
-                workoutName: workoutName,
-                workoutId: id,
-                exerciseName: exerciseNameTextController.text,
-                exerciseTarget: exerciseTargetTextController.text,
-                indexToInsert: indexToInsert,
-                showcaseFile: exerciseImageRef,
-                showcaseType: ExerciseShowcaseConstants.image,
-              );
-            }
+    return SlimyCard(
+      color: ColorConstants.primaryColor,
+      topCardHeight: height >= 150 ? 150 : height * 0.2,
+      bottomCardHeight: height >= 150 ? 150 : height * 0.2,
+      borderRadius: 10,
+      topCardWidget: QmBlock(
+        width: width * .9,
+        height: height * .2,
+        isNormal: true,
+        onTap: () => exerciseUtil.chooseImageFromStorage(
+          ref: ref,
+          provider: exerciseImageBytesProvider,
+        ),
+        child: Image(
+          image: MemoryImage(imageBytes()),
+          fit: BoxFit.scaleDown,
+          errorBuilder: (context, error, stackTrace) {
+            return const Icon(
+              Icons.add,
+              color: ColorConstants.iconColor,
+            );
           },
-          color: ColorConstants.primaryColor,
-          topCardHeight: height >= 150 ? 150 : height * 0.2,
-          bottomCardHeight: height >= 150 ? 150 : height * 0.2,
-          borderRadius: 10,
-          topCardWidget: QmBlock(
-            width: width * .9,
-            height: height * .2,
-            isNormal: true,
-            onTap: () => exerciseUtil.chooseImageFromStorage(
-              ref: ref,
-              provider: exerciseImageBytesProvider,
+        ),
+      ),
+      bottomCardWidget: FittedBox(
+        fit: BoxFit.fill,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            QmTextField(
+              height: height * .2,
+              width: width,
+              controller: exerciseNameTextController,
+              hintText: S.current.EnterExerciseName,
+              fontSize: 25,
             ),
-            child: Image(
-              image: MemoryImage(base64Decode(exerciseImageRef)),
-              fit: BoxFit.scaleDown,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(
-                  Icons.add,
-                  color: ColorConstants.iconColor,
-                );
+            const SizedBox(
+              height: 5,
+            ),
+            QmTextField(
+              height: height * .2,
+              width: width,
+              controller: exerciseTargetTextController,
+              hintText: S.current.EnterExerciseTarget,
+              fontSize: 25,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            QmBlock(
+              onTap: () async {
+                if (exerciseNameTextController.text.isNotEmpty &&
+                    exerciseTargetTextController.text.isNotEmpty) {
+                  // if (programId != null) {
+                  //   await exerciseUtil.addExerciesToProgramWorkout(
+                  //     context: context,
+                  //     ref: ref,
+                  //     workoutName: workoutName,
+                  //     workoutId: id,
+                  //     exerciseName: exerciseNameTextController.text,
+                  //     exerciseTarget: exerciseTargetTextController.text,
+                  //     showcaseFile: imageSource,
+                  //     showcaseType: ExerciseShowcaseConstants.image,
+                  //     programId: programId!,
+                  //   );
+                  // }
+                  await exerciseUtil.addExercise(
+                    context: context,
+                    ref: ref,
+                    workoutCollectionName: workoutCollectionName,
+                    exerciseName: exerciseNameTextController.text,
+                    exerciseTarget: exerciseTargetTextController.text,
+                    showcaseFile: imageSource,
+                    showcaseType: ExerciseShowcaseConstants.image,
+                    workoutAndExercises: workoutAndExercises,
+                  );
+                }
               },
-            ),
-          ),
-          bottomCardWidget: FittedBox(
-            fit: BoxFit.fill,
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  QmTextField(
-                    height: height * .2,
-                    width: width,
-                    controller: exerciseNameTextController,
-                    hintText: S.current.EnterExerciseName,
-                    fontSize: 25,
-                    validator: (value) {
-                      if (!ValidationController.validateName(value!)) {
-                        return S.current.EnterExerciseName;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  QmTextField(
-                    height: height * .2,
-                    width: width,
-                    controller: exerciseTargetTextController,
-                    hintText: S.current.EnterExerciseTarget,
-                    fontSize: 25,
-                    validator: (value) {
-                      if (!ValidationController.validateName(value!)) {
-                        return S.current.EnterExerciseTarget;
-                      }
-                      return null;
-                    },
-                  ),
-                ],
+              color: ColorConstants.secondaryColor,
+              width: width,
+              height: height * .2,
+              child: QmText(
+                text: S.current.Add,
               ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }

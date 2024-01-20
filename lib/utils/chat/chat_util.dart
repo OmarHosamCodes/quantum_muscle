@@ -47,6 +47,7 @@ class ChatUtil extends Utils {
           ])
         });
         final initMessage = MessageModel(
+            id: const Uuid().v8(),
             senderId: PrivateConstants.serverSenderId,
             timestamp: Timestamp.now(),
             message: PrivateConstants.serverChatInitialMessage,
@@ -55,11 +56,9 @@ class ChatUtil extends Utils {
             .collection(UserModel.chatsKey)
             .doc(uniqueId)
             .collection(ChatModel.messagesKey)
-            .doc()
+            .doc(initMessage.id)
             .set(initMessage.toMap());
 
-        ref.invalidate(chatProvider(userUid!));
-        ref.read(chatProvider(userUid!));
         ref.invalidate(userProvider(userUid!));
         ref.read(userProvider(userUid!));
 
@@ -79,17 +78,23 @@ class ChatUtil extends Utils {
   Future<void> addTextMessage({
     required String chatId,
     required String message,
+    required WidgetRef ref,
   }) async {
+    final messageToSend = MessageModel(
+      id: const Uuid().v8(),
+      senderId: Utils().userUid!,
+      message: message,
+      timestamp: Timestamp.now(),
+      type: MessageType.text,
+    );
     await firebaseFirestore
         .collection(DBPathsConstants.chatsPath)
         .doc(chatId)
         .collection(DBPathsConstants.chatsMessagesPath)
-        .add({
-      MessageModel.messageKey: message,
-      MessageModel.senderIdKey: Utils().userUid,
-      MessageModel.timestampKey: Timestamp.now(),
-      MessageModel.typeKey: MessageType.text.name,
-    });
+        .doc(messageToSend.id)
+        .set(messageToSend.toMap());
+    ref.invalidate(chatsProvider);
+    ref.read(chatsProvider);
   }
 
   Future<void> removeMessage({
@@ -116,16 +121,20 @@ class ChatUtil extends Utils {
   Future<void> addRequestMessage({
     required String chatId,
     required String message,
+    required String programRequestId,
   }) async {
+    final requestMessage = MessageModel(
+      id: const Uuid().v8(),
+      senderId: Utils().userUid!,
+      message: message,
+      timestamp: Timestamp.now(),
+      type: MessageType.request,
+      programRequestId: programRequestId,
+    );
     await firebaseFirestore
         .collection(DBPathsConstants.chatsPath)
         .doc(chatId)
         .collection(DBPathsConstants.chatsMessagesPath)
-        .add({
-      MessageModel.messageKey: message,
-      MessageModel.senderIdKey: Utils().userUid,
-      MessageModel.timestampKey: Timestamp.now(),
-      MessageModel.typeKey: MessageType.request.name,
-    });
+        .add(requestMessage.toMap());
   }
 }

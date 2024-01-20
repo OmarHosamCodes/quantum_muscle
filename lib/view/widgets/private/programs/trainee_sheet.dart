@@ -1,17 +1,22 @@
 import '/library.dart';
 
-void openAddTraineeSheet(BuildContext context) {
+void openAddTraineeSheet(BuildContext context,
+    {required String programRequestId}) {
   showModalBottomSheet(
     backgroundColor: ColorConstants.secondaryColor,
     context: context,
-    builder: (context) => const AddTraineeSheet(),
+    builder: (context) => AddTraineeSheet(
+      programRequestId: programRequestId,
+    ),
   );
 }
 
 class AddTraineeSheet extends StatelessWidget {
   const AddTraineeSheet({
     super.key,
+    required this.programRequestId,
   });
+  final String programRequestId;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -38,6 +43,7 @@ class AddTraineeSheet extends StatelessWidget {
                 context: context,
                 traineeId: traineeIdTextController.text,
                 ref: ref,
+                programRequestId: programRequestId,
               ),
               width: width * 0.8,
               height: height * 0.1,

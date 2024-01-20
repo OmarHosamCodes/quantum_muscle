@@ -5,28 +5,25 @@ class ExerciseTile extends StatelessWidget {
     super.key,
     required this.width,
     required this.height,
-    required this.showcaseUrl,
-    required this.name,
-    required this.target,
-    required this.sets,
+    required this.exercise,
+    required this.workoutCollectionName,
+    required this.workoutAndExercises,
   });
 
   final double width;
   final double height;
-  final String showcaseUrl;
-  final String name;
-  final String target;
-  final List sets;
+  final ExerciseModel exercise;
+  final String workoutCollectionName;
+  final Map<String, List<dynamic>> workoutAndExercises;
 
   @override
   Widget build(BuildContext context) {
     final pageController = PageController();
-
     return SlimyCard(
       onTap: () {},
       color: ColorConstants.primaryColor,
       topCardHeight: height >= 150 ? 150 : height * 0.2,
-      bottomCardHeight: height >= 125 ? 125 : height * 0.2,
+      bottomCardHeight: height >= 150 ? 150 : height * 0.2,
       borderRadius: 10,
       width: 300,
       topCardWidget: Stack(
@@ -39,10 +36,15 @@ class ExerciseTile extends StatelessWidget {
             color: ColorConstants.disabledColor.withOpacity(.3),
           ),
           Image(
-            image: NetworkImage(showcaseUrl),
+            image: CachedNetworkImageProvider(exercise.showcaseUrl),
             fit: BoxFit.scaleDown,
-            errorBuilder: (context, error, stackTrace) =>
-                const Icon(EvaIcons.alertCircle),
+            errorBuilder: (context, error, stackTrace) => QmIconButton(
+              icon: EvaIcons.alertCircle,
+              onPressed: () => openQmDialog(
+                  context: context,
+                  title: S.current.Failed,
+                  message: error.toString()),
+            ),
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
               return const Center(
@@ -60,13 +62,13 @@ class ExerciseTile extends StatelessWidget {
               children: [
                 SizedBox(
                   child: QmText(
-                    text: name,
+                    text: exercise.name,
                     overflow: TextOverflow.fade,
                     maxWidth: width * .3,
                   ),
                 ),
                 QmText(
-                  text: target,
+                  text: exercise.target,
                   overflow: TextOverflow.fade,
                   isSeccoundary: true,
                   maxWidth: width * .25,
@@ -91,45 +93,60 @@ class ExerciseTile extends StatelessWidget {
             child: QmIconButton(
               onPressed: () => pageController.previousPage(
                 duration: SimpleConstants.fastAnimationDuration,
-                curve: Curves.bounceOut,
+                curve: Curves.ease,
               ),
               icon: EvaIcons.arrowBack,
             ),
           ),
-          Flexible(
-            flex: 2,
-            child: PageView.builder(
-              controller: pageController,
-              scrollDirection: Axis.horizontal,
-              itemCount: sets.length,
-              itemBuilder: (context, index) {
-                final set = sets[index];
-                return QmBlock(
-                  isGradient: true,
-                  onTap: () => openQmDialog(
-                    context: context,
-                    title: set,
-                    message: set,
+          Consumer(builder: (context, ref, _) {
+            return ref.watch(exercisesProvider(workoutAndExercises)).when(
+                  data: (exercises) => Flexible(
+                    flex: 2,
+                    child: PageView.builder(
+                      controller: pageController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: exercise.sets.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == exercise.sets.length) {
+                          return QmIconButton(
+                            onPressed: () => ExerciseUtil().addSet(
+                              workoutCollectionName: workoutCollectionName,
+                              exerciseDocName:
+                                  "${exercise.name}${exercise.target}${exercise.id}",
+                            ),
+                            icon: EvaIcons.plus,
+                          );
+                        }
+                        String set = exercise.sets[index];
+                        return QmBlock(
+                          isGradient: true,
+                          onTap: () => openQmDialog(
+                            context: context,
+                            title: set,
+                            message: set,
+                          ),
+                          width: width * .2,
+                          height: height * .3,
+                          child: QmText(
+                            text: set,
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  width: width * .2,
-                  height: height * .1,
-                  child: QmText(
-                    text: set,
-                  ),
+                  loading: () =>
+                      const Center(child: QmCircularProgressIndicator()),
+                  error: (error, stackTrace) =>
+                      Center(child: QmText(text: error.toString())),
                 );
-              },
+          }),
+          QmIconButton(
+            onPressed: () => pageController.nextPage(
+              duration: SimpleConstants.fastAnimationDuration,
+              curve: Curves.ease,
             ),
+            icon: EvaIcons.arrowForward,
           ),
-          Flexible(
-            flex: 1,
-            child: QmIconButton(
-              onPressed: () => pageController.nextPage(
-                duration: SimpleConstants.fastAnimationDuration,
-                curve: Curves.bounceIn,
-              ),
-              icon: EvaIcons.arrowForward,
-            ),
-          )
         ],
       ),
     );

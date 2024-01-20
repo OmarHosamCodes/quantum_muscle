@@ -72,7 +72,8 @@ export 'utils/providers/user_provider.dart';
 export 'utils/providers/programs_provider.dart';
 export 'utils/providers/workouts_provider.dart';
 export 'utils/providers/chats_provider.dart';
-export 'utils/providers/local_provider.dart';
+export 'utils/providers/locale_provider.dart';
+export '/utils/providers/analytics_provider.dart';
 
 //* Models
 
@@ -86,6 +87,7 @@ export 'models/enums/user_type.dart';
 export 'models/chat/message_model.dart';
 export 'models/enums/message_type.dart';
 export 'models/enums/exercise_showcase.dart';
+export 'models/analytics/general_analytics.dart';
 
 //* Constants
 

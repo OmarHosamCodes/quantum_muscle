@@ -6,11 +6,13 @@ class ProgramsShowcase extends StatefulWidget {
     required this.width,
     required this.height,
     required this.programs,
+    required this.isTrainee,
   });
 
   final double width;
   final double height;
   final List<ProgramModel> programs;
+  final bool isTrainee;
 
   @override
   State<ProgramsShowcase> createState() => _ProgramsShowcaseState();
@@ -21,7 +23,9 @@ class _ProgramsShowcaseState extends State<ProgramsShowcase> {
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: widget.programs.length + 1,
+      itemCount: widget.isTrainee
+          ? widget.programs.length
+          : widget.programs.length + 1,
       padding: EdgeInsets.symmetric(
         horizontal: widget.width * .055,
         vertical: widget.height * .05,
@@ -70,6 +74,7 @@ class _ProgramsShowcaseState extends State<ProgramsShowcase> {
           program: widget.programs[index],
           programs: widget.programs,
           borderRadius: borderRadius(),
+          isTrainee: widget.isTrainee,
         );
       },
     );

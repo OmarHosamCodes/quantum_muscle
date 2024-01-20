@@ -26,7 +26,9 @@ class QmAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const borderWidth = 5;
-    if (imageUrl == SimpleConstants.emptyString || hasError) {
+    if (imageUrl == SimpleConstants.emptyString ||
+        hasError ||
+        imageUrl == null) {
       return CircleAvatar(
         radius: radius - borderWidth,
         backgroundColor: ColorConstants.primaryColor,

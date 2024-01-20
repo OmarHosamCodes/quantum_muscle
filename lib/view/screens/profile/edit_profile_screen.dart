@@ -4,17 +4,13 @@ class EditProfileScreen extends ConsumerWidget {
   const EditProfileScreen({super.key, required this.arguments});
   final Map<String, dynamic> arguments;
 
-  String? get userProfileImage =>
-      arguments[UserModel.profileImageKey] as String?;
-
-  String get userName => arguments[UserModel.nameKey] as String;
-  String get userBio => arguments[UserModel.bioKey] as String;
+  UserModel get user => arguments[UserModel.modelKey] as UserModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final nameTextcontroller = TextEditingController(text: userName);
-    final bioTextcontroller = TextEditingController(text: userBio);
+    final nameTextcontroller = TextEditingController(text: user.name);
+    final bioTextcontroller = TextEditingController(text: user.bio);
     final fromKey = GlobalKey<FormState>();
     return Scaffold(
       body: SingleChildScrollView(
@@ -33,20 +29,19 @@ class EditProfileScreen extends ConsumerWidget {
                 ),
                 Consumer(
                   builder: (context, ref, _) {
-                    final profileImageProvider =
-                        ref.watch(userProfileImageProvider);
+                    final imageSource = ref.watch(userProfileImageProvider);
                     return QmIconButton(
                       onPressed: () {
-                        if (!(profileImageProvider == null &&
-                            nameTextcontroller.text == userName &&
-                            (bioTextcontroller.text == userBio ||
+                        if (!(imageSource == null &&
+                            nameTextcontroller.text == user.name &&
+                            (bioTextcontroller.text == user.bio ||
                                 bioTextcontroller.text ==
                                     SimpleConstants.emptyString))) {
                           ProfileUtil().updateProfile(
                             context: context,
                             userName: nameTextcontroller.text,
                             userBio: bioTextcontroller.text,
-                            userProfileImage: profileImageProvider!,
+                            userProfileImage: imageSource!,
                             ref: ref,
                             formKey: fromKey,
                           );
@@ -61,8 +56,7 @@ class EditProfileScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             Consumer(
               builder: (context, ref, _) {
-                final profileImageProvider =
-                    ref.watch(userProfileImageProvider);
+                final imageSource = ref.watch(userProfileImageProvider);
 
                 return GestureDetector(
                   onTap: () => Utils().chooseImageFromStorage(
@@ -75,7 +69,7 @@ class EditProfileScreen extends ConsumerWidget {
                         QmAvatar(
                           isNetworkImage: false,
                           radius: 65,
-                          imageUrl: profileImageProvider,
+                          imageUrl: imageSource,
                         ),
                         Positioned(
                           bottom: 0,

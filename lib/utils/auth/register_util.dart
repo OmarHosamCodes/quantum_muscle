@@ -27,7 +27,7 @@ class RegisterUtil extends Utils {
           userType: userType,
           context: context,
         );
-        RoutingController.instants.changeRoute(0);
+        RoutingController().changeRoute(0);
       }
     } on FirebaseAuthException catch (e) {
       context.pop();

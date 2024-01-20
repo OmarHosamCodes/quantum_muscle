@@ -14,8 +14,8 @@ class ProgramModel {
   String name;
   String id;
   String trainerId;
-  List? traineesIds;
-  List? workouts;
+  List traineesIds;
+  List workouts;
   Timestamp creationDate;
 
   ProgramModel({
@@ -23,8 +23,8 @@ class ProgramModel {
     required this.name,
     required this.id,
     required this.trainerId,
-    this.traineesIds,
-    this.workouts,
+    required this.traineesIds,
+    required this.workouts,
     required this.creationDate,
   });
   factory ProgramModel.fromMap(Map<String, dynamic> map) => ProgramModel(

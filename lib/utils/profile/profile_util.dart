@@ -8,11 +8,6 @@ final addImageProvider = StateProvider<String?>((ref) => null);
 class ProfileUtil extends Utils {
   late final userRef =
       firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
-  File? imageFileToUpload;
-  File? get getImageFileToUpload => imageFileToUpload!;
-  set setImageFileToUpload(File imageFileToUpload) =>
-      this.imageFileToUpload = imageFileToUpload;
-
   Future<void> updateProfile({
     required String? userName,
     required String? userBio,

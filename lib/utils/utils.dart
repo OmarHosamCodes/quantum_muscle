@@ -48,22 +48,25 @@ class Utils {
       {required WidgetRef ref,
       required StateProvider<String?> provider}) async {
     late XFile? image;
+    try {
+      image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    } catch (e) {
+      ref.read(provider.notifier).state = null;
+    }
+    if (image != null) {
+      if (kIsWeb) {
+        final imageXFile = XFile(image.path);
+        ref.read(provider.notifier).state =
+            base64Encode(await imageXFile.readAsBytes());
+      } else {
+        if (await Permission.storage.isDenied) {
+          await Permission.storage.request();
+        }
+        final imageFile = File(image.path);
 
-    image = await ImagePicker().pickImage(source: ImageSource.gallery) ??
-        XFile.fromData(Uint8List(0));
-
-    if (kIsWeb) {
-      final imageXFile = XFile(image.path);
-      ref.read(provider.notifier).state =
-          base64Encode(await imageXFile.readAsBytes());
-    } else {
-      if (await Permission.storage.isDenied) {
-        await Permission.storage.request();
+        ref.read(provider.notifier).state =
+            base64Encode(await imageFile.readAsBytes());
       }
-      final imageFile = File(image.path);
-
-      ref.read(provider.notifier).state =
-          base64Encode(await imageFile.readAsBytes());
     }
   }
 

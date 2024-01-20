@@ -13,8 +13,7 @@ class ChatScreen extends StatelessWidget {
   final dynamic arguments;
   @override
   Widget build(BuildContext context) {
-    final userProfileImage = arguments[UserModel.profileImageKey] as String?;
-    final userName = arguments[UserModel.nameKey] as String;
+    final chat = arguments[ChatModel.modelKey] as ChatModel;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final messageTextController = TextEditingController();
@@ -31,9 +30,9 @@ class ChatScreen extends StatelessWidget {
                   onPressed: () => context.pop(),
                 ),
                 const SizedBox(width: 10),
-                QmAvatar(imageUrl: userProfileImage),
+                QmAvatar(imageUrl: chat.chatUserImage),
                 const SizedBox(width: 10),
-                QmText(text: userName)
+                QmText(text: chat.chatUserName)
               ],
             ),
           ),
@@ -97,18 +96,21 @@ class ChatScreen extends StatelessWidget {
                     hintText: S.current.TypeMessage,
                   ),
                 ),
-                QmIconButton(
-                  icon: EvaIcons.paperPlane,
-                  onPressed: () {
-                    if (messageTextController.text.isNotEmpty) {
-                      ChatUtil().addTextMessage(
-                        chatId: chatId,
-                        message: messageTextController.text,
-                      );
-                      messageTextController.clear();
-                    }
-                  },
-                ),
+                Consumer(builder: (context, ref, _) {
+                  return QmIconButton(
+                    icon: EvaIcons.paperPlane,
+                    onPressed: () {
+                      if (messageTextController.text.isNotEmpty) {
+                        ChatUtil().addTextMessage(
+                          chatId: chatId,
+                          message: messageTextController.text,
+                          ref: ref,
+                        );
+                        messageTextController.clear();
+                      }
+                    },
+                  );
+                }),
                 QmIconButton(
                   icon: EvaIcons.link2,
                   onPressed: () {},

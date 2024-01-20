@@ -979,6 +979,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Total Workouts`
+  String get TotalWorkouts {
+    return Intl.message(
+      'Total Workouts',
+      name: 'TotalWorkouts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Exercises`
+  String get TotalExercises {
+    return Intl.message(
+      'Total Exercises',
+      name: 'TotalExercises',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Programs`
+  String get TotalPrograms {
+    return Intl.message(
+      'Total Programs',
+      name: 'TotalPrograms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Clients`
+  String get TotalClients {
+    return Intl.message(
+      'Total Clients',
+      name: 'TotalClients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Followers`
+  String get TotalFollowers {
+    return Intl.message(
+      'Total Followers',
+      name: 'TotalFollowers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No set`
+  String get NoSet {
+    return Intl.message(
+      'No set',
+      name: 'NoSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weight x Reps`
+  String get WeightXReps {
+    return Intl.message(
+      'Weight x Reps',
+      name: 'WeightXReps',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
