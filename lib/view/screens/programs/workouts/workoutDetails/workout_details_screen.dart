@@ -9,13 +9,13 @@ class WorkoutDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> arguments;
   @override
   Widget build(BuildContext context) {
-    final workout = arguments[WorkoutModel.modelKey] as WorkoutModel;
-    final showAddButton = arguments['showAddButton'] as bool;
-    final programId = arguments['ProgramId'] as String?;
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    final workoutCollectionName = "${workout.name}-${workout.id}";
-    final workoutAndExercises = {workoutCollectionName: workout.exercises};
+    WorkoutModel workout = arguments[WorkoutModel.modelKey];
+    bool showAddButton = arguments['showAddButton'];
+    String? programId = arguments['programId'];
+    String? programName = arguments['programName'];
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    String workoutCollectionName = "${workout.name}-${workout.id}";
     bool isDesktop() {
       if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
       return true;
@@ -27,13 +27,14 @@ class WorkoutDetailsScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: ColorConstants.backgroundColor,
       body: Column(
         children: [
           SizedBox(
             height: height * 0.2,
             width: width,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 QmIconButton(
@@ -99,8 +100,20 @@ class WorkoutDetailsScreen extends StatelessWidget {
           ),
           Consumer(
             builder: (context, ref, child) {
-              final exercisesWatcher =
-                  ref.watch(exercisesProvider(workoutAndExercises));
+              AsyncValue<List<ExerciseModel>> exercisesProviderChooser() {
+                if (programId != null) {
+                  return ref.watch(
+                    programExercisesProvider(
+                      (programId, workoutCollectionName),
+                    ),
+                  );
+                } else {
+                  return ref.watch(exercisesProvider(workoutCollectionName));
+                }
+              }
+
+              final exercisesWatcher = exercisesProviderChooser();
+
               return exercisesWatcher.when(
                 data: (exercises) {
                   return Expanded(
@@ -123,18 +136,18 @@ class WorkoutDetailsScreen extends StatelessWidget {
                                 height: height,
                                 workout: workout,
                                 programId: programId,
+                                programName: programName,
                                 workoutCollectionName: workoutCollectionName,
-                                workoutAndExercises: workoutAndExercises,
                               );
                             } else {
                               final exercise = exercises[index];
 
-                              return ExerciseTile(
+                              return ExerciseBlock(
                                 width: width,
                                 height: height,
                                 exercise: exercise,
                                 workoutCollectionName: workoutCollectionName,
-                                workoutAndExercises: workoutAndExercises,
+                                programId: programId,
                               );
                             }
                           },

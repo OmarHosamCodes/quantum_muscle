@@ -51,6 +51,7 @@ class MessageBubble extends StatelessWidget {
       case MessageTypeConstants.server:
         return Center(
           child: Container(
+            margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: ColorConstants.disabledColor,
               borderRadius: BorderRadius.circular(10),

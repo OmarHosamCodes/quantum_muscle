@@ -79,7 +79,7 @@ class AddWorkoutBottomSheet extends StatelessWidget {
                   ),
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(
-                      Icons.add_a_photo_outlined,
+                      EvaIcons.plus,
                       color: ColorConstants.iconColor,
                     );
                   },

@@ -80,6 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "أدخل بريدًا إلكترونيًا صالحًا"),
         "EnterValidName":
             MessageLookupByLibrary.simpleMessage("أدخل اسمًا صالحًا"),
+        "EnterValidNumber":
+            MessageLookupByLibrary.simpleMessage("أدخل رقمًا صالحًا"),
         "EnterValidPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة مرور صالحة"),
         "Failed": MessageLookupByLibrary.simpleMessage("فشل"),
@@ -122,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Programs": MessageLookupByLibrary.simpleMessage("برامج"),
         "RatID": MessageLookupByLibrary.simpleMessage("معرف الفأر الجماوي"),
         "Register": MessageLookupByLibrary.simpleMessage("تسجيل"),
+        "Reps": MessageLookupByLibrary.simpleMessage("مرات"),
         "Search": MessageLookupByLibrary.simpleMessage("بحث"),
         "SendEmail":
             MessageLookupByLibrary.simpleMessage("إرسال بريد إلكتروني"),
@@ -146,6 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "WeekAgo": MessageLookupByLibrary.simpleMessage("منذ أسبوع"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("أسابيع مضت"),
+        "Weight": MessageLookupByLibrary.simpleMessage("وزن"),
         "WeightXReps":
             MessageLookupByLibrary.simpleMessage("الوزن X عدد المرات"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبا بعودتك!"),

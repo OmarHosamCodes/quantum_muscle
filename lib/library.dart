@@ -1,5 +1,3 @@
-// ignore_for_file: depend_on_referenced_packages
-
 library library;
 
 //* Screens
@@ -73,7 +71,7 @@ export 'utils/providers/programs_provider.dart';
 export 'utils/providers/workouts_provider.dart';
 export 'utils/providers/chats_provider.dart';
 export 'utils/providers/locale_provider.dart';
-export '/utils/providers/analytics_provider.dart';
+export 'utils/providers/analytics_provider.dart';
 
 //* Models
 
@@ -88,6 +86,7 @@ export 'models/chat/message_model.dart';
 export 'models/enums/message_type.dart';
 export 'models/enums/exercise_showcase.dart';
 export 'models/analytics/general_analytics.dart';
+export 'models/extensions/object_extension.dart';
 
 //* Constants
 
@@ -114,13 +113,10 @@ export 'package:image_picker/image_picker.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:firebase_storage/firebase_storage.dart';
 export 'dart:convert';
-export 'package:intl/message_lookup_by_library.dart';
-export 'package:intl/src/intl_helpers.dart';
 export 'package:flutter_localizations/flutter_localizations.dart';
 export 'generated/l10n.dart';
 export 'package:go_router/go_router.dart';
 export 'package:responsive_framework/responsive_framework.dart';
-export 'package:flutter_test/flutter_test.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 export 'dart:io' hide HeaderValue;
@@ -130,9 +126,6 @@ export 'package:slimy_card/slimy_card.dart';
 export 'dart:async' hide AsyncError;
 export 'package:url_strategy/url_strategy.dart';
 export 'package:intl/intl.dart' hide TextDirection;
-export 'package:flutter/scheduler.dart';
-export 'package:floating_action_bubble/floating_action_bubble.dart';
-export 'dart:ui' show ImageFilter;
 export 'package:cached_network_image/cached_network_image.dart'
     show CachedNetworkImageProvider;
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

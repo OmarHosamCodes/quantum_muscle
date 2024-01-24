@@ -28,12 +28,12 @@ class ProgramsScreen extends StatelessWidget {
                 }
 
                 return programsWatcher.when(
-                  data: (data) => SizedBox(
+                  data: (programs) => SizedBox(
                     height: height * .5,
                     child: ProgramsShowcase(
                       width: width,
                       height: height,
-                      programs: data,
+                      programs: programs,
                       isTrainee: isTrainee(),
                     ),
                   ),
@@ -50,9 +50,6 @@ class ProgramsScreen extends StatelessWidget {
               height: height * .5,
               child: const WorkoutsScreen(),
             ),
-            const SizedBox(
-              height: 20,
-            )
           ],
         ),
       ),

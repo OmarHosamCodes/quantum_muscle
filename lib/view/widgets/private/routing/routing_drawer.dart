@@ -9,93 +9,95 @@ class RoutingDrawer extends ConsumerWidget {
     final locale = Intl.getCurrentLocale();
     return Drawer(
       backgroundColor: ColorConstants.secondaryColor,
-      child: Column(
-        children: [
-          ListTile(
-            leading: const Icon(
-              EvaIcons.homeOutline,
-              color: ColorConstants.iconColor,
+      child: SafeArea(
+        child: Column(
+          children: [
+            ListTile(
+              leading: const Icon(
+                EvaIcons.homeOutline,
+                color: ColorConstants.iconColor,
+              ),
+              title: QmText(
+                text: S.current.Home,
+              ),
+              onTap: () => routingController.changeDrawerRoute(0, context),
             ),
-            title: QmText(
-              text: S.current.Home,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.messageSquareOutline,
+                color: ColorConstants.iconColor,
+              ),
+              title: QmText(
+                text: S.current.Chat,
+              ),
+              onTap: () => routingController.changeDrawerRoute(1, context),
             ),
-            onTap: () => routingController.changeDrawerRoute(0, context),
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.messageSquareOutline,
-              color: ColorConstants.iconColor,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.personOutline,
+                color: ColorConstants.iconColor,
+              ),
+              title: QmText(
+                text: S.current.Profile,
+              ),
+              onTap: () => routingController.changeDrawerRoute(2, context),
             ),
-            title: QmText(
-              text: S.current.Chat,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.searchOutline,
+                color: ColorConstants.iconColor,
+              ),
+              title: QmText(
+                text: S.current.Search,
+              ),
+              onTap: () => routingController.changeDrawerRoute(3, context),
             ),
-            onTap: () => routingController.changeDrawerRoute(1, context),
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.personOutline,
-              color: ColorConstants.iconColor,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.archive,
+                color: ColorConstants.iconColor,
+              ),
+              title: QmText(
+                text: S.current.Programs,
+              ),
+              onTap: () => routingController.changeDrawerRoute(4, context),
             ),
-            title: QmText(
-              text: S.current.Profile,
+            const Spacer(),
+            Consumer(
+              builder: (context, ref, child) {
+                return ListTile(
+                  leading: const Icon(
+                    EvaIcons.globe,
+                    color: ColorConstants.iconColor,
+                  ),
+                  title: QmText(
+                    text: S.current.Language,
+                  ),
+                  onTap: () {
+                    context.pop();
+                    locale == SimpleConstants.englishLocale
+                        ? ref.read(localeProvider.notifier).state =
+                            const Locale(SimpleConstants.arabicLocale)
+                        : ref.read(localeProvider.notifier).state =
+                            const Locale(SimpleConstants.englishLocale);
+                  },
+                );
+              },
             ),
-            onTap: () => routingController.changeDrawerRoute(2, context),
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.searchOutline,
-              color: ColorConstants.iconColor,
+            ListTile(
+              leading: const Icon(
+                EvaIcons.logOutOutline,
+                color: ColorConstants.logoutColor,
+              ),
+              title: QmText(
+                text: S.current.Logout,
+              ),
+              onTap: () {
+                LogoutUtil().logout(context);
+              },
             ),
-            title: QmText(
-              text: S.current.Search,
-            ),
-            onTap: () => routingController.changeDrawerRoute(3, context),
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.archive,
-              color: ColorConstants.iconColor,
-            ),
-            title: QmText(
-              text: S.current.Programs,
-            ),
-            onTap: () => routingController.changeDrawerRoute(4, context),
-          ),
-          const Spacer(),
-          Consumer(
-            builder: (context, ref, child) {
-              return ListTile(
-                leading: const Icon(
-                  EvaIcons.globe,
-                  color: ColorConstants.iconColor,
-                ),
-                title: QmText(
-                  text: S.current.Language,
-                ),
-                onTap: () {
-                  context.pop();
-                  locale == SimpleConstants.englishLocale
-                      ? ref.read(localeProvider.notifier).state =
-                          const Locale(SimpleConstants.arabicLocale)
-                      : ref.read(localeProvider.notifier).state =
-                          const Locale(SimpleConstants.englishLocale);
-                },
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              EvaIcons.logOutOutline,
-              color: ColorConstants.logoutColor,
-            ),
-            title: QmText(
-              text: S.current.Logout,
-            ),
-            onTap: () {
-              LogoutUtil().logout(context);
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

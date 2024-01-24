@@ -15,7 +15,6 @@ class WorkoutUtil extends Utils {
   }) async {
     bool isValid = formKey.currentState!.validate();
     if (!isValid) return;
-    openQmLoaderDialog(context: context);
 
     if (user != null) {
       try {
@@ -25,7 +24,7 @@ class WorkoutUtil extends Utils {
             .ref()
             .child(DBPathsConstants.usersPath)
             .child(userUid!)
-            .child(DBPathsConstants.usersUserWorkoutsPath)
+            .child(DBPathsConstants.workoutsPath)
             .child("$workoutName-$id")
             .child("$workoutName-showcase.png");
 
@@ -42,16 +41,12 @@ class WorkoutUtil extends Utils {
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userUid)
-            .collection(DBPathsConstants.usersUserWorkoutsPath)
+            .collection(DBPathsConstants.workoutsPath)
             .doc("$workoutName-$id")
             .set(
               workoutModel.toMap(),
               SetOptions(merge: true),
             );
-
-        while (context.canPop()) {
-          context.pop();
-        }
       } catch (e) {
         context.pop();
         openQmDialog(
@@ -72,7 +67,7 @@ class WorkoutUtil extends Utils {
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(userUid)
-          .collection(DBPathsConstants.usersUserWorkoutsPath)
+          .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
           .delete();
       while (context.canPop()) {

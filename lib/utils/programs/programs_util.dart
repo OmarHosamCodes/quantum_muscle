@@ -18,7 +18,7 @@ class ProgramsUtil extends Utils {
     );
 
     await firebaseFirestore
-        .collection(DBPathsConstants.usersUserProgramsPath)
+        .collection(DBPathsConstants.programsPath)
         .doc(programModel.id)
         .set(
           programModel.toMap(),
@@ -35,11 +35,8 @@ class ProgramsUtil extends Utils {
       },
       SetOptions(merge: true),
     );
-
     ref.invalidate(programsProvider);
     ref.read(programsProvider);
-    ref.invalidate(userProvider(userUid!));
-    ref.read(userProvider(userUid!));
   }
 
   Future<void> deleteProgram({
@@ -50,7 +47,7 @@ class ProgramsUtil extends Utils {
   }) async {
     openQmLoaderDialog(context: context);
     await firebaseFirestore
-        .collection(DBPathsConstants.usersUserProgramsPath)
+        .collection(DBPathsConstants.programsPath)
         .doc(programId)
         .delete();
     await firebaseFirestore
@@ -115,7 +112,6 @@ class ProgramsUtil extends Utils {
     }
   }
 
-  //todo needs testing
   Future<void> acceptRequest({
     required BuildContext context,
     required String chatId,
@@ -134,7 +130,7 @@ class ProgramsUtil extends Utils {
         )
       }, SetOptions(merge: true));
       await firebaseFirestore
-          .collection(DBPathsConstants.usersUserProgramsPath)
+          .collection(DBPathsConstants.programsPath)
           .doc(programId)
           .update(
         {
@@ -167,35 +163,62 @@ class ProgramsUtil extends Utils {
   Future<void> addWorkoutToProgram({
     required BuildContext context,
     required String programId,
-    required WorkoutModel data,
+    required WorkoutModel workout,
     required WidgetRef ref,
   }) async {
     try {
       openQmLoaderDialog(context: context);
 
       if (await firebaseFirestore
-          .collection(DBPathsConstants.usersUserProgramsPath)
+          .collection(DBPathsConstants.programsPath)
           .doc(programId)
           .get()
-          .then((value) => value
-              .data()![ProgramModel.workoutsKey]
-              .where((element) => element[WorkoutModel.idKey] == data.id)
+          .then((value) => (value.data()![ProgramModel.workoutsKey]
+                  as List<dynamic>)
+              .where((element) => element == "${workout.name}-${workout.id}")
               .isEmpty)) {
         await firebaseFirestore
-            .collection(DBPathsConstants.usersUserProgramsPath)
+            .collection(DBPathsConstants.programsPath)
             .doc(programId)
-            .update(
+            .set(
           {
             ProgramModel.workoutsKey: FieldValue.arrayUnion(
-              [data.toMap()],
+              ["${workout.name}-${workout.id}"],
             ),
           },
+          SetOptions(merge: true),
         );
+        await firebaseFirestore
+            .collection(DBPathsConstants.programsPath)
+            .doc(programId)
+            .collection(DBPathsConstants.workoutsPath)
+            .doc("${workout.name}-${workout.id}")
+            .set(
+              workout.toMap(),
+              SetOptions(merge: true),
+            );
+        ref.watch(exercisesProvider("${workout.name}-${workout.id}")).maybeWhen(
+          data: (exercises) async {
+            for (var exercise in exercises) {
+              await firebaseFirestore
+                  .collection(DBPathsConstants.programsPath)
+                  .doc(programId)
+                  .collection(DBPathsConstants.workoutsPath)
+                  .doc("${workout.name}-${workout.id}")
+                  .collection(DBPathsConstants.exercisesPath)
+                  .doc("${exercise.name}-${exercise.target}-${exercise.id}")
+                  .set(
+                    exercise.toMap(),
+                    SetOptions(merge: true),
+                  );
+            }
+          },
+          orElse: () {
+            return;
+          },
+        );
+
         context.pop();
-        ref.invalidate(programsProvider);
-        ref.read(programsProvider);
-        ref.invalidate(userProvider(userUid!));
-        ref.read(userProvider(userUid!));
       } else {
         context.pop();
         openQmDialog(

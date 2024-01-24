@@ -38,12 +38,14 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
         onEnter: (_) => setState(() => widget.program.isHovered = true),
         onExit: (_) => setState(() => widget.program.isHovered = false),
         child: DragTarget<WorkoutModel>(
-          onAccept: (data) => ProgramsUtil().addWorkoutToProgram(
-            context: context,
-            programId: widget.program.id,
-            data: data,
-            ref: ref,
-          ),
+          onAccept: (workout) {
+            ProgramsUtil().addWorkoutToProgram(
+              context: context,
+              programId: widget.program.id,
+              workout: workout,
+              ref: ref,
+            );
+          },
           builder: (context, candidateData, rejectedData) {
             return QmBlock(
               color: widget.program.isHovered

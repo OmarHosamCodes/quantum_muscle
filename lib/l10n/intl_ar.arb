@@ -98,5 +98,8 @@
   "TotalClients": "إجمالي العملاء",
   "TotalFollowers": "إجمالي المتابعين",
   "NoSet": "لا توجد مجموعة",
-  "WeightXReps": "الوزن X عدد المرات"
+  "WeightXReps": "الوزن X عدد المرات",
+  "EnterValidNumber": "أدخل رقمًا صالحًا",
+  "Reps": "مرات",
+  "Weight": "وزن"
 }

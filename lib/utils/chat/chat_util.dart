@@ -90,7 +90,7 @@ class ChatUtil extends Utils {
     await firebaseFirestore
         .collection(DBPathsConstants.chatsPath)
         .doc(chatId)
-        .collection(DBPathsConstants.chatsMessagesPath)
+        .collection(DBPathsConstants.messagesPath)
         .doc(messageToSend.id)
         .set(messageToSend.toMap());
     ref.invalidate(chatsProvider);
@@ -106,7 +106,7 @@ class ChatUtil extends Utils {
       await firebaseFirestore
           .collection(DBPathsConstants.chatsPath)
           .doc(chatId)
-          .collection(DBPathsConstants.chatsMessagesPath)
+          .collection(DBPathsConstants.messagesPath)
           .doc(messageId)
           .delete();
     } catch (e) {
@@ -134,7 +134,7 @@ class ChatUtil extends Utils {
     await firebaseFirestore
         .collection(DBPathsConstants.chatsPath)
         .doc(chatId)
-        .collection(DBPathsConstants.chatsMessagesPath)
+        .collection(DBPathsConstants.messagesPath)
         .add(requestMessage.toMap());
   }
 }

@@ -98,5 +98,8 @@
   "TotalClients": "Total Clients",
   "TotalFollowers": "Total Followers",
   "NoSet": "No set",
-  "WeightXReps": "Weight x Reps"
+  "WeightXReps": "Weight x Reps",
+  "EnterValidNumber": "Enter a valid number",
+  "Reps": "Reps",
+  "Weight": "Weight"
 }

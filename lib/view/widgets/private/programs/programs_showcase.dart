@@ -1,6 +1,6 @@
 import '/library.dart';
 
-class ProgramsShowcase extends StatefulWidget {
+class ProgramsShowcase extends StatelessWidget {
   const ProgramsShowcase({
     super.key,
     required this.width,
@@ -15,20 +15,14 @@ class ProgramsShowcase extends StatefulWidget {
   final bool isTrainee;
 
   @override
-  State<ProgramsShowcase> createState() => _ProgramsShowcaseState();
-}
-
-class _ProgramsShowcaseState extends State<ProgramsShowcase> {
-  @override
   Widget build(BuildContext context) {
+    int itemCount = isTrainee ? programs.length : programs.length + 1;
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: widget.isTrainee
-          ? widget.programs.length
-          : widget.programs.length + 1,
+      itemCount: itemCount,
       padding: EdgeInsets.symmetric(
-        horizontal: widget.width * .055,
-        vertical: widget.height * .05,
+        horizontal: width * .055,
+        vertical: height * .05,
       ),
       itemBuilder: (context, index) {
         Radius blockRadius({required bool condition}) {
@@ -47,34 +41,33 @@ class _ProgramsShowcaseState extends State<ProgramsShowcase> {
             return BorderRadius.only(
               topLeft: blockRadius(condition: index == 0),
               bottomLeft: blockRadius(condition: index == 0),
-              topRight: blockRadius(condition: index == widget.programs.length),
-              bottomRight:
-                  blockRadius(condition: index == widget.programs.length),
+              topRight: blockRadius(condition: index == programs.length),
+              bottomRight: blockRadius(condition: index == programs.length),
             );
           }
           return BorderRadius.only(
-            topLeft: blockRadius(condition: index == widget.programs.length),
-            bottomLeft: blockRadius(condition: index == widget.programs.length),
+            topLeft: blockRadius(condition: index == programs.length),
+            bottomLeft: blockRadius(condition: index == programs.length),
             topRight: blockRadius(condition: index == 0),
             bottomRight: blockRadius(condition: index == 0),
           );
         }
 
-        if (index == widget.programs.length) {
+        if (index == programs.length) {
           return AddProgramBlock(
-            width: widget.width,
-            height: widget.height,
-            programs: widget.programs,
+            width: width,
+            height: height,
+            programs: programs,
             borderRadius: borderRadius(),
           );
         }
         return ProgramBlock(
-          width: widget.width,
-          height: widget.height,
-          program: widget.programs[index],
-          programs: widget.programs,
+          width: width,
+          height: height,
+          program: programs[index],
+          programs: programs,
           borderRadius: borderRadius(),
-          isTrainee: widget.isTrainee,
+          isTrainee: isTrainee,
         );
       },
     );

@@ -1049,6 +1049,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter a valid number`
+  String get EnterValidNumber {
+    return Intl.message(
+      'Enter a valid number',
+      name: 'EnterValidNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reps`
+  String get Reps {
+    return Intl.message(
+      'Reps',
+      name: 'Reps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weight`
+  String get Weight {
+    return Intl.message(
+      'Weight',
+      name: 'Weight',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

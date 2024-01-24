@@ -4,7 +4,7 @@ final generalAnalyticsProvider =
     FutureProvider.family<GeneralAnalyticsModel, String>((ref, id) {
   final userData = ref.watch(userProvider(id)).value!;
   final programs = ref.watch(programsProvider).value!;
-  final workouts = ref.watch(workoutsProvider(id)).value!;
+  final workouts = ref.watch(workoutsProvider).value!;
 
   return GeneralAnalyticsModel(
     totalPrograms: userData.programs.length,

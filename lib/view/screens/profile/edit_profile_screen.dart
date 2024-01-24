@@ -13,6 +13,7 @@ class EditProfileScreen extends ConsumerWidget {
     final bioTextcontroller = TextEditingController(text: user.bio);
     final fromKey = GlobalKey<FormState>();
     return Scaffold(
+      backgroundColor: ColorConstants.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [

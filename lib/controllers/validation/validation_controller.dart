@@ -30,4 +30,9 @@ class ValidationController {
         descriptionRegex.hasMatch(description) &&
         description.length <= 500;
   }
+
+  static bool validateOnlyNumbers(String number) {
+    final numberRegex = RegExp(r'^[0-9\/]+$');
+    return number.isNotEmpty && numberRegex.hasMatch(number);
+  }
 }

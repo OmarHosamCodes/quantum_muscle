@@ -1,13 +1,11 @@
 import '/library.dart';
 
-//todo make it workoutModel, string
-final workoutsProvider =
-    StreamProvider.family<List<WorkoutModel>, String>((ref, id) async* {
+final workoutsProvider = StreamProvider<List<WorkoutModel>>((ref) async* {
   Stream<List<WorkoutModel>> workouts = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
-      .doc(id)
-      .collection(DBPathsConstants.usersUserWorkoutsPath)
+      .doc(Utils().userUid!)
+      .collection(DBPathsConstants.workoutsPath)
       .orderBy(
         WorkoutModel.creationDateKey,
         descending: true,
@@ -20,19 +18,17 @@ final workoutsProvider =
   yield* workouts;
 });
 
-final exercisesProvider =
-    StreamProvider.family<List<ExerciseModel>, Map<String, List>>(
-        (ref, workoutAndExercises) async* {
+final exercisesProvider = StreamProvider.family<List<ExerciseModel>, String>(
+    (ref, workoutCollectionName) async* {
   Stream<List<ExerciseModel>> exercisesModelsList = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
       .doc(Utils().userUid!)
-      .collection(DBPathsConstants.usersUserWorkoutsPath)
-      .doc(workoutAndExercises.keys.first)
-      .collection(DBPathsConstants.usersUserProgramsAndWorkoutsExercisesPath)
+      .collection(DBPathsConstants.workoutsPath)
+      .doc(workoutCollectionName)
+      .collection(DBPathsConstants.exercisesPath)
       .snapshots()
       .map((event) =>
           event.docs.map((e) => ExerciseModel.fromMap(e.data())).toList());
-
   yield* exercisesModelsList;
 });

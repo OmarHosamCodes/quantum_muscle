@@ -5,7 +5,7 @@ class WorkoutsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workoutsSnapshot = ref.watch(workoutsProvider(Utils().userUid!));
+    final workoutsSnapshot = ref.watch(workoutsProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     ScrollController scrollController = ScrollController();

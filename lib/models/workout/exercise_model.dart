@@ -13,7 +13,7 @@ class ExerciseModel {
   String name;
   String target;
   String showcaseUrl;
-  List sets;
+  Map<String, dynamic> sets;
   ExerciseShowcase showcaseType;
   Timestamp creationDate = Timestamp.now();
 

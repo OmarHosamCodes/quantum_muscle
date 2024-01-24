@@ -11,66 +11,240 @@ class ExerciseUtil extends Utils {
     required String workoutCollectionName,
     required String exerciseName,
     required String exerciseTarget,
-    required String? showcaseFile,
+    required String showcaseFile,
     required String showcaseType,
-    required Map<String, List> workoutAndExercises,
   }) async {
     openQmLoaderDialog(context: context);
 
     if (user != null) {
       try {
-        ExerciseModel exercise = ExerciseModel(
-          id: '',
-          name: '',
-          target: '',
-          sets: [],
-          showcaseUrl: '',
-          showcaseType: ExerciseShowcase.image,
-          creationDate: Timestamp.now(),
-        );
         final id = const Uuid().v4().toString().substring(0, 12);
         Reference storageRef = firebaseStorage
             .ref()
             .child(DBPathsConstants.usersPath)
             .child(userUid!)
-            .child(DBPathsConstants.usersUserWorkoutsPath)
+            .child(DBPathsConstants.workoutsPath)
             .child(workoutCollectionName)
-            .child(DBPathsConstants.usersUserProgramsAndWorkoutsExercisesPath)
+            .child(DBPathsConstants.exercisesPath)
             .child("$exerciseName$exerciseTarget$id.png");
-        exercise.id = id;
-        exercise.name = exerciseName;
-        exercise.target = exerciseTarget;
-        if (showcaseFile != null) {
-          await storageRef.putString(showcaseFile,
-              format: PutStringFormat.base64);
-          exercise.showcaseUrl = await storageRef.getDownloadURL();
-        } else {
-          openQmDialog(
-              context: context,
-              title: S.current.Failed,
-              message: S.current.AddAPhoto);
-          return;
-        }
-        await firebaseFirestore
-            .collection(DBPathsConstants.usersPath)
-            .doc(userUid!)
-            .collection(DBPathsConstants.usersUserWorkoutsPath)
-            .doc(workoutCollectionName)
-            .collection(
-                DBPathsConstants.usersUserProgramsAndWorkoutsExercisesPath)
-            .doc("$exerciseName$exerciseTarget$id")
-            .set(exercise.toMap(), SetOptions(merge: true));
 
+        await storageRef.putString(showcaseFile,
+            format: PutStringFormat.base64);
+        ExerciseModel exercise = ExerciseModel(
+          id: id,
+          name: exerciseName,
+          target: exerciseTarget,
+          sets: {
+            '0': S.current.WeightXReps,
+          },
+          showcaseUrl: await storageRef.getDownloadURL(),
+          showcaseType: ExerciseShowcase.image,
+          creationDate: Timestamp.now(),
+        );
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userUid!)
-            .collection(DBPathsConstants.usersUserWorkoutsPath)
+            .collection(DBPathsConstants.workoutsPath)
             .doc(workoutCollectionName)
             .set(
           {
             WorkoutModel.exercisesKey: FieldValue.arrayUnion(
               [
-                "$exerciseName$exerciseTarget$id",
+                "${exercise.name}-${exercise.target}-${exercise.id}",
+              ],
+            ),
+          },
+          SetOptions(merge: true),
+        );
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userUid!)
+            .collection(DBPathsConstants.workoutsPath)
+            .doc(workoutCollectionName)
+            .collection(DBPathsConstants.exercisesPath)
+            .doc("${exercise.name}-${exercise.target}-${exercise.id}")
+            .set(exercise.toMap(), SetOptions(merge: true));
+
+        ref.read(exerciseImageBytesProvider.notifier).state = null;
+        context.pop();
+      } catch (e) {
+        context.pop();
+        openQmDialog(
+          context: context,
+          title: S.current.Failed,
+          message: e.toString(),
+        );
+      }
+    }
+  }
+
+  Future<void> addSet({
+    required String workoutCollectionName,
+    required String exerciseDocName,
+    required WidgetRef ref,
+    required int indexToInsert,
+  }) async {
+    await firebaseFirestore
+        .collection(DBPathsConstants.usersPath)
+        .doc(userUid!)
+        .collection(DBPathsConstants.workoutsPath)
+        .doc(workoutCollectionName)
+        .collection(DBPathsConstants.exercisesPath)
+        .doc(exerciseDocName)
+        .set(
+      {
+        ExerciseModel.setsKey: {
+          indexToInsert.toString(): S.current.WeightXReps,
+        },
+      },
+      SetOptions(
+        merge: true,
+      ),
+    );
+  }
+
+  Future<void> changeSet({
+    required GlobalKey<FormState>? formKey,
+    required String workoutCollectionName,
+    required String exerciseDocName,
+    required BuildContext context,
+    required WidgetRef ref,
+    required int indexToInsert,
+    required String reps,
+    required String weight,
+  }) async {
+    bool isValid = formKey!.currentState!.validate();
+    if (!isValid) return;
+    try {
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid!)
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .collection(DBPathsConstants.exercisesPath)
+          .doc(exerciseDocName)
+          .set(
+        {
+          ExerciseModel.setsKey: {
+            indexToInsert.toString(): "$weight x $reps",
+          },
+        },
+        SetOptions(
+          merge: true,
+        ),
+      );
+      context.pop();
+    } catch (e) {
+      context.pop();
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
+    try {
+      addSet(
+        workoutCollectionName: workoutCollectionName,
+        exerciseDocName: exerciseDocName,
+        ref: ref,
+        indexToInsert: indexToInsert + 1,
+      );
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<void> addSetToProgramWorkout({
+    required String workoutCollectionName,
+    required String exerciseDocName,
+    required WidgetRef ref,
+    required int indexToInsert,
+    required String programId,
+  }) async {
+    await firebaseFirestore
+        .collection(DBPathsConstants.programsPath)
+        .doc(programId)
+        .collection(DBPathsConstants.workoutsPath)
+        .doc(workoutCollectionName)
+        .collection(DBPathsConstants.exercisesPath)
+        .doc(exerciseDocName)
+        .set(
+      {
+        ExerciseModel.setsKey: {
+          indexToInsert.toString(): S.current.WeightXReps,
+        },
+      },
+      SetOptions(
+        merge: true,
+      ),
+    );
+  }
+
+  Future<void> addExerciesToProgramWorkout({
+    required BuildContext context,
+    required WidgetRef ref,
+    required String workoutCollectionName,
+    required String programId,
+    required String programName,
+    required String exerciseName,
+    required String exerciseTarget,
+    required String showcaseFile,
+    required String showcaseType,
+  }) async {
+    openQmLoaderDialog(context: context);
+
+    if (user != null) {
+      try {
+        final id = const Uuid().v4().toString().substring(0, 12);
+        ExerciseModel exercise = ExerciseModel(
+          id: id,
+          name: exerciseName,
+          target: exerciseTarget,
+          sets: {
+            '0': S.current.WeightXReps,
+          },
+          showcaseUrl: '',
+          showcaseType: ExerciseShowcase.image,
+          creationDate: Timestamp.now(),
+        );
+        Reference storageRef = firebaseStorage
+            .ref()
+            .child(DBPathsConstants.usersPath)
+            .child(userUid!)
+            .child(DBPathsConstants.programsPath)
+            .child(programName)
+            .child(workoutCollectionName)
+            .child(DBPathsConstants.exercisesPath)
+            .child("${exercise.name}-${exercise.target}-${exercise.id}.png");
+
+        await storageRef.putString(showcaseFile,
+            format: PutStringFormat.base64);
+
+        exercise.showcaseUrl = await storageRef.getDownloadURL();
+
+        await firebaseFirestore
+            .collection(DBPathsConstants.programsPath)
+            .doc(programId)
+            .collection(DBPathsConstants.workoutsPath)
+            .doc(workoutCollectionName)
+            .collection(DBPathsConstants.exercisesPath)
+            .doc("${exercise.name}-${exercise.target}-${exercise.id}")
+            .set(exercise.toMap(), SetOptions(merge: true));
+
+        await firebaseFirestore
+            .collection(DBPathsConstants.programsPath)
+            .doc(programId)
+            .collection(DBPathsConstants.workoutsPath)
+            .doc(workoutCollectionName)
+            .set(
+          {
+            WorkoutModel.exercisesKey: FieldValue.arrayUnion(
+              [
+                "${exercise.name}-${exercise.target}-${exercise.id}",
               ],
             ),
           },
@@ -90,108 +264,60 @@ class ExerciseUtil extends Utils {
     }
   }
 
-  Future<void> addSet({
+  Future<void> changeSetToProgramWorkout({
+    required GlobalKey<FormState>? formKey,
     required String workoutCollectionName,
     required String exerciseDocName,
-  }) async {
-    await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userUid!)
-        .collection(DBPathsConstants.usersUserWorkoutsPath)
-        .doc(workoutCollectionName)
-        .collection(DBPathsConstants.usersUserProgramsAndWorkoutsExercisesPath)
-        .doc(exerciseDocName)
-        .set({
-      ExerciseModel.setsKey: FieldValue.arrayUnion(
-        [
-          S.current.WeightXReps,
-        ],
-      ),
-    }, SetOptions(merge: false));
-  }
-
-  Future<void> addExerciesToProgramWorkout({
     required BuildContext context,
     required WidgetRef ref,
     required String programId,
-    required String workoutName,
-    required String workoutId,
-    required String exerciseName,
-    required String exerciseTarget,
-    required String showcaseFile,
-    required String showcaseType,
+    required int indexToInsert,
+    required String reps,
+    required String weight,
   }) async {
-    openQmLoaderDialog(context: context);
-
-    final id = const Uuid().v8().toString().substring(0, 8);
-    if (user != null) {
-      try {
-        Reference storageRef = firebaseStorage
-            .ref()
-            .child(DBPathsConstants.usersPath)
-            .child(userUid!)
-            .child(DBPathsConstants.usersUserProgramsPath)
-            .child(programId)
-            .child("$workoutName-$workoutId")
-            .child("$exerciseName$exerciseTarget$id.png");
-        UploadTask uploadeTask =
-            storageRef.putString(showcaseFile, format: PutStringFormat.base64);
-        index() async {
-          final workoutsList = await firebaseFirestore
-              .collection(DBPathsConstants.usersUserProgramsPath)
-              .doc(programId)
-              .get()
-              .then((value) =>
-                  value.data()![ProgramModel.workoutsKey] as List<dynamic>);
-          for (var workout in workoutsList) {
-            if (workout['id'] == workoutId) {
-              return workoutsList.indexOf(workout);
-            }
-          }
-        }
-
-        await uploadeTask;
-        final exerciseModel = ExerciseModel(
-          id: id,
-          name: exerciseName,
-          target: exerciseTarget,
-          sets: [],
-          showcaseUrl: await storageRef.getDownloadURL(),
-          showcaseType: ExerciseShowcase.values.firstWhere(
-            (element) => element.name == showcaseType,
-          ),
-          creationDate: Timestamp.now(),
-        );
-        print(exerciseModel.toMap());
-
-        await firebaseFirestore
-            .collection(DBPathsConstants.usersUserProgramsPath)
-            .doc(programId)
-            .set(
-          {
-            ProgramModel.workoutsKey: {
-              (await index()).toString(): {
-                WorkoutModel.exercisesKey: FieldValue.arrayUnion(
-                  [
-                    exerciseModel.toMap(),
-                  ],
-                ),
-              },
-            },
+    bool isValid = formKey!.currentState!.validate();
+    if (!isValid) return;
+    try {
+      await firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId)
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .collection(DBPathsConstants.exercisesPath)
+          .doc(exerciseDocName)
+          .set(
+        {
+          ExerciseModel.setsKey: {
+            indexToInsert.toString(): "$weight x $reps",
           },
-          SetOptions(merge: false),
-        );
-
-        ref.read(exerciseImageBytesProvider.notifier).state = null;
-        context.pop();
-      } catch (e) {
-        context.pop();
-        openQmDialog(
-          context: context,
-          title: S.current.Failed,
-          message: e.toString(),
-        );
-      }
+        },
+        SetOptions(
+          merge: true,
+        ),
+      );
+      context.pop();
+    } catch (e) {
+      context.pop();
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
+    try {
+      addSetToProgramWorkout(
+        workoutCollectionName: workoutCollectionName,
+        exerciseDocName: exerciseDocName,
+        ref: ref,
+        indexToInsert: indexToInsert + 1,
+        programId: programId,
+      );
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
     }
   }
 }

@@ -1,26 +1,24 @@
 import '/library.dart';
 
-class ExerciseTile extends StatelessWidget {
-  const ExerciseTile({
+class ExerciseBlock extends StatelessWidget {
+  const ExerciseBlock({
     super.key,
     required this.width,
     required this.height,
     required this.exercise,
     required this.workoutCollectionName,
-    required this.workoutAndExercises,
+    this.programId,
   });
-
+  final String? programId;
   final double width;
   final double height;
   final ExerciseModel exercise;
   final String workoutCollectionName;
-  final Map<String, List<dynamic>> workoutAndExercises;
 
   @override
   Widget build(BuildContext context) {
     final pageController = PageController();
     return SlimyCard(
-      onTap: () {},
       color: ColorConstants.primaryColor,
       topCardHeight: height >= 150 ? 150 : height * 0.2,
       bottomCardHeight: height >= 150 ? 150 : height * 0.2,
@@ -76,13 +74,6 @@ class ExerciseTile extends StatelessWidget {
               ],
             ),
           ),
-          // QmRowOrStack(
-          //   condition: isDesktop(),
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-
-          //   ],
-          // ),
         ],
       ),
       bottomCardWidget: Row(
@@ -98,32 +89,47 @@ class ExerciseTile extends StatelessWidget {
               icon: EvaIcons.arrowBack,
             ),
           ),
-          Consumer(builder: (context, ref, _) {
-            return ref.watch(exercisesProvider(workoutAndExercises)).when(
-                  data: (exercises) => Flexible(
+          Consumer(
+            builder: (context, ref, _) {
+              exercisesProviderChooser() {
+                if (programId != null) {
+                  return ref.watch(programExercisesProvider(
+                      (programId!, workoutCollectionName)));
+                } else {
+                  return ref.watch(exercisesProvider(workoutCollectionName));
+                }
+              }
+
+              final exercisesWatcher = exercisesProviderChooser();
+
+              return exercisesWatcher.when(
+                data: (exercises) {
+                  var theExercise = exercises
+                      .firstWhere((element) => element.id == exercise.id);
+                  var itemCount = theExercise.sets.length;
+
+                  return Flexible(
                     flex: 2,
                     child: PageView.builder(
                       controller: pageController,
                       scrollDirection: Axis.horizontal,
-                      itemCount: exercise.sets.length + 1,
+                      itemCount: itemCount,
                       itemBuilder: (context, index) {
-                        if (index == exercise.sets.length) {
-                          return QmIconButton(
-                            onPressed: () => ExerciseUtil().addSet(
+                        String set = theExercise.sets.values.elementAt(index);
+
+                        return QmBlock(
+                          color: ColorConstants.disabledColor.withOpacity(.3),
+                          onTap: () => showModalBottomSheet(
+                            context: context,
+                            backgroundColor: ColorConstants.secondaryColor,
+                            builder: (context) => ChangeSetModalSheet(
+                              height: height,
                               workoutCollectionName: workoutCollectionName,
                               exerciseDocName:
-                                  "${exercise.name}${exercise.target}${exercise.id}",
+                                  "${theExercise.name}-${theExercise.target}-${theExercise.id}",
+                              index: index,
+                              programId: programId,
                             ),
-                            icon: EvaIcons.plus,
-                          );
-                        }
-                        String set = exercise.sets[index];
-                        return QmBlock(
-                          isGradient: true,
-                          onTap: () => openQmDialog(
-                            context: context,
-                            title: set,
-                            message: set,
                           ),
                           width: width * .2,
                           height: height * .3,
@@ -133,13 +139,16 @@ class ExerciseTile extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
-                  loading: () =>
-                      const Center(child: QmCircularProgressIndicator()),
-                  error: (error, stackTrace) =>
-                      Center(child: QmText(text: error.toString())),
-                );
-          }),
+                  );
+                },
+                loading: () =>
+                    const Center(child: QmCircularProgressIndicator()),
+                error: (error, stackTrace) => Center(
+                  child: QmText(text: error.toString()),
+                ),
+              );
+            },
+          ),
           QmIconButton(
             onPressed: () => pageController.nextPage(
               duration: SimpleConstants.fastAnimationDuration,
@@ -148,6 +157,106 @@ class ExerciseTile extends StatelessWidget {
             icon: EvaIcons.arrowForward,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ChangeSetModalSheet extends StatelessWidget {
+  const ChangeSetModalSheet({
+    super.key,
+    required this.height,
+    required this.workoutCollectionName,
+    required this.exerciseDocName,
+    required this.index,
+    this.programId,
+  });
+  final double height;
+  final String workoutCollectionName;
+  final String exerciseDocName;
+  final int index;
+  final String? programId;
+
+  @override
+  Widget build(BuildContext context) {
+    final setWeightTextController = TextEditingController();
+    final setRepsTextController = TextEditingController();
+
+    final formKey = GlobalKey<FormState>();
+    final exerciseUtil = ExerciseUtil();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            QmTextField(
+              controller: setRepsTextController,
+              height: height * .1,
+              width: double.maxFinite,
+              hintText: S.current.Reps,
+              validator: (value) {
+                if (ValidationController.validateOnlyNumbers(value!) == false) {
+                  return S.current.EnterValidNumber;
+                }
+                return null;
+              },
+            ),
+            QmTextField(
+              controller: setWeightTextController,
+              height: height * .1,
+              width: double.maxFinite,
+              hintText: S.current.Weight,
+              validator: (value) {
+                if (ValidationController.validateOnlyNumbers(value!) == false) {
+                  return S.current.EnterValidNumber;
+                }
+                return null;
+              },
+            ),
+            Consumer(
+              builder: (context, ref, _) {
+                return QmBlock(
+                  isGradient: true,
+                  onTap: () {
+                    if (programId != null) {
+                      exerciseUtil.changeSetToProgramWorkout(
+                        formKey: formKey,
+                        workoutCollectionName: workoutCollectionName,
+                        exerciseDocName: exerciseDocName,
+                        context: context,
+                        ref: ref,
+                        programId: programId!,
+                        indexToInsert: index,
+                        reps: setRepsTextController.text,
+                        weight: setWeightTextController.text,
+                      );
+                    } else {
+                      exerciseUtil.changeSet(
+                        formKey: formKey,
+                        context: context,
+                        reps: setRepsTextController.text,
+                        weight: setWeightTextController.text,
+                        ref: ref,
+                        workoutCollectionName: workoutCollectionName,
+                        exerciseDocName: exerciseDocName,
+                        indexToInsert: index,
+                      );
+                    }
+                  },
+                  height: height * .1,
+                  width: double.maxFinite,
+                  child: QmText(
+                    text: S.current.AddWorkout,
+                    maxWidth: double.maxFinite,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

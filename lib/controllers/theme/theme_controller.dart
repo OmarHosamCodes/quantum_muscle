@@ -24,11 +24,13 @@ class ThemeController {
     scrollbarTheme: ScrollbarThemeData(
       thumbVisibility: MaterialStateProperty.all<bool>(true),
       thumbColor: MaterialStateProperty.all<Color>(
-        ColorConstants.primaryColor,
+        ColorConstants.disabledColor,
       ),
       trackColor: MaterialStateProperty.all<Color>(
-        ColorConstants.secondaryColor,
+        ColorConstants.disabledColor,
       ),
+      radius: const Radius.circular(10),
+      thickness: MaterialStateProperty.all<double>(5),
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: ColorConstants.disabledColor,

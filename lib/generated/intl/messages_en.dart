@@ -79,6 +79,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter a valid email"),
         "EnterValidName":
             MessageLookupByLibrary.simpleMessage("Enter a valid name"),
+        "EnterValidNumber":
+            MessageLookupByLibrary.simpleMessage("Enter a valid number"),
         "EnterValidPassword":
             MessageLookupByLibrary.simpleMessage("Enter a valid password"),
         "Failed": MessageLookupByLibrary.simpleMessage("Failed"),
@@ -120,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Programs": MessageLookupByLibrary.simpleMessage("Programs"),
         "RatID": MessageLookupByLibrary.simpleMessage("Rat ID"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
+        "Reps": MessageLookupByLibrary.simpleMessage("Reps"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "SendEmail": MessageLookupByLibrary.simpleMessage("Send Email"),
         "SendRequest": MessageLookupByLibrary.simpleMessage("Send Request"),
@@ -144,6 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("User Name"),
         "WeekAgo": MessageLookupByLibrary.simpleMessage("week ago"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("weeks ago"),
+        "Weight": MessageLookupByLibrary.simpleMessage("Weight"),
         "WeightXReps": MessageLookupByLibrary.simpleMessage("Weight x Reps"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back !"),
         "WillYouJoinProgram": MessageLookupByLibrary.simpleMessage(
