@@ -1,53 +1,53 @@
 import '/library.dart';
 
 class ChatModel {
-  static const String chatIdKey = 'chatId';
+  static const String idKey = 'id';
   static const String messagesKey = 'messages';
-  static const String chatDocIdKey = 'chatDocId';
-  static const String chatUserIdKey = 'chatUserId';
-  static const String chatUserNameKey = 'chatUserName';
-  static const String chatUserImageKey = 'chatUserImage';
+  static const String docIdKey = 'docId';
+  static const String userIdKey = 'userId';
+  static const String userNameKey = 'userName';
+  static const String userProfileImageURLKey = 'userProfileImageURL';
   static const String lastMessageKey = 'lastMessage';
   static const String lastMessageSenderKey = 'lastMessageSender';
   static const String modelKey = 'chatModel';
 
-  String chatId;
+  String id;
   List<MessageModel> messages;
-  String chatDocId;
-  String chatUserId;
-  String chatUserName;
-  String chatUserImage;
+  String docId;
+  String userId;
+  String userName;
+  String userProfileImageURL;
   String? lastMessage;
   String? lastMessageSender;
   ChatModel({
-    required this.chatId,
+    required this.id,
     required this.messages,
-    required this.chatDocId,
-    required this.chatUserId,
-    required this.chatUserName,
-    required this.chatUserImage,
+    required this.docId,
+    required this.userId,
+    required this.userName,
+    required this.userProfileImageURL,
     this.lastMessage,
     this.lastMessageSender,
   });
 
   factory ChatModel.fromMap(Map<String, dynamic> map) => ChatModel(
-        chatId: map[chatIdKey],
+        id: map[idKey],
         messages: map[messagesKey],
-        chatDocId: map[chatDocIdKey],
-        chatUserId: map[chatUserIdKey],
-        chatUserName: map[chatUserNameKey],
-        chatUserImage: map[chatUserImageKey],
+        docId: map[docIdKey],
+        userId: map[userIdKey],
+        userName: map[userNameKey],
+        userProfileImageURL: map[userProfileImageURLKey],
         lastMessage: map[lastMessageKey],
         lastMessageSender: map[lastMessageSenderKey],
       );
 
   Map<String, dynamic> toMap() => {
-        chatIdKey: chatId,
+        idKey: id,
         messagesKey: messages,
-        chatDocIdKey: chatDocId,
-        chatUserIdKey: chatUserId,
-        chatUserNameKey: chatUserName,
-        chatUserImageKey: chatUserImage,
+        docIdKey: docId,
+        userIdKey: userId,
+        userNameKey: userName,
+        userProfileImageURLKey: userProfileImageURL,
         lastMessageKey: lastMessage,
         lastMessageSenderKey: lastMessageSender,
       };

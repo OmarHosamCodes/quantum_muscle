@@ -4,7 +4,7 @@ class Routes {
   static const String chatsR = '/chats';
   static const String chatsRootR = 'chats';
   static const String chatRootR = 'chat';
-  static const String chatR = '/chat/:chatId/:chatUserId';
+  static const String chatR = '/chat/:id/:userId';
   static const String profileRootR = 'profile';
   static const String profileR = '/profile/:id';
   static const String myProfileR = '/my-profile';
@@ -17,4 +17,6 @@ class Routes {
   static const String programsR = '/programs';
   static const String programRootR = 'program';
   static const String programDetailsR = '/program';
+  static const String contentRootR = 'content';
+  static const String contentDetailsR = '/content';
 }

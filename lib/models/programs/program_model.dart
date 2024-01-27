@@ -27,6 +27,14 @@ class ProgramModel {
     required this.workouts,
     required this.creationDate,
   });
+  ProgramModel.empty()
+      : isHovered = false,
+        name = "",
+        id = "",
+        trainerId = "",
+        traineesIds = [],
+        workouts = [],
+        creationDate = Timestamp.now();
   factory ProgramModel.fromMap(Map<String, dynamic> map) => ProgramModel(
         name: map[nameKey],
         id: map[idKey],

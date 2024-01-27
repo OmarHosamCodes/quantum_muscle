@@ -24,7 +24,7 @@
   "Profile": "الملف الشخصي",
   "ForYou": "لك",
   "Chat": "الدردشة",
-  "NoChat": "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة.",
+  "NoChat": "لا توجد دردشات حتى الآن",
   "Trainer": "المدرب",
   "Trainee": "المتدرب",
   "Trainees": "المتدربون:",
@@ -101,5 +101,8 @@
   "WeightXReps": "الوزن X عدد المرات",
   "EnterValidNumber": "أدخل رقمًا صالحًا",
   "Reps": "مرات",
-  "Weight": "وزن"
+  "Weight": "وزن",
+  "Exercises": "تمارين",
+  "EnterValidDescription": "أدخل وصفًا صالحًا",
+  "YouReachedTheLimitOfPrograms": "لقد وصلت إلى الحد الأقصى للبرامج"
 }

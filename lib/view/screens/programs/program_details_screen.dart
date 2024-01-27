@@ -58,7 +58,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                   Visibility.maintain(
                     visible: program.trainerId == Utils().userUid,
                     child: Consumer(
-                      builder: (context, ref, _) {
+                      builder: (_, ref, __) {
                         return FittedBox(
                           child: Column(
                             children: [
@@ -95,7 +95,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Consumer(
-                    builder: (context, ref, _) {
+                    builder: (_, ref, __) {
                       final programTraineesAvatarsFuture =
                           ref.watch(programTraineesAvatarsProvider(program.id));
                       return programTraineesAvatarsFuture.when(
@@ -129,7 +129,7 @@ class ProgramDetailsScreen extends StatelessWidget {
               ),
             ),
             Consumer(
-              builder: (context, ref, _) {
+              builder: (_, ref, __) {
                 final programWorkoutsWatcher =
                     ref.watch(programWorkoutsProvider(program.id));
                 return programWorkoutsWatcher.when(
@@ -176,25 +176,9 @@ class ProgramDetailsScreen extends StatelessWidget {
                                     fit: FlexFit.tight,
                                     child: Hero(
                                       tag: workout.id,
-                                      child: Image(
-                                        image: CachedNetworkImageProvider(
-                                            workout.imgUrl),
-                                        fit: BoxFit.scaleDown,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return const Icon(
-                                            Icons.add_a_photo_outlined,
-                                            color:
-                                                ColorConstants.secondaryColor,
-                                          );
-                                        },
-                                        loadingBuilder:
-                                            (context, child, loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          }
-                                          return const QmCircularProgressIndicator();
-                                        },
+                                      child: QmImageNetwork(
+                                        source: workout.imageURL,
+                                        fallbackIcon: EvaIcons.plus,
                                       ),
                                     ),
                                   ),

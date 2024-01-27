@@ -57,35 +57,29 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 ),
                 Hero(
                   tag: workout.id,
-                  child: Image(
-                    image: CachedNetworkImageProvider(
-                      workout.imgUrl,
-                    ),
-                    fit: BoxFit.scaleDown,
-                    height: height * 0.2,
-                    width: width * 0.2,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(
-                        Icons.add_a_photo_outlined,
-                        color: ColorConstants.secondaryColor,
-                      );
-                    },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return const QmCircularProgressIndicator();
-                    },
+                  child: QmImageNetwork(
+                    source: workout.imageURL,
+                    fallbackIcon: EvaIcons.plus,
                   ),
                 ),
                 FittedBox(
                   child: Column(
                     children: [
                       QmIconButton(
-                        onPressed: () => WorkoutUtil().deleteWorkout(
-                          workoutCollectionName: workoutCollectionName,
-                          context: context,
-                        ),
+                        onPressed: () {
+                          if (programId != null) {
+                            WorkoutUtil().deleteWorkoutToProgram(
+                              workoutCollectionName: workoutCollectionName,
+                              context: context,
+                              programId: programId,
+                            );
+                          } else {
+                            WorkoutUtil().deleteWorkout(
+                              workoutCollectionName: workoutCollectionName,
+                              context: context,
+                            );
+                          }
+                        },
                         icon: EvaIcons.trash,
                       ),
                       QmIconButton(

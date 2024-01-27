@@ -34,9 +34,9 @@ class ChatScreen extends StatelessWidget {
                     onPressed: () => context.pop(),
                   ),
                   const SizedBox(width: 10),
-                  QmAvatar(imageUrl: chat.chatUserImage),
+                  QmAvatar(imageUrl: chat.userProfileImageURL),
                   const SizedBox(width: 10),
-                  QmText(text: chat.chatUserName)
+                  QmText(text: chat.userName)
                 ],
               ),
             ),
@@ -101,7 +101,7 @@ class ChatScreen extends StatelessWidget {
                     ),
                   ),
                   Consumer(
-                    builder: (context, ref, _) {
+                    builder: (_, ref, __) {
                       return QmIconButton(
                         icon: EvaIcons.paperPlane,
                         onPressed: () {

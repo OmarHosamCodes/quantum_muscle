@@ -300,10 +300,10 @@ class S {
     );
   }
 
-  /// `No chat yet, click to start a new chat.`
+  /// `No chats yet`
   String get NoChat {
     return Intl.message(
-      'No chat yet, click to start a new chat.',
+      'No chats yet',
       name: 'NoChat',
       desc: '',
       args: [],
@@ -1075,6 +1075,36 @@ class S {
     return Intl.message(
       'Weight',
       name: 'Weight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exercises`
+  String get Exercises {
+    return Intl.message(
+      'Exercises',
+      name: 'Exercises',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid description`
+  String get EnterValidDescription {
+    return Intl.message(
+      'Enter a valid description',
+      name: 'EnterValidDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You reached the limit of programs`
+  String get YouReachedTheLimitOfPrograms {
+    return Intl.message(
+      'You reached the limit of programs',
+      name: 'YouReachedTheLimitOfPrograms',
       desc: '',
       args: [],
     );

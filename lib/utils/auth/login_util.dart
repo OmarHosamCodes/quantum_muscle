@@ -18,6 +18,9 @@ class LoginUtil extends Utils {
         password: password,
       );
       if (user != null) {
+        await firebaseAnalytics.logLogin(
+          loginMethod: 'email',
+        );
         ref.invalidate(userProvider);
         ref.read(userProvider(Utils().userUid!));
       }

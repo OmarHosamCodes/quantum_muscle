@@ -7,6 +7,7 @@ class ColorConstants {
   static const Color primaryColor = Color(0xFF005B41);
   static const Color secondaryColor = Color(0xFF008170);
   static const Color disabledColor = Color(0xFF00241F);
+  static const Color disabledColorWithOpacity = Color(0x7E00241F);
   static const Color backgroundColor = Color(0xFF0F0F0F);
 
   // super classy dark
@@ -46,8 +47,8 @@ class ColorConstants {
   static const Color iconColor = Color(0xFFf5f2f8);
   static const Color textColor = Color(0xFFf5f2f8);
   static const Color textSeccondaryColor = Color(0x7EFFFFFF);
-  static const Color errorColor = Color(0xFFFF5252);
-  static const Color logoutColor = Color(0xFFFF5252);
+  static const Color errorColor = Color(0xFFF44336);
+  static const Color logoutColor = Color(0xFFF44336);
   static const Color hintColor = backgroundColor;
   static const Color drawerTextColor = backgroundColor;
   static const Color textFieldColor = secondaryColor;
@@ -55,4 +56,5 @@ class ColorConstants {
   static const Color otherChatBubbleColor = disabledColor;
   static const Color userChatBubbleTextColor = textColor;
   static const Color serverChatBubbleColor = disabledColor;
+  static const Color likeColor = Color(0xFFF44336);
 }

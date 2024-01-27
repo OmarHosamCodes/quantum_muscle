@@ -101,25 +101,9 @@ class WorkoutsScreen extends ConsumerWidget {
                                       fit: FlexFit.tight,
                                       child: Hero(
                                         tag: workout.id,
-                                        child: Image(
-                                          image: CachedNetworkImageProvider(
-                                              workout.imgUrl),
-                                          fit: BoxFit.scaleDown,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return const Icon(
-                                              Icons.add_a_photo_outlined,
-                                              color:
-                                                  ColorConstants.secondaryColor,
-                                            );
-                                          },
-                                          loadingBuilder: (context, child,
-                                              loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return const QmCircularProgressIndicator();
-                                          },
+                                        child: QmImageNetwork(
+                                          source: workout.imageURL,
+                                          fallbackIcon: EvaIcons.plus,
                                         ),
                                       ),
                                     ),
@@ -137,23 +121,9 @@ class WorkoutsScreen extends ConsumerWidget {
                               ),
                               child: Hero(
                                 tag: workout.id,
-                                child: Image(
-                                  image: CachedNetworkImageProvider(
-                                      workout.imgUrl),
-                                  fit: BoxFit.scaleDown,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: ColorConstants.secondaryColor,
-                                    );
-                                  },
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    }
-                                    return const QmCircularProgressIndicator();
-                                  },
+                                child: QmImageNetwork(
+                                  source: workout.imageURL,
+                                  fallbackIcon: EvaIcons.plus,
                                 ),
                               ),
                             ),

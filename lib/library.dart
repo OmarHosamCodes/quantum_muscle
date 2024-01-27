@@ -7,19 +7,20 @@ export 'firebase_options.dart';
 export 'view/screens/auth/login_screen.dart';
 export 'view/screens/auth/register_screen.dart';
 export 'view/screens/auth/forget_password_screen.dart';
+export 'view/screens/auth/auth_screen.dart';
 export 'view/screens/home/home_screen.dart';
 export 'view/screens/routing/routing_screen.dart';
 export 'view/screens/chat/chats_screen.dart';
 export 'view/screens/chat/chat_screen.dart';
 export 'view/screens/profile/profile_screen.dart';
 export 'view/screens/profile/edit_profile_screen.dart';
-export 'view/screens/programs/workouts/workoutDetails/workout_details_screen.dart';
-export 'view/screens/auth/auth_screen.dart';
-export 'view/screens/error/routing_error_screen.dart';
+export 'view/screens/profile/content_details_screen.dart';
 export 'view/screens/profile/searched_profile_screen.dart';
+export 'view/screens/error/routing_error_screen.dart';
 export 'view/screens/search/search_screen.dart';
-export 'view/screens/programs/programs_screen.dart';
 export 'view/screens/programs/workouts/workouts_screen.dart';
+export 'view/screens/programs/workouts/workoutDetails/workout_details_screen.dart';
+export 'view/screens/programs/programs_screen.dart';
 export 'view/screens/programs/program_details_screen.dart';
 
 //* Widgets
@@ -32,6 +33,7 @@ export 'view/widgets/public/qm_loader.dart';
 export 'view/widgets/public/qm_avatar.dart';
 export 'view/widgets/public/qm_icon_button.dart';
 export 'view/widgets/public/qm_nice_touch.dart';
+export 'view/widgets/public/qn_image.dart';
 export 'view/widgets/private/programs/programs_showcase.dart';
 export 'view/widgets/private/auth/choose_user_type.dart';
 export 'view/widgets/private/auth/forgot_password_text.dart';
@@ -47,6 +49,7 @@ export 'view/widgets/private/chat/message_bubble.dart';
 export 'view/widgets/private/programs/add_program.dart';
 export 'view/widgets/private/programs/program_block.dart';
 export 'view/widgets/private/programs/trainee_sheet.dart';
+export 'view/widgets/private/home/indicator.dart';
 
 //* Controllers
 
@@ -72,19 +75,20 @@ export 'utils/providers/workouts_provider.dart';
 export 'utils/providers/chats_provider.dart';
 export 'utils/providers/locale_provider.dart';
 export 'utils/providers/analytics_provider.dart';
+export 'utils/providers/content_provider.dart';
 
 //* Models
 
 export 'models/user/user_model.dart';
 export 'models/workout/exercise_model.dart';
 export 'models/workout/workout_model.dart';
-export 'models/profile/user_image_model.dart';
+export 'models/profile/content_model.dart';
 export 'models/chat/chat_model.dart';
 export 'models/programs/program_model.dart';
 export 'models/enums/user_type.dart';
 export 'models/chat/message_model.dart';
 export 'models/enums/message_type.dart';
-export 'models/enums/exercise_showcase.dart';
+export 'models/enums/exercise_content_type.dart';
 export 'models/analytics/general_analytics.dart';
 export 'models/extensions/object_extension.dart';
 
@@ -99,6 +103,7 @@ export 'constants/exercise_showcase_constants.dart';
 export 'constants/user_type_constants.dart';
 export 'constants/asset_path_constants.dart';
 export 'constants/color_constants.dart';
+export 'constants/analytics_event_names_constants.dart';
 
 //* Packages
 
@@ -127,6 +132,8 @@ export 'dart:async' hide AsyncError;
 export 'package:url_strategy/url_strategy.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImageProvider;
+    show CachedNetworkImageProvider, CachedNetworkImage;
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:pattern_background/pattern_background.dart';
+export 'package:firebase_analytics/firebase_analytics.dart';
+export 'package:fl_chart/fl_chart.dart';

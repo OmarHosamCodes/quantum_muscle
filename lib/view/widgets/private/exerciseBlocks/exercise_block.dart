@@ -30,25 +30,12 @@ class ExerciseBlock extends StatelessWidget {
           QmBlock(
             width: width,
             height: height,
-            borderRadius: BorderRadius.circular(10),
-            color: ColorConstants.disabledColor.withOpacity(.3),
+            borderRadius: SimpleConstants.borderRadius,
+            color: ColorConstants.disabledColorWithOpacity,
           ),
-          Image(
-            image: CachedNetworkImageProvider(exercise.showcaseUrl),
-            fit: BoxFit.scaleDown,
-            errorBuilder: (context, error, stackTrace) => QmIconButton(
-              icon: EvaIcons.alertCircle,
-              onPressed: () => openQmDialog(
-                  context: context,
-                  title: S.current.Failed,
-                  message: error.toString()),
-            ),
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) return child;
-              return const Center(
-                child: QmCircularProgressIndicator(),
-              );
-            },
+          QmImageNetwork(
+            source: exercise.contentURL,
+            fallbackIcon: EvaIcons.plus,
           ),
           Positioned(
             top: 0,
@@ -90,7 +77,7 @@ class ExerciseBlock extends StatelessWidget {
             ),
           ),
           Consumer(
-            builder: (context, ref, _) {
+            builder: (_, ref, __) {
               exercisesProviderChooser() {
                 if (programId != null) {
                   return ref.watch(programExercisesProvider(
@@ -118,11 +105,11 @@ class ExerciseBlock extends StatelessWidget {
                         String set = theExercise.sets.values.elementAt(index);
 
                         return QmBlock(
-                          color: ColorConstants.disabledColor.withOpacity(.3),
+                          color: ColorConstants.disabledColorWithOpacity,
                           onTap: () => showModalBottomSheet(
                             context: context,
                             backgroundColor: ColorConstants.secondaryColor,
-                            builder: (context) => ChangeSetModalSheet(
+                            builder: (context) => _ChangeSetModalSheet(
                               height: height,
                               workoutCollectionName: workoutCollectionName,
                               exerciseDocName:
@@ -162,9 +149,8 @@ class ExerciseBlock extends StatelessWidget {
   }
 }
 
-class ChangeSetModalSheet extends StatelessWidget {
-  const ChangeSetModalSheet({
-    super.key,
+class _ChangeSetModalSheet extends StatelessWidget {
+  const _ChangeSetModalSheet({
     required this.height,
     required this.workoutCollectionName,
     required this.exerciseDocName,
@@ -193,6 +179,7 @@ class ChangeSetModalSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             QmTextField(
+              fieldColor: ColorConstants.disabledColor,
               controller: setRepsTextController,
               height: height * .1,
               width: double.maxFinite,
@@ -205,6 +192,7 @@ class ChangeSetModalSheet extends StatelessWidget {
               },
             ),
             QmTextField(
+              fieldColor: ColorConstants.disabledColor,
               controller: setWeightTextController,
               height: height * .1,
               width: double.maxFinite,
@@ -217,9 +205,8 @@ class ChangeSetModalSheet extends StatelessWidget {
               },
             ),
             Consumer(
-              builder: (context, ref, _) {
+              builder: (_, ref, __) {
                 return QmBlock(
-                  isGradient: true,
                   onTap: () {
                     if (programId != null) {
                       exerciseUtil.changeSetToProgramWorkout(

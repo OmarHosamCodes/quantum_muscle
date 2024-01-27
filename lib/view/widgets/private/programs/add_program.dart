@@ -83,12 +83,13 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                       ),
                       const SizedBox(height: 10),
                       Consumer(
-                        builder: (context, ref, _) {
+                        builder: (_, ref, __) {
                           return QmBlock(
                             onTap: () => ProgramsUtil().addProgram(
                               context: context,
                               programName: programNameTextController.text,
                               ref: ref,
+                              programsLength: widget.programs.length,
                             ),
                             width: widget.width * .2,
                             height: widget.height * .1,

@@ -16,6 +16,7 @@ class SearchScreenState extends State<SearchScreen> {
         .firebaseFirestore
         .collection(DBPathsConstants.usersPath)
         .where(UserModel.tagsKey, arrayContains: _searchController.text)
+        .limit(10)
         .get();
 
     setState(() {
@@ -32,7 +33,7 @@ class SearchScreenState extends State<SearchScreen> {
       body: Column(
         children: [
           Consumer(
-            builder: (context, ref, _) {
+            builder: (_, ref, __) {
               ref.watch(localeProvider);
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -56,7 +57,7 @@ class SearchScreenState extends State<SearchScreen> {
 
                 final String name = userData[UserModel.nameKey];
                 final String id = userData[UserModel.idKey];
-                final String image = userData[UserModel.profileImageKey];
+                final String image = userData[UserModel.profileImageURLKey];
                 return ListTile(
                   leading: QmAvatar(
                     imageUrl: image,
@@ -67,7 +68,11 @@ class SearchScreenState extends State<SearchScreen> {
                     isSeccoundary: true,
                   ),
                   onTap: () {
-                    context.goNamed(
+                    Utils().firebaseAnalytics.logSearch(
+                      searchTerm: name,
+                      parameters: {UserModel.idKey: id},
+                    );
+                    context.pushNamed(
                       Routes.profileRootR,
                       pathParameters: {
                         UserModel.idKey: _searchResults[index].id,

@@ -36,7 +36,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                       hintText: S.current.EnterEmail,
                     ),
                     Consumer(
-                      builder: (context, ref, _) {
+                      builder: (_, ref, __) {
                         return QmBlock(
                           isGradient: true,
                           maxWidth: maxWidth,

@@ -9,6 +9,11 @@ class ChatsScreen extends ConsumerWidget {
     return Scaffold(
       body: chatsWatcher.when(
         data: (chats) {
+          if (chats.isEmpty) {
+            return Center(
+              child: QmText(text: S.current.NoChat),
+            );
+          }
           return ListView.builder(
             itemCount: chats.length,
             itemBuilder: (context, index) {
@@ -23,10 +28,10 @@ class ChatsScreen extends ConsumerWidget {
 
               return ListTile(
                 leading: QmAvatar(
-                  imageUrl: chat.chatUserImage,
+                  imageUrl: chat.userProfileImageURL,
                 ),
                 title: QmText(
-                  text: chat.chatUserName,
+                  text: chat.userName,
                   overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: QmText(
@@ -44,8 +49,8 @@ class ChatsScreen extends ConsumerWidget {
                 onTap: () => context.pushNamed(
                   Routes.chatRootR,
                   pathParameters: {
-                    ChatModel.chatIdKey: chat.chatId,
-                    ChatModel.chatUserIdKey: chat.chatUserId,
+                    ChatModel.idKey: chat.id,
+                    ChatModel.userIdKey: chat.userId,
                   },
                   extra: {
                     ChatModel.modelKey: chat,

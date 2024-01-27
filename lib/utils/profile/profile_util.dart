@@ -21,11 +21,14 @@ class ProfileUtil extends Utils {
     openQmLoaderDialog(context: context);
     if (user != null) {
       try {
+        firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.changeProfile,
+        );
         Reference storageRef = firebaseStorage
             .ref()
             .child(DBPathsConstants.usersPath)
             .child(userUid!)
-            .child('${UserModel.profileImageKey}.png');
+            .child('${UserModel.profileImageURLKey}.png');
         storageRef
             .putString(userProfileImage!, format: PutStringFormat.base64)
             .then(
@@ -34,7 +37,7 @@ class ProfileUtil extends Utils {
               {
                 UserModel.nameKey: userName,
                 UserModel.bioKey: userBio,
-                UserModel.profileImageKey: await storageRef.getDownloadURL(),
+                UserModel.profileImageURLKey: await storageRef.getDownloadURL(),
               },
               SetOptions(merge: true),
             );
@@ -47,81 +50,83 @@ class ProfileUtil extends Utils {
             context.pop();
           },
         );
-      } on FirebaseException catch (e) {
+      } catch (e) {
         context.pop();
 
         openQmDialog(
           context: context,
           title: S.of(context).Failed,
-          message: e.message!,
+          message: e.toString(),
         );
       }
     }
   }
 
-  static Future<void> chooseImage({
-    required WidgetRef ref,
-    required StateProvider<String?> provider,
-    required BuildContext context,
-  }) async {
-    openQmLoaderDialog(context: context);
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      if (kIsWeb) {
-        final imageXFile = XFile(image.path);
-        ref.read(provider.notifier).state =
-            base64Encode(await imageXFile.readAsBytes());
-        context.pop();
-      } else if (await Permission.storage.request().isGranted) {
-        final image =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
-        final imageFile = File(image!.path);
-
-        ref.read(provider.notifier).state =
-            base64Encode(await imageFile.readAsBytes());
-        context.pop();
-      } else {
-        await Permission.storage.request();
-        context.pop();
-      }
-    }
-  }
-
-  Future<void> addImage({
-    required UserImageModel userImageModel,
+  Future<void> addContent({
     required BuildContext context,
     required WidgetRef ref,
-    required String imageFile,
+    required String contentURL,
     required int indexToInsert,
     required GlobalKey<FormState> formKey,
+    required String title,
+    required String description,
   }) async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
-    openQmLoaderDialog(context: context);
+    try {
+      firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.addContent,
+      );
+      openQmLoaderDialog(context: context);
+      final id = const Uuid().v8();
 
-    await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userUid)
-        .set(
-      {
-        "images": FieldValue.arrayUnion(
-          [
-            {
-              "img$indexToInsert": userImageModel.toMap(),
-            },
-          ],
-        ),
-      },
-      SetOptions(merge: true),
-    );
-    ref.invalidate(userProvider);
-    ref.read(userProvider(Utils().userUid!));
-    ref.read(addImageProvider.notifier).state = SimpleConstants.emptyString;
+      Reference storageRef = firebaseStorage
+          .ref()
+          .child(DBPathsConstants.usersPath)
+          .child(userUid!)
+          .child('$title$id.png');
+      await storageRef.putString(contentURL, format: PutStringFormat.base64);
+      ContentModel content = ContentModel(
+        id: const Uuid().v8(),
+        title: title,
+        contentURL: await storageRef.getDownloadURL(),
+        creationDate: Timestamp.now(),
+        description: description,
+        likes: [],
+        comments: {},
+      );
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid)
+          .collection(DBPathsConstants.contentPath)
+          .doc(content.id)
+          .set(content.toMap());
 
-    context.pop();
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid)
+          .update({
+        UserModel.contentKey: FieldValue.arrayUnion([content.id])
+      });
+      while (context.canPop()) {
+        context.pop();
+      }
+      ref.invalidate(contentProvider);
+      ref.read(contentProvider(Utils().userUid!));
+      ref.read(addImageProvider.notifier).state = SimpleConstants.emptyString;
+    } catch (e) {
+      while (context.canPop()) {
+        context.pop();
+      }
+      openQmDialog(
+        context: context,
+        title: S.of(context).Failed,
+        message: e.toString(),
+      );
+    }
   }
 
-  followOrUnFollow({
+  Future<void> followOrUnFollow({
     required String userId,
     required BuildContext context,
     required WidgetRef ref,
@@ -130,6 +135,9 @@ class ProfileUtil extends Utils {
     openQmLoaderDialog(context: context);
     try {
       if (isFollowing) {
+        firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.unfollow,
+        );
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userUid)
@@ -153,6 +161,9 @@ class ProfileUtil extends Utils {
         ref.read(userProvider(Utils().userUid!));
         ref.read(userProvider(userId));
       } else if (!isFollowing) {
+        firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.follow,
+        );
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userUid)
@@ -167,17 +178,70 @@ class ProfileUtil extends Utils {
         });
         context.pop();
         ref.invalidate(userProvider);
-
         ref.read(userProvider(Utils().userUid!));
         ref.read(userProvider(userId));
       }
-    } on FirebaseException catch (e) {
+    } catch (e) {
       context.pop();
 
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
-        message: e.message!,
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<void> likeOrDislikeContent({
+    required String userId,
+    required BuildContext context,
+    required WidgetRef ref,
+    required bool isLiked,
+    required String contentDocID,
+  }) async {
+    try {
+      firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.addLike,
+      );
+      if (isLiked) {
+        firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.removeLike,
+        );
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userId)
+            .collection(DBPathsConstants.contentPath)
+            .doc(contentDocID)
+            .set(
+          {
+            ContentModel.likesKey: FieldValue.arrayRemove([userUid])
+          },
+          SetOptions(merge: true),
+        );
+      } else {
+        firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.addLike,
+        );
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userId)
+            .collection(DBPathsConstants.contentPath)
+            .doc(contentDocID)
+            .set(
+          {
+            ContentModel.likesKey: FieldValue.arrayUnion([userUid])
+          },
+          SetOptions(merge: true),
+        );
+      }
+
+      ref.invalidate(contentProvider);
+      ref.read(contentProvider(userId));
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.of(context).Failed,
+        message: e.toString(),
       );
     }
   }

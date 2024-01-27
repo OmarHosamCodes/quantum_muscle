@@ -1,23 +1,5 @@
 import '/library.dart';
 
-final programs2Provider = StreamProvider<List<ProgramModel>>((ref) async* {
-  final userRef = ref.watch(userProvider(Utils().userUid!));
-  final programsFeildAtUser =
-      userRef.whenData<List>((value) => value.programs).value!;
-  List<ProgramModel> programs = [];
-  for (var program in programsFeildAtUser) {
-    final programRef = Utils()
-        .firebaseFirestore
-        .collection(DBPathsConstants.programsPath)
-        .doc(program);
-    final programData =
-        await programRef.get().then((program) => program.data());
-    final programModel = ProgramModel.fromMap(programData!);
-    programs.add(programModel);
-  }
-  yield programs;
-});
-
 final programsProvider = StreamProvider<List<ProgramModel>>((ref) async* {
   final userRef = ref.watch(userProvider(Utils().userUid!));
   final programsFieldAtUser =
@@ -83,7 +65,7 @@ final programTraineesAvatarsProvider =
               .doc(traineeId)
               .get()
               .then((trainee) =>
-                  trainee.get(UserModel.profileImageKey) as String?),
+                  trainee.get(UserModel.profileImageURLKey) as String?),
         )
         .toList(),
   );

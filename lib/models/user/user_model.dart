@@ -10,9 +10,9 @@ class UserModel {
   static const String typeKey = 'type';
   static const String heightKey = 'height';
   static const String weightKey = 'weight';
-  static const String profileImageKey = 'profileImage';
+  static const String profileImageURLKey = 'profileImageURL';
   static const String bioKey = 'bio';
-  static const String imagesKey = 'images';
+  static const String contentKey = 'content';
   static const String followersKey = 'followers';
   static const String followingKey = 'following';
   static const String tagsKey = 'tags';
@@ -30,9 +30,9 @@ class UserModel {
   UserType type;
   Map<String, dynamic> height;
   Map<String, dynamic> weight;
-  String profileImage;
+  String profileImageURL;
   String bio;
-  List images = [];
+  List content = [];
   List followers;
   List following;
   List tags;
@@ -49,16 +49,33 @@ class UserModel {
     required this.type,
     required this.height,
     required this.weight,
-    required this.profileImage,
+    required this.profileImageURL,
     required this.bio,
-    required this.images,
+    required this.content,
     required this.followers,
     required this.following,
     required this.tags,
     required this.chats,
     required this.programs,
   });
-
+  UserModel.empty()
+      : id = SimpleConstants.emptyString,
+        ratID = SimpleConstants.emptyString,
+        name = SimpleConstants.emptyString,
+        email = SimpleConstants.emptyString,
+        age = 0,
+        phone = SimpleConstants.emptyString,
+        type = UserType.trainee,
+        height = {},
+        weight = {},
+        profileImageURL = SimpleConstants.emptyString,
+        bio = SimpleConstants.emptyString,
+        content = [],
+        followers = [],
+        following = [],
+        tags = [],
+        chats = [],
+        programs = [];
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map[idKey],
@@ -72,9 +89,9 @@ class UserModel {
       ),
       height: map[heightKey],
       weight: map[weightKey],
-      profileImage: map[profileImageKey],
+      profileImageURL: map[profileImageURLKey],
       bio: map[bioKey],
-      images: map[imagesKey],
+      content: map[contentKey],
       followers: map[followersKey],
       following: map[followingKey],
       tags: map[tagsKey],
@@ -93,9 +110,9 @@ class UserModel {
         typeKey: type.name,
         heightKey: height,
         weightKey: weight,
-        profileImageKey: profileImage,
+        profileImageURLKey: profileImageURL,
         bioKey: bio,
-        imagesKey: images,
+        contentKey: content,
         followersKey: followers,
         followingKey: following,
         tagsKey: tags,

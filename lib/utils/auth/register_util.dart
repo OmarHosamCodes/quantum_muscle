@@ -16,6 +16,9 @@ class RegisterUtil extends Utils {
     if (!isValid) return;
 
     try {
+      firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.register,
+      );
       await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
 
@@ -46,7 +49,7 @@ class RegisterUtil extends Utils {
     required BuildContext context,
   }) async {
     if (user != null) {
-      final tempSet = <String>{};
+      Set<String> tempSet = <String>{};
       for (var i = 0; i < 1; i++) {
         tempSet.addAll([
           ...userName.split(' '),
@@ -77,11 +80,11 @@ class RegisterUtil extends Utils {
         type: userType,
         weight: {"0": "0"},
         height: {"0": "0"},
-        profileImage: '',
+        profileImageURL: '',
         bio: '',
         followers: [],
         following: [],
-        images: [],
+        content: [],
         tags: tempSet.toList(),
         chats: [],
         programs: [],

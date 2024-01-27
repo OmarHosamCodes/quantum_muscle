@@ -24,7 +24,7 @@
   "Profile": "Profile",
   "ForYou": "For you",
   "Chat": "Chat",
-  "NoChat": "No chat yet, click to start a new chat.",
+  "NoChat": "No chats yet",
   "Trainer": "Trainer",
   "Trainee": "Trainee",
   "Trainees": "Trainees:",
@@ -101,5 +101,8 @@
   "WeightXReps": "Weight x Reps",
   "EnterValidNumber": "Enter a valid number",
   "Reps": "Reps",
-  "Weight": "Weight"
+  "Weight": "Weight",
+  "Exercises": "Exercises",
+  "EnterValidDescription": "Enter a valid description",
+  "YouReachedTheLimitOfPrograms": "You reached the limit of programs"
 }

@@ -12,6 +12,18 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
+//TODO:
+/////! 1. Renew a splash screen
+//! 2. Add shimmer loaders
+/////! 3. Add expandable content
+//! 4. Add a notifications functionality
+/////! 5. Add Analytics
+/////! 6. Remove all firebase exeptions
+/////! 7. Remove all image widgets and replace them with QmImage
+//! 8. Add content index scrolling
+/////! 9. Change all consumer objects to _, ref,__
+//! 9. Fix delete workout in program
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 

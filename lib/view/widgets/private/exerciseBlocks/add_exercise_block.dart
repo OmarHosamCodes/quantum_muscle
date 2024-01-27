@@ -30,28 +30,24 @@ class AddExerciseTile extends StatelessWidget {
       topCardHeight: height >= 150 ? 150 : height * 0.2,
       bottomCardHeight: height >= 150 ? 150 : height * 0.2,
       borderRadius: 10,
-      topCardWidget: Consumer(builder: (context, ref, _) {
-        final imageSource = ref.watch(exerciseImageBytesProvider) ?? '';
-        return QmBlock(
-          width: width * .9,
-          height: height * .2,
-          isNormal: true,
-          onTap: () => exerciseUtil.chooseImageFromStorage(
-            ref: ref,
-            provider: exerciseImageBytesProvider,
-          ),
-          child: Image(
-            image: MemoryImage(base64Decode(imageSource)),
-            fit: BoxFit.scaleDown,
-            errorBuilder: (context, error, stackTrace) {
-              return const Icon(
-                EvaIcons.plus,
-                color: ColorConstants.iconColor,
-              );
-            },
-          ),
-        );
-      }),
+      topCardWidget: Consumer(
+        builder: (_, ref, __) {
+          final imageWatcher = ref.watch(exerciseImageBytesProvider) ?? '';
+          return QmBlock(
+            width: width * .9,
+            height: height * .2,
+            isNormal: true,
+            onTap: () => exerciseUtil.chooseImageFromStorage(
+              ref: ref,
+              provider: exerciseImageBytesProvider,
+            ),
+            child: QmImageMemory(
+              source: imageWatcher,
+              fallbackIcon: EvaIcons.plus,
+            ),
+          );
+        },
+      ),
       bottomCardWidget: FittedBox(
         fit: BoxFit.fill,
         child: Column(
@@ -78,51 +74,53 @@ class AddExerciseTile extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Consumer(builder: (context, ref, _) {
-              final imageSource = ref.watch(exerciseImageBytesProvider);
-              return QmBlock(
-                onTap: () async {
-                  if (exerciseNameTextController.text.isNotEmpty &&
-                      exerciseTargetTextController.text.isNotEmpty) {
-                    if (programId != null) {
-                      await exerciseUtil.addExerciesToProgramWorkout(
-                        context: context,
-                        ref: ref,
-                        programId: programId!,
-                        workoutCollectionName: workoutCollectionName,
-                        programName: programName!,
-                        exerciseName: exerciseNameTextController.text,
-                        exerciseTarget: exerciseTargetTextController.text,
-                        showcaseFile: imageSource!,
-                        showcaseType: ExerciseShowcaseConstants.image,
-                      );
+            Consumer(
+              builder: (_, ref, __) {
+                final imageWatcher = ref.watch(exerciseImageBytesProvider);
+                return QmBlock(
+                  onTap: () async {
+                    if (exerciseNameTextController.text.isNotEmpty &&
+                        exerciseTargetTextController.text.isNotEmpty) {
+                      if (programId != null) {
+                        await exerciseUtil.addExerciesToProgramWorkout(
+                          context: context,
+                          ref: ref,
+                          programId: programId!,
+                          workoutCollectionName: workoutCollectionName,
+                          programName: programName!,
+                          exerciseName: exerciseNameTextController.text,
+                          exerciseTarget: exerciseTargetTextController.text,
+                          contentFile: imageWatcher!,
+                          contentType: ExerciseShowcaseConstants.image,
+                        );
+                      } else {
+                        await exerciseUtil.addExercise(
+                          context: context,
+                          ref: ref,
+                          workoutCollectionName: workoutCollectionName,
+                          exerciseName: exerciseNameTextController.text,
+                          exerciseTarget: exerciseTargetTextController.text,
+                          contentFile: imageWatcher!,
+                          contentType: ExerciseShowcaseConstants.image,
+                        );
+                      }
                     } else {
-                      await exerciseUtil.addExercise(
+                      openQmDialog(
                         context: context,
-                        ref: ref,
-                        workoutCollectionName: workoutCollectionName,
-                        exerciseName: exerciseNameTextController.text,
-                        exerciseTarget: exerciseTargetTextController.text,
-                        showcaseFile: imageSource!,
-                        showcaseType: ExerciseShowcaseConstants.image,
+                        title: S.current.Failed,
+                        message: S.current.DefaultError,
                       );
                     }
-                  } else {
-                    openQmDialog(
-                      context: context,
-                      title: S.current.Failed,
-                      message: S.current.DefaultError,
-                    );
-                  }
-                },
-                color: ColorConstants.secondaryColor,
-                width: width,
-                height: height * .2,
-                child: QmText(
-                  text: S.current.Add,
-                ),
-              );
-            }),
+                  },
+                  color: ColorConstants.secondaryColor,
+                  width: width,
+                  height: height * .2,
+                  child: QmText(
+                    text: S.current.Add,
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

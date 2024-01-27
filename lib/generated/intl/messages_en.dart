@@ -75,6 +75,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "EnterRatID": MessageLookupByLibrary.simpleMessage("Enter your rat ID"),
         "EnterValidBio":
             MessageLookupByLibrary.simpleMessage("Enter a valid bio"),
+        "EnterValidDescription":
+            MessageLookupByLibrary.simpleMessage("Enter a valid description"),
         "EnterValidEmail":
             MessageLookupByLibrary.simpleMessage("Enter a valid email"),
         "EnterValidName":
@@ -83,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter a valid number"),
         "EnterValidPassword":
             MessageLookupByLibrary.simpleMessage("Enter a valid password"),
+        "Exercises": MessageLookupByLibrary.simpleMessage("Exercises"),
         "Failed": MessageLookupByLibrary.simpleMessage("Failed"),
         "Follow": MessageLookupByLibrary.simpleMessage("Follow"),
         "Followers": MessageLookupByLibrary.simpleMessage("Followers"),
@@ -110,8 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "MonthsAgo": MessageLookupByLibrary.simpleMessage("months ago"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
-        "NoChat": MessageLookupByLibrary.simpleMessage(
-            "No chat yet, click to start a new chat."),
+        "NoChat": MessageLookupByLibrary.simpleMessage("No chats yet"),
         "NoPrograms": MessageLookupByLibrary.simpleMessage("No programs yet"),
         "NoSet": MessageLookupByLibrary.simpleMessage("No set"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),
@@ -158,6 +160,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "YearAgo": MessageLookupByLibrary.simpleMessage("year ago"),
         "YearsAgo": MessageLookupByLibrary.simpleMessage("years ago"),
         "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(
-            "You already have a chat with this user")
+            "You already have a chat with this user"),
+        "YouReachedTheLimitOfPrograms": MessageLookupByLibrary.simpleMessage(
+            "You reached the limit of programs")
       };
 }

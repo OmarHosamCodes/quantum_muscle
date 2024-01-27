@@ -3,14 +3,14 @@ import '/library.dart';
 class QmBlock extends StatelessWidget {
   const QmBlock({
     super.key,
-    required this.width,
-    required this.height,
+    this.width,
+    this.height,
     this.child,
     this.padding,
     this.margin,
     this.onTap,
-    this.maxHeight = double.maxFinite,
-    this.maxWidth = double.maxFinite,
+    this.maxHeight = double.infinity,
+    this.maxWidth = double.infinity,
     this.isAnimated = false,
     this.color = ColorConstants.primaryColor,
     this.isGradient = false,
@@ -18,8 +18,8 @@ class QmBlock extends StatelessWidget {
     this.borderRadius,
     this.border,
   });
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final Widget? child;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
@@ -44,7 +44,7 @@ class QmBlock extends StatelessWidget {
         )
       : null;
   BorderRadius? get containerBorderRadius =>
-      borderRadius ?? BorderRadius.circular(10);
+      borderRadius ?? SimpleConstants.borderRadius;
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -54,8 +54,6 @@ class QmBlock extends StatelessWidget {
         child: AnimatedContainer(
           duration: containerAnimationDuration,
           constraints: BoxConstraints(
-            minHeight: height,
-            minWidth: width,
             maxHeight: maxHeight,
             maxWidth: maxWidth,
           ),

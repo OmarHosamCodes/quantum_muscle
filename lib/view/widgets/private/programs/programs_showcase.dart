@@ -18,10 +18,11 @@ class ProgramsShowcase extends StatelessWidget {
   Widget build(BuildContext context) {
     int itemCount = isTrainee ? programs.length : programs.length + 1;
     return ListView.builder(
+      shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: itemCount,
       padding: EdgeInsets.symmetric(
-        horizontal: width * .055,
+        horizontal: width * .05,
         vertical: height * .05,
       ),
       itemBuilder: (context, index) {

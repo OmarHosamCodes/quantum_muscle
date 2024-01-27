@@ -17,15 +17,13 @@ class QmIconButton extends StatelessWidget {
   void Function()? get onPressedFunction => onPressed ?? () {};
   @override
   Widget build(BuildContext context) {
-    return SizedBox.fromSize(
-      size: Size.fromRadius(iconSize),
-      child: IconButton(
-        tooltip: tooltip,
-        onPressed: onPressedFunction,
-        icon: Icon(
-          icon,
-          color: iconColor,
-        ),
+    return IconButton(
+      tooltip: tooltip,
+      onPressed: onPressedFunction,
+      icon: Icon(
+        icon,
+        color: iconColor,
+        size: iconSize,
       ),
     );
   }

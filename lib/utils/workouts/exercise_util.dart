@@ -11,13 +11,15 @@ class ExerciseUtil extends Utils {
     required String workoutCollectionName,
     required String exerciseName,
     required String exerciseTarget,
-    required String showcaseFile,
-    required String showcaseType,
+    required String contentFile,
+    required String contentType,
   }) async {
     openQmLoaderDialog(context: context);
 
     if (user != null) {
       try {
+        firebaseAnalytics.logEvent(
+            name: AnalyticsEventNamesConstants.addExercise);
         final id = const Uuid().v4().toString().substring(0, 12);
         Reference storageRef = firebaseStorage
             .ref()
@@ -28,8 +30,7 @@ class ExerciseUtil extends Utils {
             .child(DBPathsConstants.exercisesPath)
             .child("$exerciseName$exerciseTarget$id.png");
 
-        await storageRef.putString(showcaseFile,
-            format: PutStringFormat.base64);
+        await storageRef.putString(contentFile, format: PutStringFormat.base64);
         ExerciseModel exercise = ExerciseModel(
           id: id,
           name: exerciseName,
@@ -37,8 +38,8 @@ class ExerciseUtil extends Utils {
           sets: {
             '0': S.current.WeightXReps,
           },
-          showcaseUrl: await storageRef.getDownloadURL(),
-          showcaseType: ExerciseShowcase.image,
+          contentURL: await storageRef.getDownloadURL(),
+          contentType: ExerciseContentType.image,
           creationDate: Timestamp.now(),
         );
         await firebaseFirestore
@@ -83,24 +84,34 @@ class ExerciseUtil extends Utils {
     required String exerciseDocName,
     required WidgetRef ref,
     required int indexToInsert,
+    required BuildContext context,
   }) async {
-    await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userUid!)
-        .collection(DBPathsConstants.workoutsPath)
-        .doc(workoutCollectionName)
-        .collection(DBPathsConstants.exercisesPath)
-        .doc(exerciseDocName)
-        .set(
-      {
-        ExerciseModel.setsKey: {
-          indexToInsert.toString(): S.current.WeightXReps,
+    try {
+      firebaseAnalytics.logEvent(name: AnalyticsEventNamesConstants.addSet);
+      await firebaseFirestore
+          .collection(DBPathsConstants.usersPath)
+          .doc(userUid!)
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .collection(DBPathsConstants.exercisesPath)
+          .doc(exerciseDocName)
+          .set(
+        {
+          ExerciseModel.setsKey: {
+            indexToInsert.toString(): S.current.WeightXReps,
+          },
         },
-      },
-      SetOptions(
-        merge: true,
-      ),
-    );
+        SetOptions(
+          merge: true,
+        ),
+      );
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
   }
 
   Future<void> changeSet({
@@ -116,6 +127,7 @@ class ExerciseUtil extends Utils {
     bool isValid = formKey!.currentState!.validate();
     if (!isValid) return;
     try {
+      firebaseAnalytics.logEvent(name: AnalyticsEventNamesConstants.changeSet);
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(userUid!)
@@ -142,12 +154,43 @@ class ExerciseUtil extends Utils {
         message: e.toString(),
       );
     }
+
+    addSet(
+      workoutCollectionName: workoutCollectionName,
+      exerciseDocName: exerciseDocName,
+      ref: ref,
+      indexToInsert: indexToInsert + 1,
+      context: context,
+    );
+  }
+
+  Future<void> addSetToProgramWorkout({
+    required String workoutCollectionName,
+    required String exerciseDocName,
+    required WidgetRef ref,
+    required int indexToInsert,
+    required String programId,
+    required BuildContext context,
+  }) async {
     try {
-      addSet(
-        workoutCollectionName: workoutCollectionName,
-        exerciseDocName: exerciseDocName,
-        ref: ref,
-        indexToInsert: indexToInsert + 1,
+      firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.addProgramSet);
+      await firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId)
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .collection(DBPathsConstants.exercisesPath)
+          .doc(exerciseDocName)
+          .set(
+        {
+          ExerciseModel.setsKey: {
+            indexToInsert.toString(): S.current.WeightXReps,
+          },
+        },
+        SetOptions(
+          merge: true,
+        ),
       );
     } catch (e) {
       openQmDialog(
@@ -158,32 +201,6 @@ class ExerciseUtil extends Utils {
     }
   }
 
-  Future<void> addSetToProgramWorkout({
-    required String workoutCollectionName,
-    required String exerciseDocName,
-    required WidgetRef ref,
-    required int indexToInsert,
-    required String programId,
-  }) async {
-    await firebaseFirestore
-        .collection(DBPathsConstants.programsPath)
-        .doc(programId)
-        .collection(DBPathsConstants.workoutsPath)
-        .doc(workoutCollectionName)
-        .collection(DBPathsConstants.exercisesPath)
-        .doc(exerciseDocName)
-        .set(
-      {
-        ExerciseModel.setsKey: {
-          indexToInsert.toString(): S.current.WeightXReps,
-        },
-      },
-      SetOptions(
-        merge: true,
-      ),
-    );
-  }
-
   Future<void> addExerciesToProgramWorkout({
     required BuildContext context,
     required WidgetRef ref,
@@ -192,13 +209,15 @@ class ExerciseUtil extends Utils {
     required String programName,
     required String exerciseName,
     required String exerciseTarget,
-    required String showcaseFile,
-    required String showcaseType,
+    required String contentFile,
+    required String contentType,
   }) async {
     openQmLoaderDialog(context: context);
 
     if (user != null) {
       try {
+        firebaseAnalytics.logEvent(
+            name: AnalyticsEventNamesConstants.addProgramExercise);
         final id = const Uuid().v4().toString().substring(0, 12);
         ExerciseModel exercise = ExerciseModel(
           id: id,
@@ -207,8 +226,8 @@ class ExerciseUtil extends Utils {
           sets: {
             '0': S.current.WeightXReps,
           },
-          showcaseUrl: '',
-          showcaseType: ExerciseShowcase.image,
+          contentURL: '',
+          contentType: ExerciseContentType.image,
           creationDate: Timestamp.now(),
         );
         Reference storageRef = firebaseStorage
@@ -221,10 +240,9 @@ class ExerciseUtil extends Utils {
             .child(DBPathsConstants.exercisesPath)
             .child("${exercise.name}-${exercise.target}-${exercise.id}.png");
 
-        await storageRef.putString(showcaseFile,
-            format: PutStringFormat.base64);
+        await storageRef.putString(contentFile, format: PutStringFormat.base64);
 
-        exercise.showcaseUrl = await storageRef.getDownloadURL();
+        exercise.contentURL = await storageRef.getDownloadURL();
 
         await firebaseFirestore
             .collection(DBPathsConstants.programsPath)
@@ -278,6 +296,8 @@ class ExerciseUtil extends Utils {
     bool isValid = formKey!.currentState!.validate();
     if (!isValid) return;
     try {
+      firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.changeProgramSet);
       await firebaseFirestore
           .collection(DBPathsConstants.programsPath)
           .doc(programId)
@@ -304,20 +324,14 @@ class ExerciseUtil extends Utils {
         message: e.toString(),
       );
     }
-    try {
-      addSetToProgramWorkout(
-        workoutCollectionName: workoutCollectionName,
-        exerciseDocName: exerciseDocName,
-        ref: ref,
-        indexToInsert: indexToInsert + 1,
-        programId: programId,
-      );
-    } catch (e) {
-      openQmDialog(
-        context: context,
-        title: S.current.Failed,
-        message: e.toString(),
-      );
-    }
+
+    addSetToProgramWorkout(
+      workoutCollectionName: workoutCollectionName,
+      exerciseDocName: exerciseDocName,
+      ref: ref,
+      indexToInsert: indexToInsert + 1,
+      programId: programId,
+      context: context,
+    );
   }
 }

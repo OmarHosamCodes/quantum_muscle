@@ -95,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         ForgotPasswordTextWidget(width: width),
                         Consumer(
-                          builder: (context, ref, _) {
+                          builder: (_, ref, __) {
                             return QmBlock(
                               isGradient: true,
                               maxWidth: maxWidth,

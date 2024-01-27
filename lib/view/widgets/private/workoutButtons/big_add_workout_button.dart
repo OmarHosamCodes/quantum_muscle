@@ -55,11 +55,11 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Consumer(
-                        builder: (context, ref, _) {
-                          String? imageRef =
+                        builder: (_, ref, __) {
+                          String? imageWatcher =
                               ref.watch(workoutImageBytesProvider) ?? '';
                           return QmBlock(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: SimpleConstants.borderRadius,
                             isNormal: true,
                             isAnimated: true,
                             onTap: () => workoutUtil.chooseImageFromStorage(
@@ -69,16 +69,9 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                             color: ColorConstants.backgroundColor,
                             width: widget.width * .3,
                             height: widget.height * .9,
-                            child: Image(
-                              image: MemoryImage(
-                                base64Decode(imageRef),
-                              ),
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(
-                                  Icons.add_a_photo_outlined,
-                                  color: ColorConstants.iconColor,
-                                );
-                              },
+                            child: QmImageMemory(
+                              source: imageWatcher,
+                              fallbackIcon: EvaIcons.plus,
                             ),
                           ).animate().fadeIn(
                                 duration:
@@ -107,8 +100,8 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                             },
                           ),
                           Consumer(
-                            builder: (context, ref, _) {
-                              final imageRef =
+                            builder: (_, ref, __) {
+                              final imageWatcher =
                                   ref.watch(workoutImageBytesProvider);
                               return QmBlock(
                                 isGradient: false,
@@ -117,7 +110,7 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                   context: context,
                                   formKey: formKey,
                                   workoutName: workoutNameTextController.text,
-                                  imageFile: imageRef!,
+                                  imageFile: imageWatcher!,
                                   ref: ref,
                                 ),
                                 height: widget.height * .1,

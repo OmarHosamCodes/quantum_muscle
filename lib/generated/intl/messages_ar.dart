@@ -76,6 +76,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "أدخل معرف الفأر الجماوي الخاص بك"),
         "EnterValidBio":
             MessageLookupByLibrary.simpleMessage("أدخل نبذة صالحة"),
+        "EnterValidDescription":
+            MessageLookupByLibrary.simpleMessage("أدخل وصفًا صالحًا"),
         "EnterValidEmail": MessageLookupByLibrary.simpleMessage(
             "أدخل بريدًا إلكترونيًا صالحًا"),
         "EnterValidName":
@@ -84,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل رقمًا صالحًا"),
         "EnterValidPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة مرور صالحة"),
+        "Exercises": MessageLookupByLibrary.simpleMessage("تمارين"),
         "Failed": MessageLookupByLibrary.simpleMessage("فشل"),
         "Follow": MessageLookupByLibrary.simpleMessage("تابع"),
         "Followers": MessageLookupByLibrary.simpleMessage("متابعون"),
@@ -111,8 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "MonthsAgo": MessageLookupByLibrary.simpleMessage("أشهر مضت"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "NoBio": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة"),
-        "NoChat": MessageLookupByLibrary.simpleMessage(
-            "لا توجد دردشة حتى الآن ، انقر لبدء محادثة جديدة."),
+        "NoChat":
+            MessageLookupByLibrary.simpleMessage("لا توجد دردشات حتى الآن"),
         "NoPrograms":
             MessageLookupByLibrary.simpleMessage("لا توجد برامج حتى الآن"),
         "NoSet": MessageLookupByLibrary.simpleMessage("لا توجد مجموعة"),
@@ -161,6 +164,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "YearAgo": MessageLookupByLibrary.simpleMessage("منذ سنة"),
         "YearsAgo": MessageLookupByLibrary.simpleMessage("سنوات مضت"),
         "YouAlreadyHaveAChatWithThisUser": MessageLookupByLibrary.simpleMessage(
-            "لديك بالفعل محادثة مع هذا المستخدم")
+            "لديك بالفعل محادثة مع هذا المستخدم"),
+        "YouReachedTheLimitOfPrograms": MessageLookupByLibrary.simpleMessage(
+            "لقد وصلت إلى الحد الأقصى للبرامج")
       };
 }

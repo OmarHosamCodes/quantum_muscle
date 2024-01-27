@@ -29,11 +29,11 @@ class EditProfileScreen extends ConsumerWidget {
                   text: S.current.EditProfile,
                 ),
                 Consumer(
-                  builder: (context, ref, _) {
-                    final imageSource = ref.watch(userProfileImageProvider);
+                  builder: (_, ref, __) {
+                    final imageWatcher = ref.watch(userProfileImageProvider);
                     return QmIconButton(
                       onPressed: () {
-                        if (!(imageSource == null &&
+                        if (!(imageWatcher == null &&
                             nameTextcontroller.text == user.name &&
                             (bioTextcontroller.text == user.bio ||
                                 bioTextcontroller.text ==
@@ -42,7 +42,7 @@ class EditProfileScreen extends ConsumerWidget {
                             context: context,
                             userName: nameTextcontroller.text,
                             userBio: bioTextcontroller.text,
-                            userProfileImage: imageSource!,
+                            userProfileImage: imageWatcher!,
                             ref: ref,
                             formKey: fromKey,
                           );
@@ -56,8 +56,8 @@ class EditProfileScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             Consumer(
-              builder: (context, ref, _) {
-                final imageSource = ref.watch(userProfileImageProvider);
+              builder: (_, ref, __) {
+                final imageWatcher = ref.watch(userProfileImageProvider);
 
                 return GestureDetector(
                   onTap: () => Utils().chooseImageFromStorage(
@@ -70,7 +70,7 @@ class EditProfileScreen extends ConsumerWidget {
                         QmAvatar(
                           isNetworkImage: false,
                           radius: 65,
-                          imageUrl: imageSource,
+                          imageUrl: imageWatcher,
                         ),
                         Positioned(
                           bottom: 0,

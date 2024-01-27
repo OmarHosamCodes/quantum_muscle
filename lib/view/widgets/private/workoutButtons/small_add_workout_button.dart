@@ -22,7 +22,7 @@ class SmallAddWorkout extends StatelessWidget {
       onTap: () => showModalBottomSheet(
         backgroundColor: ColorConstants.secondaryColor,
         context: context,
-        builder: (context) => AddWorkoutBottomSheet(
+        builder: (context) => _AddWorkoutBottomSheet(
           height: vHeight,
         ),
       ),
@@ -31,7 +31,7 @@ class SmallAddWorkout extends StatelessWidget {
         onPressed: () => showModalBottomSheet(
           backgroundColor: ColorConstants.secondaryColor,
           context: context,
-          builder: (context) => AddWorkoutBottomSheet(
+          builder: (context) => _AddWorkoutBottomSheet(
             height: vHeight,
           ),
         ),
@@ -40,8 +40,8 @@ class SmallAddWorkout extends StatelessWidget {
   }
 }
 
-class AddWorkoutBottomSheet extends StatelessWidget {
-  const AddWorkoutBottomSheet({super.key, required this.height});
+class _AddWorkoutBottomSheet extends StatelessWidget {
+  const _AddWorkoutBottomSheet({required this.height});
   final double height;
 
   @override
@@ -52,12 +52,12 @@ class AddWorkoutBottomSheet extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Consumer(
-            builder: (context, ref, _) {
-              final imageRef = ref.watch(workoutImageBytesProvider) ?? '';
+            builder: (_, ref, __) {
+              final imageWatcher = ref.watch(workoutImageBytesProvider) ?? '';
               return QmBlock(
                 isNormal: true,
                 onTap: () => workoutUtil.chooseImageFromStorage(
@@ -73,16 +73,9 @@ class AddWorkoutBottomSheet extends StatelessWidget {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: Image(
-                  image: MemoryImage(
-                    base64Decode(imageRef),
-                  ),
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      EvaIcons.plus,
-                      color: ColorConstants.iconColor,
-                    );
-                  },
+                child: QmImageMemory(
+                  source: imageWatcher,
+                  fallbackIcon: EvaIcons.plus,
                 ),
               );
             },
@@ -90,6 +83,7 @@ class AddWorkoutBottomSheet extends StatelessWidget {
           Form(
             key: formKey,
             child: QmTextField(
+              fieldColor: ColorConstants.disabledColor,
               controller: workoutNameTextController,
               height: height * .1,
               width: double.maxFinite,
@@ -103,15 +97,14 @@ class AddWorkoutBottomSheet extends StatelessWidget {
             ),
           ),
           Consumer(
-            builder: (context, ref, _) {
-              final imageRef = ref.watch(workoutImageBytesProvider);
+            builder: (_, ref, __) {
+              final imageWatcher = ref.watch(workoutImageBytesProvider);
               return QmBlock(
-                isGradient: true,
                 onTap: () => workoutUtil.addWorkout(
                   formKey: formKey,
                   context: context,
                   workoutName: workoutNameTextController.text,
-                  imageFile: imageRef!,
+                  imageFile: imageWatcher!,
                   ref: ref,
                 ),
                 height: height * .1,

@@ -1,10 +1,10 @@
 import '/library.dart';
 
-class RoutingDrawer extends ConsumerWidget {
+class RoutingDrawer extends StatelessWidget {
   const RoutingDrawer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final routingController = RoutingController();
     final locale = Intl.getCurrentLocale();
     return Drawer(

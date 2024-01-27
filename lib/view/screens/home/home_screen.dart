@@ -1,4 +1,4 @@
-import 'package:fl_chart/fl_chart.dart';
+import 'package:quantum_muscle/view/widgets/private/home/analytics_chart.dart';
 
 import '/library.dart';
 
@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                 child: Container(
                   height: height * .2,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: SimpleConstants.borderRadius,
                     border: Border.all(
                       color: ColorConstants.primaryColor,
                       width: 3,
@@ -56,50 +56,33 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Consumer(
-                builder: (context, ref, _) {
-                  final generalAnalytics = ref.watch(generalAnalyticsProvider(
-                      Utils().userUid ?? SimpleConstants.emptyString));
+                builder: (_, ref, __) {
+                  final generalAnalytics =
+                      ref.watch(generalAnalyticsProvider(Utils().userUid!));
 
                   return generalAnalytics.maybeWhen(
                     // todo fix this
-                    data: (data) => AspectRatio(
-                      aspectRatio: 1.0,
-                      child: PieChart(
-                        PieChartData(sections: [
-                          PieChartSectionData(
-                            color: ColorConstants.primaryColor,
-                            value: data.totalPrograms!.toDouble(),
-                            title: data.totalPrograms.toString(),
-                            radius: 40,
-                          ),
-                          PieChartSectionData(
-                            color: ColorConstants.secondaryColor,
-                            value: data.totalClients!.toDouble(),
-                            title: data.totalClients.toString(),
-                            radius: 40,
-                          ),
-                          PieChartSectionData(
-                            color: ColorConstants.disabledColor,
-                            value: data.totalWorkouts!.toDouble(),
-                            title: data.totalWorkouts.toString(),
-                            radius: 40,
-                          ),
-                          PieChartSectionData(
-                            color: ColorConstants.primaryColor,
-                            value: data.totalExercises!.toDouble(),
-                            title: data.totalExercises.toString(),
-                            radius: 40,
-                          ),
-                          PieChartSectionData(
-                            color: ColorConstants.secondaryColor,
-                            value: data.totalFollowers!.toDouble(),
-                            title: data.totalFollowers.toString(),
-                            radius: 40,
-                          ),
-                        ], centerSpaceRadius: 10),
-                        swapAnimationDuration:
-                            const Duration(milliseconds: 150),
-                      ),
+                    data: (analytics) {
+                      int tPrograms = analytics.totalPrograms ?? 0;
+                      int tTrainees = analytics.totalTrainees ?? 0;
+                      int tWorkouts = analytics.totalWorkouts ?? 0;
+                      int tExercises = analytics.totalExercises ?? 0;
+
+                      return SizedBox(
+                        height: height * .5,
+                        width: width * .9,
+                        child: GeneralAnalyticsChart(
+                          totalPrograms: tPrograms,
+                          totalTrainees: tTrainees,
+                          totalWorkouts: tWorkouts,
+                          totalExercises: tExercises,
+                        ).animate().fade(
+                              duration: SimpleConstants.slowAnimationDuration,
+                            ),
+                      );
+                    },
+                    error: (error, stackTrace) => QmText(
+                      text: error.toString(),
                     ),
                     orElse: () => QmText(
                       text: S.current.DefaultError,

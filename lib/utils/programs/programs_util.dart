@@ -7,36 +7,61 @@ class ProgramsUtil extends Utils {
     required BuildContext context,
     required String programName,
     required WidgetRef ref,
+    required int programsLength,
   }) async {
-    final programModel = ProgramModel(
-      id: const Uuid().v4().substring(0, 16),
-      name: programName,
-      trainerId: userUid!,
-      traineesIds: [],
-      workouts: [],
-      creationDate: Timestamp.now(),
-    );
+    openQmLoaderDialog(context: context);
+    if (programsLength >= 5) {
+      context.pop();
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: S.current.YouReachedTheLimitOfPrograms,
+      );
+    } else {
+      try {
+        firebaseAnalytics.logEvent(
+            name: AnalyticsEventNamesConstants.addProgram);
+        final programModel = ProgramModel(
+          id: const Uuid().v4().substring(0, 16),
+          name: programName,
+          trainerId: userUid!,
+          traineesIds: [],
+          workouts: [],
+          creationDate: Timestamp.now(),
+        );
 
-    await firebaseFirestore
-        .collection(DBPathsConstants.programsPath)
-        .doc(programModel.id)
-        .set(
-          programModel.toMap(),
+        await firebaseFirestore
+            .collection(DBPathsConstants.programsPath)
+            .doc(programModel.id)
+            .set(
+              programModel.toMap(),
+              SetOptions(merge: true),
+            );
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(userUid)
+            .set(
+          {
+            UserModel.programsKey: FieldValue.arrayUnion(
+              [programModel.id],
+            ),
+          },
           SetOptions(merge: true),
         );
-    await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userUid)
-        .set(
-      {
-        UserModel.programsKey: FieldValue.arrayUnion(
-          [programModel.id],
-        ),
-      },
-      SetOptions(merge: true),
-    );
-    ref.invalidate(programsProvider);
-    ref.read(programsProvider);
+        ref.invalidate(programsProvider);
+        ref.read(programsProvider);
+        ref.invalidate(userProvider(userUid!));
+        ref.read(userProvider(userUid!));
+        context.pop();
+      } catch (e) {
+        context.pop();
+        openQmDialog(
+          context: context,
+          title: S.current.Failed,
+          message: e.toString(),
+        );
+      }
+    }
   }
 
   Future<void> deleteProgram({
@@ -46,35 +71,43 @@ class ProgramsUtil extends Utils {
     required WidgetRef ref,
   }) async {
     openQmLoaderDialog(context: context);
-    await firebaseFirestore
-        .collection(DBPathsConstants.programsPath)
-        .doc(programId)
-        .delete();
-    await firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .doc(userUid)
-        .update({
-      UserModel.programsKey: FieldValue.arrayRemove(
-        [programId],
-      ),
-    });
-
-    for (var traineeId in traineesIds) {
+    try {
+      firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.removeProgram);
+      await firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId)
+          .delete();
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
-          .doc(traineeId)
+          .doc(userUid)
           .update({
         UserModel.programsKey: FieldValue.arrayRemove(
           [programId],
         ),
       });
-    }
-    ref.invalidate(programsProvider);
-    ref.read(programsProvider);
-    ref.invalidate(userProvider(userUid!));
-    ref.read(userProvider(userUid!));
-    while (context.canPop()) {
+
+      for (var traineeId in traineesIds) {
+        await firebaseFirestore
+            .collection(DBPathsConstants.usersPath)
+            .doc(traineeId)
+            .update({
+          UserModel.programsKey: FieldValue.arrayRemove(
+            [programId],
+          ),
+        });
+      }
+
+      while (context.canPop()) {
+        context.pop();
+      }
+    } catch (e) {
       context.pop();
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
     }
   }
 
@@ -84,8 +117,10 @@ class ProgramsUtil extends Utils {
     required WidgetRef ref,
     required String programRequestId,
   }) async {
+    openQmLoaderDialog(context: context);
     try {
-      openQmLoaderDialog(context: context);
+      firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.sendRequest);
       ChatUtil().startChat(
         userId: traineeId,
         context: context,
@@ -121,6 +156,8 @@ class ProgramsUtil extends Utils {
   }) async {
     openQmLoaderDialog(context: context);
     try {
+      firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.acceptRequest);
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(userUid)
@@ -166,8 +203,10 @@ class ProgramsUtil extends Utils {
     required WorkoutModel workout,
     required WidgetRef ref,
   }) async {
+    openQmLoaderDialog(context: context);
     try {
-      openQmLoaderDialog(context: context);
+      firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.addProgramWorkout);
 
       if (await firebaseFirestore
           .collection(DBPathsConstants.programsPath)

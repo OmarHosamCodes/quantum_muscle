@@ -25,12 +25,15 @@ class _QmLoaderDialog extends StatelessWidget {
 class QmCircularProgressIndicator extends StatelessWidget {
   const QmCircularProgressIndicator({
     super.key,
+    this.value,
   });
+  final double? value;
 
   @override
   Widget build(BuildContext context) {
-    return const CircularProgressIndicator(
+    return CircularProgressIndicator(
       color: ColorConstants.primaryColor,
+      value: value,
     );
   }
 }

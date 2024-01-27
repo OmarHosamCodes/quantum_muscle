@@ -15,19 +15,18 @@ class ProgramsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Consumer(
-              builder: (context, ref, _) {
+              builder: (_, ref, __) {
                 ref.watch(localeProvider);
                 final programsWatcher = ref.watch(programsProvider);
                 final userWatcher = ref.watch(userProvider(Utils().userUid!));
                 bool isTrainee() {
-                  if (userWatcher.valueOrNull!.type == UserType.trainee) {
-                    return true;
-                  } else {
-                    return false;
-                  }
+                  return userWatcher.maybeWhen(
+                    data: (user) => user.type == UserType.trainee,
+                    orElse: () => true,
+                  );
                 }
 
-                return programsWatcher.when(
+                return programsWatcher.maybeWhen(
                   data: (programs) => SizedBox(
                     height: height * .5,
                     child: ProgramsShowcase(
@@ -40,8 +39,14 @@ class ProgramsScreen extends StatelessWidget {
                   loading: () => const Center(
                     child: QmCircularProgressIndicator(),
                   ),
-                  error: (error, stackTrace) => Center(
-                    child: QmText(text: S.current.NoPrograms),
+                  orElse: () => SizedBox(
+                    height: height * .5,
+                    child: ProgramsShowcase(
+                      width: width,
+                      height: height,
+                      programs: const [],
+                      isTrainee: isTrainee(),
+                    ),
                   ),
                 );
               },

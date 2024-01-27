@@ -9,6 +9,7 @@ class QmText extends StatelessWidget {
   final double maxWidth;
   final Color? color;
   final TextOverflow? overflow;
+  final bool? softWrap;
   const QmText({
     super.key,
     required this.text,
@@ -23,6 +24,7 @@ class QmText extends StatelessWidget {
     this.maxWidth = 300,
     this.color,
     this.overflow,
+    this.softWrap,
   });
   double get fontSize {
     if (isSeccoundary) {
@@ -46,8 +48,9 @@ class QmText extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: Text(
-          overflow: overflow,
           text,
+          overflow: overflow,
+          softWrap: softWrap,
           style: style.copyWith(
             color: textColor,
             fontSize: fontSize,

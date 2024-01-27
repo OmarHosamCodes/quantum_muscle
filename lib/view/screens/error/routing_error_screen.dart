@@ -8,6 +8,12 @@ class RoutingErrorScreen extends StatelessWidget {
   final String? error;
   @override
   Widget build(BuildContext context) {
+    Utils().firebaseAnalytics.logEvent(
+      name: AnalyticsEventNamesConstants.routingError,
+      parameters: <String, dynamic>{
+        AnalyticsEventNamesConstants.error: error,
+      },
+    );
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
       body: Center(

@@ -37,7 +37,7 @@ class ForgetPasswordUtil extends Utils {
     }
   }
 
-  //todo needs testing
+  //TODO: needs testing
   void startTimer() {
     Timer timer = Timer.periodic(const Duration(seconds: 1), (internalTimer) {
       if (countDown == 0) {

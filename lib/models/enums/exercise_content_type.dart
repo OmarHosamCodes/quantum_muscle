@@ -1,4 +1,4 @@
-enum ExerciseShowcase {
+enum ExerciseContentType {
   image,
   video,
   gif,

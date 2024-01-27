@@ -64,12 +64,12 @@ class ChatUtil extends Utils {
 
         context.pop();
         context.go(Routes.chatsR);
-      } on FirebaseException catch (e) {
+      } catch (e) {
         context.pop();
         openQmDialog(
           context: context,
           title: S.of(context).Failed,
-          message: e.message!,
+          message: e.toString(),
         );
       }
     }

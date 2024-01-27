@@ -18,6 +18,8 @@ class WorkoutUtil extends Utils {
 
     if (user != null) {
       try {
+        firebaseAnalytics.logEvent(
+            name: AnalyticsEventNamesConstants.addWorkout);
         final id = const Uuid().v4().toString().substring(0, 12);
 
         Reference storageRef = firebaseStorage
@@ -33,7 +35,7 @@ class WorkoutUtil extends Utils {
         WorkoutModel workoutModel = WorkoutModel(
           id: id,
           name: workoutName,
-          imgUrl: await storageRef.getDownloadURL(),
+          imageURL: await storageRef.getDownloadURL(),
           exercises: [],
           creationDate: Timestamp.now(),
         );
@@ -64,12 +66,52 @@ class WorkoutUtil extends Utils {
   }) async {
     openQmLoaderDialog(context: context);
     try {
+      firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.removeWorkout,
+      );
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(userUid)
           .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
           .delete();
+      while (context.canPop()) {
+        context.pop();
+      }
+    } catch (e) {
+      context.pop();
+      openQmDialog(
+        context: context,
+        title: S.of(context).Failed,
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<void> deleteWorkoutToProgram({
+    required String workoutCollectionName,
+    required BuildContext context,
+    required String programId,
+  }) async {
+    openQmLoaderDialog(context: context);
+    try {
+      firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.removeProgramWorkout,
+      );
+
+      await firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId)
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .delete();
+      await firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId)
+          .update({
+        ProgramModel.workoutsKey:
+            FieldValue.arrayRemove([workoutCollectionName])
+      });
       while (context.canPop()) {
         context.pop();
       }

@@ -54,7 +54,7 @@ class MessageBubble extends StatelessWidget {
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: ColorConstants.disabledColor,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: SimpleConstants.borderRadius,
             ),
             padding: const EdgeInsets.all(10),
             child: QmText(
@@ -73,7 +73,7 @@ class MessageBubble extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: messageColor(message.senderId),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: SimpleConstants.borderRadius,
                 ),
                 padding: const EdgeInsets.all(10),
                 child: QmText(
@@ -91,70 +91,7 @@ class MessageBubble extends StatelessWidget {
             ],
           ),
         );
-      case MessageTypeConstants.image:
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: messageAlignment(message.senderId),
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: messageColor(message.senderId),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 200,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(message.messageUrl!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    QmText(
-                      text: message.message,
-                      color: ColorConstants.textColor,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 2),
-              QmText(
-                text: Utils().timeAgo(
-                  message.timestamp,
-                ),
-                isSeccoundary: true,
-              ),
-              const SizedBox(height: 2),
-              GestureDetector(
-                onTap: () {
-                  //   context.go(
-                  //   Routes.imagePreviewR,
-                  //   arguments: {
-                  //     MessageModel.messageUrlKey: messageUrl,
-                  //   },
-                  // );
-                },
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: NetworkImage(message.messageUrl!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+
       case MessageTypeConstants.request:
         return Padding(
           padding: messagePadding(message.senderId),
@@ -164,7 +101,7 @@ class MessageBubble extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: messageColor(message.senderId),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: SimpleConstants.borderRadius,
                 ),
                 padding: const EdgeInsets.all(10),
                 child: FittedBox(
@@ -179,23 +116,26 @@ class MessageBubble extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             color: ColorConstants.primaryColor,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: SimpleConstants.borderRadius,
                           ),
                           child: Row(
                             children: [
-                              Consumer(builder: (context, ref, _) {
-                                return QmIconButton(
-                                  icon: EvaIcons.checkmark,
-                                  iconColor: ColorConstants.iconColor,
-                                  onPressed: () => ProgramsUtil().acceptRequest(
-                                    context: context,
-                                    chatId: chatId,
-                                    ref: ref,
-                                    programId: message.programRequestId!,
-                                    messageId: messageId,
-                                  ),
-                                );
-                              }),
+                              Consumer(
+                                builder: (_, ref, __) {
+                                  return QmIconButton(
+                                    icon: EvaIcons.checkmark,
+                                    iconColor: ColorConstants.iconColor,
+                                    onPressed: () =>
+                                        ProgramsUtil().acceptRequest(
+                                      context: context,
+                                      chatId: chatId,
+                                      ref: ref,
+                                      programId: message.programRequestId!,
+                                      messageId: messageId,
+                                    ),
+                                  );
+                                },
+                              ),
                               QmIconButton(
                                 icon: EvaIcons.close,
                                 iconColor: ColorConstants.iconColor,
@@ -233,7 +173,7 @@ class MessageBubble extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: messageColor(message.senderId),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: SimpleConstants.borderRadius,
                 ),
                 padding: const EdgeInsets.all(10),
                 child: QmText(

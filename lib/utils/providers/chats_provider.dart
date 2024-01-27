@@ -11,7 +11,7 @@ final chatsProvider = StreamProvider<List<ChatModel>>(
       orElse: () => [],
     );
     for (var i = 0; i < chatsMaps.length; i++) {
-      final messages = await Utils()
+      List<MessageModel> messages = await Utils()
           .firebaseFirestore
           .collection(DBPathsConstants.chatsPath)
           .doc(chatsMaps[i].keys.elementAt(i))
@@ -20,7 +20,7 @@ final chatsProvider = StreamProvider<List<ChatModel>>(
           .get()
           .then((_) =>
               _.docs.map((_) => MessageModel.fromMap(_.data())).toList());
-      final chatUser = await Utils()
+      UserModel chatUser = await Utils()
           .firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(chatsMaps[i].values.elementAt(i))
@@ -29,12 +29,12 @@ final chatsProvider = StreamProvider<List<ChatModel>>(
 
       chats.add(
         ChatModel(
-          chatId: chatsMaps[i].keys.elementAt(i),
+          id: chatsMaps[i].keys.elementAt(i),
           messages: messages,
-          chatDocId: chatsMaps[i].keys.elementAt(i),
-          chatUserId: chatsMaps[i].values.elementAt(i),
-          chatUserName: chatUser.name,
-          chatUserImage: chatUser.profileImage,
+          docId: chatsMaps[i].keys.elementAt(i),
+          userId: chatsMaps[i].values.elementAt(i),
+          userName: chatUser.name,
+          userProfileImageURL: chatUser.profileImageURL,
           lastMessage: messages.first.message,
           lastMessageSender: messages.first.senderId,
         ),

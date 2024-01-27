@@ -1,16 +1,18 @@
 import '/library.dart';
 
-void lunchAddImageWidget({
+void openAddImage({
   required BuildContext context,
   required WidgetRef ref,
   required int indexToInsert,
 }) {
   showModalBottomSheet(
+    isScrollControlled: true,
     backgroundColor: ColorConstants.secondaryColor,
     context: context,
     builder: (context) {
       return _AddImageWidget(
         height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         indexToInsert: indexToInsert,
       );
     },
@@ -18,8 +20,13 @@ void lunchAddImageWidget({
 }
 
 class _AddImageWidget extends StatelessWidget {
-  const _AddImageWidget({required this.height, required this.indexToInsert});
+  const _AddImageWidget({
+    required this.height,
+    required this.indexToInsert,
+    required this.width,
+  });
   final double height;
+  final double width;
   final int indexToInsert;
 
   @override
@@ -35,17 +42,17 @@ class _AddImageWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Consumer(
-            builder: (context, ref, _) {
-              final imageRef = ref.watch(addImageProvider);
+            builder: (_, ref, __) {
+              final imageWatcher =
+                  ref.watch(addImageProvider) ?? SimpleConstants.emptyString;
               return QmBlock(
                 isNormal: true,
-                onTap: () => ProfileUtil.chooseImage(
+                onTap: () => Utils().chooseImageFromStorage(
                   ref: ref,
                   provider: addImageProvider,
-                  context: context,
                 ),
                 color: ColorConstants.backgroundColor,
-                width: double.maxFinite,
+                width: width,
                 height: height * .2,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
@@ -53,16 +60,9 @@ class _AddImageWidget extends StatelessWidget {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: Image(
-                  image: MemoryImage(
-                    base64Decode(imageRef!),
-                  ),
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      Icons.add_a_photo_outlined,
-                      color: ColorConstants.secondaryColor,
-                    );
-                  },
+                child: QmImageMemory(
+                  source: imageWatcher,
+                  fallbackIcon: EvaIcons.plus,
                 ),
               );
             },
@@ -70,12 +70,13 @@ class _AddImageWidget extends StatelessWidget {
           Form(
             key: formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 QmTextField(
+                  fieldColor: ColorConstants.disabledColor,
                   controller: imageNameTextController,
-                  height: height * .07,
+                  height: height * .1,
                   width: double.maxFinite,
                   hintText: S.current.AddImageName,
                   validator: (value) {
@@ -85,16 +86,18 @@ class _AddImageWidget extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(height: height * .01),
+                const SizedBox(height: 15),
                 QmTextField(
+                  fieldColor: ColorConstants.disabledColor,
                   controller: imageDescriptionTextController,
-                  height: height * .07,
+                  height: height * .35,
                   width: double.maxFinite,
+                  isExpanded: true,
                   hintText: S.current.AddImageDescription,
                   validator: (value) {
                     if (ValidationController.validateDescription(value!) ==
                         false) {
-                      return S.current.EnterValidName;
+                      return S.current.EnterValidDescription;
                     }
                     return null;
                   },
@@ -103,30 +106,18 @@ class _AddImageWidget extends StatelessWidget {
             ),
           ),
           Consumer(
-            builder: (context, ref, _) {
-              final imageRef = ref.watch(addImageProvider);
+            builder: (_, ref, __) {
+              final imageWatcher = ref.watch(addImageProvider);
               return QmBlock(
-                isGradient: true,
-                onTap: () {
-                  final dateTime = DateTime.now();
-
-                  final perfectDateTime =
-                      "${dateTime.year}-${dateTime.month}-${dateTime.day}";
-                  final imageModel = UserImageModel(
-                    title: imageNameTextController.text,
-                    imageEncoded: imageRef!,
-                    createdAt: perfectDateTime,
-                    description: imageDescriptionTextController.text,
-                  );
-                  ProfileUtil().addImage(
-                    formKey: formKey,
-                    context: context,
-                    imageFile: imageRef,
-                    ref: ref,
-                    indexToInsert: indexToInsert,
-                    userImageModel: imageModel,
-                  );
-                },
+                onTap: () => ProfileUtil().addContent(
+                  formKey: formKey,
+                  context: context,
+                  ref: ref,
+                  indexToInsert: indexToInsert,
+                  contentURL: imageWatcher!,
+                  title: imageNameTextController.text,
+                  description: imageDescriptionTextController.text,
+                ),
                 height: height * .1,
                 width: double.maxFinite,
                 child: QmText(

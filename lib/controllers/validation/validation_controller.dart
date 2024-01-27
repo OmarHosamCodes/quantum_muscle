@@ -25,9 +25,9 @@ class ValidationController {
   }
 
   static bool validateDescription(String description) {
-    final descriptionRegex = RegExp(r'^[a-zA-Z\s]+$');
+    final descriptionRegex = RegExp(r'[<>&]');
     return description.isNotEmpty &&
-        descriptionRegex.hasMatch(description) &&
+        !descriptionRegex.hasMatch(description) &&
         description.length <= 500;
   }
 

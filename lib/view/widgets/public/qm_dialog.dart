@@ -33,7 +33,7 @@ class _QmDialog extends StatelessWidget {
       ),
       backgroundColor: ColorConstants.secondaryColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: SimpleConstants.borderRadius,
       ),
     );
   }

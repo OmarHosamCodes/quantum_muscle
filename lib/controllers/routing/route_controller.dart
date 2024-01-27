@@ -80,8 +80,16 @@ class RoutingController {
         path: Routes.chatR,
         builder: (context, state) => ChatScreen(
           key: state.pageKey,
-          chatId: state.pathParameters[ChatModel.chatIdKey]!,
-          chatUserId: state.pathParameters[ChatModel.chatUserIdKey]!,
+          chatId: state.pathParameters[ChatModel.idKey]!,
+          chatUserId: state.pathParameters[ChatModel.userIdKey]!,
+          arguments: state.extra! as Map<String, dynamic>,
+        ),
+      ),
+      GoRoute(
+        name: Routes.contentRootR,
+        path: Routes.contentDetailsR,
+        builder: (context, state) => ContentDetailsScreen(
+          key: state.pageKey,
           arguments: state.extra! as Map<String, dynamic>,
         ),
       ),

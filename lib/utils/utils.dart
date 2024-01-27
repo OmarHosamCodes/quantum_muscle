@@ -4,6 +4,7 @@ class Utils {
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
   FirebaseStorage get firebaseStorage => FirebaseStorage.instance;
+  FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics.instance;
   User? get user => firebaseAuth.currentUser;
   String? get userUid => user!.uid;
   String get locale => Intl.getCurrentLocale();
