@@ -18,7 +18,7 @@ final generalAnalyticsProvider =
           WorkoutModel.empty(),
         ],
       );
-  getTotalTrainees(List<ProgramModel> programs) {
+  int getTotalTrainees(List<ProgramModel> programs) {
     int totalPrograms = 0;
     for (var program in programs) {
       totalPrograms += program.traineesIds.length;
@@ -26,6 +26,13 @@ final generalAnalyticsProvider =
     return totalPrograms;
   }
 
+  // final client = Client();
+  // final url = Uri.parse('http://localhost:8080/');
+  // final headers = {'Content-Type': 'application/json'};
+  // late final request = Request('GET', url);
+  // request.headers.addAll(headers);
+  // final response = await client.send(request);
+  // print(request.body);
   int totalTrainees = getTotalTrainees(programs);
 
   getTotalExercises(List<WorkoutModel> workouts) {

@@ -7,11 +7,19 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
     List<Widget> authScreens = [
-      const ForgetPasswordScreen(),
-      const LoginScreen(),
-      const RegisterScreen(),
+      ForgetPasswordScreen(
+        isMobile: isMobile,
+      ),
+      LoginScreen(
+        isMobile: isMobile,
+      ),
+      RegisterScreen(
+        isMobile: isMobile,
+      ),
     ];
+
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
       extendBodyBehindAppBar: true,

@@ -104,5 +104,6 @@
   "Weight": "Weight",
   "Exercises": "Exercises",
   "EnterValidDescription": "Enter a valid description",
-  "YouReachedTheLimitOfPrograms": "You reached the limit of programs"
+  "YouReachedTheLimitOfPrograms": "You reached the limit of programs",
+  "NetworkError": "Network error"
 }

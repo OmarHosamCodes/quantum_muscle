@@ -19,10 +19,12 @@ class GeneralAnalyticsChart extends StatefulWidget {
 
 class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
   int touchedIndex = -1;
-  late int total = widget.totalWorkouts +
+  late int semiTotal = widget.totalWorkouts +
       widget.totalExercises +
       widget.totalTrainees +
       widget.totalPrograms;
+
+  late int total = semiTotal != 0 ? semiTotal : 100;
   late double tProgramsRatio =
       ((widget.totalPrograms / total) * 100).ceilToDouble();
   late double tTraineesRatio =

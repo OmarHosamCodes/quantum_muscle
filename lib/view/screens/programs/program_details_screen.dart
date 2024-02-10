@@ -115,7 +115,20 @@ class ProgramDetailsScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        loading: () => const QmCircularProgressIndicator(),
+                        loading: () => SizedBox(
+                          height: height * 0.1,
+                          width: width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: List.generate(
+                              5,
+                              (index) => const QmShimmerRound(
+                                size: 20.0,
+                              ),
+                            ),
+                          ),
+                        ),
                         error: (error, stackTrace) =>
                             QmText(text: error.toString()),
                       );
@@ -199,8 +212,25 @@ class ProgramDetailsScreen extends StatelessWidget {
                       },
                     );
                   },
-                  loading: () =>
-                      const Center(child: QmCircularProgressIndicator()),
+                  loading: () => GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(8.0),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 3,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isDesktop()
+                          ? 3
+                          : isTablet()
+                              ? 2
+                              : 1,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemBuilder: (context, index) => const QmShimmer(
+                      width: 100,
+                      height: 100,
+                      radius: 10,
+                    ),
+                  ),
                   error: (error, stackTrace) =>
                       Center(child: QmText(text: error.toString())),
                 );

@@ -16,22 +16,16 @@ class RegisterUtil extends Utils {
     if (!isValid) return;
 
     try {
-      firebaseAnalytics.logEvent(
-        name: AnalyticsEventNamesConstants.register,
-      );
+      openQmLoaderDialog(context: context);
       await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-
-      ref.invalidate(userProvider);
-      ref.read(userProvider(Utils().userUid!));
-      if (user != null) {
-        afterSignUp(
-          userName: userName,
-          userType: userType,
-          context: context,
-        );
-        RoutingController().changeRoute(0);
-      }
+        email: email,
+        password: password,
+      );
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Future.delayed(const Duration(seconds: 1), () {
+          context.pop();
+        });
+      });
     } on FirebaseAuthException catch (e) {
       context.pop();
 
@@ -39,6 +33,29 @@ class RegisterUtil extends Utils {
         context: context,
         title: S.current.Failed,
         message: e.message!,
+      );
+    }
+    try {
+      if (user != null) {
+        firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.register,
+        );
+        ref.invalidate(userProvider);
+        ref.read(userProvider(Utils().userUid!));
+        afterSignUp(
+          userName: userName,
+          userType: userType,
+          context: context,
+        );
+        RoutingController().changeRoute(0);
+      }
+    } catch (e) {
+      context.pop();
+
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
       );
     }
   }

@@ -1,6 +1,6 @@
 import '/library.dart';
 
-class RoutingScreen extends StatelessWidget {
+class RoutingScreen extends StatefulWidget {
   const RoutingScreen({
     super.key,
     required this.child,
@@ -8,12 +8,18 @@ class RoutingScreen extends StatelessWidget {
   });
   final Widget child;
   final GoRouterState state;
+
+  @override
+  State<RoutingScreen> createState() => _RoutingScreenState();
+}
+
+class _RoutingScreenState extends State<RoutingScreen> {
   bool get getDrawerExist {
-    if (state.uri.toString() == Routes.homeR ||
-        state.uri.toString() == Routes.chatsR ||
-        state.uri.toString() == Routes.myProfileR ||
-        state.uri.toString() == Routes.searchR ||
-        state.uri.toString() == Routes.programsR) {
+    if (widget.state.uri.toString() == Routes.homeR ||
+        widget.state.uri.toString() == Routes.chatsR ||
+        widget.state.uri.toString() == Routes.myProfileR ||
+        widget.state.uri.toString() == Routes.searchR ||
+        widget.state.uri.toString() == Routes.programsR) {
       return true;
     } else {
       return false;
@@ -22,7 +28,6 @@ class RoutingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //todo add loading screen
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -34,7 +39,7 @@ class RoutingScreen extends StatelessWidget {
               extendBodyBehindAppBar: true,
               extendBody: true,
               drawer: getDrawerExist ? const RoutingDrawer() : null,
-              body: QmNiceTouch(child: SafeArea(child: child)),
+              body: QmNiceTouch(child: SafeArea(child: widget.child)),
             );
 
           case null:

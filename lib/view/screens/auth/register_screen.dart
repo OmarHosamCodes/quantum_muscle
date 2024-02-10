@@ -1,8 +1,11 @@
 import '/library.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
-
+  const RegisterScreen({
+    super.key,
+    required this.isMobile,
+  });
+  final bool isMobile;
   @override
   Widget build(BuildContext context) {
     final nameTextController = TextEditingController();
@@ -12,12 +15,13 @@ class RegisterScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final maxWidth = width * .6;
+    final maxWidth = isMobile ? width * .9 : width * .6;
     final maxHeight = height * .1;
     final margin = EdgeInsets.symmetric(vertical: height * .01);
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: QmNiceTouch(
         child: Center(
           child: ResponsiveRowColumn(

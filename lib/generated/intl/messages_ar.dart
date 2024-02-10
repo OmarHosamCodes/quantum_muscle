@@ -113,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "MonthAgo": MessageLookupByLibrary.simpleMessage("منذ شهر"),
         "MonthsAgo": MessageLookupByLibrary.simpleMessage("أشهر مضت"),
         "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
+        "NetworkError": MessageLookupByLibrary.simpleMessage("خطأ في الشبكة"),
         "NoBio": MessageLookupByLibrary.simpleMessage("لا يوجد نبذة"),
         "NoChat":
             MessageLookupByLibrary.simpleMessage("لا توجد دردشات حتى الآن"),

@@ -8,7 +8,7 @@ class ProgramModel {
   static const String idKey = "id";
   static const String creationDateKey = "creationDate";
   static const String modelKey = "ProgramModel";
-
+  static const String restDayOrDaysKey = "restDayOrDays";
   bool isHovered;
 
   String name;
@@ -16,6 +16,7 @@ class ProgramModel {
   String trainerId;
   List traineesIds;
   List workouts;
+  List restDayOrDays;
   Timestamp creationDate;
 
   ProgramModel({
@@ -26,6 +27,7 @@ class ProgramModel {
     required this.traineesIds,
     required this.workouts,
     required this.creationDate,
+    required this.restDayOrDays,
   });
   ProgramModel.empty()
       : isHovered = false,
@@ -34,7 +36,8 @@ class ProgramModel {
         trainerId = "",
         traineesIds = [],
         workouts = [],
-        creationDate = Timestamp.now();
+        creationDate = Timestamp.now(),
+        restDayOrDays = [];
   factory ProgramModel.fromMap(Map<String, dynamic> map) => ProgramModel(
         name: map[nameKey],
         id: map[idKey],
@@ -42,6 +45,7 @@ class ProgramModel {
         traineesIds: map[traineesIdsKey],
         workouts: map[workoutsKey],
         creationDate: map[creationDateKey],
+        restDayOrDays: map[restDayOrDaysKey],
       );
 
   Map<String, dynamic> toMap() => {
@@ -51,5 +55,6 @@ class ProgramModel {
         traineesIdsKey: traineesIds,
         workoutsKey: workouts,
         creationDateKey: creationDate,
+        restDayOrDaysKey: restDayOrDays,
       };
 }

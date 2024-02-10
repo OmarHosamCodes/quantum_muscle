@@ -17,7 +17,9 @@ class QmBlock extends StatelessWidget {
     this.isNormal = true,
     this.borderRadius,
     this.border,
+    this.boxShadow,
   });
+
   final double? width;
   final double? height;
   final Widget? child;
@@ -32,6 +34,7 @@ class QmBlock extends StatelessWidget {
   final bool isNormal;
   final BorderRadius? borderRadius;
   final Border? border;
+  final List<BoxShadow>? boxShadow;
 
   Duration get containerAnimationDuration =>
       isAnimated ? SimpleConstants.fastAnimationDuration : Duration.zero;
@@ -66,6 +69,7 @@ class QmBlock extends StatelessWidget {
             color: color,
             borderRadius: containerBorderRadius,
             border: border,
+            boxShadow: boxShadow,
           ),
           child: MouseRegion(
             cursor: SystemMouseCursors.cell,

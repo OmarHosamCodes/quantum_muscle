@@ -17,19 +17,27 @@ class LoginUtil extends Utils {
         email: email.toLowerCase(),
         password: password,
       );
-      if (user != null) {
-        await firebaseAnalytics.logLogin(
-          loginMethod: 'email',
-        );
-        ref.invalidate(userProvider);
-        ref.read(userProvider(Utils().userUid!));
-      }
     } on FirebaseAuthException catch (e) {
       openQmDialog(
         context: context,
         title: S.current.Failed,
         message: e.message!,
       );
+    }
+    if (user != null) {
+      try {
+        await firebaseAnalytics.logLogin(
+          loginMethod: 'email',
+        );
+        ref.invalidate(userProvider);
+        ref.read(userProvider(Utils().userUid!));
+      } catch (e) {
+        openQmDialog(
+          context: context,
+          title: S.current.Failed,
+          message: e.toString(),
+        );
+      }
     }
   }
 }

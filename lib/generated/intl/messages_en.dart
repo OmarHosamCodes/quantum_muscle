@@ -112,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "MonthAgo": MessageLookupByLibrary.simpleMessage("month ago"),
         "MonthsAgo": MessageLookupByLibrary.simpleMessage("months ago"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
+        "NetworkError": MessageLookupByLibrary.simpleMessage("Network error"),
         "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
         "NoChat": MessageLookupByLibrary.simpleMessage("No chats yet"),
         "NoPrograms": MessageLookupByLibrary.simpleMessage("No programs yet"),

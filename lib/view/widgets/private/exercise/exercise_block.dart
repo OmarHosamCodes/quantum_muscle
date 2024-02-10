@@ -128,8 +128,13 @@ class ExerciseBlock extends StatelessWidget {
                     ),
                   );
                 },
-                loading: () =>
-                    const Center(child: QmCircularProgressIndicator()),
+                loading: () => SizedBox(
+                  width: width * .2,
+                  height: height * .3,
+                  child: const Center(
+                    child: QmCircularProgressIndicator(),
+                  ),
+                ),
                 error: (error, stackTrace) => Center(
                   child: QmText(text: error.toString()),
                 ),
@@ -180,10 +185,10 @@ class _ChangeSetModalSheet extends StatelessWidget {
           children: [
             QmTextField(
               fieldColor: ColorConstants.disabledColor,
-              controller: setRepsTextController,
+              controller: setWeightTextController,
               height: height * .1,
               width: double.maxFinite,
-              hintText: S.current.Reps,
+              hintText: S.current.Weight,
               validator: (value) {
                 if (ValidationController.validateOnlyNumbers(value!) == false) {
                   return S.current.EnterValidNumber;
@@ -193,10 +198,10 @@ class _ChangeSetModalSheet extends StatelessWidget {
             ),
             QmTextField(
               fieldColor: ColorConstants.disabledColor,
-              controller: setWeightTextController,
+              controller: setRepsTextController,
               height: height * .1,
               width: double.maxFinite,
-              hintText: S.current.Weight,
+              hintText: S.current.Reps,
               validator: (value) {
                 if (ValidationController.validateOnlyNumbers(value!) == false) {
                   return S.current.EnterValidNumber;
@@ -209,7 +214,7 @@ class _ChangeSetModalSheet extends StatelessWidget {
                 return QmBlock(
                   onTap: () {
                     if (programId != null) {
-                      exerciseUtil.changeSetToProgramWorkout(
+                      ProgramsUtil().changeSetToProgramWorkout(
                         formKey: formKey,
                         workoutCollectionName: workoutCollectionName,
                         exerciseDocName: exerciseDocName,

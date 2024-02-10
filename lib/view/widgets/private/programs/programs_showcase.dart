@@ -17,60 +17,42 @@ class ProgramsShowcase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int itemCount = isTrainee ? programs.length : programs.length + 1;
-    return ListView.builder(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      itemCount: itemCount,
-      padding: EdgeInsets.symmetric(
-        horizontal: width * .05,
-        vertical: height * .05,
-      ),
-      itemBuilder: (context, index) {
-        Radius blockRadius({required bool condition}) {
-          if (Utils().isEnglish) {
-            return Radius.circular(
-              condition ? 10 : 0,
+    ScrollController scrollController = ScrollController();
+    return Scrollbar(
+      controller: scrollController,
+      child: ResponsiveGridView.builder(
+        controller: scrollController,
+        gridDelegate: const ResponsiveGridDelegate(
+          crossAxisSpacing: 10,
+          crossAxisExtent: 200,
+          mainAxisSpacing: 10,
+          childAspectRatio: 1.0,
+          maxCrossAxisExtent: 200,
+          minCrossAxisExtent: 100,
+        ),
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(
+          horizontal: width * .05,
+        ),
+        itemCount: itemCount,
+        shrinkWrap: false,
+        itemBuilder: (context, index) {
+          if (index == programs.length) {
+            return AddProgramBlock(
+              width: width,
+              height: height,
+              programs: programs,
             );
           }
-          return Radius.circular(
-            condition ? 10 : 0,
-          );
-        }
-
-        BorderRadius borderRadius() {
-          if (Utils().isEnglish) {
-            return BorderRadius.only(
-              topLeft: blockRadius(condition: index == 0),
-              bottomLeft: blockRadius(condition: index == 0),
-              topRight: blockRadius(condition: index == programs.length),
-              bottomRight: blockRadius(condition: index == programs.length),
-            );
-          }
-          return BorderRadius.only(
-            topLeft: blockRadius(condition: index == programs.length),
-            bottomLeft: blockRadius(condition: index == programs.length),
-            topRight: blockRadius(condition: index == 0),
-            bottomRight: blockRadius(condition: index == 0),
-          );
-        }
-
-        if (index == programs.length) {
-          return AddProgramBlock(
+          return ProgramBlock(
             width: width,
             height: height,
+            program: programs[index],
             programs: programs,
-            borderRadius: borderRadius(),
+            isTrainee: isTrainee,
           );
-        }
-        return ProgramBlock(
-          width: width,
-          height: height,
-          program: programs[index],
-          programs: programs,
-          borderRadius: borderRadius(),
-          isTrainee: isTrainee,
-        );
-      },
+        },
+      ),
     );
   }
 }

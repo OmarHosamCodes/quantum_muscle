@@ -2,17 +2,6 @@
 import '/library.dart';
 
 class ForgetPasswordUtil extends Utils {
-  bool _isEmailSent = false;
-  int _countDown = 30;
-
-  bool get isEmailSent => _isEmailSent;
-
-  set isEmailSent(bool value) => _isEmailSent = value;
-
-  int get countDown => _countDown;
-
-  set countDown(int value) => _countDown = value;
-
   Future<void> sendResetEmail({
     required String email,
     required BuildContext context,
@@ -26,8 +15,6 @@ class ForgetPasswordUtil extends Utils {
         title: S.current.Success,
         message: S.current.EmailSentSuccessfully,
       );
-      isEmailSent = true;
-      startTimer();
     } on FirebaseAuthException catch (e) {
       openQmDialog(
         context: context,
@@ -36,16 +23,42 @@ class ForgetPasswordUtil extends Utils {
       );
     }
   }
+}
 
-  //TODO: needs testing
-  void startTimer() {
-    Timer timer = Timer.periodic(const Duration(seconds: 1), (internalTimer) {
-      if (countDown == 0) {
-        internalTimer.cancel();
-        isEmailSent = false;
-      } else {
-        countDown--;
-      }
-    });
+class ForgetPasswordState {
+  bool isEmailSent;
+  int countDown;
+
+  ForgetPasswordState({
+    required this.isEmailSent,
+    required this.countDown,
+  });
+
+  ForgetPasswordState copyWith({
+    bool? isEmailSent,
+    int? countDown,
+  }) {
+    return ForgetPasswordState(
+      isEmailSent: isEmailSent ?? this.isEmailSent,
+      countDown: countDown ?? this.countDown,
+    );
   }
 }
+
+class ForgetPasswordNotifier extends StateNotifier<ForgetPasswordState> {
+  ForgetPasswordNotifier()
+      : super(ForgetPasswordState(isEmailSent: false, countDown: 30));
+
+  void setIsEmailSent(bool value) {
+    state = state.copyWith(isEmailSent: value);
+  }
+
+  void setCountDown(int value) {
+    state = state.copyWith(countDown: value);
+  }
+}
+
+final forgetPasswordProvider =
+    StateNotifierProvider<ForgetPasswordNotifier, ForgetPasswordState>((ref) {
+  return ForgetPasswordNotifier();
+});

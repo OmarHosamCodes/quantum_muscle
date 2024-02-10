@@ -20,9 +20,9 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         minimum: const EdgeInsets.all(10),
-        maintainBottomViewPadding: true,
         child: Column(
           children: [
             SizedBox(

@@ -60,8 +60,43 @@ class ChatsScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(
-          child: QmCircularProgressIndicator(),
+        loading: () => SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+              100,
+              (index) => const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 10),
+                  QmShimmerRound(size: 25),
+                  SizedBox(width: 10),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      QmShimmer(
+                        width: 100,
+                        height: 20,
+                      ),
+                      SizedBox(height: 10),
+                      QmShimmer(
+                        width: 200,
+                        height: 25,
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  QmShimmer(
+                    width: 50,
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         error: (e, s) => Center(
           child: QmText(text: S.current.NoChat),

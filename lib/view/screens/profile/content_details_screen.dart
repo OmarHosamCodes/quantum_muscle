@@ -15,8 +15,6 @@ class ContentDetailsScreen extends StatelessWidget {
     ScrollController controller =
         ScrollController(initialScrollOffset: height * startIndex);
 
-    TransformationController transformationController =
-        TransformationController();
     bool isDesktop() {
       if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
       return true;
@@ -63,7 +61,9 @@ class ContentDetailsScreen extends StatelessWidget {
         itemCount: contents.length,
         itemBuilder: (_, index) {
           final content = contents[index];
+          final transformationController = TransformationController();
           return QmBlock(
+            isAnimated: true,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             padding: const EdgeInsets.all(10),
             margin: getResponsiveMargin(),
@@ -78,7 +78,7 @@ class ContentDetailsScreen extends StatelessWidget {
                       minScale: .1,
                       maxScale: 3,
                       panEnabled: false,
-                      scaleEnabled: false,
+                      scaleEnabled: kIsWeb ? false : true,
                       child: Hero(
                         tag: content.id,
                         child: ClipRRect(
@@ -125,7 +125,8 @@ class ContentDetailsScreen extends StatelessWidget {
                                   : ColorConstants.iconColor,
                             );
                           },
-                          loading: () => const QmCircularProgressIndicator(),
+                          loading: () => const QmShimmer(
+                              width: 20, height: 20, radius: 10),
                           error: (error, stack) => const QmIconButton(
                             icon: EvaIcons.heart,
                             iconColor: ColorConstants.disabledColor,

@@ -6,13 +6,11 @@ class AddProgramBlock extends StatefulWidget {
     required this.width,
     required this.height,
     required this.programs,
-    required this.borderRadius,
   });
 
   final double width;
   final double height;
   final List<ProgramModel> programs;
-  final BorderRadius borderRadius;
 
   @override
   State<AddProgramBlock> createState() => _AddProgramBlockState();
@@ -21,6 +19,7 @@ class AddProgramBlock extends StatefulWidget {
 class _AddProgramBlockState extends State<AddProgramBlock> {
   bool isHovered = false;
   final programNameTextController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -36,21 +35,18 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
         onEnter: (_) => setState(() => isHovered = true),
         onExit: (_) => setState(() => isHovered = false),
         child: QmBlock(
+          padding: const EdgeInsets.all(10),
           color: isHovered
               ? ColorConstants.primaryColor
               : ColorConstants.secondaryColor,
           isAnimated: true,
-          borderRadius: widget.borderRadius,
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: isHovered
                 ? ColorConstants.secondaryColor
                 : ColorConstants.primaryColor,
             width: 1.5,
           ),
-          width: isHovered
-              ? (widget.width / (widget.programs.length + 2))
-              : (widget.width / (widget.programs.length + 4)),
-          height: widget.height * .4,
           child: Stack(
             children: [
               Align(
@@ -68,30 +64,42 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
               ),
               Align(
                 alignment: Alignment.center,
-                child: AnimatedOpacity(
-                  opacity: isHovered ? 1.0 : 0.0,
-                  duration: SimpleConstants.fastAnimationDuration,
+                child: Visibility(
+                  visible: isHovered ? true : false,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      QmTextField(
-                        width: widget.width * .2,
-                        height: widget.height * .1,
-                        hintText: S.current.AddProgramName,
-                        controller: programNameTextController,
+                      Form(
+                        key: formKey,
+                        child: QmTextField(
+                          width: widget.width * .25,
+                          height: widget.height * .1,
+                          hintText: S.current.AddProgramName,
+                          controller: programNameTextController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return S.current.EnterValidName;
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Consumer(
                         builder: (_, ref, __) {
                           return QmBlock(
-                            onTap: () => ProgramsUtil().addProgram(
-                              context: context,
-                              programName: programNameTextController.text,
-                              ref: ref,
-                              programsLength: widget.programs.length,
-                            ),
-                            width: widget.width * .2,
+                            onTap: () {
+                              if (formKey.currentState!.validate()) {
+                                ProgramsUtil().addProgram(
+                                  context: context,
+                                  programName: programNameTextController.text,
+                                  ref: ref,
+                                  programsLength: widget.programs.length,
+                                );
+                              }
+                            },
+                            width: widget.width * .25,
                             height: widget.height * .1,
                             color: ColorConstants.secondaryColor,
                             child: Center(
@@ -99,7 +107,7 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: QmText(
-                                    text: S.current.AddProgram,
+                                    text: S.current.Add,
                                   ),
                                 ),
                               ),
@@ -109,8 +117,10 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                       )
                     ],
                   ),
-                ),
-              )
+                )
+                    .animate()
+                    .fade(duration: SimpleConstants.fastAnimationDuration),
+              ),
             ],
           ),
         ),

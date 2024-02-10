@@ -53,29 +53,66 @@ class _AddWorkoutBottomSheet extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Consumer(
             builder: (_, ref, __) {
               final imageWatcher = ref.watch(workoutImageBytesProvider) ?? '';
+              final networkImageWatcher =
+                  ref.watch(workoutNetworkImageProvider) ?? '';
+
               return QmBlock(
-                isNormal: true,
-                onTap: () => workoutUtil.chooseImageFromStorage(
-                  ref: ref,
-                  provider: workoutImageBytesProvider,
-                ),
+                padding: const EdgeInsets.all(1),
                 color: ColorConstants.backgroundColor,
-                width: double.maxFinite,
-                height: height * .2,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: QmImageMemory(
-                  source: imageWatcher,
-                  fallbackIcon: EvaIcons.plus,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Visibility(
+                      visible: networkImageWatcher.isEmpty,
+                      child: Flexible(
+                        child: QmBlock(
+                          isNormal: true,
+                          onTap: () => workoutUtil.chooseImageFromStorage(
+                            ref: ref,
+                            provider: workoutImageBytesProvider,
+                          ),
+                          color: ColorConstants.backgroundColor,
+                          width: 100,
+                          height: height * .2,
+                          borderRadius: BorderRadius.zero,
+                          child: QmImageMemory(
+                            source: imageWatcher,
+                            fallbackIcon: EvaIcons.plus,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: imageWatcher.isEmpty,
+                      child: Flexible(
+                        child: QmBlock(
+                          isNormal: true,
+                          onTap: () =>
+                              openNetworkWorkoutsSheet(context: context),
+                          color: ColorConstants.backgroundColor,
+                          width: 100,
+                          height: height * .2,
+                          borderRadius: BorderRadius.zero,
+                          child: QmImageNetwork(
+                            source: networkImageWatcher,
+                            fallbackIcon: EvaIcons.search,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
@@ -99,14 +136,30 @@ class _AddWorkoutBottomSheet extends StatelessWidget {
           Consumer(
             builder: (_, ref, __) {
               final imageWatcher = ref.watch(workoutImageBytesProvider);
+              final networkImageWatcher =
+                  ref.watch(workoutNetworkImageProvider);
               return QmBlock(
-                onTap: () => workoutUtil.addWorkout(
-                  formKey: formKey,
-                  context: context,
-                  workoutName: workoutNameTextController.text,
-                  imageFile: imageWatcher!,
-                  ref: ref,
-                ),
+                onTap: () {
+                  if (networkImageWatcher != null) {
+                    workoutUtil.addWorkout(
+                      context: context,
+                      formKey: formKey,
+                      workoutName: workoutNameTextController.text,
+                      image: networkImageWatcher,
+                      ref: ref,
+                      isLink: true,
+                    );
+                  } else {
+                    workoutUtil.addWorkout(
+                      formKey: formKey,
+                      context: context,
+                      workoutName: workoutNameTextController.text,
+                      image: imageWatcher!,
+                      ref: ref,
+                      isLink: false,
+                    );
+                  }
+                },
                 height: height * .1,
                 width: double.maxFinite,
                 child: QmText(

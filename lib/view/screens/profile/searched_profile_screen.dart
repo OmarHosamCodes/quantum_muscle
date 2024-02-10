@@ -33,8 +33,32 @@ class SearchedProfile extends StatelessWidget {
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => const Center(
-                    child: QmCircularProgressIndicator(),
+                  loading: () => const Row(
+                    children: [
+                      QmShimmerRound(size: 40),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            QmShimmer(
+                              height: 30,
+                              width: 100,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            QmShimmer(
+                              height: 30,
+                              width: 100,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                   data: (user) => Row(
                     children: [
@@ -79,8 +103,19 @@ class SearchedProfile extends StatelessWidget {
                             error: (error, stackTrace) => Center(
                               child: QmText(text: S.current.DefaultError),
                             ),
-                            loading: () => const Center(
-                              child: QmCircularProgressIndicator(),
+                            loading: () => const Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                QmShimmer(
+                                  width: 150,
+                                  height: 50,
+                                ),
+                                QmShimmer(
+                                  width: 150,
+                                  height: 50,
+                                ),
+                              ],
                             ),
                             data: (data) => Visibility(
                               visible: userId !=
@@ -104,9 +139,7 @@ class SearchedProfile extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(
-              height: height * .01,
-            ),
+            const SizedBox(height: 5),
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 final userWatcher = ref.watch(userProvider(userId));
@@ -114,8 +147,24 @@ class SearchedProfile extends StatelessWidget {
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => const Center(
-                    child: QmCircularProgressIndicator(),
+                  loading: () => const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      QmShimmer(width: 25, height: 30),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      QmShimmer(width: 40, height: 30),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      QmShimmer(width: 25, height: 30),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      QmShimmer(width: 40, height: 30),
+                    ],
                   ),
                   data: (user) => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -124,21 +173,21 @@ class SearchedProfile extends StatelessWidget {
                       QmText(
                         text: user.followers.length.toString(),
                       ),
-                      SizedBox(
-                        width: width * .005,
+                      const SizedBox(
+                        width: 5,
                       ),
                       QmText(
                         text: S.current.Followers,
                         isSeccoundary: true,
                       ),
-                      SizedBox(
-                        width: width * .005,
+                      const SizedBox(
+                        width: 5,
                       ),
                       QmText(
                         text: user.following.length.toString(),
                       ),
-                      SizedBox(
-                        width: width * .005,
+                      const SizedBox(
+                        width: 5,
                       ),
                       QmText(
                         text: S.current.Following,
@@ -149,6 +198,7 @@ class SearchedProfile extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: 5),
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 final userWatcher = ref.watch(userProvider(userId));
@@ -156,8 +206,9 @@ class SearchedProfile extends StatelessWidget {
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => const Center(
-                    child: QmCircularProgressIndicator(),
+                  loading: () => QmShimmer(
+                    width: width * .5,
+                    height: 50,
                   ),
                   data: (user) => QmText(
                     text: user.bio == SimpleConstants.emptyString
@@ -177,8 +228,23 @@ class SearchedProfile extends StatelessWidget {
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => const Center(
-                    child: QmCircularProgressIndicator(),
+                  loading: () => GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 3,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1.0, // .5 for vertical
+                    ),
+                    itemBuilder: (_, index) {
+                      return const QmShimmer(
+                        width: 100,
+                        height: 100,
+                      );
+                    },
                   ),
                   data: (contents) {
                     if (contents.isEmpty) {

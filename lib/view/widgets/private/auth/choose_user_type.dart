@@ -94,14 +94,6 @@ class UserTypeChooser extends ConsumerWidget {
           ),
         ),
       ],
-      // onPressed: (int index) {
-      //   setState(() {
-      //     isSelected[index] = !isSelected[index];
-      //     _colors[index] = _colors[index] == ColorConstants.primaryColor
-      //         ? ColorConstants.primaryColorDark
-      //         : ColorConstants.primaryColor;
-      //   });
-      // },
     );
   }
 }

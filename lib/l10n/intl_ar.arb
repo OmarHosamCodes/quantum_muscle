@@ -104,5 +104,6 @@
   "Weight": "وزن",
   "Exercises": "تمارين",
   "EnterValidDescription": "أدخل وصفًا صالحًا",
-  "YouReachedTheLimitOfPrograms": "لقد وصلت إلى الحد الأقصى للبرامج"
+  "YouReachedTheLimitOfPrograms": "لقد وصلت إلى الحد الأقصى للبرامج",
+  "NetworkError": "خطأ في الشبكة"
 }

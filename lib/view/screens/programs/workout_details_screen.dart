@@ -57,9 +57,12 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 ),
                 Hero(
                   tag: workout.id,
-                  child: QmImageNetwork(
-                    source: workout.imageURL,
-                    fallbackIcon: EvaIcons.plus,
+                  child: SizedBox.square(
+                    dimension: width * 0.2,
+                    child: QmImageNetwork(
+                      source: workout.imageURL,
+                      fallbackIcon: EvaIcons.plus,
+                    ),
                   ),
                 ),
                 FittedBox(
@@ -68,7 +71,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       QmIconButton(
                         onPressed: () {
                           if (programId != null) {
-                            WorkoutUtil().deleteWorkoutToProgram(
+                            ProgramsUtil().deleteWorkoutToProgram(
                               workoutCollectionName: workoutCollectionName,
                               context: context,
                               programId: programId,
@@ -150,8 +153,23 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                loading: () =>
-                    const Center(child: QmCircularProgressIndicator()),
+                loading: () => StaggeredGrid.count(
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  crossAxisCount: isDesktop()
+                      ? 3
+                      : isTablet()
+                          ? 2
+                          : 1,
+                  children: List.generate(
+                    3,
+                    (index) => const QmShimmer(
+                      width: 100,
+                      height: 100,
+                      radius: 10,
+                    ),
+                  ),
+                ),
                 error: (error, stackTrace) => Center(
                   child: QmText(
                     text: error.toString(),

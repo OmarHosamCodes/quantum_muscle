@@ -7,7 +7,6 @@ class ProgramBlock extends ConsumerStatefulWidget {
     required this.height,
     required this.program,
     required this.programs,
-    required this.borderRadius,
     required this.isTrainee,
   });
 
@@ -15,7 +14,6 @@ class ProgramBlock extends ConsumerStatefulWidget {
   final double height;
   final ProgramModel program;
   final List<ProgramModel> programs;
-  final BorderRadius borderRadius;
   final bool isTrainee;
 
   @override
@@ -52,50 +50,47 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                   ? ColorConstants.primaryColor
                   : ColorConstants.secondaryColor,
               isAnimated: true,
-              borderRadius: widget.borderRadius,
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: widget.program.isHovered
                     ? ColorConstants.secondaryColor
                     : ColorConstants.primaryColor,
                 width: 1.5,
               ),
-              width: widget.program.isHovered
-                  ? (widget.width / (widget.programs.length + 2))
-                  : (widget.width / (widget.programs.length + 4)),
-              height: widget.height * .4,
+              boxShadow: widget.program.isHovered
+                  ? List.generate(
+                      widget.program.workouts.length,
+                      (index) => BoxShadow(
+                        color:
+                            Colors.primaries[index % Colors.primaries.length],
+                        offset: index > 3
+                            ? const Offset(0, 16)
+                            : Offset(0, 4 * (index + 1)),
+                      ),
+                    )
+                  : null,
               child: Stack(
                 children: [
                   Align(
                     alignment: Alignment.topCenter,
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: AnimatedRotation(
-                        duration: SimpleConstants.fastAnimationDuration,
-                        turns: widget.program.isHovered ? 0 : 0.25,
-                        child: QmText(
-                          text: widget.program.name,
-                          maxWidth: widget.height * .4,
-                        ),
-                      ),
+                    child: QmText(
+                      text: widget.program.name,
+                      maxWidth: widget.height * .4,
                     ),
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: AnimatedOpacity(
-                      opacity: widget.program.isHovered ? 1.0 : 0.0,
-                      duration: SimpleConstants.fastAnimationDuration,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          QmText(
-                              text:
-                                  "${S.current.Workouts}${(widget.program.workouts).length.toString()}"),
-                          QmText(
-                              text:
-                                  "${S.current.Trainees}${(widget.program.traineesIds).length.toString()}"),
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        QmText(
+                            text:
+                                "${S.current.Workouts}${(widget.program.workouts).length.toString()}"),
+                        QmText(
+                            text:
+                                "${S.current.Trainees}${(widget.program.traineesIds).length.toString()}"),
+                      ],
                     ),
                   ),
                   Align(

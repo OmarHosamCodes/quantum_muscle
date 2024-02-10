@@ -18,8 +18,8 @@ export 'view/screens/profile/content_details_screen.dart';
 export 'view/screens/profile/searched_profile_screen.dart';
 export 'view/screens/error/routing_error_screen.dart';
 export 'view/screens/search/search_screen.dart';
-export 'view/screens/programs/workouts/workouts_screen.dart';
-export 'view/screens/programs/workouts/workoutDetails/workout_details_screen.dart';
+export 'view/widgets/private/workout/workouts_showcase.dart';
+export 'view/screens/programs/workout_details_screen.dart';
 export 'view/screens/programs/programs_screen.dart';
 export 'view/screens/programs/program_details_screen.dart';
 
@@ -34,14 +34,15 @@ export 'view/widgets/public/qm_avatar.dart';
 export 'view/widgets/public/qm_icon_button.dart';
 export 'view/widgets/public/qm_nice_touch.dart';
 export 'view/widgets/public/qn_image.dart';
+export 'view/widgets/public/qm_shimmer.dart';
 export 'view/widgets/private/programs/programs_showcase.dart';
 export 'view/widgets/private/auth/choose_user_type.dart';
 export 'view/widgets/private/auth/forgot_password_text.dart';
 export 'view/widgets/private/routing/routing_drawer.dart';
-export 'view/widgets/private/workoutButtons/big_add_workout_button.dart';
-export 'view/widgets/private/workoutButtons/small_add_workout_button.dart';
-export 'view/widgets/private/exerciseBlocks/exercise_block.dart';
-export 'view/widgets/private/exerciseBlocks/add_exercise_block.dart';
+export 'view/widgets/private/workout/big_add_workout_button.dart';
+export 'view/widgets/private/workout/small_add_workout_button.dart';
+export 'view/widgets/private/exercise/exercise_block.dart';
+export 'view/widgets/private/exercise/add_exercise_block.dart';
 export 'view/widgets/private/profile/add_image_widget.dart';
 export 'view/widgets/private/profile/edit_profile_text_field.dart';
 export 'view/widgets/private/profile/follow_and_message_button.dart';
@@ -50,6 +51,9 @@ export 'view/widgets/private/programs/add_program.dart';
 export 'view/widgets/private/programs/program_block.dart';
 export 'view/widgets/private/programs/trainee_sheet.dart';
 export 'view/widgets/private/home/indicator.dart';
+export 'view/widgets/private/workout/workout_block.dart';
+export 'view/widgets/private/workout/network_workouts_sheet.dart';
+export 'view/widgets/public/qm_custom_tab_bar.dart';
 
 //* Controllers
 
@@ -137,3 +141,5 @@ export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:pattern_background/pattern_background.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';
 export 'package:fl_chart/fl_chart.dart';
+export 'package:fade_shimmer/fade_shimmer.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';

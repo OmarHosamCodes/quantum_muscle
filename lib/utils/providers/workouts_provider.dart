@@ -32,3 +32,15 @@ final exercisesProvider = StreamProvider.family<List<ExerciseModel>, String>(
           event.docs.map((e) => ExerciseModel.fromMap(e.data())).toList());
   yield* exercisesModelsList;
 });
+
+final publicWorkoutsProvider =
+    FutureProvider<List<(dynamic, List<String>)>>((ref) async {
+  List<(dynamic, List<String>)> publicWorkouts =
+      await WorkoutUtil().getWorkoutImages();
+  return publicWorkouts;
+});
+
+final publicExercisesProvider =
+    FutureProvider<List<(dynamic, List<String>)>>((ref) async {
+  return await ExerciseUtil().getExerciseImages();
+});
