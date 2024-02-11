@@ -1,10 +1,10 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class SmallAddWorkout extends StatelessWidget {
   const SmallAddWorkout({
-    super.key,
     required this.width,
     required this.height,
+    super.key,
     this.margin = const EdgeInsets.symmetric(horizontal: 5),
   });
   final double width;
@@ -19,7 +19,7 @@ class SmallAddWorkout extends StatelessWidget {
       height: height,
       margin: margin,
       isGradient: true,
-      onTap: () => showModalBottomSheet(
+      onTap: () => showModalBottomSheet<void>(
         backgroundColor: ColorConstants.secondaryColor,
         context: context,
         builder: (context) => _AddWorkoutBottomSheet(
@@ -28,7 +28,7 @@ class SmallAddWorkout extends StatelessWidget {
       ),
       child: QmIconButton(
         icon: EvaIcons.plus,
-        onPressed: () => showModalBottomSheet(
+        onPressed: () => showModalBottomSheet<void>(
           backgroundColor: ColorConstants.secondaryColor,
           context: context,
           builder: (context) => _AddWorkoutBottomSheet(
@@ -50,7 +50,7 @@ class _AddWorkoutBottomSheet extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     final workoutUtil = WorkoutUtil();
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,13 +72,11 @@ class _AddWorkoutBottomSheet extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Visibility(
                       visible: networkImageWatcher.isEmpty,
                       child: Flexible(
                         child: QmBlock(
-                          isNormal: true,
                           onTap: () => workoutUtil.chooseImageFromStorage(
                             ref: ref,
                             provider: workoutImageBytesProvider,
@@ -97,18 +95,32 @@ class _AddWorkoutBottomSheet extends StatelessWidget {
                     Visibility(
                       visible: imageWatcher.isEmpty,
                       child: Flexible(
-                        child: QmBlock(
-                          isNormal: true,
-                          onTap: () =>
-                              openNetworkWorkoutsSheet(context: context),
-                          color: ColorConstants.backgroundColor,
-                          width: 100,
-                          height: height * .2,
-                          borderRadius: BorderRadius.zero,
-                          child: QmImageNetwork(
-                            source: networkImageWatcher,
-                            fallbackIcon: EvaIcons.search,
-                          ),
+                        child: Consumer(
+                          builder: (_, WidgetRef ref, __) {
+                            final publicWorkoutsWatcher =
+                                ref.watch(publicWorkoutsProvider);
+                            return publicWorkoutsWatcher.when(
+                              data: (publicWorkouts) {
+                                return QmBlock(
+                                  onTap: () => context.push(Routes.addWorkoutR),
+                                  color: ColorConstants.backgroundColor,
+                                  width: 100,
+                                  height: height * .2,
+                                  borderRadius: BorderRadius.zero,
+                                  child: QmImageNetwork(
+                                    source: networkImageWatcher,
+                                    fallbackIcon: EvaIcons.search,
+                                  ),
+                                );
+                              },
+                              error: (error, stackTrace) {
+                                return QmText(text: error.toString());
+                              },
+                              loading: () => const Center(
+                                child: QmCircularProgressIndicator(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

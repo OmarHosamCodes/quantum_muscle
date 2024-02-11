@@ -1,10 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class RoutingScreen extends StatefulWidget {
   const RoutingScreen({
-    super.key,
-    required this.child,
-    required this.state,
+    required this.child, required this.state, super.key,
   });
   final Widget child;
   final GoRouterState state;

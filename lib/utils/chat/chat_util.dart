@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ChatUtil extends Utils {
   Future<void> startChat({
@@ -8,22 +8,29 @@ class ChatUtil extends Utils {
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    final String uniqueId = const Uuid().v8();
+    final uniqueId = const Uuid().v8();
     openQmLoaderDialog(context: context);
     final userDocRef =
         firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userId);
     final myDocRef =
         firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
-    if (await userDocRef.get().then((value) =>
-            (value.data()![UserModel.chatsKey] as List).indexWhere(
-                (element) => (element as Map).values.contains(userUid!)) !=
-            -1) &&
-        await myDocRef.get().then((value) =>
-            (value.data()![UserModel.chatsKey] as List).indexWhere(
-                (element) => (element as Map).values.contains(userId)) !=
-            -1)) {
-      context.pop();
-      context.go(Routes.chatsR);
+    if (await userDocRef.get().then(
+              (value) =>
+                  (value.data()![UserModel.chatsKey] as List).indexWhere(
+                    (element) => (element as Map).values.contains(userUid),
+                  ) !=
+                  -1,
+            ) &&
+        await myDocRef.get().then(
+              (value) =>
+                  (value.data()![UserModel.chatsKey] as List).indexWhere(
+                    (element) => (element as Map).values.contains(userId),
+                  ) !=
+                  -1,
+            )) {
+      context
+        ..pop()
+        ..go(Routes.chatsR);
     } else {
       try {
         await firebaseFirestore
@@ -34,7 +41,7 @@ class ChatUtil extends Utils {
             {
               uniqueId: userId,
             }
-          ])
+          ]),
         });
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
@@ -44,14 +51,15 @@ class ChatUtil extends Utils {
             {
               uniqueId: userUid,
             }
-          ])
+          ]),
         });
         final initMessage = MessageModel(
-            id: const Uuid().v8(),
-            senderId: PrivateConstants.serverSenderId,
-            timestamp: Timestamp.now(),
-            message: PrivateConstants.serverChatInitialMessage,
-            type: PrivateConstants.serverMessageType);
+          id: const Uuid().v8(),
+          senderId: PrivateConstants.serverSenderId,
+          timestamp: Timestamp.now(),
+          message: PrivateConstants.serverChatInitialMessage,
+          type: PrivateConstants.serverMessageType,
+        );
         await firebaseFirestore
             .collection(UserModel.chatsKey)
             .doc(uniqueId)
@@ -59,11 +67,13 @@ class ChatUtil extends Utils {
             .doc(initMessage.id)
             .set(initMessage.toMap());
 
-        ref.invalidate(userProvider(userUid!));
-        ref.read(userProvider(userUid!));
+        ref
+          ..invalidate(userProvider(userUid!))
+          ..read(userProvider(userUid!));
 
-        context.pop();
-        context.go(Routes.chatsR);
+        context
+          ..pop()
+          ..go(Routes.chatsR);
       } catch (e) {
         context.pop();
         openQmDialog(
@@ -85,7 +95,6 @@ class ChatUtil extends Utils {
       senderId: Utils().userUid!,
       message: message,
       timestamp: Timestamp.now(),
-      type: MessageType.text,
     );
     await firebaseFirestore
         .collection(DBPathsConstants.chatsPath)
@@ -93,8 +102,9 @@ class ChatUtil extends Utils {
         .collection(DBPathsConstants.messagesPath)
         .doc(messageToSend.id)
         .set(messageToSend.toMap());
-    ref.invalidate(chatsProvider);
-    ref.read(chatsProvider);
+    ref
+      ..invalidate(chatsProvider)
+      ..read(chatsProvider);
   }
 
   Future<void> removeMessage({

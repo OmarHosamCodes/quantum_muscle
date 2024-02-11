@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class Utils {
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
@@ -47,7 +47,7 @@ class Utils {
 
   Future<void> chooseImageFromStorage(
       {required WidgetRef ref,
-      required StateProvider<String?> provider}) async {
+      required StateProvider<String?> provider,}) async {
     late XFile? image;
     try {
       image = await ImagePicker().pickImage(source: ImageSource.gallery);

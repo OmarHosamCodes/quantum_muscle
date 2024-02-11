@@ -1,11 +1,11 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 void openQmDialog({
   required BuildContext context,
   required String title,
   required String message,
 }) =>
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => _QmDialog(
         title: title,

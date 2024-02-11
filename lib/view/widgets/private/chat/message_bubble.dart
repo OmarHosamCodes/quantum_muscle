@@ -1,12 +1,12 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class MessageBubble extends StatelessWidget {
   const MessageBubble({
-    super.key,
     required this.message,
     required this.chatUserId,
     required this.messageId,
     required this.chatId,
+    super.key,
   });
 
   final MessageModel message;
@@ -16,7 +16,7 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isMe = message.senderId == Utils().userUid;
+    final isMe = message.senderId == Utils().userUid;
     CrossAxisAlignment messageAlignment(String messagesenderId) {
       if (isMe) {
         return CrossAxisAlignment.end;
@@ -124,7 +124,6 @@ class MessageBubble extends StatelessWidget {
                                 builder: (_, ref, __) {
                                   return QmIconButton(
                                     icon: EvaIcons.checkmark,
-                                    iconColor: ColorConstants.iconColor,
                                     onPressed: () =>
                                         ProgramsUtil().acceptRequest(
                                       context: context,
@@ -138,7 +137,6 @@ class MessageBubble extends StatelessWidget {
                               ),
                               QmIconButton(
                                 icon: EvaIcons.close,
-                                iconColor: ColorConstants.iconColor,
                                 onPressed: () => ChatUtil().removeMessage(
                                   context: context,
                                   chatId: chatId,
@@ -148,7 +146,7 @@ class MessageBubble extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -165,7 +163,7 @@ class MessageBubble extends StatelessWidget {
         );
       default:
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Row(
             crossAxisAlignment: messageAlignment(message.senderId),
             mainAxisAlignment: MainAxisAlignment.center,

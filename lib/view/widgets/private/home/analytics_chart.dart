@@ -1,12 +1,12 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class GeneralAnalyticsChart extends StatefulWidget {
   const GeneralAnalyticsChart({
-    super.key,
     required this.totalPrograms,
     required this.totalTrainees,
     required this.totalWorkouts,
     required this.totalExercises,
+    super.key,
   });
   final int totalPrograms;
   final int totalTrainees;
@@ -69,7 +69,6 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
                   centerSpaceRadius: 40,
                   sections: showingSections(),
                 ),
-                swapAnimationCurve: Curves.linear,
                 swapAnimationDuration: SimpleConstants.slowAnimationDuration,
               ),
             ),
@@ -158,15 +157,16 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
             );
           case 2:
             return PieChartSectionData(
-                color: ColorConstants.disabledColor,
-                value: tWorkoutsRatio,
-                title: widget.totalWorkouts.toString(),
-                radius: radius,
-                titleStyle: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: SimpleConstants.fontFamily,
-                  color: ColorConstants.textColor,
-                ));
+              color: ColorConstants.disabledColor,
+              value: tWorkoutsRatio,
+              title: widget.totalWorkouts.toString(),
+              radius: radius,
+              titleStyle: const TextStyle(
+                fontSize: 20,
+                fontFamily: SimpleConstants.fontFamily,
+                color: ColorConstants.textColor,
+              ),
+            );
           case 3:
             return PieChartSectionData(
               color: ColorConstants.textSeccondaryColor,

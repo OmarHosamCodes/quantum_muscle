@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final userProfileImageProvider = StateProvider<String?>((ref) => null);
 final addImageProvider = StateProvider<String?>((ref) => null);
@@ -21,15 +21,15 @@ class ProfileUtil extends Utils {
     openQmLoaderDialog(context: context);
     if (user != null) {
       try {
-        firebaseAnalytics.logEvent(
+        await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.changeProfile,
         );
-        Reference storageRef = firebaseStorage
+        final storageRef = firebaseStorage
             .ref()
             .child(DBPathsConstants.usersPath)
             .child(userUid!)
             .child('${UserModel.profileImageURLKey}.png');
-        storageRef
+        await storageRef
             .putString(userProfileImage!, format: PutStringFormat.base64)
             .then(
           (_) async {
@@ -41,13 +41,15 @@ class ProfileUtil extends Utils {
               },
               SetOptions(merge: true),
             );
-            ref.invalidate(userProvider);
-            ref.read(userProvider(Utils().userUid!));
-            ref.read(userProfileImageProvider.notifier).state = null;
-            ref.invalidate(userProfileImageProvider);
-            ref.read(userProfileImageProvider);
-            context.go(Routes.myProfileR);
-            context.pop();
+            ref
+              ..invalidate(userProvider)
+              ..read(userProvider(Utils().userUid!))
+              ..read(userProfileImageProvider.notifier).state = null
+              ..invalidate(userProfileImageProvider)
+              ..read(userProfileImageProvider);
+            context
+              ..go(Routes.myProfileR)
+              ..pop();
           },
         );
       } catch (e) {
@@ -74,19 +76,19 @@ class ProfileUtil extends Utils {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
     try {
-      firebaseAnalytics.logEvent(
+      await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addContent,
       );
       openQmLoaderDialog(context: context);
       final id = const Uuid().v8();
 
-      Reference storageRef = firebaseStorage
+      final storageRef = firebaseStorage
           .ref()
           .child(DBPathsConstants.usersPath)
           .child(userUid!)
           .child('$title$id.png');
       await storageRef.putString(contentURL, format: PutStringFormat.base64);
-      ContentModel content = ContentModel(
+      final content = ContentModel(
         id: const Uuid().v8(),
         title: title,
         contentURL: await storageRef.getDownloadURL(),
@@ -106,14 +108,15 @@ class ProfileUtil extends Utils {
           .collection(DBPathsConstants.usersPath)
           .doc(userUid)
           .update({
-        UserModel.contentKey: FieldValue.arrayUnion([content.id])
+        UserModel.contentKey: FieldValue.arrayUnion([content.id]),
       });
       while (context.canPop()) {
         context.pop();
       }
-      ref.invalidate(contentProvider);
-      ref.read(contentProvider(Utils().userUid!));
-      ref.read(addImageProvider.notifier).state = SimpleConstants.emptyString;
+      ref
+        ..invalidate(contentProvider)
+        ..read(contentProvider(Utils().userUid!))
+        ..read(addImageProvider.notifier).state = SimpleConstants.emptyString;
     } catch (e) {
       while (context.canPop()) {
         context.pop();
@@ -135,7 +138,7 @@ class ProfileUtil extends Utils {
     openQmLoaderDialog(context: context);
     try {
       if (isFollowing) {
-        firebaseAnalytics.logEvent(
+        await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.unfollow,
         );
         await firebaseFirestore
@@ -143,7 +146,7 @@ class ProfileUtil extends Utils {
             .doc(userUid)
             .set(
           {
-            UserModel.followingKey: FieldValue.arrayRemove([userId])
+            UserModel.followingKey: FieldValue.arrayRemove([userId]),
           },
           SetOptions(merge: true),
         );
@@ -152,34 +155,36 @@ class ProfileUtil extends Utils {
             .doc(userId)
             .set(
           {
-            UserModel.followersKey: FieldValue.arrayRemove([userUid])
+            UserModel.followersKey: FieldValue.arrayRemove([userUid]),
           },
           SetOptions(merge: true),
         );
         context.pop();
-        ref.invalidate(userProvider);
-        ref.read(userProvider(Utils().userUid!));
-        ref.read(userProvider(userId));
+        ref
+          ..invalidate(userProvider)
+          ..read(userProvider(Utils().userUid!))
+          ..read(userProvider(userId));
       } else if (!isFollowing) {
-        firebaseAnalytics.logEvent(
+        await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.follow,
         );
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userUid)
             .update({
-          UserModel.followingKey: FieldValue.arrayUnion([userId])
+          UserModel.followingKey: FieldValue.arrayUnion([userId]),
         });
         await firebaseFirestore
             .collection(DBPathsConstants.usersPath)
             .doc(userId)
             .update({
-          UserModel.followersKey: FieldValue.arrayUnion([userUid])
+          UserModel.followersKey: FieldValue.arrayUnion([userUid]),
         });
         context.pop();
-        ref.invalidate(userProvider);
-        ref.read(userProvider(Utils().userUid!));
-        ref.read(userProvider(userId));
+        ref
+          ..invalidate(userProvider)
+          ..read(userProvider(Utils().userUid!))
+          ..read(userProvider(userId));
       }
     } catch (e) {
       context.pop();
@@ -200,11 +205,11 @@ class ProfileUtil extends Utils {
     required String contentDocID,
   }) async {
     try {
-      firebaseAnalytics.logEvent(
+      await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addLike,
       );
       if (isLiked) {
-        firebaseAnalytics.logEvent(
+        await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.removeLike,
         );
         await firebaseFirestore
@@ -214,12 +219,12 @@ class ProfileUtil extends Utils {
             .doc(contentDocID)
             .set(
           {
-            ContentModel.likesKey: FieldValue.arrayRemove([userUid])
+            ContentModel.likesKey: FieldValue.arrayRemove([userUid]),
           },
           SetOptions(merge: true),
         );
       } else {
-        firebaseAnalytics.logEvent(
+        await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.addLike,
         );
         await firebaseFirestore
@@ -229,14 +234,15 @@ class ProfileUtil extends Utils {
             .doc(contentDocID)
             .set(
           {
-            ContentModel.likesKey: FieldValue.arrayUnion([userUid])
+            ContentModel.likesKey: FieldValue.arrayUnion([userUid]),
           },
           SetOptions(merge: true),
         );
       }
 
-      ref.invalidate(contentProvider);
-      ref.read(contentProvider(userId));
+      ref
+        ..invalidate(contentProvider)
+        ..read(contentProvider(userId));
     } catch (e) {
       openQmDialog(
         context: context,

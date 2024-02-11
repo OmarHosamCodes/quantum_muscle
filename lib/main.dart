@@ -1,4 +1,4 @@
-import 'library.dart';
+import 'package:quantum_muscle/library.dart';
 
 void main() async {
   if (kIsWeb) setPathUrlStrategy();
@@ -12,9 +12,8 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-//TODO:
 /////! 1. Renew a splash screen
-//! 2. Add shimmer loaders
+/////! 2. Add shimmer loaders
 /////! 3. Add expandable content
 //! 4. Add a notifications functionality
 /////! 5. Add Analytics

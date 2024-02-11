@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class LoginUtil extends Utils {
   Future<void> logUserIn({
@@ -29,8 +29,9 @@ class LoginUtil extends Utils {
         await firebaseAnalytics.logLogin(
           loginMethod: 'email',
         );
-        ref.invalidate(userProvider);
-        ref.read(userProvider(Utils().userUid!));
+        ref
+          ..invalidate(userProvider)
+          ..read(userProvider(Utils().userUid!));
       } catch (e) {
         openQmDialog(
           context: context,

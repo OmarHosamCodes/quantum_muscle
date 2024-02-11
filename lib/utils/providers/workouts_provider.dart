@@ -1,10 +1,10 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final workoutsProvider = StreamProvider<List<WorkoutModel>>((ref) async* {
-  Stream<List<WorkoutModel>> workouts = Utils()
+  final workouts = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
-      .doc(Utils().userUid!)
+      .doc(Utils().userUid)
       .collection(DBPathsConstants.workoutsPath)
       .orderBy(
         WorkoutModel.creationDateKey,
@@ -20,27 +20,31 @@ final workoutsProvider = StreamProvider<List<WorkoutModel>>((ref) async* {
 
 final exercisesProvider = StreamProvider.family<List<ExerciseModel>, String>(
     (ref, workoutCollectionName) async* {
-  Stream<List<ExerciseModel>> exercisesModelsList = Utils()
+  final exercisesModelsList = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
-      .doc(Utils().userUid!)
+      .doc(Utils().userUid)
       .collection(DBPathsConstants.workoutsPath)
       .doc(workoutCollectionName)
       .collection(DBPathsConstants.exercisesPath)
       .snapshots()
-      .map((event) =>
-          event.docs.map((e) => ExerciseModel.fromMap(e.data())).toList());
+      .map(
+        (event) =>
+            event.docs.map((e) => ExerciseModel.fromMap(e.data())).toList(),
+      );
   yield* exercisesModelsList;
 });
 
 final publicWorkoutsProvider =
     FutureProvider<List<(dynamic, List<String>)>>((ref) async {
-  List<(dynamic, List<String>)> publicWorkouts =
-      await WorkoutUtil().getWorkoutImages();
+  final publicWorkouts = await WorkoutUtil().getWorkoutImages();
+
   return publicWorkouts;
 });
 
 final publicExercisesProvider =
     FutureProvider<List<(dynamic, List<String>)>>((ref) async {
-  return await ExerciseUtil().getExerciseImages();
+  final publicExercises = await ExerciseUtil().getExerciseImages();
+
+  return publicExercises;
 });

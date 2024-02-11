@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final authPageController = PageController(initialPage: 1);
 
@@ -7,8 +7,8 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isMobile = ResponsiveBreakpoints.of(context).isMobile;
-    List<Widget> authScreens = [
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final authScreens = <Widget>[
       ForgetPasswordScreen(
         isMobile: isMobile,
       ),

@@ -1,11 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class WorkoutBlock extends StatelessWidget {
   const WorkoutBlock({
-    super.key,
-    required this.width,
-    required this.height,
-    required this.workout,
+    required this.width, required this.height, required this.workout, super.key,
   });
 
   final double width;
@@ -19,20 +16,17 @@ class WorkoutBlock extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       width: width * .2,
       height: height * .2,
-      isGradient: false,
       onTap: () => context.pushNamed(
         Routes.workoutRootR,
         extra: {
           WorkoutModel.modelKey: workout,
-          "showAddButton": true,
+          'showAddButton': true,
         },
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FittedBox(
@@ -52,7 +46,6 @@ class WorkoutBlock extends StatelessWidget {
             ],
           ),
           Flexible(
-            flex: 1,
             fit: FlexFit.tight,
             child: Draggable<WorkoutModel>(
               data: workout,
@@ -63,10 +56,8 @@ class WorkoutBlock extends StatelessWidget {
                 height: height * .2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 1,
                       fit: FlexFit.tight,
                       child: Hero(
                         tag: workout.id,
@@ -77,8 +68,6 @@ class WorkoutBlock extends StatelessWidget {
                       ),
                     ),
                     Flexible(
-                      flex: 1,
-                      fit: FlexFit.loose,
                       child: QmText(
                         text: workout.name,
                         maxWidth: double.maxFinite,

@@ -1,6 +1,27 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ChatModel {
+  ChatModel({
+    required this.id,
+    required this.messages,
+    required this.docId,
+    required this.userId,
+    required this.userName,
+    required this.userProfileImageURL,
+    this.lastMessage,
+    this.lastMessageSender,
+  });
+
+  factory ChatModel.fromMap(Map<String, dynamic> map) => ChatModel(
+        id: map[idKey] as String,
+        messages: map[messagesKey] as List<MessageModel>,
+        docId: map[docIdKey] as String,
+        userId: map[userIdKey] as String,
+        userName: map[userNameKey] as String,
+        userProfileImageURL: map[userProfileImageURLKey] as String,
+        lastMessage: map[lastMessageKey] as String?,
+        lastMessageSender: map[lastMessageSenderKey] as String?,
+      );
   static const String idKey = 'id';
   static const String messagesKey = 'messages';
   static const String docIdKey = 'docId';
@@ -19,27 +40,6 @@ class ChatModel {
   String userProfileImageURL;
   String? lastMessage;
   String? lastMessageSender;
-  ChatModel({
-    required this.id,
-    required this.messages,
-    required this.docId,
-    required this.userId,
-    required this.userName,
-    required this.userProfileImageURL,
-    this.lastMessage,
-    this.lastMessageSender,
-  });
-
-  factory ChatModel.fromMap(Map<String, dynamic> map) => ChatModel(
-        id: map[idKey],
-        messages: map[messagesKey],
-        docId: map[docIdKey],
-        userId: map[userIdKey],
-        userName: map[userNameKey],
-        userProfileImageURL: map[userProfileImageURLKey],
-        lastMessage: map[lastMessageKey],
-        lastMessageSender: map[lastMessageSenderKey],
-      );
 
   Map<String, dynamic> toMap() => {
         idKey: id,

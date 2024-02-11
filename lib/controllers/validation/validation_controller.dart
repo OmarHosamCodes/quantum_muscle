@@ -25,7 +25,7 @@ class ValidationController {
   }
 
   static bool validateDescription(String description) {
-    final descriptionRegex = RegExp(r'[<>&]');
+    final descriptionRegex = RegExp('[<>&]');
     return description.isNotEmpty &&
         !descriptionRegex.hasMatch(description) &&
         description.length <= 500;

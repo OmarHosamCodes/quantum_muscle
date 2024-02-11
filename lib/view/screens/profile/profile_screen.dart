@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,7 +11,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,6 @@ class ProfileScreen extends StatelessWidget {
                           horizontal: 10,
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             QmShimmer(
@@ -62,7 +61,6 @@ class ProfileScreen extends StatelessWidget {
                           horizontal: width * .03,
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             QmText(
@@ -71,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
                             Row(
                               children: [
                                 QmText(
-                                  text: "#${user.id.substring(0, 8)}...",
+                                  text: '#${user.id.substring(0, 8)}...',
                                   isSeccoundary: true,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -80,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
                                     text: user.id,
                                   ),
                                   icon: EvaIcons.copyOutline,
-                                )
+                                ),
                               ],
                             ),
                           ],
@@ -97,7 +95,6 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             loading: () => const Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 QmShimmer(
                                   width: 150,
@@ -111,20 +108,23 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             data: (user) => Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                QmIconButton(
-                                  onPressed: () => context.push(
-                                    Routes.profileEditR,
-                                    extra: {UserModel.modelKey: user},
+                                Hero(
+                                  tag: 'addImageHero',
+                                  child: QmIconButton(
+                                    onPressed: () => context.push(
+                                      Routes.profileEditR,
+                                      extra: {UserModel.modelKey: user},
+                                    ),
+                                    icon: EvaIcons.editOutline,
                                   ),
-                                  icon: EvaIcons.editOutline,
                                 ),
                                 QmIconButton(
-                                  onPressed: () => openAddImage(
-                                    context: context,
-                                    ref: ref,
-                                    indexToInsert: user.content.length,
+                                  onPressed: () => context.pushNamed(
+                                    Routes.addContentRootR,
+                                    extra: {
+                                      'indexToInsert': user.content.length,
+                                    },
                                   ),
                                   icon: EvaIcons.image,
                                 ),
@@ -147,8 +147,6 @@ class ProfileScreen extends StatelessWidget {
                     child: QmText(text: S.current.DefaultError),
                   ),
                   loading: () => const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmShimmer(width: 25, height: 30),
                       SizedBox(
@@ -166,8 +164,6 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                   data: (user) => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmText(
                         text: user.followers.length.toString(),
@@ -237,7 +233,6 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisCount: 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      childAspectRatio: 1.0, // .5 for vertical
                     ),
                     itemBuilder: (_, index) {
                       return const QmShimmer(
@@ -249,7 +244,7 @@ class ProfileScreen extends StatelessWidget {
                   data: (contents) {
                     if (contents.isEmpty) {
                       return const Center(
-                        child: QmText(text: "No Content Found"),
+                        child: QmText(text: 'No Content Found'),
                       );
                     }
                     return Column(
@@ -266,7 +261,6 @@ class ProfileScreen extends StatelessWidget {
                             crossAxisCount: 3,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
-                            childAspectRatio: 1.0, // .5 for vertical
                           ),
                           itemBuilder: (_, index) {
                             final content = contents[index];
@@ -275,7 +269,7 @@ class ProfileScreen extends StatelessWidget {
                                 Routes.contentRootR,
                                 extra: {
                                   ContentModel.modelKey: contents,
-                                  "indexKey": index,
+                                  'indexKey': index,
                                   UserModel.idKey: Utils().userUid!,
                                 },
                               ),
@@ -288,8 +282,6 @@ class ProfileScreen extends StatelessWidget {
                                     borderRadius: SimpleConstants.borderRadius,
                                     child: QmImageNetwork(
                                       source: content.contentURL,
-                                      fallbackIcon:
-                                          EvaIcons.alertTriangleOutline,
                                       fit: BoxFit.cover,
                                       width: double.maxFinite,
                                       height: double.maxFinite,

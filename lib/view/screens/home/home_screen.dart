@@ -1,6 +1,5 @@
+import 'package:quantum_muscle/library.dart';
 import 'package:quantum_muscle/view/widgets/private/home/analytics_chart.dart';
-
-import '/library.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,7 +15,6 @@ class HomeScreen extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -39,7 +37,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmText(
                         text: S.current.Slogan,
@@ -61,12 +58,11 @@ class HomeScreen extends StatelessWidget {
                       ref.watch(generalAnalyticsProvider(Utils().userUid!));
 
                   return generalAnalytics.maybeWhen(
-                    // todo fix this
                     data: (analytics) {
-                      int tPrograms = analytics.totalPrograms ?? 0;
-                      int tTrainees = analytics.totalTrainees ?? 0;
-                      int tWorkouts = analytics.totalWorkouts ?? 0;
-                      int tExercises = analytics.totalExercises ?? 0;
+                      final tPrograms = analytics.totalPrograms ?? 0;
+                      final tTrainees = analytics.totalTrainees ?? 0;
+                      final tWorkouts = analytics.totalWorkouts ?? 0;
+                      final tExercises = analytics.totalExercises ?? 0;
 
                       return SizedBox(
                         height: height * .5,
@@ -89,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   );
                 },
-              )
+              ),
             ],
           ),
         ),

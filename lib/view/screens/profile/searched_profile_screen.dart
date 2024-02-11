@@ -1,7 +1,7 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class SearchedProfile extends StatelessWidget {
-  const SearchedProfile({super.key, required this.userId});
+  const SearchedProfile({required this.userId, super.key});
   final String userId;
 
   @override
@@ -20,7 +20,7 @@ class SearchedProfile extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,6 @@ class SearchedProfile extends StatelessWidget {
                           horizontal: 10,
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             QmShimmer(
@@ -71,7 +70,6 @@ class SearchedProfile extends StatelessWidget {
                           horizontal: width * .03,
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             QmText(
@@ -80,7 +78,7 @@ class SearchedProfile extends StatelessWidget {
                             Row(
                               children: [
                                 QmText(
-                                  text: "#${user.id.substring(0, 8)}...",
+                                  text: '#${user.id.substring(0, 8)}...',
                                   isSeccoundary: true,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -89,7 +87,7 @@ class SearchedProfile extends StatelessWidget {
                                     text: user.id,
                                   ),
                                   icon: EvaIcons.copyOutline,
-                                )
+                                ),
                               ],
                             ),
                           ],
@@ -105,7 +103,6 @@ class SearchedProfile extends StatelessWidget {
                             ),
                             loading: () => const Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 QmShimmer(
                                   width: 150,
@@ -128,7 +125,7 @@ class SearchedProfile extends StatelessWidget {
                                 isFollowing: data.followers.any((element) =>
                                     element ==
                                     (Utils().userUid ??
-                                        SimpleConstants.emptyString)),
+                                        SimpleConstants.emptyString),),
                               ),
                             ),
                           );
@@ -148,8 +145,6 @@ class SearchedProfile extends StatelessWidget {
                     child: QmText(text: S.current.DefaultError),
                   ),
                   loading: () => const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmShimmer(width: 25, height: 30),
                       SizedBox(
@@ -167,8 +162,6 @@ class SearchedProfile extends StatelessWidget {
                     ],
                   ),
                   data: (user) => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmText(
                         text: user.followers.length.toString(),
@@ -237,7 +230,6 @@ class SearchedProfile extends StatelessWidget {
                       crossAxisCount: 3,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
-                      childAspectRatio: 1.0, // .5 for vertical
                     ),
                     itemBuilder: (_, index) {
                       return const QmShimmer(
@@ -272,7 +264,7 @@ class SearchedProfile extends StatelessWidget {
                                 Routes.contentRootR,
                                 extra: {
                                   ContentModel.modelKey: contents,
-                                  "indexKey": index,
+                                  'indexKey': index,
                                   UserModel.idKey: userId,
                                 },
                               ),
@@ -285,8 +277,6 @@ class SearchedProfile extends StatelessWidget {
                                     borderRadius: SimpleConstants.borderRadius,
                                     child: QmImageNetwork(
                                       source: content.contentURL,
-                                      fallbackIcon:
-                                          EvaIcons.alertTriangleOutline,
                                       fit: BoxFit.cover,
                                       width: double.maxFinite,
                                       height: double.maxFinite,

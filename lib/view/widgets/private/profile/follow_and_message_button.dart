@@ -1,12 +1,12 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class FollowAndMessageButton extends ConsumerWidget {
   const FollowAndMessageButton({
-    super.key,
     required this.userId,
     required this.height,
     required this.isFollowing,
     required this.width,
+    super.key,
   });
 
   final String userId;
@@ -14,8 +14,8 @@ class FollowAndMessageButton extends ConsumerWidget {
   final double width;
   final bool isFollowing;
   Radius get containerBottomBorderRadius =>
-      isFollowing ? const Radius.circular(0) : const Radius.circular(10);
-  get followText => isFollowing ? S.current.Unfollow : S.current.Follow;
+      isFollowing ? Radius.zero : const Radius.circular(10);
+  String get followText => isFollowing ? S.current.Unfollow : S.current.Follow;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
@@ -51,25 +51,24 @@ class FollowAndMessageButton extends ConsumerWidget {
         Visibility(
           visible: isFollowing,
           child: QmBlock(
-              isAnimated: true,
-              onTap: () => ChatUtil().startChat(
-                    userId: userId,
-                    context: context,
-                    ref: ref,
-                  ),
-              color: ColorConstants.secondaryColor,
-              width: 40,
-              height: 40,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(0),
-                topRight: Radius.circular(0),
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-              child: const Icon(
-                EvaIcons.messageSquareOutline,
-                color: ColorConstants.iconColor,
-              )),
+            isAnimated: true,
+            onTap: () => ChatUtil().startChat(
+              userId: userId,
+              context: context,
+              ref: ref,
+            ),
+            color: ColorConstants.secondaryColor,
+            width: 40,
+            height: 40,
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
+            child: const Icon(
+              EvaIcons.messageSquareOutline,
+              color: ColorConstants.iconColor,
+            ),
+          ),
         ).animate().fade(duration: SimpleConstants.slowAnimationDuration),
       ],
     );

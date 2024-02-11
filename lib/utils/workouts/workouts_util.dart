@@ -1,8 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
-//todo try to make it inside the class
 final workoutImageBytesProvider = StateProvider<String?>((ref) => null);
 final workoutNetworkImageProvider = StateProvider<String?>((ref) => null);
 
@@ -15,17 +14,18 @@ class WorkoutUtil extends Utils {
     required WidgetRef ref,
     required bool isLink,
   }) async {
-    bool isValid = formKey.currentState!.validate();
+    final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
     if (user != null) {
       try {
-        firebaseAnalytics.logEvent(
-            name: AnalyticsEventNamesConstants.addWorkout);
-        final id = const Uuid().v4().toString().substring(0, 12);
+        await firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.addWorkout,
+        );
+        final id = const Uuid().v4().substring(0, 12);
 
         if (isLink) {
-          WorkoutModel workoutModel = WorkoutModel(
+          final workoutModel = WorkoutModel(
             id: id,
             name: workoutName,
             imageURL: image,
@@ -37,23 +37,23 @@ class WorkoutUtil extends Utils {
               .collection(DBPathsConstants.usersPath)
               .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
-              .doc("$workoutName-$id")
+              .doc('$workoutName-$id')
               .set(
                 workoutModel.toMap(),
                 SetOptions(merge: true),
               );
         } else {
-          Reference storageRef = firebaseStorage
+          final storageRef = firebaseStorage
               .ref()
               .child(DBPathsConstants.usersPath)
               .child(userUid!)
               .child(DBPathsConstants.workoutsPath)
-              .child("$workoutName-$id")
-              .child("$workoutName-showcase.png");
+              .child('$workoutName-$id')
+              .child('$workoutName-showcase.png');
 
           await storageRef.putString(image, format: PutStringFormat.base64);
 
-          WorkoutModel workoutModel = WorkoutModel(
+          final workoutModel = WorkoutModel(
             id: id,
             name: workoutName,
             imageURL: await storageRef.getDownloadURL(),
@@ -65,7 +65,7 @@ class WorkoutUtil extends Utils {
               .collection(DBPathsConstants.usersPath)
               .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
-              .doc("$workoutName-$id")
+              .doc('$workoutName-$id')
               .set(
                 workoutModel.toMap(),
                 SetOptions(merge: true),
@@ -88,7 +88,7 @@ class WorkoutUtil extends Utils {
   }) async {
     openQmLoaderDialog(context: context);
     try {
-      firebaseAnalytics.logEvent(
+      await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.removeWorkout,
       );
       await firebaseFirestore
@@ -110,7 +110,7 @@ class WorkoutUtil extends Utils {
     }
   }
 
-  Future<List<(dynamic, List<String>)>> getWorkoutImages() async {
+  Future<List<(String, List<String>)>> getWorkoutImages() async {
     final names = await firebaseFirestore
         .collection(DBPathsConstants.publicPath)
         .doc(DBPathsConstants.workoutsPath)
@@ -119,15 +119,16 @@ class WorkoutUtil extends Utils {
 
     final finalList = names
         .map(
-          (e) async => await firebaseStorage
+          (e) => firebaseStorage
               .ref()
               .child(DBPathsConstants.publicPath)
               .child(DBPathsConstants.workoutsPath)
-              .child(e)
+              .child(e as String)
               .list()
-              .then((value) async => value.items
-                  .map((e) async => await e.getDownloadURL())
-                  .toList())
+              .then(
+                (value) async =>
+                    value.items.map((e) => e.getDownloadURL()).toList(),
+              )
               .then(
             (value) async {
               final urls = await Future.wait(value);
@@ -136,6 +137,7 @@ class WorkoutUtil extends Utils {
           ),
         )
         .toList();
-    return Future.value(await Future.wait(finalList));
+    final result = await Future.wait(finalList);
+    return result;
   }
 }

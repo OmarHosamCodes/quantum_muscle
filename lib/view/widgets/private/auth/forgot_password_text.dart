@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ForgotPasswordTextWidget extends StatelessWidget {
   const ForgotPasswordTextWidget({
-    super.key,
-    required this.width,
+    required this.width, super.key,
   });
   final double width;
 

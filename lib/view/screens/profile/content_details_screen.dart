@@ -1,6 +1,6 @@
 import 'package:expandable/expandable.dart';
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ContentDetailsScreen extends StatelessWidget {
   const ContentDetailsScreen({super.key, this.arguments});
@@ -8,11 +8,11 @@ class ContentDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final contents = arguments![ContentModel.modelKey] as List<ContentModel>;
-    final startIndex = arguments!["indexKey"] as int;
+    final startIndex = arguments!['indexKey'] as int;
     final userID = arguments![UserModel.idKey] as String;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    ScrollController controller =
+    final controller =
         ScrollController(initialScrollOffset: height * startIndex);
 
     bool isDesktop() {
@@ -78,7 +78,7 @@ class ContentDetailsScreen extends StatelessWidget {
                       minScale: .1,
                       maxScale: 3,
                       panEnabled: false,
-                      scaleEnabled: kIsWeb ? false : true,
+                      scaleEnabled: !kIsWeb,
                       child: Hero(
                         tag: content.id,
                         child: ClipRRect(
@@ -98,8 +98,6 @@ class ContentDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Consumer(
                       builder: (_, WidgetRef ref, __) {
@@ -107,7 +105,7 @@ class ContentDetailsScreen extends StatelessWidget {
                             ref.watch(contentProvider(userID));
                         return contentWatcher.when(
                           data: (watcherContents) {
-                            var watcherContent = watcherContents[index];
+                            final watcherContent = watcherContents[index];
                             return QmIconButton(
                               icon: watcherContent.likes.contains(userID)
                                   ? EvaIcons.heart
@@ -126,7 +124,10 @@ class ContentDetailsScreen extends StatelessWidget {
                             );
                           },
                           loading: () => const QmShimmer(
-                              width: 20, height: 20, radius: 10),
+                            width: 20,
+                            height: 20,
+                            radius: 10,
+                          ),
                           error: (error, stack) => const QmIconButton(
                             icon: EvaIcons.heart,
                             iconColor: ColorConstants.disabledColor,

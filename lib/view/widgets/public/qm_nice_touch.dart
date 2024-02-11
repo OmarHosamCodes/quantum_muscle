@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmNiceTouch extends StatelessWidget {
   const QmNiceTouch({
-    super.key,
-    required this.child,
+    required this.child, super.key,
     this.color = ColorConstants.primaryColor,
   });
 
@@ -20,7 +19,7 @@ class QmNiceTouch extends StatelessWidget {
         CustomPaint(
           size: Size(vWidth, vHeight),
           foregroundPainter:
-              DotPainter(dotColor: color, dotRadius: 0.35, spacing: 10.0),
+              DotPainter(dotColor: color, dotRadius: 0.35, spacing: 10),
         ),
         Align(
           alignment: Alignment.topCenter,
@@ -70,12 +69,12 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      'Couldn\'t check connectivity status $e'.log();
+      "Couldn't check connectivity status $e".log();
       return;
     }
 
     if (!mounted) {
-      return Future.value(null);
+      return Future.value();
     }
 
     return _updateConnectionStatus(result);

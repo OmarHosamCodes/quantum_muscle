@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class WorkoutShowcase extends ConsumerWidget {
   const WorkoutShowcase({super.key});
@@ -8,7 +8,7 @@ class WorkoutShowcase extends ConsumerWidget {
     final workoutsSnapshot = ref.watch(workoutsProvider);
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    ScrollController scrollController = ScrollController();
+    final scrollController = ScrollController();
     ref.watch(localeProvider);
 
     return workoutsSnapshot.when(
@@ -24,7 +24,6 @@ class WorkoutShowcase extends ConsumerWidget {
                 crossAxisSpacing: 10,
                 crossAxisExtent: 200,
                 mainAxisSpacing: 10,
-                childAspectRatio: 1.0,
                 maxCrossAxisExtent: 200,
                 minCrossAxisExtent: 100,
               ),
@@ -33,7 +32,6 @@ class WorkoutShowcase extends ConsumerWidget {
                 horizontal: width * .05,
               ),
               itemCount: data.length + 1,
-              shrinkWrap: false,
               itemBuilder: (context, index) {
                 if (index == data.length) {
                   return SmallAddWorkout(
@@ -60,7 +58,6 @@ class WorkoutShowcase extends ConsumerWidget {
           crossAxisSpacing: 10,
           crossAxisExtent: 200,
           mainAxisSpacing: 10,
-          childAspectRatio: 1.0,
           maxCrossAxisExtent: 200,
           minCrossAxisExtent: 100,
         ),
@@ -69,7 +66,6 @@ class WorkoutShowcase extends ConsumerWidget {
           horizontal: width * .05,
         ),
         itemCount: 3,
-        shrinkWrap: false,
         itemBuilder: (context, index) => ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: const QmShimmer(

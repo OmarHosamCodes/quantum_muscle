@@ -1,5 +1,6 @@
-// ignore_for_file: unnecessary_getters_setters, unused_local_variable, use_build_context_synchronously
-import '/library.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:quantum_muscle/library.dart';
 
 class ForgetPasswordUtil extends Utils {
   Future<void> sendResetEmail({
@@ -26,13 +27,12 @@ class ForgetPasswordUtil extends Utils {
 }
 
 class ForgetPasswordState {
-  bool isEmailSent;
-  int countDown;
-
   ForgetPasswordState({
     required this.isEmailSent,
     required this.countDown,
   });
+  bool isEmailSent;
+  int countDown;
 
   ForgetPasswordState copyWith({
     bool? isEmailSent,
@@ -49,16 +49,13 @@ class ForgetPasswordNotifier extends StateNotifier<ForgetPasswordState> {
   ForgetPasswordNotifier()
       : super(ForgetPasswordState(isEmailSent: false, countDown: 30));
 
-  void setIsEmailSent(bool value) {
-    state = state.copyWith(isEmailSent: value);
-  }
+  void setIsEmailSent({required bool value}) =>
+      state = state.copyWith(isEmailSent: value);
 
-  void setCountDown(int value) {
-    state = state.copyWith(countDown: value);
-  }
+  void setCountDown(int value) => state = state.copyWith(countDown: value);
 }
 
 final forgetPasswordProvider =
-    StateNotifierProvider<ForgetPasswordNotifier, ForgetPasswordState>((ref) {
-  return ForgetPasswordNotifier();
-});
+    StateNotifierProvider<ForgetPasswordNotifier, ForgetPasswordState>(
+  (ref) => ForgetPasswordNotifier(),
+);

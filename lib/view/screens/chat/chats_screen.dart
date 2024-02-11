@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ChatsScreen extends ConsumerWidget {
   const ChatsScreen({super.key});
@@ -17,7 +17,7 @@ class ChatsScreen extends ConsumerWidget {
           return ListView.builder(
             itemCount: chats.length,
             itemBuilder: (context, index) {
-              var chat = chats[index];
+              final chat = chats[index];
               Color lastMessageColor(String lastMessageSender) {
                 if (lastMessageSender == Utils().userUid) {
                   return ColorConstants.textSeccondaryColor;
@@ -67,14 +67,12 @@ class ChatsScreen extends ConsumerWidget {
             children: List.generate(
               100,
               (index) => const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 10),
                   QmShimmerRound(size: 25),
                   SizedBox(width: 10),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       QmShimmer(

@@ -19,4 +19,10 @@ class Routes {
   static const String programDetailsR = '/program';
   static const String contentRootR = 'content';
   static const String contentDetailsR = '/content';
+  static const String addContentR = '/add-content';
+  static const String addContentRootR = 'addContent';
+  static const String addWorkoutR = '/add-workout';
+  static const String addWorkoutRootR = 'addWorkout';
+  static const String addExerciseR = '/add-exercise';
+  static const String addExerciseRootR = 'addExercise';
 }

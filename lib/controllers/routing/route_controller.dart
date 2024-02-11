@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class RoutingController {
   static final router = GoRouter(
@@ -93,6 +93,28 @@ class RoutingController {
           arguments: state.extra! as Map<String, dynamic>,
         ),
       ),
+      GoRoute(
+        name: Routes.addContentRootR,
+        path: Routes.addContentR,
+        builder: (context, state) => AddContentScreen(
+          key: state.pageKey,
+          arguments: state.extra! as Map<String, dynamic>,
+        ),
+      ),
+      GoRoute(
+        name: Routes.addWorkoutRootR,
+        path: Routes.addWorkoutR,
+        builder: (context, state) => AddWorkoutsScreen(
+          key: state.pageKey,
+        ),
+      ),
+      GoRoute(
+        name: Routes.addExerciseRootR,
+        path: Routes.addExerciseR,
+        builder: (context, state) => AddExerciseScreen(
+          key: state.pageKey,
+        ),
+      ),
     ],
     errorBuilder: (context, state) => RoutingErrorScreen(
       key: state.pageKey,
@@ -104,27 +126,21 @@ class RoutingController {
       case 0:
         router.go(Routes.homeR);
         context.pop();
-        break;
       case 1:
         router.go(Routes.chatsR);
         context.pop();
-        break;
       case 2:
         router.go(Routes.myProfileR);
         context.pop();
-        break;
       case 3:
         router.go(Routes.searchR);
         context.pop();
-        break;
       case 4:
         router.go(Routes.programsR);
         context.pop();
-        break;
       case 5:
         router.go(Routes.authR);
         context.pop();
-        break;
     }
   }
 
@@ -132,22 +148,16 @@ class RoutingController {
     switch (index) {
       case 0:
         router.go(Routes.homeR);
-        break;
       case 1:
         router.go(Routes.chatsR);
-        break;
       case 2:
         router.go(Routes.myProfileR);
-        break;
       case 3:
         router.go(Routes.searchR);
-        break;
       case 4:
         router.go(Routes.programsR);
-        break;
       case 5:
         router.go(Routes.authR);
-        break;
     }
   }
 }

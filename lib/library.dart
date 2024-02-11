@@ -1,4 +1,4 @@
-library library;
+// ignore_for_file: directives_ordering
 
 //* Screens
 
@@ -22,6 +22,8 @@ export 'view/widgets/private/workout/workouts_showcase.dart';
 export 'view/screens/programs/workout_details_screen.dart';
 export 'view/screens/programs/programs_screen.dart';
 export 'view/screens/programs/program_details_screen.dart';
+export 'view/screens/programs/add_exercise_screen.dart';
+export 'view/screens/programs/add_workout_screen.dart';
 
 //* Widgets
 
@@ -35,25 +37,24 @@ export 'view/widgets/public/qm_icon_button.dart';
 export 'view/widgets/public/qm_nice_touch.dart';
 export 'view/widgets/public/qn_image.dart';
 export 'view/widgets/public/qm_shimmer.dart';
-export 'view/widgets/private/programs/programs_showcase.dart';
+export 'view/widgets/public/qm_custom_tab_bar.dart';
 export 'view/widgets/private/auth/choose_user_type.dart';
 export 'view/widgets/private/auth/forgot_password_text.dart';
 export 'view/widgets/private/routing/routing_drawer.dart';
 export 'view/widgets/private/workout/big_add_workout_button.dart';
 export 'view/widgets/private/workout/small_add_workout_button.dart';
-export 'view/widgets/private/exercise/exercise_block.dart';
 export 'view/widgets/private/exercise/add_exercise_block.dart';
-export 'view/widgets/private/profile/add_image_widget.dart';
+export 'view/widgets/private/exercise/exercise_block.dart';
 export 'view/widgets/private/profile/edit_profile_text_field.dart';
 export 'view/widgets/private/profile/follow_and_message_button.dart';
 export 'view/widgets/private/chat/message_bubble.dart';
+export 'view/widgets/private/programs/programs_showcase.dart';
 export 'view/widgets/private/programs/add_program.dart';
 export 'view/widgets/private/programs/program_block.dart';
 export 'view/widgets/private/programs/trainee_sheet.dart';
 export 'view/widgets/private/home/indicator.dart';
 export 'view/widgets/private/workout/workout_block.dart';
-export 'view/widgets/private/workout/network_workouts_sheet.dart';
-export 'view/widgets/public/qm_custom_tab_bar.dart';
+export 'view/screens/profile/add_content_screen.dart';
 
 //* Controllers
 
@@ -114,7 +115,6 @@ export 'constants/analytics_event_names_constants.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
-export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -129,14 +129,14 @@ export 'package:responsive_framework/responsive_framework.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 export 'dart:io' hide HeaderValue;
-export 'package:flutter/foundation.dart' hide shortHash, describeIdentity;
+export 'package:flutter/foundation.dart' hide describeIdentity, shortHash;
 export 'package:uuid/uuid.dart';
 export 'package:slimy_card/slimy_card.dart';
 export 'dart:async' hide AsyncError;
 export 'package:url_strategy/url_strategy.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:cached_network_image/cached_network_image.dart'
-    show CachedNetworkImageProvider, CachedNetworkImage;
+    show CachedNetworkImage, CachedNetworkImageProvider;
 export 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 export 'package:pattern_background/pattern_background.dart';
 export 'package:firebase_analytics/firebase_analytics.dart';

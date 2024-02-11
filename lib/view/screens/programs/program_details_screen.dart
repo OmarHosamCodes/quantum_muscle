@@ -1,9 +1,9 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ProgramDetailsScreen extends StatelessWidget {
   const ProgramDetailsScreen({
-    super.key,
     required this.arguments,
+    super.key,
   });
   final Map<String, dynamic> arguments;
 
@@ -27,8 +27,6 @@ class ProgramDetailsScreen extends StatelessWidget {
       backgroundColor: ColorConstants.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //? App Bar
             SizedBox(
@@ -36,7 +34,6 @@ class ProgramDetailsScreen extends StatelessWidget {
               width: width,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   QmIconButton(
                     icon: EvaIcons.arrowBack,
@@ -44,7 +41,6 @@ class ProgramDetailsScreen extends StatelessWidget {
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       QmText(
                         text: program.name,
@@ -92,7 +88,6 @@ class ProgramDetailsScreen extends StatelessWidget {
               visible: program.trainerId == Utils().userUid!,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Consumer(
                     builder: (_, ref, __) {
@@ -105,12 +100,13 @@ class ProgramDetailsScreen extends StatelessWidget {
                             width: width,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: data
-                                  .map((imageUrl) => QmAvatar(
-                                        radius: 20.0,
-                                        imageUrl: imageUrl,
-                                      ))
+                                  .map(
+                                    (imageUrl) => QmAvatar(
+                                      radius: 20,
+                                      imageUrl: imageUrl,
+                                    ),
+                                  )
                                   .toList(),
                             ),
                           );
@@ -120,11 +116,10 @@ class ProgramDetailsScreen extends StatelessWidget {
                           width: width,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: List.generate(
                               5,
                               (index) => const QmShimmerRound(
-                                size: 20.0,
+                                size: 20,
                               ),
                             ),
                           ),
@@ -135,7 +130,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                     },
                   ),
                   const Divider(
-                    thickness: 1.0,
+                    thickness: 1,
                     color: ColorConstants.primaryColor,
                   ),
                 ],
@@ -157,7 +152,6 @@ class ProgramDetailsScreen extends StatelessWidget {
                             : isTablet()
                                 ? 2
                                 : 1,
-                        childAspectRatio: 1.0,
                       ),
                       itemBuilder: (context, index) {
                         final workout = programWorkouts[index];
@@ -166,26 +160,24 @@ class ProgramDetailsScreen extends StatelessWidget {
                             Routes.workoutRootR,
                             extra: {
                               WorkoutModel.modelKey: workout,
-                              "showAddButton": isTrainee ? false : true,
-                              "programId": program.id,
-                              "programName": program.name,
+                              'showAddButton': !isTrainee,
+                              'programId': program.id,
+                              'programName': program.name,
                             },
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: ColorConstants.secondaryColor,
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               width: width * .2,
                               height: height * .2,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Flexible(
-                                    flex: 1,
                                     fit: FlexFit.tight,
                                     child: Hero(
                                       tag: workout.id,
@@ -196,8 +188,6 @@ class ProgramDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Flexible(
-                                    flex: 1,
-                                    fit: FlexFit.loose,
                                     child: QmText(
                                       text: workout.name,
                                       maxWidth: double.maxFinite,
@@ -214,7 +204,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                   },
                   loading: () => GridView.builder(
                     shrinkWrap: true,
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 3,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -223,7 +213,6 @@ class ProgramDetailsScreen extends StatelessWidget {
                           : isTablet()
                               ? 2
                               : 1,
-                      childAspectRatio: 1.0,
                     ),
                     itemBuilder: (context, index) => const QmShimmer(
                       width: 100,
@@ -235,7 +224,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                       Center(child: QmText(text: error.toString())),
                 );
               },
-            )
+            ),
           ],
         ),
       ),

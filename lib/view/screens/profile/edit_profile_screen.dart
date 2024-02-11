@@ -1,7 +1,7 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key, required this.arguments});
+  const EditProfileScreen({required this.arguments, super.key});
   final Map<String, dynamic> arguments;
 
   UserModel get user => arguments[UserModel.modelKey] as UserModel;
@@ -43,7 +43,7 @@ class EditProfileScreen extends StatelessWidget {
                           context: context,
                           userName: nameTextcontroller.text,
                           userBio: bioTextcontroller.text,
-                          userProfileImage: imageWatcher!,
+                          userProfileImage: imageWatcher,
                           ref: ref,
                           formKey: fromKey,
                         );

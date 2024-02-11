@@ -1,11 +1,11 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class AddProgramBlock extends StatefulWidget {
   const AddProgramBlock({
-    super.key,
     required this.width,
     required this.height,
     required this.programs,
+    super.key,
   });
 
   final double width;
@@ -25,7 +25,7 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
     return GestureDetector(
       onTap: () => setState(
         () {
-          for (var element in widget.programs) {
+          for (final element in widget.programs) {
             element.isHovered = false;
           }
           isHovered = !isHovered;
@@ -63,12 +63,10 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                 ),
               ),
               Align(
-                alignment: Alignment.center,
                 child: Visibility(
-                  visible: isHovered ? true : false,
+                  visible: isHovered,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Form(
                         key: formKey,
@@ -105,7 +103,7 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                             child: Center(
                               child: FittedBox(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8),
                                   child: QmText(
                                     text: S.current.Add,
                                   ),
@@ -114,7 +112,7 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                             ),
                           );
                         },
-                      )
+                      ),
                     ],
                   ),
                 )

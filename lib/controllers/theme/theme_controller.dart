@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ThemeController {
   static ThemeData theme = ThemeData(
@@ -24,7 +24,7 @@ class ThemeController {
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
           color: ColorConstants.secondaryColor,
-          width: 2.0,
+          width: 2,
         ),
       ),
     ),
@@ -42,10 +42,10 @@ class ThemeController {
     drawerTheme: const DrawerThemeData(
       backgroundColor: ColorConstants.disabledColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero,
+        
       ),
       endShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero,
+        
       ),
     ),
   );

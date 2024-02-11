@@ -1,6 +1,33 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class MessageModel {
+  MessageModel({
+    required this.id,
+    required this.senderId,
+    required this.message,
+    required this.timestamp,
+    this.messageUrl,
+    this.type = MessageType.text,
+    this.programRequestId,
+  }) : assert(
+          message != SimpleConstants.emptyString,
+          'Message should not be empty',
+        );
+
+  factory MessageModel.fromMap(
+    Map<String, dynamic> map,
+  ) =>
+      MessageModel(
+        id: map[idKey] as String,
+        senderId: map[senderIdKey] as String,
+        message: map[messageKey] as String,
+        timestamp: map[timestampKey] as Timestamp,
+        messageUrl: map[messageUrlKey] as String?,
+        type: MessageType.values.firstWhere(
+          (element) => element.name == map[typeKey],
+        ),
+        programRequestId: map[programRequestIdKey] as String?,
+      );
   static const String idKey = 'id';
   static const String senderIdKey = 'senderId';
   static const String messageKey = 'message';
@@ -16,31 +43,6 @@ class MessageModel {
   Timestamp timestamp;
   MessageType type;
   String? programRequestId;
-
-  MessageModel({
-    required this.id,
-    required this.senderId,
-    required this.message,
-    required this.timestamp,
-    this.messageUrl,
-    this.type = MessageType.text,
-    this.programRequestId,
-  }) : assert(message != SimpleConstants.emptyString);
-
-  factory MessageModel.fromMap(
-    Map<String, dynamic> map,
-  ) =>
-      MessageModel(
-        id: map[idKey],
-        senderId: map[senderIdKey],
-        message: map[messageKey],
-        timestamp: map[timestampKey],
-        messageUrl: map[messageUrlKey],
-        type: MessageType.values.firstWhere(
-          (element) => element.name == map[typeKey],
-        ),
-        programRequestId: map[programRequestIdKey],
-      );
 
   Map<String, dynamic> toMap() => {
         idKey: id,

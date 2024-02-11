@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({
-    super.key,
-    required this.isMobile,
+    required this.isMobile, super.key,
   });
   final bool isMobile;
   @override
@@ -23,7 +22,6 @@ class ForgetPasswordScreen extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(

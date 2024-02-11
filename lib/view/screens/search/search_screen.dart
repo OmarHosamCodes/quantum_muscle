@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -11,7 +11,7 @@ class SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<DocumentSnapshot> _searchResults = [];
 
-  void _performSearch() async {
+  Future<void> _performSearch() async {
     final QuerySnapshot query = await Utils()
         .firebaseFirestore
         .collection(DBPathsConstants.usersPath)
@@ -36,7 +36,7 @@ class SearchScreenState extends State<SearchScreen> {
             builder: (_, ref, __) {
               ref.watch(localeProvider);
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: QmTextField(
                   height: height * 0.1,
                   width: width * 0.9,
@@ -53,11 +53,11 @@ class SearchScreenState extends State<SearchScreen> {
               itemCount: _searchResults.length,
               itemBuilder: (context, index) {
                 final userData =
-                    _searchResults[index].data() as Map<String, dynamic>;
+                    _searchResults[index].data()! as Map<String, dynamic>;
 
-                final String name = userData[UserModel.nameKey];
-                final String id = userData[UserModel.idKey];
-                final String image = userData[UserModel.profileImageURLKey];
+                final name = userData[UserModel.nameKey] as String;
+                final id = userData[UserModel.idKey] as String;
+                final image = userData[UserModel.profileImageURLKey] as String;
                 return ListTile(
                   leading: QmAvatar(
                     imageUrl: image,

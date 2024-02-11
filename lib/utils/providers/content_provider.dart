@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 // final contentProvider =
 //     FutureProvider.family<List<ContentModel>, String>((ref, id) async {
@@ -14,7 +14,7 @@ import '/library.dart';
 // });
 final contentProvider =
     StreamProvider.family<List<ContentModel>, String>((ref, id) async* {
-  Stream<List<ContentModel>> contentModelList = Utils()
+  final contentModelList = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.usersPath)
       .doc(id)
@@ -22,6 +22,6 @@ final contentProvider =
       .snapshots()
       .map((contents) => contents.docs
           .map((content) => ContentModel.fromMap(content.data()))
-          .toList());
+          .toList(),);
   yield* contentModelList;
 });

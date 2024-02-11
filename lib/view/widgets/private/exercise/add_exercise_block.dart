@@ -1,18 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:quantum_muscle/view/widgets/private/exercise/network_exercises_sheet.dart';
-
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class AddExerciseTile extends StatelessWidget {
   const AddExerciseTile({
-    super.key,
     required this.width,
     required this.height,
     required this.workout,
+    required this.workoutCollectionName,
+    super.key,
     this.programId,
     this.programName,
-    required this.workoutCollectionName,
   });
   final double width;
   final double height;
@@ -31,7 +29,6 @@ class AddExerciseTile extends StatelessWidget {
       color: ColorConstants.primaryColor,
       topCardHeight: height >= 150 ? 150 : height * 0.2,
       bottomCardHeight: height >= 150 ? 150 : height * 0.2,
-      borderRadius: 10,
       topCardWidget: Consumer(
         builder: (_, ref, __) {
           final imageWatcher = ref.watch(exerciseImageBytesProvider) ?? '';
@@ -40,7 +37,6 @@ class AddExerciseTile extends StatelessWidget {
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Visibility(
                 visible: networkImageWatcher.isEmpty,
@@ -48,7 +44,6 @@ class AddExerciseTile extends StatelessWidget {
                   child: QmBlock(
                     width: 100,
                     height: height * .2,
-                    isNormal: true,
                     onTap: () => exerciseUtil.chooseImageFromStorage(
                       ref: ref,
                       provider: exerciseImageBytesProvider,
@@ -63,15 +58,31 @@ class AddExerciseTile extends StatelessWidget {
               Visibility(
                 visible: imageWatcher.isEmpty,
                 child: Flexible(
-                  child: QmBlock(
-                    width: 100,
-                    height: height * .2,
-                    isNormal: true,
-                    onTap: () => openNetworkExercisesSheet(context: context),
-                    child: QmImageNetwork(
-                      source: networkImageWatcher,
-                      fallbackIcon: EvaIcons.search,
-                    ),
+                  child: Consumer(
+                    builder: (_, WidgetRef ref, __) {
+                      final publicExercisesWatcher =
+                          ref.watch(publicExercisesProvider);
+
+                      return publicExercisesWatcher.when(
+                        data: (publicExercises) {
+                          return QmBlock(
+                            width: 100,
+                            height: height * .2,
+                            onTap: () => context.push(Routes.addExerciseR),
+                            child: QmImageNetwork(
+                              source: networkImageWatcher,
+                              fallbackIcon: EvaIcons.search,
+                            ),
+                          );
+                        },
+                        error: (error, stackTrace) {
+                          return QmText(text: error.toString());
+                        },
+                        loading: () => const Center(
+                          child: QmCircularProgressIndicator(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -83,7 +94,6 @@ class AddExerciseTile extends StatelessWidget {
         fit: BoxFit.fill,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             QmTextField(
               height: height * .2,

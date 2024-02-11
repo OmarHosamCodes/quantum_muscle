@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class RoutingErrorScreen extends StatelessWidget {
   const RoutingErrorScreen({
@@ -19,7 +19,6 @@ class RoutingErrorScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             QmText(
               text: S.current.DefaultError,

@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({
-    super.key,
-    required this.isMobile,
+    required this.isMobile, super.key,
   });
   final bool isMobile;
   @override
@@ -26,9 +25,7 @@ class RegisterScreen extends StatelessWidget {
         child: Center(
           child: ResponsiveRowColumn(
             rowMainAxisAlignment: MainAxisAlignment.center,
-            rowCrossAxisAlignment: CrossAxisAlignment.center,
             columnMainAxisAlignment: MainAxisAlignment.center,
-            columnCrossAxisAlignment: CrossAxisAlignment.center,
             layout: ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)
                 ? ResponsiveRowColumnType.COLUMN
                 : ResponsiveRowColumnType.ROW,
@@ -44,7 +41,7 @@ class RegisterScreen extends StatelessWidget {
                       Image.asset(AssetPathConstants.registerImgPath),
                       QmText(
                         text: S.current.CreateAnAccount,
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -68,7 +65,6 @@ class RegisterScreen extends StatelessWidget {
                           controller: nameTextController,
                           hintText: S.current.EnterName,
                           keyboardType: TextInputType.name,
-                          hasNext: true,
                           validator: (value) {
                             if (ValidationController.validateName(value!) ==
                                 false) {
@@ -84,7 +80,6 @@ class RegisterScreen extends StatelessWidget {
                           width: maxWidth,
                           controller: emailTextController,
                           hintText: S.current.EnterEmail,
-                          hasNext: true,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (ValidationController.validateEmail(value!) ==
@@ -135,7 +130,7 @@ class RegisterScreen extends StatelessWidget {
                           onTap: () => authPageController.jumpToPage(
                             1,
                           ),
-                          text: "${S.current.AlreadyMember} ${S.current.Login}",
+                          text: '${S.current.AlreadyMember} ${S.current.Login}',
                         ),
                       ],
                     ),

@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmShimmerRound extends StatelessWidget {
   const QmShimmerRound({
-    super.key,
-    required this.size,
+    required this.size, super.key,
   });
   final double size;
 
@@ -21,9 +20,7 @@ class QmShimmerRound extends StatelessWidget {
 
 class QmShimmer extends StatelessWidget {
   const QmShimmer({
-    super.key,
-    required this.width,
-    required this.height,
+    required this.width, required this.height, super.key,
     this.radius = 0,
   });
   final double width;

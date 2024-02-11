@@ -1,11 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class Indicator extends StatelessWidget {
   const Indicator({
-    super.key,
-    required this.color,
-    required this.text,
-    required this.isSquare,
+    required this.color, required this.text, required this.isSquare, super.key,
   });
 
   final Color color;
@@ -28,7 +25,7 @@ class Indicator extends StatelessWidget {
         ),
         QmText(
           text: text,
-        )
+        ),
       ],
     );
   }

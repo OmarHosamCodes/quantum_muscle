@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmAvatar extends StatelessWidget {
   const QmAvatar({

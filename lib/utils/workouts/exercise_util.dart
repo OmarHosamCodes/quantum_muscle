@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unused_result, avoid_print
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final exerciseImageBytesProvider = StateProvider<String?>((ref) => null);
 final exerciseNetworkImageProvider = StateProvider<String?>((ref) => null);
@@ -20,12 +20,13 @@ class ExerciseUtil extends Utils {
 
     if (user != null) {
       try {
-        firebaseAnalytics.logEvent(
-            name: AnalyticsEventNamesConstants.addExercise);
-        final id = const Uuid().v4().toString().substring(0, 12);
+        await firebaseAnalytics.logEvent(
+          name: AnalyticsEventNamesConstants.addExercise,
+        );
+        final id = const Uuid().v4().substring(0, 12);
 
         if (isLink) {
-          ExerciseModel exercise = ExerciseModel(
+          final exercise = ExerciseModel(
             id: id,
             name: exerciseName,
             target: exerciseTarget,
@@ -38,14 +39,14 @@ class ExerciseUtil extends Utils {
           );
           await firebaseFirestore
               .collection(DBPathsConstants.usersPath)
-              .doc(userUid!)
+              .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
               .set(
             {
               WorkoutModel.exercisesKey: FieldValue.arrayUnion(
                 [
-                  "${exercise.name}-${exercise.target}-${exercise.id}",
+                  '${exercise.name}-${exercise.target}-${exercise.id}',
                 ],
               ),
             },
@@ -53,24 +54,24 @@ class ExerciseUtil extends Utils {
           );
           await firebaseFirestore
               .collection(DBPathsConstants.usersPath)
-              .doc(userUid!)
+              .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
               .collection(DBPathsConstants.exercisesPath)
-              .doc("${exercise.name}-${exercise.target}-${exercise.id}")
+              .doc('${exercise.name}-${exercise.target}-${exercise.id}')
               .set(exercise.toMap(), SetOptions(merge: true));
         } else {
-          Reference storageRef = firebaseStorage
+          final storageRef = firebaseStorage
               .ref()
               .child(DBPathsConstants.usersPath)
               .child(userUid!)
               .child(DBPathsConstants.workoutsPath)
               .child(workoutCollectionName)
               .child(DBPathsConstants.exercisesPath)
-              .child("$exerciseName$exerciseTarget$id.png");
+              .child('$exerciseName$exerciseTarget$id.png');
 
           await storageRef.putString(content, format: PutStringFormat.base64);
-          ExerciseModel exercise = ExerciseModel(
+          final exercise = ExerciseModel(
             id: id,
             name: exerciseName,
             target: exerciseTarget,
@@ -83,14 +84,14 @@ class ExerciseUtil extends Utils {
           );
           await firebaseFirestore
               .collection(DBPathsConstants.usersPath)
-              .doc(userUid!)
+              .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
               .set(
             {
               WorkoutModel.exercisesKey: FieldValue.arrayUnion(
                 [
-                  "${exercise.name}-${exercise.target}-${exercise.id}",
+                  '${exercise.name}-${exercise.target}-${exercise.id}',
                 ],
               ),
             },
@@ -98,11 +99,11 @@ class ExerciseUtil extends Utils {
           );
           await firebaseFirestore
               .collection(DBPathsConstants.usersPath)
-              .doc(userUid!)
+              .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
               .collection(DBPathsConstants.exercisesPath)
-              .doc("${exercise.name}-${exercise.target}-${exercise.id}")
+              .doc('${exercise.name}-${exercise.target}-${exercise.id}')
               .set(exercise.toMap(), SetOptions(merge: true));
         }
         ref.read(exerciseImageBytesProvider.notifier).state = null;
@@ -126,10 +127,12 @@ class ExerciseUtil extends Utils {
     required BuildContext context,
   }) async {
     try {
-      firebaseAnalytics.logEvent(name: AnalyticsEventNamesConstants.addSet);
+      await firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.addSet,
+      );
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
-          .doc(userUid!)
+          .doc(userUid)
           .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
           .collection(DBPathsConstants.exercisesPath)
@@ -163,13 +166,15 @@ class ExerciseUtil extends Utils {
     required String reps,
     required String weight,
   }) async {
-    bool isValid = formKey!.currentState!.validate();
+    final isValid = formKey!.currentState!.validate();
     if (!isValid) return;
     try {
-      firebaseAnalytics.logEvent(name: AnalyticsEventNamesConstants.changeSet);
+      await firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.changeSet,
+      );
       await firebaseFirestore
           .collection(DBPathsConstants.usersPath)
-          .doc(userUid!)
+          .doc(userUid)
           .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
           .collection(DBPathsConstants.exercisesPath)
@@ -177,7 +182,7 @@ class ExerciseUtil extends Utils {
           .set(
         {
           ExerciseModel.setsKey: {
-            indexToInsert.toString(): "$weight x $reps",
+            indexToInsert.toString(): '$weight x $reps',
           },
         },
         SetOptions(
@@ -194,7 +199,7 @@ class ExerciseUtil extends Utils {
       );
     }
 
-    addSet(
+    await addSet(
       workoutCollectionName: workoutCollectionName,
       exerciseDocName: exerciseDocName,
       ref: ref,
@@ -212,15 +217,16 @@ class ExerciseUtil extends Utils {
 
     final finalList = names
         .map(
-          (e) async => await firebaseStorage
+          (e) => firebaseStorage
               .ref()
               .child(DBPathsConstants.publicPath)
               .child(DBPathsConstants.exercisesPath)
-              .child(e)
+              .child(e as String)
               .list()
-              .then((value) async => value.items
-                  .map((e) async => await e.getDownloadURL())
-                  .toList())
+              .then(
+                (value) async =>
+                    value.items.map((e) => e.getDownloadURL()).toList(),
+              )
               .then(
             (value) async {
               final urls = await Future.wait(value);

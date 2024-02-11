@@ -1,21 +1,21 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class WorkoutDetailsScreen extends StatelessWidget {
   const WorkoutDetailsScreen({
-    super.key,
     required this.arguments,
+    super.key,
   });
 
   final Map<String, dynamic> arguments;
   @override
   Widget build(BuildContext context) {
-    WorkoutModel workout = arguments[WorkoutModel.modelKey];
-    bool showAddButton = arguments['showAddButton'];
-    String? programId = arguments['programId'];
-    String? programName = arguments['programName'];
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    String workoutCollectionName = "${workout.name}-${workout.id}";
+    final workout = arguments[WorkoutModel.modelKey] as WorkoutModel;
+    final showAddButton = arguments['showAddButton'] as bool;
+    final programId = arguments['programId'] as String?;
+    final programName = arguments['programName'] as String?;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final workoutCollectionName = '${workout.name}-${workout.id}';
     bool isDesktop() {
       if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
       return true;
@@ -35,10 +35,11 @@ class WorkoutDetailsScreen extends StatelessWidget {
             width: width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 QmIconButton(
-                    icon: EvaIcons.arrowBack, onPressed: () => context.pop()),
+                  icon: EvaIcons.arrowBack,
+                  onPressed: () => context.pop(),
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,10 +116,10 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 data: (exercises) {
                   return Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: StaggeredGrid.count(
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
                         crossAxisCount: isDesktop()
                             ? 3
                             : isTablet()
@@ -154,8 +155,8 @@ class WorkoutDetailsScreen extends StatelessWidget {
                   );
                 },
                 loading: () => StaggeredGrid.count(
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                   crossAxisCount: isDesktop()
                       ? 3
                       : isTablet()
@@ -164,8 +165,8 @@ class WorkoutDetailsScreen extends StatelessWidget {
                   children: List.generate(
                     3,
                     (index) => const QmShimmer(
-                      width: 100,
-                      height: 100,
+                      width: 300,
+                      height: 300,
                       radius: 10,
                     ),
                   ),

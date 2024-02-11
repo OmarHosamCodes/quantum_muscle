@@ -1,26 +1,7 @@
 import 'package:quantum_muscle/library.dart';
 
 class ProgramModel {
-  static const String nameKey = "name";
-  static const String trainerIdKey = "trainerId";
-  static const String traineesIdsKey = "traineesIds";
-  static const String workoutsKey = "workouts";
-  static const String idKey = "id";
-  static const String creationDateKey = "creationDate";
-  static const String modelKey = "ProgramModel";
-  static const String restDayOrDaysKey = "restDayOrDays";
-  bool isHovered;
-
-  String name;
-  String id;
-  String trainerId;
-  List traineesIds;
-  List workouts;
-  List restDayOrDays;
-  Timestamp creationDate;
-
   ProgramModel({
-    this.isHovered = false,
     required this.name,
     required this.id,
     required this.trainerId,
@@ -28,25 +9,43 @@ class ProgramModel {
     required this.workouts,
     required this.creationDate,
     required this.restDayOrDays,
+    this.isHovered = false,
   });
   ProgramModel.empty()
       : isHovered = false,
-        name = "",
-        id = "",
-        trainerId = "",
+        name = '',
+        id = '',
+        trainerId = '',
         traineesIds = [],
         workouts = [],
         creationDate = Timestamp.now(),
         restDayOrDays = [];
   factory ProgramModel.fromMap(Map<String, dynamic> map) => ProgramModel(
-        name: map[nameKey],
-        id: map[idKey],
-        trainerId: map[trainerIdKey],
-        traineesIds: map[traineesIdsKey],
-        workouts: map[workoutsKey],
-        creationDate: map[creationDateKey],
-        restDayOrDays: map[restDayOrDaysKey],
+        name: map[nameKey] as String,
+        id: map[idKey] as String,
+        trainerId: map[trainerIdKey] as String,
+        traineesIds: (map[traineesIdsKey] as List<dynamic>).cast<String>(),
+        workouts: (map[workoutsKey] as List<dynamic>).cast<String>(),
+        creationDate: map[creationDateKey] as Timestamp,
+        restDayOrDays: (map[restDayOrDaysKey] as List<dynamic>).cast<String>(),
       );
+  static const String nameKey = 'name';
+  static const String trainerIdKey = 'trainerId';
+  static const String traineesIdsKey = 'traineesIds';
+  static const String workoutsKey = 'workouts';
+  static const String idKey = 'id';
+  static const String creationDateKey = 'creationDate';
+  static const String modelKey = 'ProgramModel';
+  static const String restDayOrDaysKey = 'restDayOrDays';
+  bool isHovered;
+
+  String name;
+  String id;
+  String trainerId;
+  List<String> traineesIds;
+  List<String> workouts;
+  List<String> restDayOrDays;
+  Timestamp creationDate;
 
   Map<String, dynamic> toMap() => {
         nameKey: name,

@@ -1,6 +1,27 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmTextField extends StatelessWidget {
+  const QmTextField({
+    required this.height,
+    required this.width,
+    required this.controller,
+    required this.hintText,
+    super.key,
+    this.obscureText = false,
+    this.hasNext = true,
+    this.keyboardType,
+    this.validator,
+    this.isExpanded = false,
+    this.initialValue,
+    this.maxLength,
+    this.borderRadius,
+    this.margin,
+    this.maxHeight = double.maxFinite,
+    this.maxWidth = double.maxFinite,
+    this.fontSize = 16.0,
+    this.onChanged,
+    this.fieldColor = ColorConstants.textFieldColor,
+  });
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
@@ -19,32 +40,11 @@ class QmTextField extends StatelessWidget {
   final double? fontSize;
   final void Function(String)? onChanged;
   final Color fieldColor;
-  const QmTextField({
-    super.key,
-    required this.height,
-    required this.width,
-    required this.controller,
-    required this.hintText,
-    this.obscureText = false,
-    this.hasNext = true,
-    this.keyboardType,
-    this.validator,
-    this.isExpanded = false,
-    this.initialValue,
-    this.maxLength,
-    this.borderRadius,
-    this.margin,
-    this.maxHeight = double.maxFinite,
-    this.maxWidth = double.maxFinite,
-    this.fontSize = 16.0,
-    this.onChanged,
-    this.fieldColor = ColorConstants.textFieldColor,
-  });
   BorderRadius get borderRadiusValue {
     if (borderRadius != null) {
       return borderRadius!;
     }
-    return BorderRadius.circular(10.0);
+    return BorderRadius.circular(10);
   }
 
   TextInputAction get finalInputAction {
@@ -77,7 +77,7 @@ class QmTextField extends StatelessWidget {
       child: Center(
         child: TextFormField(
           textAlign: TextAlign.left,
-          strutStyle: const StrutStyle(height: 1.0),
+          strutStyle: const StrutStyle(height: 1),
           onChanged: onChanged,
           maxLength: maxLength,
           smartDashesType: SmartDashesType.enabled,
@@ -97,7 +97,7 @@ class QmTextField extends StatelessWidget {
           decoration: InputDecoration(
             errorStyle: const TextStyle(
               color: ColorConstants.errorColor,
-              fontSize: 14.0,
+              fontSize: 14,
             ),
             counterText: SimpleConstants.emptyString,
             border: OutlineInputBorder(
@@ -112,12 +112,11 @@ class QmTextField extends StatelessWidget {
             hintStyle:
                 const TextStyle(color: ColorConstants.textSeccondaryColor),
             contentPadding: const EdgeInsets.only(
-              left: 10.0,
-              right: 10.0,
-              top: 10.0,
+              left: 10,
+              right: 10,
+              top: 10,
             ),
           ),
-          enableSuggestions: true,
           initialValue: initialValue,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,

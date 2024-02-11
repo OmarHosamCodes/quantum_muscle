@@ -1,10 +1,11 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final programsProvider = StreamProvider<List<ProgramModel>>((ref) async* {
   final userRef = ref.watch(userProvider(Utils().userUid!));
   final programsFieldAtUser =
+      // ignore: strict_raw_type
       userRef.whenData<List>((value) => value.programs).value!;
-  Stream<List<ProgramModel>> programs = Utils()
+  final programs = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.programsPath)
       .where(
@@ -12,29 +13,33 @@ final programsProvider = StreamProvider<List<ProgramModel>>((ref) async* {
         whereIn: programsFieldAtUser,
       )
       .snapshots()
-      .map((event) =>
-          event.docs.map((e) => ProgramModel.fromMap(e.data())).toList());
+      .map(
+        (event) =>
+            event.docs.map((e) => ProgramModel.fromMap(e.data())).toList(),
+      );
   yield* programs;
 });
 
 final programWorkoutsProvider =
     StreamProvider.family<List<WorkoutModel>, String>((ref, programId) async* {
-  Stream<List<WorkoutModel>> programWorkouts = Utils()
+  final programWorkouts = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.programsPath)
       .doc(programId)
       .collection(DBPathsConstants.workoutsPath)
       .snapshots()
-      .map((workouts) => workouts.docs
-          .map((workout) => WorkoutModel.fromMap(workout.data()))
-          .toList());
+      .map(
+        (workouts) => workouts.docs
+            .map((workout) => WorkoutModel.fromMap(workout.data()))
+            .toList(),
+      );
   yield* programWorkouts;
 });
 
 final programExercisesProvider =
     StreamProvider.family<List<ExerciseModel>, (String, String)>(
         (ref, requiredData) async* {
-  Stream<List<ExerciseModel>> programExercises = Utils()
+  final programExercises = Utils()
       .firebaseFirestore
       .collection(DBPathsConstants.programsPath)
       .doc(requiredData.$1)
@@ -42,8 +47,10 @@ final programExercisesProvider =
       .doc(requiredData.$2)
       .collection(DBPathsConstants.exercisesPath)
       .snapshots()
-      .map((event) =>
-          event.docs.map((e) => ExerciseModel.fromMap(e.data())).toList());
+      .map(
+        (event) =>
+            event.docs.map((e) => ExerciseModel.fromMap(e.data())).toList(),
+      );
   yield* programExercises;
 });
 
@@ -54,18 +61,21 @@ final programTraineesAvatarsProvider =
       .collection(DBPathsConstants.programsPath)
       .doc(programId)
       .get()
-      .then((program) =>
-          program.get(ProgramModel.traineesIdsKey) as List<dynamic>);
+      .then(
+        (program) => program.get(ProgramModel.traineesIdsKey) as List<dynamic>,
+      );
   final programTraineesAvatars = await Future.wait(
     programTrainees
         .map(
-          (traineeId) async => await Utils()
+          (traineeId) => Utils()
               .firebaseFirestore
               .collection(DBPathsConstants.usersPath)
-              .doc(traineeId)
+              .doc(traineeId as String?)
               .get()
-              .then((trainee) =>
-                  trainee.get(UserModel.profileImageURLKey) as String?),
+              .then(
+                (trainee) =>
+                    trainee.get(UserModel.profileImageURLKey) as String?,
+              ),
         )
         .toList(),
   );

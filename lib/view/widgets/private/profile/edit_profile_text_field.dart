@@ -1,6 +1,21 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class EditProfileTextField extends StatelessWidget {
+  const EditProfileTextField({
+    required this.height,
+    required this.width,
+    required this.controller,
+    super.key,
+    this.hintText,
+    this.hasNext = true,
+    this.validator,
+    this.initialValue,
+    this.maxLength,
+    this.margin,
+    this.maxHeight = double.maxFinite,
+    this.maxWidth = double.maxFinite,
+    this.maxLines = 1,
+  });
   final TextEditingController controller;
   final String? hintText;
   final String? Function(String?)? validator;
@@ -13,21 +28,6 @@ class EditProfileTextField extends StatelessWidget {
   final double maxWidth;
   final bool hasNext;
   final int? maxLines;
-  const EditProfileTextField({
-    super.key,
-    required this.height,
-    required this.width,
-    required this.controller,
-    this.hintText,
-    this.hasNext = true,
-    this.validator,
-    this.initialValue,
-    this.maxLength,
-    this.margin,
-    this.maxHeight = double.maxFinite,
-    this.maxWidth = double.maxFinite,
-    this.maxLines = 1,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class EditProfileTextField extends StatelessWidget {
         smartQuotesType: SmartQuotesType.enabled,
         style: const TextStyle(
           color: ColorConstants.textColor,
-          fontSize: 16.0,
+          fontSize: 16,
         ),
         textAlignVertical: TextAlignVertical.top,
         cursorColor: ColorConstants.textSeccondaryColor,

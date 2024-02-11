@@ -1,8 +1,10 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
-void openAddTraineeSheet(BuildContext context,
-    {required String programRequestId}) {
-  showModalBottomSheet(
+void openAddTraineeSheet(
+  BuildContext context, {
+  required String programRequestId,
+}) {
+  showModalBottomSheet<void>(
     backgroundColor: ColorConstants.secondaryColor,
     context: context,
     builder: (context) => _AddTraineeSheet(
@@ -22,10 +24,9 @@ class _AddTraineeSheet extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final traineeIdTextController = TextEditingController();
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           QmText(
             text: S.current.AddTrainee,

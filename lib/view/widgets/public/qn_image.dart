@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmImageMemory extends StatelessWidget {
   const QmImageMemory({
-    super.key,
-    required this.source,
+    required this.source, super.key,
     this.width,
     this.height,
     this.fallbackIcon = EvaIcons.alertTriangleOutline,

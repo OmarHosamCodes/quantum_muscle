@@ -1,12 +1,14 @@
-import '/library.dart';
+// ignore_for_file: lines_longer_than_80_chars
+
+import 'package:quantum_muscle/library.dart';
 
 class ExerciseBlock extends StatelessWidget {
   const ExerciseBlock({
-    super.key,
     required this.width,
     required this.height,
     required this.exercise,
     required this.workoutCollectionName,
+    super.key,
     this.programId,
   });
   final String? programId;
@@ -22,8 +24,6 @@ class ExerciseBlock extends StatelessWidget {
       color: ColorConstants.primaryColor,
       topCardHeight: height >= 150 ? 150 : height * 0.2,
       bottomCardHeight: height >= 150 ? 150 : height * 0.2,
-      borderRadius: 10,
-      width: 300,
       topCardWidget: Stack(
         alignment: Alignment.center,
         children: [
@@ -67,7 +67,6 @@ class ExerciseBlock extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Flexible(
-            flex: 1,
             child: QmIconButton(
               onPressed: () => pageController.previousPage(
                 duration: SimpleConstants.fastAnimationDuration,
@@ -78,10 +77,13 @@ class ExerciseBlock extends StatelessWidget {
           ),
           Consumer(
             builder: (_, ref, __) {
-              exercisesProviderChooser() {
+              AsyncValue<List<ExerciseModel>> exercisesProviderChooser() {
                 if (programId != null) {
-                  return ref.watch(programExercisesProvider(
-                      (programId!, workoutCollectionName)));
+                  return ref.watch(
+                    programExercisesProvider(
+                      (programId!, workoutCollectionName),
+                    ),
+                  );
                 } else {
                   return ref.watch(exercisesProvider(workoutCollectionName));
                 }
@@ -91,29 +93,29 @@ class ExerciseBlock extends StatelessWidget {
 
               return exercisesWatcher.when(
                 data: (exercises) {
-                  var theExercise = exercises
+                  final theExercise = exercises
                       .firstWhere((element) => element.id == exercise.id);
-                  var itemCount = theExercise.sets.length;
+                  final itemCount = theExercise.sets.length;
 
                   return Flexible(
                     flex: 2,
                     child: PageView.builder(
                       controller: pageController,
-                      scrollDirection: Axis.horizontal,
                       itemCount: itemCount,
                       itemBuilder: (context, index) {
-                        String set = theExercise.sets.values.elementAt(index);
+                        final set =
+                            theExercise.sets.values.elementAt(index) as String;
 
                         return QmBlock(
                           color: ColorConstants.disabledColorWithOpacity,
-                          onTap: () => showModalBottomSheet(
+                          onTap: () => showModalBottomSheet<void>(
                             context: context,
                             backgroundColor: ColorConstants.secondaryColor,
                             builder: (context) => _ChangeSetModalSheet(
                               height: height,
                               workoutCollectionName: workoutCollectionName,
                               exerciseDocName:
-                                  "${theExercise.name}-${theExercise.target}-${theExercise.id}",
+                                  '${theExercise.name}-${theExercise.target}-${theExercise.id}',
                               index: index,
                               programId: programId,
                             ),
@@ -176,12 +178,11 @@ class _ChangeSetModalSheet extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     final exerciseUtil = ExerciseUtil();
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Form(
         key: formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             QmTextField(
               fieldColor: ColorConstants.disabledColor,

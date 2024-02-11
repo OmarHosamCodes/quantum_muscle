@@ -1,11 +1,10 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({
-    super.key,
-    required this.isMobile,
+    required this.isMobile, super.key,
   });
   final bool isMobile;
   @override
@@ -26,9 +25,7 @@ class LoginScreen extends StatelessWidget {
         child: Center(
           child: ResponsiveRowColumn(
             rowMainAxisAlignment: MainAxisAlignment.center,
-            rowCrossAxisAlignment: CrossAxisAlignment.center,
             columnMainAxisAlignment: MainAxisAlignment.center,
-            columnCrossAxisAlignment: CrossAxisAlignment.center,
             layout: ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)
                 ? ResponsiveRowColumnType.COLUMN
                 : ResponsiveRowColumnType.ROW,
@@ -40,7 +37,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(AssetPathConstants.loginImgPath),
                       QmText(
@@ -69,7 +65,6 @@ class LoginScreen extends StatelessWidget {
                           controller: emailTextController,
                           hintText: S.current.EnterEmail,
                           keyboardType: TextInputType.emailAddress,
-                          hasNext: true,
                           validator: (value) {
                             if (ValidationController.validateEmail(value!) ==
                                 false) {
@@ -125,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                           onTap: () => authPageController.jumpToPage(
                             2,
                           ),
-                          text: "${S.current.NotAMember} ${S.current.Register}",
+                          text: '${S.current.NotAMember} ${S.current.Register}',
                           maxWidth: double.maxFinite,
                         ),
                       ],

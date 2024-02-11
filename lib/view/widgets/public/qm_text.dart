@@ -1,18 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmText extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final bool isSeccoundary;
-  final bool isHeadline;
-  final void Function()? onTap;
-  final double maxWidth;
-  final Color? color;
-  final TextOverflow? overflow;
-  final bool? softWrap;
   const QmText({
-    super.key,
-    required this.text,
+    required this.text, super.key,
     this.style = const TextStyle(
       fontSize: 20,
       fontFamily: SimpleConstants.fontFamily,
@@ -26,6 +16,15 @@ class QmText extends StatelessWidget {
     this.overflow,
     this.softWrap,
   });
+  final String text;
+  final TextStyle style;
+  final bool isSeccoundary;
+  final bool isHeadline;
+  final void Function()? onTap;
+  final double maxWidth;
+  final Color? color;
+  final TextOverflow? overflow;
+  final bool? softWrap;
   double get fontSize {
     if (isSeccoundary) {
       return 13;

@@ -1,12 +1,12 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ProgramsShowcase extends StatelessWidget {
   const ProgramsShowcase({
-    super.key,
     required this.width,
     required this.height,
     required this.programs,
     required this.isTrainee,
+    super.key,
   });
 
   final double width;
@@ -16,8 +16,8 @@ class ProgramsShowcase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount = isTrainee ? programs.length : programs.length + 1;
-    ScrollController scrollController = ScrollController();
+    final itemCount = isTrainee ? programs.length : programs.length + 1;
+    final scrollController = ScrollController();
     return Scrollbar(
       controller: scrollController,
       child: ResponsiveGridView.builder(
@@ -26,7 +26,6 @@ class ProgramsShowcase extends StatelessWidget {
           crossAxisSpacing: 10,
           crossAxisExtent: 200,
           mainAxisSpacing: 10,
-          childAspectRatio: 1.0,
           maxCrossAxisExtent: 200,
           minCrossAxisExtent: 100,
         ),
@@ -35,7 +34,6 @@ class ProgramsShowcase extends StatelessWidget {
           horizontal: width * .05,
         ),
         itemCount: itemCount,
-        shrinkWrap: false,
         itemBuilder: (context, index) {
           if (index == programs.length) {
             return AddProgramBlock(

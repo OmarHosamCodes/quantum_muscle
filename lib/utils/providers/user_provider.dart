@@ -1,8 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final userProvider = StreamProvider.family<UserModel, String>(
   (ref, id) async* {
-    Map<String, dynamic> data = await Utils()
+    final data = await Utils()
         .firebaseFirestore
         .collection(DBPathsConstants.usersPath)
         .doc(id)

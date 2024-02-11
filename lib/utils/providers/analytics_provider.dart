@@ -1,26 +1,26 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 final generalAnalyticsProvider =
     StreamProvider.family<GeneralAnalyticsModel, String>((ref, id) async* {
-  UserModel userData = ref.watch(userProvider(id)).maybeWhen(
+  final userData = ref.watch(userProvider(id)).maybeWhen(
         data: (user) => user,
-        orElse: () => UserModel.empty(),
+        orElse: UserModel.empty,
       );
-  List<ProgramModel> programs = ref.watch(programsProvider).maybeWhen(
+  final programs = ref.watch(programsProvider).maybeWhen(
         data: (programs) => programs,
         orElse: () => [
           ProgramModel.empty(),
         ],
       );
-  List<WorkoutModel> workouts = ref.watch(workoutsProvider).maybeWhen(
+  final workouts = ref.watch(workoutsProvider).maybeWhen(
         data: (workouts) => workouts,
         orElse: () => [
           WorkoutModel.empty(),
         ],
       );
   int getTotalTrainees(List<ProgramModel> programs) {
-    int totalPrograms = 0;
-    for (var program in programs) {
+    var totalPrograms = 0;
+    for (final program in programs) {
       totalPrograms += program.traineesIds.length;
     }
     return totalPrograms;
@@ -33,18 +33,18 @@ final generalAnalyticsProvider =
   // request.headers.addAll(headers);
   // final response = await client.send(request);
   // print(request.body);
-  int totalTrainees = getTotalTrainees(programs);
+  final totalTrainees = getTotalTrainees(programs);
 
-  getTotalExercises(List<WorkoutModel> workouts) {
-    int totalExercises = 0;
-    for (var workout in workouts) {
+  int getTotalExercises(List<WorkoutModel> workouts) {
+    var totalExercises = 0;
+    for (final workout in workouts) {
       totalExercises += workout.exercises.length;
     }
     return totalExercises;
   }
 
-  int totalExercises = getTotalExercises(workouts);
-  GeneralAnalyticsModel analytics = GeneralAnalyticsModel(
+  final totalExercises = getTotalExercises(workouts);
+  final analytics = GeneralAnalyticsModel(
     totalPrograms: userData.programs.length,
     totalTrainees: totalTrainees,
     totalWorkouts: workouts.length,

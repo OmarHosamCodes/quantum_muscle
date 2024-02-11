@@ -1,9 +1,8 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class QmIconButton extends StatelessWidget {
   const QmIconButton({
-    super.key,
-    required this.icon,
+    required this.icon, super.key,
     this.onPressed,
     this.iconSize = 20,
     this.iconColor = ColorConstants.iconColor,

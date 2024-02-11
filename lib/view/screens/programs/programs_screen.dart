@@ -1,4 +1,4 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class ProgramsScreen extends ConsumerStatefulWidget {
   const ProgramsScreen({super.key});
@@ -9,12 +9,13 @@ class ProgramsScreen extends ConsumerStatefulWidget {
 
 class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(_, () {
-        ref.read(programsProvider);
-        ref.invalidate(programsProvider);
+        ref
+          ..read(programsProvider)
+          ..invalidate(programsProvider);
       });
     });
   }
@@ -28,7 +29,6 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Consumer(
               builder: (_, ref, __) {
@@ -59,7 +59,6 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
                         crossAxisSpacing: 10,
                         crossAxisExtent: 200,
                         mainAxisSpacing: 10,
-                        childAspectRatio: 1.0,
                         maxCrossAxisExtent: 200,
                         minCrossAxisExtent: 100,
                       ),
@@ -68,7 +67,6 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
                         horizontal: width * .05,
                       ),
                       itemCount: 4,
-                      shrinkWrap: false,
                       itemBuilder: (context, index) => const QmShimmer(
                         width: 150,
                         height: 300,

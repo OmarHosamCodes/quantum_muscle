@@ -1,6 +1,6 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
-void openQmLoaderDialog({required BuildContext context}) => showDialog(
+void openQmLoaderDialog({required BuildContext context}) => showDialog<void>(
       barrierDismissible: false,
       context: context,
       builder: (context) => const _QmLoaderDialog(),

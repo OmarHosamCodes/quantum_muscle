@@ -1,10 +1,10 @@
-import '/library.dart';
+import 'package:quantum_muscle/library.dart';
 
 class BigAddWorkout extends StatefulWidget {
   const BigAddWorkout({
-    super.key,
     required this.width,
     required this.height,
+    super.key,
   });
   final double width;
   final double height;
@@ -53,12 +53,12 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10),
                       child: Consumer(
                         builder: (_, ref, __) {
-                          String? imageWatcher =
+                          final imageWatcher =
                               ref.watch(workoutImageBytesProvider) ?? '';
-                          String? networkImageWatcher =
+                          final networkImageWatcher =
                               ref.watch(workoutNetworkImageProvider) ?? '';
                           return Column(
                             children: [
@@ -70,7 +70,6 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                       topLeft: Radius.circular(10),
                                       topRight: Radius.circular(10),
                                     ),
-                                    isNormal: true,
                                     isAnimated: true,
                                     onTap: () =>
                                         workoutUtil.chooseImageFromStorage(
@@ -98,10 +97,9 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                                       bottomLeft: Radius.circular(10),
                                       bottomRight: Radius.circular(10),
                                     ),
-                                    isNormal: true,
                                     isAnimated: true,
-                                    onTap: () => openNetworkWorkoutsSheet(
-                                        context: context),
+                                    onTap: () =>
+                                        context.push(Routes.addWorkoutR),
                                     color: ColorConstants.backgroundColor,
                                     width: widget.width * .3,
                                     height: widget.height * .9,
@@ -124,7 +122,6 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           QmTextField(
                             height: widget.height * .1,
@@ -146,8 +143,6 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
                               final networkImageWatcher =
                                   ref.watch(workoutNetworkImageProvider);
                               return QmBlock(
-                                isGradient: false,
-                                color: ColorConstants.primaryColor,
                                 onTap: () {
                                   if (networkImageWatcher != null) {
                                     workoutUtil.addWorkout(
@@ -187,7 +182,6 @@ class _BigAddWorkoutState extends State<BigAddWorkout> {
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Icon(
                     EvaIcons.plusCircleOutline,

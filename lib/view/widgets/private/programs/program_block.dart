@@ -1,13 +1,15 @@
-import '/library.dart';
+// ignore_for_file: lines_longer_than_80_chars
+
+import 'package:quantum_muscle/library.dart';
 
 class ProgramBlock extends ConsumerStatefulWidget {
   const ProgramBlock({
-    super.key,
     required this.width,
     required this.height,
     required this.program,
     required this.programs,
     required this.isTrainee,
+    super.key,
   });
 
   final double width;
@@ -26,7 +28,7 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
     return GestureDetector(
       onTap: () => setState(
         () {
-          for (var element in widget.programs) {
+          for (final element in widget.programs) {
             element.isHovered = false;
           }
           widget.program.isHovered = !widget.program.isHovered;
@@ -79,17 +81,17 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.center,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         QmText(
-                            text:
-                                "${S.current.Workouts}${(widget.program.workouts).length.toString()}"),
+                          text:
+                              '${S.current.Workouts}${widget.program.workouts.length}',
+                        ),
                         QmText(
-                            text:
-                                "${S.current.Trainees}${(widget.program.traineesIds).length.toString()}"),
+                          text:
+                              '${S.current.Trainees}${widget.program.traineesIds.length}',
+                        ),
                       ],
                     ),
                   ),
@@ -103,14 +105,14 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                           Routes.programRootR,
                           extra: {
                             ProgramModel.modelKey: widget.program,
-                            "isTrainee": widget.isTrainee,
+                            'isTrainee': widget.isTrainee,
                           },
                         ),
-                        iconSize: 25.0,
+                        iconSize: 25,
                         icon: EvaIcons.arrowIosUpward,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             );
