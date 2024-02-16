@@ -33,7 +33,7 @@ class ExerciseBlock extends StatelessWidget {
             borderRadius: SimpleConstants.borderRadius,
             color: ColorConstants.disabledColorWithOpacity,
           ),
-          QmImageNetwork(
+          QmImage.network(
             source: exercise.contentURL,
             fallbackIcon: EvaIcons.plus,
           ),
@@ -48,15 +48,11 @@ class ExerciseBlock extends StatelessWidget {
                 SizedBox(
                   child: QmText(
                     text: exercise.name,
-                    overflow: TextOverflow.fade,
-                    maxWidth: width * .3,
                   ),
                 ),
                 QmText(
                   text: exercise.target,
-                  overflow: TextOverflow.fade,
                   isSeccoundary: true,
-                  maxWidth: width * .25,
                 ),
               ],
             ),
@@ -133,8 +129,8 @@ class ExerciseBlock extends StatelessWidget {
                 loading: () => SizedBox(
                   width: width * .2,
                   height: height * .3,
-                  child: const Center(
-                    child: QmCircularProgressIndicator(),
+                  child: Center(
+                    child: QmLoader.indicator(),
                   ),
                 ),
                 error: (error, stackTrace) => Center(
@@ -185,10 +181,9 @@ class _ChangeSetModalSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             QmTextField(
+              textInputAction: TextInputAction.next,
               fieldColor: ColorConstants.disabledColor,
               controller: setWeightTextController,
-              height: height * .1,
-              width: double.maxFinite,
               hintText: S.current.Weight,
               validator: (value) {
                 if (ValidationController.validateOnlyNumbers(value!) == false) {
@@ -197,17 +192,47 @@ class _ChangeSetModalSheet extends StatelessWidget {
                 return null;
               },
             ),
-            QmTextField(
-              fieldColor: ColorConstants.disabledColor,
-              controller: setRepsTextController,
-              height: height * .1,
-              width: double.maxFinite,
-              hintText: S.current.Reps,
-              validator: (value) {
-                if (ValidationController.validateOnlyNumbers(value!) == false) {
-                  return S.current.EnterValidNumber;
-                }
-                return null;
+            Consumer(
+              builder: (_, WidgetRef ref, __) {
+                return QmTextField(
+                  textInputAction: TextInputAction.go,
+                  fieldColor: ColorConstants.disabledColor,
+                  controller: setRepsTextController,
+                  hintText: S.current.Reps,
+                  validator: (value) {
+                    if (ValidationController.validateOnlyNumbers(value!) ==
+                        false) {
+                      return S.current.EnterValidNumber;
+                    }
+                    return null;
+                  },
+                  onEditingComplete: () {
+                    if (programId != null) {
+                      programUtil.changeSetToProgramWorkout(
+                        formKey: formKey,
+                        workoutCollectionName: workoutCollectionName,
+                        exerciseDocName: exerciseDocName,
+                        context: context,
+                        ref: ref,
+                        programId: programId!,
+                        indexToInsert: index,
+                        reps: setRepsTextController.text,
+                        weight: setWeightTextController.text,
+                      );
+                    } else {
+                      exerciseUtil.changeSet(
+                        formKey: formKey,
+                        context: context,
+                        reps: setRepsTextController.text,
+                        weight: setWeightTextController.text,
+                        ref: ref,
+                        workoutCollectionName: workoutCollectionName,
+                        exerciseDocName: exerciseDocName,
+                        indexToInsert: index,
+                      );
+                    }
+                  },
+                );
               },
             ),
             Consumer(
@@ -215,7 +240,7 @@ class _ChangeSetModalSheet extends StatelessWidget {
                 return QmBlock(
                   onTap: () {
                     if (programId != null) {
-                      ProgramsUtil().changeSetToProgramWorkout(
+                      programUtil.changeSetToProgramWorkout(
                         formKey: formKey,
                         workoutCollectionName: workoutCollectionName,
                         exerciseDocName: exerciseDocName,
@@ -243,7 +268,6 @@ class _ChangeSetModalSheet extends StatelessWidget {
                   width: double.maxFinite,
                   child: QmText(
                     text: S.current.AddWorkout,
-                    maxWidth: double.maxFinite,
                   ),
                 );
               },

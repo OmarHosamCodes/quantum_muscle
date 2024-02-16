@@ -8,7 +8,7 @@ class RoutingDrawer extends StatelessWidget {
     final routingController = RoutingController();
     final locale = Intl.getCurrentLocale();
     return Drawer(
-      backgroundColor: ColorConstants.secondaryColor,
+      backgroundColor: ColorConstants.backgroundColor,
       child: SafeArea(
         child: Column(
           children: [
@@ -93,7 +93,7 @@ class RoutingDrawer extends StatelessWidget {
                 text: S.current.Logout,
               ),
               onTap: () {
-                LogoutUtil().logout(context);
+                logoutUtil.logout(context);
               },
             ),
           ],

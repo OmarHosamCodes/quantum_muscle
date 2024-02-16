@@ -52,3 +52,42 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
+
+/*
+flutter clean && flutter pub get && clear
+&& flutter build web --release --web-renderer html && firebase deploy
+*/
+
+class NoTransitionsOnWeb extends PageTransitionsTheme {
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    if (kIsWeb) {
+      return child;
+    }
+    return super.buildTransitions(
+      route,
+      context,
+      animation,
+      secondaryAnimation,
+      child,
+    );
+  }
+}
+
+final workoutUtil = WorkoutUtil();
+final programUtil = ProgramUtil();
+final exerciseUtil = ExerciseUtil();
+final userUtil = UserUtil();
+final utils = Utils();
+final loginUtil = LoginUtil();
+final logoutUtil = LogoutUtil();
+final registerUtil = RegisterUtil();
+final forgetPasswordUtil = ForgetPasswordUtil();
+final profileUtil = ProfileUtil();
+final chatUtil = ChatUtil();

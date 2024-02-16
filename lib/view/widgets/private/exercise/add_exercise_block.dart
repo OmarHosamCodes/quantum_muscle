@@ -19,11 +19,12 @@ class AddExerciseTile extends StatelessWidget {
   final String? programName;
   final String workoutCollectionName;
 
+  static final exerciseNameTextController = TextEditingController();
+  static final exerciseTargetTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final exerciseNameTextController = TextEditingController();
-    final exerciseTargetTextController = TextEditingController();
-    final exerciseUtil = ExerciseUtil();
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return SlimyCard(
       color: ColorConstants.primaryColor,
@@ -31,32 +32,38 @@ class AddExerciseTile extends StatelessWidget {
       bottomCardHeight: height >= 150 ? 150 : height * 0.2,
       topCardWidget: Consumer(
         builder: (_, ref, __) {
-          final imageWatcher = ref.watch(exerciseImageBytesProvider) ?? '';
-          final networkImageWatcher =
-              ref.watch(exerciseNetworkImageProvider) ?? '';
+          final exerciseImage = ref.watch(
+            chooseProvider.select((value) => value.exerciseImage),
+          );
+          final networkImage = ref.watch(
+            chooseProvider.select((value) => value.publicExerciseImage),
+          );
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Visibility(
-                visible: networkImageWatcher.isEmpty,
+                visible: networkImage.isEmpty,
                 child: Flexible(
                   child: QmBlock(
                     width: 100,
                     height: height * .2,
-                    onTap: () => exerciseUtil.chooseImageFromStorage(
-                      ref: ref,
-                      provider: exerciseImageBytesProvider,
-                    ),
-                    child: QmImageMemory(
-                      source: imageWatcher,
+                    onTap: () async => ref
+                        .read(
+                          chooseProvider.notifier,
+                        )
+                        .setExerciseImage(
+                          (await exerciseUtil.chooseImageFromStorage())!,
+                        ),
+                    child: QmImage.memory(
+                      source: exerciseImage,
                       fallbackIcon: EvaIcons.plus,
                     ),
                   ),
                 ),
               ),
               Visibility(
-                visible: imageWatcher.isEmpty,
+                visible: exerciseImage.isEmpty,
                 child: Flexible(
                   child: Consumer(
                     builder: (_, WidgetRef ref, __) {
@@ -69,8 +76,8 @@ class AddExerciseTile extends StatelessWidget {
                             width: 100,
                             height: height * .2,
                             onTap: () => context.push(Routes.addExerciseR),
-                            child: QmImageNetwork(
-                              source: networkImageWatcher,
+                            child: QmImage.network(
+                              source: networkImage,
                               fallbackIcon: EvaIcons.search,
                             ),
                           );
@@ -78,8 +85,8 @@ class AddExerciseTile extends StatelessWidget {
                         error: (error, stackTrace) {
                           return QmText(text: error.toString());
                         },
-                        loading: () => const Center(
-                          child: QmCircularProgressIndicator(),
+                        loading: () => Center(
+                          child: QmLoader.indicator(),
                         ),
                       );
                     },
@@ -95,38 +102,121 @@ class AddExerciseTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            QmTextField(
-              height: height * .2,
+            SizedBox(
               width: width,
-              controller: exerciseNameTextController,
-              hintText: S.current.EnterExerciseName,
-              fontSize: 40,
+              height: 100,
+              child: QmTextField(
+                textInputAction: TextInputAction.next,
+                controller: exerciseNameTextController,
+                hintText: S.current.EnterExerciseName,
+                fontSize: 40,
+              ),
             ),
             const SizedBox(
               height: 5,
             ),
-            QmTextField(
-              height: height * .2,
+            SizedBox(
               width: width,
-              controller: exerciseTargetTextController,
-              hintText: S.current.EnterExerciseTarget,
-              fontSize: 40,
+              height: 100,
+              child: Consumer(
+                builder: (_, WidgetRef ref, __) {
+                  final exerciseImage = ref.watch(
+                    chooseProvider.select((value) => value.exerciseImage),
+                  );
+                  final networkImage = ref.watch(
+                    chooseProvider.select((value) => value.publicExerciseImage),
+                  );
+                  return QmTextField(
+                    textInputAction: TextInputAction.go,
+                    controller: exerciseTargetTextController,
+                    hintText: S.current.EnterExerciseTarget,
+                    fontSize: 40,
+                    onEditingComplete: () async {
+                      if (exerciseNameTextController.text.isNotEmpty &&
+                          exerciseTargetTextController.text.isNotEmpty) {
+                        if (exerciseImage.isEmpty) {
+                          if (programId != null) {
+                            await programUtil.addExerciesToProgramWorkout(
+                              context: context,
+                              ref: ref,
+                              programId: programId!,
+                              workoutCollectionName: workoutCollectionName,
+                              programName: programName!,
+                              exerciseName: exerciseNameTextController.text,
+                              exerciseTarget: exerciseTargetTextController.text,
+                              content: exerciseImage,
+                              contentType: ExerciseShowcaseConstants.image,
+                              isLink: false,
+                            );
+                          } else {
+                            await exerciseUtil.add(
+                              context: context,
+                              ref: ref,
+                              workoutCollectionName: workoutCollectionName,
+                              exerciseName: exerciseNameTextController.text,
+                              exerciseTarget: exerciseTargetTextController.text,
+                              content: exerciseImage,
+                              contentType: ExerciseShowcaseConstants.image,
+                              isLink: false,
+                            );
+                          }
+                        } else {
+                          if (programId != null) {
+                            await programUtil.addExerciesToProgramWorkout(
+                              context: context,
+                              ref: ref,
+                              programId: programId!,
+                              workoutCollectionName: workoutCollectionName,
+                              programName: programName!,
+                              exerciseName: exerciseNameTextController.text,
+                              exerciseTarget: exerciseTargetTextController.text,
+                              content: networkImage,
+                              contentType: ExerciseShowcaseConstants.image,
+                              isLink: true,
+                            );
+                          } else {
+                            await exerciseUtil.add(
+                              context: context,
+                              ref: ref,
+                              workoutCollectionName: workoutCollectionName,
+                              exerciseName: exerciseNameTextController.text,
+                              exerciseTarget: exerciseTargetTextController.text,
+                              content: networkImage,
+                              contentType: ExerciseShowcaseConstants.image,
+                              isLink: true,
+                            );
+                          }
+                        }
+                      } else {
+                        openQmDialog(
+                          context: context,
+                          title: S.current.Failed,
+                          message: S.current.DefaultError,
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 5,
             ),
             Consumer(
               builder: (_, ref, __) {
-                final imageWatcher = ref.watch(exerciseImageBytesProvider);
-                final networkImageWatcher =
-                    ref.watch(exerciseNetworkImageProvider);
+                final exerciseImage = ref.watch(
+                  chooseProvider.select((value) => value.exerciseImage),
+                );
+                final networkImage = ref.watch(
+                  chooseProvider.select((value) => value.publicExerciseImage),
+                );
                 return QmBlock(
                   onTap: () async {
                     if (exerciseNameTextController.text.isNotEmpty &&
                         exerciseTargetTextController.text.isNotEmpty) {
-                      if (imageWatcher != null) {
+                      if (exerciseImage.isEmpty) {
                         if (programId != null) {
-                          await ProgramsUtil().addExerciesToProgramWorkout(
+                          await programUtil.addExerciesToProgramWorkout(
                             context: context,
                             ref: ref,
                             programId: programId!,
@@ -134,25 +224,25 @@ class AddExerciseTile extends StatelessWidget {
                             programName: programName!,
                             exerciseName: exerciseNameTextController.text,
                             exerciseTarget: exerciseTargetTextController.text,
-                            content: imageWatcher,
+                            content: exerciseImage,
                             contentType: ExerciseShowcaseConstants.image,
                             isLink: false,
                           );
                         } else {
-                          await exerciseUtil.addExercise(
+                          await exerciseUtil.add(
                             context: context,
                             ref: ref,
                             workoutCollectionName: workoutCollectionName,
                             exerciseName: exerciseNameTextController.text,
                             exerciseTarget: exerciseTargetTextController.text,
-                            content: imageWatcher,
+                            content: exerciseImage,
                             contentType: ExerciseShowcaseConstants.image,
                             isLink: false,
                           );
                         }
                       } else {
                         if (programId != null) {
-                          await ProgramsUtil().addExerciesToProgramWorkout(
+                          await programUtil.addExerciesToProgramWorkout(
                             context: context,
                             ref: ref,
                             programId: programId!,
@@ -160,18 +250,18 @@ class AddExerciseTile extends StatelessWidget {
                             programName: programName!,
                             exerciseName: exerciseNameTextController.text,
                             exerciseTarget: exerciseTargetTextController.text,
-                            content: networkImageWatcher!,
+                            content: networkImage,
                             contentType: ExerciseShowcaseConstants.image,
                             isLink: true,
                           );
                         } else {
-                          await exerciseUtil.addExercise(
+                          await exerciseUtil.add(
                             context: context,
                             ref: ref,
                             workoutCollectionName: workoutCollectionName,
                             exerciseName: exerciseNameTextController.text,
                             exerciseTarget: exerciseTargetTextController.text,
-                            content: networkImageWatcher!,
+                            content: networkImage,
                             contentType: ExerciseShowcaseConstants.image,
                             isLink: true,
                           );

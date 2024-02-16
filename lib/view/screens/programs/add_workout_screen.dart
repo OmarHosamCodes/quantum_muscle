@@ -1,13 +1,13 @@
 import 'package:quantum_muscle/library.dart';
 
-class AddWorkoutsScreen extends ConsumerStatefulWidget {
-  const AddWorkoutsScreen({super.key});
+class AddWorkoutScreen extends ConsumerStatefulWidget {
+  const AddWorkoutScreen({super.key});
 
   @override
-  ConsumerState<AddWorkoutsScreen> createState() => _AddWorkoutsScreenState();
+  ConsumerState<AddWorkoutScreen> createState() => _AddWorkoutScreenState();
 }
 
-class _AddWorkoutsScreenState extends ConsumerState<AddWorkoutsScreen>
+class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -55,12 +55,15 @@ class _AddWorkoutsScreenState extends ConsumerState<AddWorkoutsScreen>
                     ),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        ref.read(workoutNetworkImageProvider.notifier).state =
-                            e.$2[index];
+                        ref
+                            .read(addWorkoutNotifierProvider.notifier)
+                            .setContent(
+                              e.$2[index],
+                            );
                         context.pop();
                       },
                       child: GridTile(
-                        child: QmImageNetwork(
+                        child: QmImage.network(
                           source: e.$2[index],
                           fit: BoxFit.cover,
                         ),
@@ -71,7 +74,7 @@ class _AddWorkoutsScreenState extends ConsumerState<AddWorkoutsScreen>
                 .toList(),
           );
         },
-        loading: () => const Center(child: QmCircularProgressIndicator()),
+        loading: () => Center(child: QmLoader.indicator()),
         error: (error, stackTrace) => Center(
           child: Text(
             error.toString(),

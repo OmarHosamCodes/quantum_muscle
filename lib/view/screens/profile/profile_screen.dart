@@ -19,29 +19,29 @@ class ProfileScreen extends StatelessWidget {
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 ref.watch(localeProvider);
-                final userWatcher = ref.watch(userProvider(Utils().userUid!));
+                final userWatcher = ref.watch(userProvider(utils.userUid!));
                 return userWatcher.when(
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => const Row(
+                  loading: () => Row(
                     children: [
-                      QmShimmerRound(size: 40),
+                      QmShimmer.round(size: 40),
                       Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 10,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            QmShimmer(
+                            QmShimmer.rectangle(
                               height: 30,
                               width: 100,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            QmShimmer(
+                            QmShimmer.rectangle(
                               height: 30,
                               width: 100,
                             ),
@@ -71,10 +71,9 @@ class ProfileScreen extends StatelessWidget {
                                 QmText(
                                   text: '#${user.id.substring(0, 8)}...',
                                   isSeccoundary: true,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 QmIconButton(
-                                  onPressed: () => Utils().copyToClipboard(
+                                  onPressed: () => utils.copyToClipboard(
                                     text: user.id,
                                   ),
                                   icon: EvaIcons.copyOutline,
@@ -88,19 +87,19 @@ class ProfileScreen extends StatelessWidget {
                       Consumer(
                         builder: (_, WidgetRef ref, __) {
                           final userWatcher =
-                              ref.watch(userProvider(Utils().userUid!));
+                              ref.watch(userProvider(utils.userUid!));
                           return userWatcher.when(
                             error: (error, stackTrace) => Center(
                               child: QmText(text: S.current.DefaultError),
                             ),
-                            loading: () => const Column(
+                            loading: () => Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                QmShimmer(
+                                QmShimmer.rectangle(
                                   width: 150,
                                   height: 300,
                                 ),
-                                QmShimmer(
+                                QmShimmer.rectangle(
                                   width: 150,
                                   height: 300,
                                 ),
@@ -141,26 +140,26 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 5),
             Consumer(
               builder: (_, WidgetRef ref, __) {
-                final userWatcher = ref.watch(userProvider(Utils().userUid!));
+                final userWatcher = ref.watch(userProvider(utils.userUid!));
                 return userWatcher.when(
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => const Row(
+                  loading: () => Row(
                     children: [
-                      QmShimmer(width: 25, height: 30),
-                      SizedBox(
+                      QmShimmer.rectangle(width: 25, height: 30),
+                      const SizedBox(
                         width: 5,
                       ),
-                      QmShimmer(width: 40, height: 30),
-                      SizedBox(
+                      QmShimmer.rectangle(width: 40, height: 30),
+                      const SizedBox(
                         width: 5,
                       ),
-                      QmShimmer(width: 25, height: 30),
-                      SizedBox(
+                      QmShimmer.rectangle(width: 25, height: 30),
+                      const SizedBox(
                         width: 5,
                       ),
-                      QmShimmer(width: 40, height: 30),
+                      QmShimmer.rectangle(width: 40, height: 30),
                     ],
                   ),
                   data: (user) => Row(
@@ -196,12 +195,12 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 5),
             Consumer(
               builder: (_, WidgetRef ref, __) {
-                final userWatcher = ref.watch(userProvider(Utils().userUid!));
+                final userWatcher = ref.watch(userProvider(utils.userUid!));
                 return userWatcher.when(
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => QmShimmer(
+                  loading: () => QmShimmer.rectangle(
                     width: width * .5,
                     height: 50,
                   ),
@@ -219,7 +218,7 @@ class ProfileScreen extends StatelessWidget {
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 final contentWatcher =
-                    ref.watch(contentProvider(Utils().userUid!));
+                    ref.watch(contentProvider(utils.userUid!));
                 return contentWatcher.when(
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
@@ -235,7 +234,7 @@ class ProfileScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (_, index) {
-                      return const QmShimmer(
+                      return QmShimmer.rectangle(
                         width: 100,
                         height: 100,
                       );
@@ -270,7 +269,7 @@ class ProfileScreen extends StatelessWidget {
                                 extra: {
                                   ContentModel.modelKey: contents,
                                   'indexKey': index,
-                                  UserModel.idKey: Utils().userUid!,
+                                  UserModel.idKey: utils.userUid!,
                                 },
                               ),
                               child: QmBlock(
@@ -280,7 +279,7 @@ class ProfileScreen extends StatelessWidget {
                                   tag: content.id,
                                   child: ClipRRect(
                                     borderRadius: SimpleConstants.borderRadius,
-                                    child: QmImageNetwork(
+                                    child: QmImage.network(
                                       source: content.contentURL,
                                       fit: BoxFit.cover,
                                       width: double.maxFinite,

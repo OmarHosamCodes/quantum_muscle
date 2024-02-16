@@ -1,81 +1,76 @@
 import 'package:quantum_muscle/library.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
-  SearchScreenState createState() => SearchScreenState();
-}
-
-class SearchScreenState extends State<SearchScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  List<DocumentSnapshot> _searchResults = [];
-
-  Future<void> _performSearch() async {
-    final QuerySnapshot query = await Utils()
-        .firebaseFirestore
-        .collection(DBPathsConstants.usersPath)
-        .where(UserModel.tagsKey, arrayContains: _searchController.text)
-        .limit(10)
-        .get();
-
-    setState(() {
-      _searchResults = query.docs;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final searchTextController = TextEditingController();
     final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: Column(
         children: [
           Consumer(
             builder: (_, ref, __) {
-              ref.watch(localeProvider);
+              ref.watch(
+                searchStateNotifierProvider.select(
+                  (value) => value.searchText,
+                ),
+              );
               return Padding(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.symmetric(horizontal: width * .15),
                 child: QmTextField(
-                  height: height * 0.1,
-                  width: width * 0.9,
+                  textInputAction: TextInputAction.go,
                   hintText: S.current.Search,
-                  controller: _searchController,
-                  onChanged: (value) => _performSearch(),
+                  controller: searchTextController,
+                  onEditingComplete: () {
+                    ref
+                        .read(searchStateNotifierProvider.notifier)
+                        .setSearchText(searchTextController.text);
+                    ref
+                        .read(searchStateNotifierProvider.notifier)
+                        .performSearch();
+                  },
                 ),
               );
             },
           ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: _searchResults.length,
-              itemBuilder: (context, index) {
-                final userData =
-                    _searchResults[index].data()! as Map<String, dynamic>;
+            child: Consumer(
+              builder: (_, WidgetRef ref, __) {
+                ref.watch(
+                  searchStateNotifierProvider.select(
+                    (value) => value.searchResults,
+                  ),
+                );
+                final results =
+                    ref.read(searchStateNotifierProvider).searchResults;
 
-                final name = userData[UserModel.nameKey] as String;
-                final id = userData[UserModel.idKey] as String;
-                final image = userData[UserModel.profileImageURLKey] as String;
-                return ListTile(
-                  leading: QmAvatar(
-                    imageUrl: image,
-                  ),
-                  title: QmText(text: name),
-                  subtitle: QmText(
-                    text: id,
-                    isSeccoundary: true,
-                  ),
-                  onTap: () {
-                    Utils().firebaseAnalytics.logSearch(
-                      searchTerm: name,
-                      parameters: {UserModel.idKey: id},
-                    );
-                    context.pushNamed(
-                      Routes.profileRootR,
-                      pathParameters: {
-                        UserModel.idKey: _searchResults[index].id,
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: results.length,
+                  itemBuilder: (context, index) {
+                    final user = results[index];
+                    return ListTile(
+                      leading: QmAvatar(
+                        imageUrl: user.profileImageURL,
+                      ),
+                      title: QmText(text: user.name),
+                      subtitle: QmText(
+                        text: user.id,
+                        isSeccoundary: true,
+                      ),
+                      onTap: () {
+                        utils.firebaseAnalytics.logSearch(
+                          searchTerm: user.name,
+                          parameters: {UserModel.idKey: user.id},
+                        );
+                        context.pushNamed(
+                          Routes.profileRootR,
+                          pathParameters: {
+                            UserModel.idKey: user.id,
+                          },
+                        );
                       },
                     );
                   },
@@ -88,3 +83,50 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+
+class SearchState {
+  const SearchState({
+    required this.searchText,
+    required this.searchResults,
+  });
+  final String searchText;
+  final List<UserModel> searchResults;
+
+  SearchState copyWith({
+    String? searchText,
+    List<UserModel>? searchResults,
+  }) {
+    return SearchState(
+      searchText: searchText ?? this.searchText,
+      searchResults: searchResults ?? this.searchResults,
+    );
+  }
+}
+
+class SearchStateNotifier extends StateNotifier<SearchState> {
+  SearchStateNotifier()
+      : super(
+          const SearchState(
+            searchText: '',
+            searchResults: [],
+          ),
+        );
+
+  void setSearchText(String searchText) {
+    state = state.copyWith(searchText: searchText);
+  }
+
+  void setSearchResults(List<UserModel> searchResults) {
+    state = state.copyWith(searchResults: searchResults);
+  }
+
+  Future<void> performSearch() async {
+    final searchResults = await UserUtil().searchUsers(state.searchText);
+    setSearchResults(searchResults);
+  }
+}
+
+final searchStateNotifierProvider =
+    StateNotifierProvider<SearchStateNotifier, SearchState>(
+  (ref) => SearchStateNotifier(),
+);

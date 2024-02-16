@@ -9,18 +9,6 @@ class ProgramsScreen extends ConsumerStatefulWidget {
 
 class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(_, () {
-        ref
-          ..read(programsProvider)
-          ..invalidate(programsProvider);
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -34,7 +22,7 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
               builder: (_, ref, __) {
                 ref.watch(localeProvider);
                 final programsWatcher = ref.watch(programsProvider);
-                final userWatcher = ref.watch(userProvider(Utils().userUid!));
+                final userWatcher = ref.watch(userProvider(utils.userUid!));
                 bool isTrainee() {
                   return userWatcher.maybeWhen(
                     data: (user) => user.type == UserType.trainee,
@@ -67,7 +55,7 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
                         horizontal: width * .05,
                       ),
                       itemCount: 4,
-                      itemBuilder: (context, index) => const QmShimmer(
+                      itemBuilder: (context, index) => QmShimmer.rectangle(
                         width: 150,
                         height: 300,
                         radius: 10,
@@ -89,7 +77,7 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
             const SizedBox(height: 20),
             SizedBox(
               height: height * .4,
-              child: const WorkoutShowcase(),
+              child: const WorkoutsShowcase(),
             ),
           ],
         ),

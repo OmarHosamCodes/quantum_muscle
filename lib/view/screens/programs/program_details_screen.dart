@@ -13,15 +13,9 @@ class ProgramDetailsScreen extends StatelessWidget {
     final isTrainee = arguments['isTrainee'] as bool;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
+    bool isDesktop() => !ResponsiveBreakpoints.of(context).smallerThan(DESKTOP);
 
-    bool isTablet() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
-      return true;
-    }
+    bool isTablet() => !ResponsiveBreakpoints.of(context).smallerThan(TABLET);
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
@@ -46,20 +40,20 @@ class ProgramDetailsScreen extends StatelessWidget {
                         text: program.name,
                       ),
                       QmText(
-                        text: Utils().timeAgo(program.creationDate),
+                        text: utils.timeAgo(program.creationDate),
                         isSeccoundary: true,
                       ),
                     ],
                   ),
                   Visibility.maintain(
-                    visible: program.trainerId == Utils().userUid,
+                    visible: program.trainerId == utils.userUid,
                     child: Consumer(
                       builder: (_, ref, __) {
                         return FittedBox(
                           child: Column(
                             children: [
                               QmIconButton(
-                                onPressed: () => ProgramsUtil().deleteProgram(
+                                onPressed: () => programUtil.deleteProgram(
                                   context: context,
                                   programId: program.id,
                                   traineesIds: program.traineesIds,
@@ -85,7 +79,7 @@ class ProgramDetailsScreen extends StatelessWidget {
             ),
             //? Trainees Avatars
             Visibility(
-              visible: program.trainerId == Utils().userUid!,
+              visible: program.trainerId == utils.userUid!,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -118,7 +112,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: List.generate(
                               5,
-                              (index) => const QmShimmerRound(
+                              (index) => QmShimmer.round(
                                 size: 20,
                               ),
                             ),
@@ -181,7 +175,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                                     fit: FlexFit.tight,
                                     child: Hero(
                                       tag: workout.id,
-                                      child: QmImageNetwork(
+                                      child: QmImage.network(
                                         source: workout.imageURL,
                                         fallbackIcon: EvaIcons.plus,
                                       ),
@@ -190,8 +184,6 @@ class ProgramDetailsScreen extends StatelessWidget {
                                   Flexible(
                                     child: QmText(
                                       text: workout.name,
-                                      maxWidth: double.maxFinite,
-                                      overflow: TextOverflow.clip,
                                     ),
                                   ),
                                 ],
@@ -214,7 +206,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                               ? 2
                               : 1,
                     ),
-                    itemBuilder: (context, index) => const QmShimmer(
+                    itemBuilder: (context, index) => QmShimmer.rectangle(
                       width: 100,
                       height: 100,
                       radius: 10,

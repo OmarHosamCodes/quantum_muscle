@@ -2,16 +2,19 @@
 
 import 'package:quantum_muscle/library.dart';
 
-class ProgramsUtil extends Utils {
+class ProgramUtil extends Utils {
   Future<void> addProgram({
     required BuildContext context,
     required String programName,
     required WidgetRef ref,
     required int programsLength,
+    required GlobalKey<FormState> formKey,
   }) async {
-    openQmLoaderDialog(context: context);
+    if (!formKey.currentState!.validate()) return;
+
+    QmLoader.openLoader(context: context);
     if (programsLength >= 5) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.current.Failed,
@@ -23,7 +26,7 @@ class ProgramsUtil extends Utils {
           name: AnalyticsEventNamesConstants.addProgram,
         );
         final programModel = ProgramModel(
-          id: const Uuid().v4().substring(0, 16),
+          id: const Uuid().v8(),
           name: programName,
           trainerId: userUid!,
           traineesIds: [],
@@ -55,9 +58,9 @@ class ProgramsUtil extends Utils {
           ..read(programsProvider)
           ..invalidate(userProvider(userUid!))
           ..read(userProvider(userUid!));
-        context.pop();
+        QmLoader.closeLoader(context: context);
       } catch (e) {
-        context.pop();
+        QmLoader.closeLoader(context: context);
         openQmDialog(
           context: context,
           title: S.current.Failed,
@@ -73,7 +76,7 @@ class ProgramsUtil extends Utils {
     required List traineesIds,
     required WidgetRef ref,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.removeProgram,
@@ -103,10 +106,10 @@ class ProgramsUtil extends Utils {
       }
 
       while (context.canPop()) {
-        context.pop();
+        QmLoader.closeLoader(context: context);
       }
     } catch (e) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.current.Failed,
@@ -121,7 +124,7 @@ class ProgramsUtil extends Utils {
     required WidgetRef ref,
     required String programRequestId,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.sendRequest,
@@ -144,7 +147,7 @@ class ProgramsUtil extends Utils {
         message: S.current.WillYouJoinProgram,
         programRequestId: programRequestId,
       );
-      context.pop();
+      QmLoader.closeLoader(context: context);
     } catch (e) {
       openQmDialog(
         context: context,
@@ -161,7 +164,7 @@ class ProgramsUtil extends Utils {
     required String programId,
     required String messageId,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.acceptRequest,
@@ -199,7 +202,7 @@ class ProgramsUtil extends Utils {
         ..read(programsProvider)
         ..invalidate(userProvider(userUid!))
         ..read(userProvider(userUid!));
-      context.pop();
+      QmLoader.closeLoader(context: context);
     } catch (e) {
       openQmDialog(
         context: context,
@@ -215,7 +218,7 @@ class ProgramsUtil extends Utils {
     required WorkoutModel workout,
     required WidgetRef ref,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addProgramWorkout,
@@ -274,9 +277,9 @@ class ProgramsUtil extends Utils {
           },
         );
 
-        context.pop();
+        QmLoader.closeLoader(context: context);
       } else {
-        context.pop();
+        QmLoader.closeLoader(context: context);
         openQmDialog(
           context: context,
           title: S.current.TryAgain,
@@ -284,7 +287,7 @@ class ProgramsUtil extends Utils {
         );
       }
     } catch (e) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
 
       openQmDialog(
         context: context,
@@ -299,7 +302,7 @@ class ProgramsUtil extends Utils {
     required BuildContext context,
     required String programId,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.removeProgramWorkout,
@@ -319,10 +322,10 @@ class ProgramsUtil extends Utils {
             FieldValue.arrayRemove([workoutCollectionName]),
       });
       while (context.canPop()) {
-        context.pop();
+        QmLoader.closeLoader(context: context);
       }
     } catch (e) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
@@ -381,14 +384,14 @@ class ProgramsUtil extends Utils {
     required String contentType,
     required bool isLink,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
 
     if (user != null) {
       try {
         await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.addProgramExercise,
         );
-        final id = const Uuid().v4().substring(0, 12);
+        final id = const Uuid().v8();
         if (isLink) {
           final exercise = ExerciseModel(
             id: id,
@@ -438,7 +441,6 @@ class ProgramsUtil extends Utils {
             creationDate: Timestamp.now(),
           );
           final storageRef = firebaseStorage
-              .ref()
               .child(DBPathsConstants.usersPath)
               .child(userUid!)
               .child(DBPathsConstants.programsPath)
@@ -476,10 +478,9 @@ class ProgramsUtil extends Utils {
             SetOptions(merge: true),
           );
         }
-        ref.read(exerciseImageBytesProvider.notifier).state = null;
-        context.pop();
+        QmLoader.closeLoader(context: context);
       } catch (e) {
-        context.pop();
+        QmLoader.closeLoader(context: context);
         openQmDialog(
           context: context,
           title: S.current.Failed,
@@ -523,9 +524,9 @@ class ProgramsUtil extends Utils {
           merge: true,
         ),
       );
-      context.pop();
+      QmLoader.closeLoader(context: context);
     } catch (e) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.current.Failed,

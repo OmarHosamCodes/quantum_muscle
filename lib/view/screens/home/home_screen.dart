@@ -40,7 +40,6 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       QmText(
                         text: S.current.Slogan,
-                        maxWidth: 140,
                       ),
                       SizedBox(
                         width: width * .05,
@@ -55,7 +54,7 @@ class HomeScreen extends StatelessWidget {
               Consumer(
                 builder: (_, ref, __) {
                   final generalAnalytics =
-                      ref.watch(generalAnalyticsProvider(Utils().userUid!));
+                      ref.watch(generalAnalyticsProvider(utils.userUid!));
 
                   return generalAnalytics.maybeWhen(
                     data: (analytics) {
@@ -72,9 +71,7 @@ class HomeScreen extends StatelessWidget {
                           totalTrainees: tTrainees,
                           totalWorkouts: tWorkouts,
                           totalExercises: tExercises,
-                        ).animate().fade(
-                              duration: SimpleConstants.slowAnimationDuration,
-                            ),
+                        ),
                       );
                     },
                     error: (error, stackTrace) => QmText(

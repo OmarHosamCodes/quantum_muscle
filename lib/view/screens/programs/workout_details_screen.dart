@@ -16,15 +16,10 @@ class WorkoutDetailsScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final workoutCollectionName = '${workout.name}-${workout.id}';
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
 
-    bool isTablet() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
-      return true;
-    }
+    bool isDesktop() => !ResponsiveBreakpoints.of(context).smallerThan(DESKTOP);
+
+    bool isTablet() => !ResponsiveBreakpoints.of(context).smallerThan(TABLET);
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
@@ -47,11 +42,10 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     SizedBox(
                       child: QmText(
                         text: workout.name,
-                        overflow: TextOverflow.clip,
                       ),
                     ),
                     QmText(
-                      text: Utils().timeAgo(workout.creationDate),
+                      text: utils.timeAgo(workout.creationDate),
                       isSeccoundary: true,
                     ),
                   ],
@@ -60,7 +54,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                   tag: workout.id,
                   child: SizedBox.square(
                     dimension: width * 0.2,
-                    child: QmImageNetwork(
+                    child: QmImage.network(
                       source: workout.imageURL,
                       fallbackIcon: EvaIcons.plus,
                     ),
@@ -72,13 +66,13 @@ class WorkoutDetailsScreen extends StatelessWidget {
                       QmIconButton(
                         onPressed: () {
                           if (programId != null) {
-                            ProgramsUtil().deleteWorkoutToProgram(
+                            programUtil.deleteWorkoutToProgram(
                               workoutCollectionName: workoutCollectionName,
                               context: context,
                               programId: programId,
                             );
                           } else {
-                            WorkoutUtil().deleteWorkout(
+                            workoutUtil.delete(
                               workoutCollectionName: workoutCollectionName,
                               context: context,
                             );
@@ -154,20 +148,23 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                loading: () => StaggeredGrid.count(
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: isDesktop()
-                      ? 3
-                      : isTablet()
-                          ? 2
-                          : 1,
-                  children: List.generate(
-                    3,
-                    (index) => const QmShimmer(
-                      width: 300,
-                      height: 300,
-                      radius: 10,
+                loading: () => SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: StaggeredGrid.count(
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    crossAxisCount: isDesktop()
+                        ? 3
+                        : isTablet()
+                            ? 2
+                            : 1,
+                    children: List.generate(
+                      3,
+                      (index) => QmShimmer.rectangle(
+                        width: 300,
+                        height: 300,
+                        radius: 10,
+                      ),
                     ),
                   ),
                 ),

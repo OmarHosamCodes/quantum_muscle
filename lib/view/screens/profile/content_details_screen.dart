@@ -14,17 +14,9 @@ class ContentDetailsScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final controller =
         ScrollController(initialScrollOffset: height * startIndex);
+    bool isDesktop() => !ResponsiveBreakpoints.of(context).smallerThan(DESKTOP);
 
-    bool isDesktop() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(DESKTOP)) return false;
-      return true;
-    }
-
-    bool isTablet() {
-      if (ResponsiveBreakpoints.of(context).smallerThan(TABLET)) return false;
-      return true;
-    }
-
+    bool isTablet() => !ResponsiveBreakpoints.of(context).smallerThan(TABLET);
     EdgeInsets getResponsiveMargin() {
       if (isDesktop()) {
         return EdgeInsets.symmetric(
@@ -86,7 +78,7 @@ class ContentDetailsScreen extends StatelessWidget {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           ),
-                          child: QmImageNetwork(
+                          child: QmImage.network(
                             source: content.contentURL,
                             fit: BoxFit.cover,
                             width: double.maxFinite,
@@ -110,8 +102,7 @@ class ContentDetailsScreen extends StatelessWidget {
                               icon: watcherContent.likes.contains(userID)
                                   ? EvaIcons.heart
                                   : EvaIcons.heartOutline,
-                              onPressed: () =>
-                                  ProfileUtil().likeOrDislikeContent(
+                              onPressed: () => profileUtil.likeOrDislikeContent(
                                 context: context,
                                 ref: ref,
                                 isLiked: watcherContent.likes.contains(userID),
@@ -123,7 +114,7 @@ class ContentDetailsScreen extends StatelessWidget {
                                   : ColorConstants.iconColor,
                             );
                           },
-                          loading: () => const QmShimmer(
+                          loading: () => QmShimmer.rectangle(
                             width: 20,
                             height: 20,
                             radius: 10,
@@ -154,19 +145,17 @@ class ContentDetailsScreen extends StatelessWidget {
                         left: 10,
                         right: 10,
                       ),
-                      child: QmText(
+                      child: QmSimpleText(
                         text: content.title,
                       ),
                     ),
-                    collapsed: QmText(
+                    collapsed: QmSimpleText(
                       text: content.description,
-                      softWrap: true,
+                      overFlow: TextOverflow.ellipsis,
                       isSeccoundary: true,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    expanded: QmText(
+                    expanded: QmSimpleText(
                       text: content.description,
-                      softWrap: true,
                     ),
                     builder: (_, collapsed, expanded) {
                       return Padding(

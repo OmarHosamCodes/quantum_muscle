@@ -1,66 +1,45 @@
 import 'package:quantum_muscle/library.dart';
 
-class QmImageMemory extends StatelessWidget {
-  const QmImageMemory({
-    required this.source, super.key,
-    this.width,
-    this.height,
-    this.fallbackIcon = EvaIcons.alertTriangleOutline,
-    this.fit,
-  });
-  final String? source;
-  final double? width;
-  final double? height;
-  final IconData? fallbackIcon;
-  final BoxFit? fit;
-  @override
-  Widget build(BuildContext context) {
-    return Image(
-      image: MemoryImage(base64Decode(source!)),
-      width: width,
-      height: height,
-      errorBuilder: (context, error, stackTrace) => Icon(
-        fallbackIcon,
-        color: ColorConstants.iconColor,
-      ),
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Center(
-          child: QmCircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                : null,
-          ),
-        );
-      },
-      filterQuality: FilterQuality.medium,
-      fit: fit,
-    );
+class QmImage {
+// Nameless method
+  static Widget smart({
+    required String source,
+    double? width,
+    double? height,
+    IconData? fallbackIcon,
+    BoxFit? fit,
+  }) {
+    if (source.startsWith('http')) {
+      return network(
+        source: source,
+        width: width,
+        height: height,
+        fallbackIcon: fallbackIcon,
+        fit: fit,
+      );
+    } else {
+      return memory(
+        source: source,
+        width: width,
+        height: height,
+        fallbackIcon: fallbackIcon,
+        fit: fit,
+      );
+    }
   }
-}
 
-class QmImageNetwork extends StatelessWidget {
-  const QmImageNetwork({
-    super.key,
-    this.source,
-    this.width,
-    this.height,
-    this.fallbackIcon = EvaIcons.alertTriangleOutline,
-    this.fit,
-  });
-  final String? source;
-  final double? width;
-  final double? height;
-  final IconData? fallbackIcon;
-  final BoxFit? fit;
-  @override
-  Widget build(BuildContext context) {
+  static Widget network({
+    required String source,
+    double? width,
+    double? height,
+    IconData? fallbackIcon,
+    BoxFit? fit,
+  }) {
     return CachedNetworkImage(
-      imageUrl: source!,
+      imageUrl: source,
       progressIndicatorBuilder: (context, url, progress) {
         return Center(
-          child: QmCircularProgressIndicator(
+          child: QmLoader.indicator(
             value: progress.progress,
           ),
         );
@@ -74,6 +53,37 @@ class QmImageNetwork extends StatelessWidget {
       filterQuality: FilterQuality.medium,
       width: width,
       height: height,
+      fit: fit,
+    );
+  }
+
+  static Widget memory({
+    required String source,
+    double? width,
+    double? height,
+    IconData? fallbackIcon,
+    BoxFit? fit,
+  }) {
+    return Image(
+      image: MemoryImage(base64Decode(source)),
+      width: width,
+      height: height,
+      errorBuilder: (context, error, stackTrace) => Icon(
+        fallbackIcon,
+        color: ColorConstants.iconColor,
+      ),
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: QmLoader.indicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                    loadingProgress.expectedTotalBytes!
+                : null,
+          ),
+        );
+      },
+      filterQuality: FilterQuality.medium,
       fit: fit,
     );
   }

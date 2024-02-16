@@ -1,7 +1,7 @@
 import 'package:quantum_muscle/library.dart';
 
-class WorkoutShowcase extends ConsumerWidget {
-  const WorkoutShowcase({super.key});
+class WorkoutsShowcase extends ConsumerWidget {
+  const WorkoutsShowcase({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,7 +14,7 @@ class WorkoutShowcase extends ConsumerWidget {
     return workoutsSnapshot.when(
       data: (data) {
         if (data.isEmpty) {
-          return BigAddWorkout(width: width, height: height);
+          return AddWorkoutBlock.big(context);
         } else {
           return Scrollbar(
             controller: scrollController,
@@ -28,16 +28,13 @@ class WorkoutShowcase extends ConsumerWidget {
                 minCrossAxisExtent: 100,
               ),
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(
-                horizontal: width * .05,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
               ),
               itemCount: data.length + 1,
               itemBuilder: (context, index) {
                 if (index == data.length) {
-                  return SmallAddWorkout(
-                    width: width * .2,
-                    height: height * .2,
-                  );
+                  return AddWorkoutBlock.small(context);
                 } else {
                   final workout = data[index];
 
@@ -68,13 +65,13 @@ class WorkoutShowcase extends ConsumerWidget {
         itemCount: 3,
         itemBuilder: (context, index) => ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: const QmShimmer(
+          child: QmShimmer.rectangle(
             width: 100,
             height: 100,
           ),
         ),
       ),
-      error: (e, s) => BigAddWorkout(width: width, height: height),
+      error: (e, s) => AddWorkoutBlock.small(context),
     );
   }
 }

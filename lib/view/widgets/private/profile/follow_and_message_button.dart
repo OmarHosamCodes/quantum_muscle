@@ -23,7 +23,7 @@ class FollowAndMessageButton extends ConsumerWidget {
       children: [
         QmBlock(
           isAnimated: true,
-          onTap: () => ProfileUtil().followOrUnFollow(
+          onTap: () => profileUtil.followOrUnFollow(
             userId: userId,
             context: context,
             ref: ref,
@@ -46,13 +46,13 @@ class FollowAndMessageButton extends ConsumerWidget {
                 : EvaIcons.personAddOutline,
             color: ColorConstants.iconColor,
           ),
-        ).animate().fade(duration: SimpleConstants.slowAnimationDuration),
+        ),
         const SizedBox(height: 10),
         Visibility(
           visible: isFollowing,
           child: QmBlock(
             isAnimated: true,
-            onTap: () => ChatUtil().startChat(
+            onTap: () => chatUtil.startChat(
               userId: userId,
               context: context,
               ref: ref,
@@ -69,7 +69,7 @@ class FollowAndMessageButton extends ConsumerWidget {
               color: ColorConstants.iconColor,
             ),
           ),
-        ).animate().fade(duration: SimpleConstants.slowAnimationDuration),
+        ),
       ],
     );
   }

@@ -2,35 +2,35 @@
 
 import 'package:quantum_muscle/library.dart';
 
-final userProfileImageProvider = StateProvider<String?>((ref) => null);
-final addImageProvider = StateProvider<String?>((ref) => null);
-
 class ProfileUtil extends Utils {
   late final userRef =
       firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
   Future<void> updateProfile({
     required String? userName,
     required String? userBio,
-    required String? userProfileImage,
     required BuildContext context,
     required WidgetRef ref,
     required GlobalKey<FormState> formKey,
   }) async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     if (user != null) {
       try {
+        final profileImage = ref
+            .read(
+              chooseProvider,
+            )
+            .profileImage;
         await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.changeProfile,
         );
         final storageRef = firebaseStorage
-            .ref()
             .child(DBPathsConstants.usersPath)
             .child(userUid!)
             .child('${UserModel.profileImageURLKey}.png');
         await storageRef
-            .putString(userProfileImage!, format: PutStringFormat.base64)
+            .putString(profileImage, format: PutStringFormat.base64)
             .then(
           (_) async {
             await userRef.set(
@@ -41,19 +41,14 @@ class ProfileUtil extends Utils {
               },
               SetOptions(merge: true),
             );
-            ref
-              ..invalidate(userProvider)
-              ..read(userProvider(Utils().userUid!))
-              ..read(userProfileImageProvider.notifier).state = null
-              ..invalidate(userProfileImageProvider)
-              ..read(userProfileImageProvider);
+            ref.invalidate(userProvider);
             context
               ..go(Routes.myProfileR)
               ..pop();
           },
         );
       } catch (e) {
-        context.pop();
+        QmLoader.closeLoader(context: context);
 
         openQmDialog(
           context: context,
@@ -79,11 +74,10 @@ class ProfileUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addContent,
       );
-      openQmLoaderDialog(context: context);
+      QmLoader.openLoader(context: context);
       final id = const Uuid().v8();
 
       final storageRef = firebaseStorage
-          .ref()
           .child(DBPathsConstants.usersPath)
           .child(userUid!)
           .child('$title$id.png');
@@ -110,17 +104,16 @@ class ProfileUtil extends Utils {
           .update({
         UserModel.contentKey: FieldValue.arrayUnion([content.id]),
       });
-      while (context.canPop()) {
-        context.pop();
-      }
+      QmLoader.closeLoader(context: context);
+
+      QmLoader.closeLoader(context: context);
+
       ref
         ..invalidate(contentProvider)
-        ..read(contentProvider(Utils().userUid!))
-        ..read(addImageProvider.notifier).state = SimpleConstants.emptyString;
+        ..read(contentProvider(Utils().userUid!));
     } catch (e) {
-      while (context.canPop()) {
-        context.pop();
-      }
+      QmLoader.closeLoader(context: context);
+
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
@@ -135,7 +128,7 @@ class ProfileUtil extends Utils {
     required WidgetRef ref,
     required bool isFollowing,
   }) async {
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     try {
       if (isFollowing) {
         await firebaseAnalytics.logEvent(
@@ -159,7 +152,7 @@ class ProfileUtil extends Utils {
           },
           SetOptions(merge: true),
         );
-        context.pop();
+        QmLoader.closeLoader(context: context);
         ref
           ..invalidate(userProvider)
           ..read(userProvider(Utils().userUid!))
@@ -180,14 +173,14 @@ class ProfileUtil extends Utils {
             .update({
           UserModel.followersKey: FieldValue.arrayUnion([userUid]),
         });
-        context.pop();
+        QmLoader.closeLoader(context: context);
         ref
           ..invalidate(userProvider)
           ..read(userProvider(Utils().userUid!))
           ..read(userProvider(userId));
       }
     } catch (e) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
 
       openQmDialog(
         context: context,

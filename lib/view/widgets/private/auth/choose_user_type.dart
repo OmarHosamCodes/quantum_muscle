@@ -22,6 +22,7 @@ class UserTypeChooser extends ConsumerWidget {
       ColorConstants.disabledColor,
       ColorConstants.primaryColor,
     ];
+    //TODO make it responsive
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -43,13 +44,13 @@ class UserTypeChooser extends ConsumerWidget {
               color: userType == UserType.trainer ? colors[1] : colors[0],
               borderRadius: BorderRadius.only(
                 topLeft:
-                    Utils().isEnglish ? const Radius.circular(10) : Radius.zero,
+                    utils.isEnglish ? const Radius.circular(10) : Radius.zero,
                 bottomLeft:
-                    Utils().isEnglish ? const Radius.circular(10) : Radius.zero,
+                    utils.isEnglish ? const Radius.circular(10) : Radius.zero,
                 topRight:
-                    Utils().isEnglish ? Radius.zero : const Radius.circular(10),
+                    utils.isEnglish ? Radius.zero : const Radius.circular(10),
                 bottomRight:
-                    Utils().isEnglish ? Radius.zero : const Radius.circular(10),
+                    utils.isEnglish ? Radius.zero : const Radius.circular(10),
               ),
             ),
             child: Center(child: QmText(text: S.current.Trainer)),
@@ -72,13 +73,13 @@ class UserTypeChooser extends ConsumerWidget {
               color: userType == UserType.trainee ? colors[1] : colors[0],
               borderRadius: BorderRadius.only(
                 topLeft:
-                    Utils().isEnglish ? Radius.zero : const Radius.circular(10),
+                    utils.isEnglish ? Radius.zero : const Radius.circular(10),
                 bottomLeft:
-                    Utils().isEnglish ? Radius.zero : const Radius.circular(10),
+                    utils.isEnglish ? Radius.zero : const Radius.circular(10),
                 topRight:
-                    Utils().isEnglish ? const Radius.circular(10) : Radius.zero,
+                    utils.isEnglish ? const Radius.circular(10) : Radius.zero,
                 bottomRight:
-                    Utils().isEnglish ? const Radius.circular(10) : Radius.zero,
+                    utils.isEnglish ? const Radius.circular(10) : Radius.zero,
               ),
             ),
             child: Center(child: QmText(text: S.current.Trainee)),

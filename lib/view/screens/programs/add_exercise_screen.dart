@@ -55,12 +55,15 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        ref.read(workoutNetworkImageProvider.notifier).state =
-                            e.$2[index];
+                        ref
+                            .read(chooseProvider.notifier)
+                            .setPublicExerciseImage(
+                              e.$2[index],
+                            );
                         context.pop();
                       },
                       child: GridTile(
-                        child: QmImageNetwork(
+                        child: QmImage.network(
                           source: e.$2[index],
                           fit: BoxFit.cover,
                         ),
@@ -72,7 +75,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
             ).toList(),
           );
         },
-        loading: () => const Center(child: QmCircularProgressIndicator()),
+        loading: () => Center(child: QmLoader.indicator()),
         error: (error, stackTrace) => Center(
           child: Text(
             error.toString(),

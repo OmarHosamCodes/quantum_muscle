@@ -30,8 +30,8 @@ class ProgramsShowcase extends StatelessWidget {
           minCrossAxisExtent: 100,
         ),
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(
-          horizontal: width * .05,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
         ),
         itemCount: itemCount,
         itemBuilder: (context, index) {

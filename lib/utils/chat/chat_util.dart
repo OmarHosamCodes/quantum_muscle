@@ -9,7 +9,7 @@ class ChatUtil extends Utils {
     required WidgetRef ref,
   }) async {
     final uniqueId = const Uuid().v8();
-    openQmLoaderDialog(context: context);
+    QmLoader.openLoader(context: context);
     final userDocRef =
         firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userId);
     final myDocRef =
@@ -28,9 +28,8 @@ class ChatUtil extends Utils {
                   ) !=
                   -1,
             )) {
-      context
-        ..pop()
-        ..go(Routes.chatsR);
+      QmLoader.closeLoader(context: context);
+      context.go(Routes.chatsR);
     } else {
       try {
         await firebaseFirestore

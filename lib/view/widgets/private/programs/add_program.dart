@@ -18,8 +18,9 @@ class AddProgramBlock extends StatefulWidget {
 
 class _AddProgramBlockState extends State<AddProgramBlock> {
   bool isHovered = false;
-  final programNameTextController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  static final programNameTextController = TextEditingController();
+  static final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -70,16 +71,26 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                     children: [
                       Form(
                         key: formKey,
-                        child: QmTextField(
-                          width: widget.width * .25,
-                          height: widget.height * .1,
-                          hintText: S.current.AddProgramName,
-                          controller: programNameTextController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return S.current.EnterValidName;
-                            }
-                            return null;
+                        child: Consumer(
+                          builder: (_, WidgetRef ref, __) {
+                            return QmTextField(
+                              textInputAction: TextInputAction.go,
+                              hintText: S.current.AddProgramName,
+                              controller: programNameTextController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return S.current.EnterValidName;
+                                }
+                                return null;
+                              },
+                              onEditingComplete: () => programUtil.addProgram(
+                                context: context,
+                                programName: programNameTextController.text,
+                                ref: ref,
+                                programsLength: widget.programs.length,
+                                formKey: formKey,
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -88,17 +99,14 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                         builder: (_, ref, __) {
                           return QmBlock(
                             onTap: () {
-                              if (formKey.currentState!.validate()) {
-                                ProgramsUtil().addProgram(
-                                  context: context,
-                                  programName: programNameTextController.text,
-                                  ref: ref,
-                                  programsLength: widget.programs.length,
-                                );
-                              }
+                              programUtil.addProgram(
+                                context: context,
+                                programName: programNameTextController.text,
+                                ref: ref,
+                                programsLength: widget.programs.length,
+                                formKey: formKey,
+                              );
                             },
-                            width: widget.width * .25,
-                            height: widget.height * .1,
                             color: ColorConstants.secondaryColor,
                             child: Center(
                               child: FittedBox(
@@ -115,9 +123,7 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                       ),
                     ],
                   ),
-                )
-                    .animate()
-                    .fade(duration: SimpleConstants.fastAnimationDuration),
+                ),
               ),
             ],
           ),

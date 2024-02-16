@@ -13,12 +13,12 @@ class ChatScreen extends StatelessWidget {
   final String chatId;
   final String chatUserId;
   final Map<String, dynamic> arguments;
+  static final messageTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final chat = arguments[ChatModel.modelKey] as ChatModel;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final messageTextController = TextEditingController();
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
@@ -45,8 +45,7 @@ class ChatScreen extends StatelessWidget {
               return SizedBox(
                 height: height * 0.8,
                 child: StreamBuilder<QuerySnapshot<Object?>>(
-                  stream: Utils()
-                      .firebaseFirestore
+                  stream: utils.firebaseFirestore
                       .collection(DBPathsConstants.chatsPath)
                       .doc(chatId)
                       .collection(DBPathsConstants.messagesPath)
@@ -54,8 +53,8 @@ class ChatScreen extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: QmCircularProgressIndicator(),
+                      return Center(
+                        child: QmLoader.indicator(),
                       );
                     } else if (snapshot.hasError) {
                       return Center(
@@ -92,11 +91,24 @@ class ChatScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   width: width * 0.6,
-                  child: QmTextField(
-                    height: height * 0.09,
-                    width: width * .6,
-                    controller: messageTextController,
-                    hintText: S.current.TypeMessage,
+                  child: Consumer(
+                    builder: (_, WidgetRef ref, __) {
+                      return QmTextField(
+                        textInputAction: TextInputAction.go,
+                        controller: messageTextController,
+                        hintText: S.current.TypeMessage,
+                        onEditingComplete: () {
+                          if (messageTextController.text.isNotEmpty) {
+                            chatUtil.addTextMessage(
+                              chatId: chatId,
+                              message: messageTextController.text,
+                              ref: ref,
+                            );
+                            messageTextController.clear();
+                          }
+                        },
+                      );
+                    },
                   ),
                 ),
                 Consumer(
@@ -105,7 +117,7 @@ class ChatScreen extends StatelessWidget {
                       icon: EvaIcons.paperPlane,
                       onPressed: () {
                         if (messageTextController.text.isNotEmpty) {
-                          ChatUtil().addTextMessage(
+                          chatUtil.addTextMessage(
                             chatId: chatId,
                             message: messageTextController.text,
                             ref: ref,

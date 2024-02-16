@@ -16,18 +16,14 @@ class RegisterUtil extends Utils {
     if (!isValid) return;
 
     try {
-      openQmLoaderDialog(context: context);
+      QmLoader.openLoader(context: context);
       await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Future.delayed(const Duration(seconds: 1), () {
-          context.pop();
-        });
-      });
+      QmLoader.closeLoader(context: context);
     } on FirebaseAuthException catch (e) {
-      context.pop();
+      QmLoader.closeLoader(context: context);
 
       openQmDialog(
         context: context,
@@ -83,6 +79,9 @@ class RegisterUtil extends Utils {
                 .map((e) => e.toUpperCase()),
             '#${user!.uid.substring(0, 16)}',
             user!.email!,
+            userUid!,
+            '#$userUid',
+            userType.name,
           ])
           ..remove(SimpleConstants.emptyString)
           ..remove(' ')
@@ -109,10 +108,7 @@ class RegisterUtil extends Utils {
         programs: [],
       );
 
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userUid)
-          .set(userModel.toMap());
+      await usersCollection.doc(userUid).set(userModel.toMap());
     }
   }
 }

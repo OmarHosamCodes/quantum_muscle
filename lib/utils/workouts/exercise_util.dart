@@ -2,11 +2,8 @@
 
 import 'package:quantum_muscle/library.dart';
 
-final exerciseImageBytesProvider = StateProvider<String?>((ref) => null);
-final exerciseNetworkImageProvider = StateProvider<String?>((ref) => null);
-
 class ExerciseUtil extends Utils {
-  Future<void> addExercise({
+  Future<void> add({
     required BuildContext context,
     required WidgetRef ref,
     required String workoutCollectionName,
@@ -16,14 +13,13 @@ class ExerciseUtil extends Utils {
     required String contentType,
     required bool isLink,
   }) async {
-    openQmLoaderDialog(context: context);
-
+    QmLoader.openLoader(context: context);
     if (user != null) {
       try {
         await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.addExercise,
         );
-        final id = const Uuid().v4().substring(0, 12);
+        final id = const Uuid().v8();
 
         if (isLink) {
           final exercise = ExerciseModel(
@@ -37,8 +33,7 @@ class ExerciseUtil extends Utils {
             contentType: ExerciseContentType.image,
             creationDate: Timestamp.now(),
           );
-          await firebaseFirestore
-              .collection(DBPathsConstants.usersPath)
+          await usersCollection
               .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
@@ -52,8 +47,7 @@ class ExerciseUtil extends Utils {
             },
             SetOptions(merge: true),
           );
-          await firebaseFirestore
-              .collection(DBPathsConstants.usersPath)
+          await usersCollection
               .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
@@ -62,7 +56,6 @@ class ExerciseUtil extends Utils {
               .set(exercise.toMap(), SetOptions(merge: true));
         } else {
           final storageRef = firebaseStorage
-              .ref()
               .child(DBPathsConstants.usersPath)
               .child(userUid!)
               .child(DBPathsConstants.workoutsPath)
@@ -82,8 +75,7 @@ class ExerciseUtil extends Utils {
             contentType: ExerciseContentType.image,
             creationDate: Timestamp.now(),
           );
-          await firebaseFirestore
-              .collection(DBPathsConstants.usersPath)
+          await usersCollection
               .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
@@ -97,8 +89,7 @@ class ExerciseUtil extends Utils {
             },
             SetOptions(merge: true),
           );
-          await firebaseFirestore
-              .collection(DBPathsConstants.usersPath)
+          await usersCollection
               .doc(userUid)
               .collection(DBPathsConstants.workoutsPath)
               .doc(workoutCollectionName)
@@ -106,7 +97,6 @@ class ExerciseUtil extends Utils {
               .doc('${exercise.name}-${exercise.target}-${exercise.id}')
               .set(exercise.toMap(), SetOptions(merge: true));
         }
-        ref.read(exerciseImageBytesProvider.notifier).state = null;
         context.pop();
       } catch (e) {
         context.pop();
@@ -130,8 +120,7 @@ class ExerciseUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addSet,
       );
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
+      await usersCollection
           .doc(userUid)
           .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
@@ -157,7 +146,7 @@ class ExerciseUtil extends Utils {
   }
 
   Future<void> changeSet({
-    required GlobalKey<FormState>? formKey,
+    required GlobalKey<FormState> formKey,
     required String workoutCollectionName,
     required String exerciseDocName,
     required BuildContext context,
@@ -166,8 +155,8 @@ class ExerciseUtil extends Utils {
     required String reps,
     required String weight,
   }) async {
-    final isValid = formKey!.currentState!.validate();
-    if (!isValid) return;
+    if (!formKey.currentState!.validate()) return;
+
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.changeSet,
@@ -208,7 +197,7 @@ class ExerciseUtil extends Utils {
     );
   }
 
-  Future<List<(dynamic, List<String>)>> getExerciseImages() async {
+  Future<List<(dynamic, List<String>)>> getPublic() async {
     final names = await firebaseFirestore
         .collection(DBPathsConstants.publicPath)
         .doc(DBPathsConstants.exercisesPath)
@@ -218,7 +207,6 @@ class ExerciseUtil extends Utils {
     final finalList = names
         .map(
           (e) => firebaseStorage
-              .ref()
               .child(DBPathsConstants.publicPath)
               .child(DBPathsConstants.exercisesPath)
               .child(e as String)

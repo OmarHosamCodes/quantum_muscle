@@ -37,14 +37,60 @@ final exercisesProvider = StreamProvider.family<List<ExerciseModel>, String>(
 
 final publicWorkoutsProvider =
     FutureProvider<List<(dynamic, List<String>)>>((ref) async {
-  final publicWorkouts = await WorkoutUtil().getWorkoutImages();
+  final publicWorkouts = await WorkoutUtil().getPublic();
 
   return publicWorkouts;
 });
 
 final publicExercisesProvider =
     FutureProvider<List<(dynamic, List<String>)>>((ref) async {
-  final publicExercises = await ExerciseUtil().getExerciseImages();
+  final publicExercises = await ExerciseUtil().getPublic();
 
   return publicExercises;
 });
+
+class AddWorkoutState {
+  AddWorkoutState({
+    required this.name,
+    required this.content,
+  });
+
+  final String name;
+  final String? content;
+  AddWorkoutState copyWith({
+    String? name,
+    bool? isNameValid,
+    String? content,
+  }) {
+    return AddWorkoutState(
+      name: name ?? this.name,
+      content: content ?? this.content,
+    );
+  }
+}
+
+class AddWorkoutNotifier extends StateNotifier<AddWorkoutState> {
+  AddWorkoutNotifier()
+      : super(
+          AddWorkoutState(
+            name: '',
+            content: null,
+          ),
+        );
+
+  void setName(
+    String name,
+  ) =>
+      state = state.copyWith(name: name);
+
+  void resetState() => state = AddWorkoutState(
+        name: '',
+        content: null,
+      );
+  void setContent(String content) => state = state.copyWith(content: content);
+}
+
+final addWorkoutNotifierProvider =
+    StateNotifierProvider<AddWorkoutNotifier, AddWorkoutState>(
+  (ref) => AddWorkoutNotifier(),
+);

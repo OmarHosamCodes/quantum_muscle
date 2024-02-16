@@ -19,7 +19,7 @@ class ChatsScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final chat = chats[index];
               Color lastMessageColor(String lastMessageSender) {
-                if (lastMessageSender == Utils().userUid) {
+                if (lastMessageSender == utils.userUid) {
                   return ColorConstants.textSeccondaryColor;
                 } else {
                   return ColorConstants.textColor;
@@ -32,19 +32,16 @@ class ChatsScreen extends ConsumerWidget {
                 ),
                 title: QmText(
                   text: chat.userName,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: QmText(
                   text: chat.lastMessage!,
                   color: lastMessageColor(chat.lastMessageSender!),
-                  overflow: TextOverflow.ellipsis,
                 ),
                 trailing: QmText(
-                  text: Utils().timeAgo(
+                  text: utils.timeAgo(
                     chat.messages.first.timestamp,
                   ),
                   isSeccoundary: true,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 onTap: () => context.pushNamed(
                   Routes.chatRootR,
@@ -66,28 +63,28 @@ class ChatsScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               100,
-              (index) => const Row(
+              (index) => Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: 10),
-                  QmShimmerRound(size: 25),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
+                  QmShimmer.round(size: 25),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      QmShimmer(
+                      QmShimmer.rectangle(
                         width: 100,
                         height: 20,
                       ),
-                      SizedBox(height: 10),
-                      QmShimmer(
+                      const SizedBox(height: 10),
+                      QmShimmer.rectangle(
                         width: 200,
                         height: 25,
                       ),
                     ],
                   ),
-                  Spacer(),
-                  QmShimmer(
+                  const Spacer(),
+                  QmShimmer.rectangle(
                     width: 50,
                     height: 10,
                   ),

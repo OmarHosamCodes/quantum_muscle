@@ -11,7 +11,6 @@ environment:
 dependencies:
   cached_network_image: ^3.3.1
   cloud_firestore: ^4.13.1
-  connectivity_plus: ^5.0.2
   crypto: ^3.0.3
   cupertino_icons: ^1.0.2
   eva_icons_flutter: ^3.1.0
@@ -24,7 +23,6 @@ dependencies:
   fl_chart: ^0.66.1
   flutter:
     sdk: flutter
-  flutter_animate: ^4.3.0
   flutter_localizations:
     sdk: flutter
   flutter_riverpod: ^2.4.6
@@ -41,8 +39,9 @@ dependencies:
     git:
       url: https://github.com/OmarHosamCodes/SlimyCard-Animated-Flutter-Package/
   url_strategy: ^0.2.0
-  uuid: ^4.2.1
   responsive_framework: ^1.1.1
+  uuid: ^4.3.3
+  marquee_text: ^2.5.0+1
 
 dev_dependencies:
   flutter_lints: ^3.0.1

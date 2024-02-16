@@ -39,7 +39,7 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
         onExit: (_) => setState(() => widget.program.isHovered = false),
         child: DragTarget<WorkoutModel>(
           onAccept: (workout) {
-            ProgramsUtil().addWorkoutToProgram(
+            programUtil.addWorkoutToProgram(
               context: context,
               programId: widget.program.id,
               workout: workout,
@@ -77,7 +77,6 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                     alignment: Alignment.topCenter,
                     child: QmText(
                       text: widget.program.name,
-                      maxWidth: widget.height * .4,
                     ),
                   ),
                   Align(

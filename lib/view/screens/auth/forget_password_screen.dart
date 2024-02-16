@@ -2,14 +2,15 @@ import 'package:quantum_muscle/library.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({
-    required this.isMobile, super.key,
+    required this.isMobile,
+    super.key,
   });
   final bool isMobile;
+  static final forgotPasswordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final forgotPasswordTextController = TextEditingController();
     final maxWidth = isMobile ? width * .9 : width * .6;
     final maxHeight = height * .1;
     final margin = EdgeInsets.symmetric(vertical: height * .01);
@@ -30,13 +31,20 @@ class ForgetPasswordScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    QmTextField(
-                      maxWidth: maxWidth,
-                      margin: margin,
-                      height: maxHeight,
+                    SizedBox(
                       width: maxWidth,
-                      controller: forgotPasswordTextController,
-                      hintText: S.current.EnterEmail,
+                      height: maxHeight,
+                      child: QmTextField(
+                        textInputAction: TextInputAction.go,
+                        margin: margin,
+                        controller: forgotPasswordTextController,
+                        hintText: S.current.EnterEmail,
+                        onEditingComplete: () =>
+                            forgetPasswordUtil.sendResetEmail(
+                          email: forgotPasswordTextController.text,
+                          context: context,
+                        ),
+                      ),
                     ),
                     Consumer(
                       builder: (_, ref, __) {
@@ -52,7 +60,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                                 isGradient: true,
                                 maxWidth: maxWidth,
                                 onTap: () {
-                                  ForgetPasswordUtil().sendResetEmail(
+                                  forgetPasswordUtil.sendResetEmail(
                                     email: forgotPasswordTextController.text,
                                     context: context,
                                   );
@@ -74,7 +82,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                             isGradient: true,
                             maxWidth: maxWidth,
                             onTap: () {
-                              ForgetPasswordUtil().sendResetEmail(
+                              forgetPasswordUtil.sendResetEmail(
                                 email: forgotPasswordTextController.text,
                                 context: context,
                               );

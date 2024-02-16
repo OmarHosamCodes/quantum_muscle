@@ -16,7 +16,7 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMe = message.senderId == Utils().userUid;
+    final isMe = message.senderId == utils.userUid;
     CrossAxisAlignment messageAlignment(String messagesenderId) {
       if (isMe) {
         return CrossAxisAlignment.end;
@@ -49,144 +49,32 @@ class MessageBubble extends StatelessWidget {
 
     switch (message.type.name) {
       case MessageTypeConstants.server:
-        return Center(
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: ColorConstants.disabledColor,
-              borderRadius: SimpleConstants.borderRadius,
-            ),
-            padding: const EdgeInsets.all(10),
-            child: QmText(
-              text: message.message,
-              color: ColorConstants.textColor,
-              isSeccoundary: true,
-            ),
-          ),
-        );
+        return Bubbles.server(message: message);
       case MessageTypeConstants.text:
-        return Padding(
+        return Bubbles.text(
+          message: message,
           padding: messagePadding(message.senderId),
-          child: Column(
-            crossAxisAlignment: messageAlignment(message.senderId),
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: messageColor(message.senderId),
-                  borderRadius: SimpleConstants.borderRadius,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: QmText(
-                  text: message.message,
-                  color: ColorConstants.textColor,
-                ),
-              ),
-              const SizedBox(height: 2),
-              QmText(
-                text: Utils().timeAgo(
-                  message.timestamp,
-                ),
-                isSeccoundary: true,
-              ),
-            ],
-          ),
+          crossAxisAlignment: messageAlignment(message.senderId),
+          color: messageColor(message.senderId),
         );
 
       case MessageTypeConstants.request:
-        return Padding(
+        return Bubbles.request(
+          message: message,
           padding: messagePadding(message.senderId),
-          child: Column(
-            crossAxisAlignment: messageAlignment(message.senderId),
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: messageColor(message.senderId),
-                  borderRadius: SimpleConstants.borderRadius,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: FittedBox(
-                  child: Column(
-                    children: [
-                      QmText(
-                        text: message.message,
-                        color: ColorConstants.textColor,
-                      ),
-                      Visibility(
-                        visible: !isMe,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorConstants.primaryColor,
-                            borderRadius: SimpleConstants.borderRadius,
-                          ),
-                          child: Row(
-                            children: [
-                              Consumer(
-                                builder: (_, ref, __) {
-                                  return QmIconButton(
-                                    icon: EvaIcons.checkmark,
-                                    onPressed: () =>
-                                        ProgramsUtil().acceptRequest(
-                                      context: context,
-                                      chatId: chatId,
-                                      ref: ref,
-                                      programId: message.programRequestId!,
-                                      messageId: messageId,
-                                    ),
-                                  );
-                                },
-                              ),
-                              QmIconButton(
-                                icon: EvaIcons.close,
-                                onPressed: () => ChatUtil().removeMessage(
-                                  context: context,
-                                  chatId: chatId,
-                                  messageId: messageId,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 2),
-              QmText(
-                text: Utils().timeAgo(
-                  message.timestamp,
-                ),
-                isSeccoundary: true,
-              ),
-            ],
-          ),
+          crossAxisAlignment: messageAlignment(message.senderId),
+          color: messageColor(message.senderId),
+          chatId: chatId,
+          messageId: messageId,
+          context: context,
+          isMe: isMe,
         );
       default:
-        return Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            crossAxisAlignment: messageAlignment(message.senderId),
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: messageColor(message.senderId),
-                  borderRadius: SimpleConstants.borderRadius,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: QmText(
-                  text: message.message,
-                  color: ColorConstants.textColor,
-                ),
-              ),
-              const SizedBox(width: 10),
-              QmText(
-                text: Utils().timeAgo(
-                  message.timestamp,
-                ),
-              ),
-            ],
-          ),
+        return Bubbles.text(
+          message: message,
+          padding: messagePadding(message.senderId),
+          crossAxisAlignment: messageAlignment(message.senderId),
+          color: messageColor(message.senderId),
         );
     }
   }

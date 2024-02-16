@@ -13,11 +13,14 @@ class LoginUtil extends Utils {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
     try {
+      QmLoader.openLoader(context: context);
       await firebaseAuth.signInWithEmailAndPassword(
         email: email.toLowerCase(),
         password: password,
       );
+      QmLoader.closeLoader(context: context);
     } on FirebaseAuthException catch (e) {
+      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.current.Failed,

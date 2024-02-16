@@ -1,10 +1,14 @@
 import 'package:quantum_muscle/library.dart';
 
 class RoutingController {
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
   static final router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: Routes.homeR,
     routes: [
       ShellRoute(
+        navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) => RoutingScreen(
           state: state,
           child: child,
@@ -54,7 +58,7 @@ class RoutingController {
       GoRoute(
         name: Routes.profileRootR,
         path: Routes.profileR,
-        builder: (context, state) => SearchedProfile(
+        builder: (context, state) => SearchedProfileScreen(
           key: state.pageKey,
           userId: state.pathParameters[UserModel.idKey]!,
         ),
@@ -104,7 +108,7 @@ class RoutingController {
       GoRoute(
         name: Routes.addWorkoutRootR,
         path: Routes.addWorkoutR,
-        builder: (context, state) => AddWorkoutsScreen(
+        builder: (context, state) => AddWorkoutScreen(
           key: state.pageKey,
         ),
       ),

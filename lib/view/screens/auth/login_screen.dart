@@ -4,19 +4,21 @@ import 'package:quantum_muscle/library.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({
-    required this.isMobile, super.key,
+    required this.isMobile,
+    super.key,
   });
   final bool isMobile;
+  static final passwordTextController = TextEditingController();
+  static final emailTextController = TextEditingController();
+  static final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    final emailTextController = TextEditingController();
-    final passwordTextController = TextEditingController();
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final maxWidth = isMobile ? width * .9 : width * .6;
     final maxHeight = height * .1;
     final margin = EdgeInsets.symmetric(vertical: height * .01);
-    final formKey = GlobalKey<FormState>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
@@ -41,7 +43,6 @@ class LoginScreen extends StatelessWidget {
                       Image.asset(AssetPathConstants.loginImgPath),
                       QmText(
                         text: S.current.WelcomeBack,
-                        maxWidth: double.maxFinite,
                       ),
                     ],
                   ),
@@ -57,40 +58,56 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        QmTextField(
-                          maxWidth: maxWidth,
-                          margin: margin,
+                        SizedBox(
                           height: maxHeight,
                           width: maxWidth,
-                          controller: emailTextController,
-                          hintText: S.current.EnterEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (ValidationController.validateEmail(value!) ==
-                                false) {
-                              return S.current.EnterValidEmail;
-                            }
-                            return null;
-                          },
+                          child: QmTextField(
+                            textInputAction: TextInputAction.next,
+                            margin: margin,
+                            controller: emailTextController,
+                            hintText: S.current.EnterEmail,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (ValidationController.validateEmail(value!) ==
+                                  false) {
+                                return S.current.EnterValidEmail;
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                        QmTextField(
-                          maxWidth: maxWidth,
-                          margin: margin,
+                        SizedBox(
                           height: maxHeight,
                           width: maxWidth,
-                          controller: passwordTextController,
-                          hintText: S.current.EnterPassword,
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          maxLength: 21,
-                          hasNext: false,
-                          validator: (value) {
-                            if (ValidationController.validatePassword(value!) ==
-                                false) {
-                              return S.current.EnterValidPassword;
-                            }
-                            return null;
-                          },
+                          child: Consumer(
+                            builder: (_, WidgetRef ref, __) {
+                              return QmTextField(
+                                textInputAction: TextInputAction.go,
+                                margin: margin,
+                                controller: passwordTextController,
+                                hintText: S.current.EnterPassword,
+                                keyboardType: TextInputType.visiblePassword,
+                                obscureText: true,
+                                maxLength: 21,
+                                validator: (value) {
+                                  if (ValidationController.validatePassword(
+                                        value!,
+                                      ) ==
+                                      false) {
+                                    return S.current.EnterValidPassword;
+                                  }
+                                  return null;
+                                },
+                                onEditingComplete: () => loginUtil.logUserIn(
+                                  context: context,
+                                  email: emailTextController.text,
+                                  password: passwordTextController.text,
+                                  formKey: formKey,
+                                  ref: ref,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         ForgotPasswordTextWidget(width: width),
                         Consumer(
@@ -99,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                               isGradient: true,
                               maxWidth: maxWidth,
                               onTap: () {
-                                LoginUtil().logUserIn(
+                                loginUtil.logUserIn(
                                   context: context,
                                   email: emailTextController.text,
                                   password: passwordTextController.text,
@@ -121,7 +138,6 @@ class LoginScreen extends StatelessWidget {
                             2,
                           ),
                           text: '${S.current.NotAMember} ${S.current.Register}',
-                          maxWidth: double.maxFinite,
                         ),
                       ],
                     ),

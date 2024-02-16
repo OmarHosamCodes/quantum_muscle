@@ -2,6 +2,7 @@ import 'package:quantum_muscle/library.dart';
 
 class ThemeController {
   static ThemeData theme = ThemeData(
+    pageTransitionsTheme: NoTransitionsOnWeb(),
     scaffoldBackgroundColor: Colors.transparent,
     primaryColor: ColorConstants.primaryColor,
     colorScheme: const ColorScheme.light(
@@ -41,12 +42,8 @@ class ThemeController {
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: ColorConstants.disabledColor,
-      shape: RoundedRectangleBorder(
-        
-      ),
-      endShape: RoundedRectangleBorder(
-        
-      ),
+      shape: RoundedRectangleBorder(),
+      endShape: RoundedRectangleBorder(),
     ),
   );
 }

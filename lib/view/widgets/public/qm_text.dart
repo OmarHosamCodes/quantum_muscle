@@ -2,7 +2,8 @@ import 'package:quantum_muscle/library.dart';
 
 class QmText extends StatelessWidget {
   const QmText({
-    required this.text, super.key,
+    required this.text,
+    super.key,
     this.style = const TextStyle(
       fontSize: 20,
       fontFamily: SimpleConstants.fontFamily,
@@ -11,20 +12,14 @@ class QmText extends StatelessWidget {
     this.isSeccoundary = false,
     this.isHeadline = false,
     this.onTap,
-    this.maxWidth = 300,
     this.color,
-    this.overflow,
-    this.softWrap,
   });
   final String text;
   final TextStyle style;
   final bool isSeccoundary;
   final bool isHeadline;
   final void Function()? onTap;
-  final double maxWidth;
   final Color? color;
-  final TextOverflow? overflow;
-  final bool? softWrap;
   double get fontSize {
     if (isSeccoundary) {
       return 13;
@@ -44,17 +39,51 @@ class QmText extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth),
-        child: Text(
-          text,
-          overflow: overflow,
-          softWrap: softWrap,
+      child: MarqueeText(
+        text: TextSpan(
+          text: text,
           style: style.copyWith(
             color: textColor,
             fontSize: fontSize,
           ),
         ),
+        speed: 20,
+      ),
+    );
+  }
+}
+
+class QmSimpleText extends StatelessWidget {
+  const QmSimpleText({
+    required this.text,
+    super.key,
+    this.style = const TextStyle(
+      fontSize: 20,
+      fontFamily: SimpleConstants.fontFamily,
+      color: ColorConstants.textColor,
+    ),
+    this.isSeccoundary = false,
+    this.color,
+    this.overFlow,
+  });
+  final String text;
+  final TextStyle style;
+  final bool isSeccoundary;
+  final TextOverflow? overFlow;
+  final Color? color;
+
+  Color? get textColor =>
+      color ??
+      (isSeccoundary
+          ? ColorConstants.textSeccondaryColor
+          : ColorConstants.textColor);
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: style.copyWith(
+        color: textColor,
+        overflow: overFlow,
       ),
     );
   }

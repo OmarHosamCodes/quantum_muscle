@@ -3,7 +3,16 @@ import 'package:quantum_muscle/library.dart';
 class Utils {
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
-  FirebaseStorage get firebaseStorage => FirebaseStorage.instance;
+  CollectionReference get usersCollection =>
+      firebaseFirestore.collection(DBPathsConstants.usersPath);
+  CollectionReference get programsCollection =>
+      firebaseFirestore.collection(DBPathsConstants.programsPath);
+  CollectionReference get chatsCollection =>
+      firebaseFirestore.collection(DBPathsConstants.chatsPath);
+  CollectionReference get publicCollection =>
+      firebaseFirestore.collection(DBPathsConstants.publicPath);
+
+  Reference get firebaseStorage => FirebaseStorage.instance.ref();
   FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics.instance;
   User? get user => firebaseAuth.currentUser;
   String? get userUid => user!.uid;
@@ -45,30 +54,27 @@ class Utils {
     }
   }
 
-  Future<void> chooseImageFromStorage(
-      {required WidgetRef ref,
-      required StateProvider<String?> provider,}) async {
+  Future<String?> chooseImageFromStorage() async {
     late XFile? image;
     try {
       image = await ImagePicker().pickImage(source: ImageSource.gallery);
     } catch (e) {
-      ref.read(provider.notifier).state = null;
+      return null;
     }
     if (image != null) {
       if (kIsWeb) {
         final imageXFile = XFile(image.path);
-        ref.read(provider.notifier).state =
-            base64Encode(await imageXFile.readAsBytes());
+        return base64Encode(await imageXFile.readAsBytes());
       } else {
         if (await Permission.storage.isDenied) {
           await Permission.storage.request();
         }
         final imageFile = File(image.path);
 
-        ref.read(provider.notifier).state =
-            base64Encode(await imageFile.readAsBytes());
+        return base64Encode(await imageFile.readAsBytes());
       }
     }
+    return null;
   }
 
   Future<void> copyToClipboard({required String text}) async {

@@ -2,7 +2,10 @@ import 'package:quantum_muscle/library.dart';
 
 class WorkoutBlock extends StatelessWidget {
   const WorkoutBlock({
-    required this.width, required this.height, required this.workout, super.key,
+    required this.width,
+    required this.height,
+    required this.workout,
+    super.key,
   });
 
   final double width;
@@ -12,10 +15,7 @@ class WorkoutBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QmBlock(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.all(10),
-      width: width * .2,
-      height: height * .2,
       onTap: () => context.pushNamed(
         Routes.workoutRootR,
         extra: {
@@ -33,13 +33,12 @@ class WorkoutBlock extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: QmText(
                   text: workout.name,
-                  maxWidth: double.maxFinite,
                 ),
               ),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: QmText(
-                  text: Utils().timeAgo(workout.creationDate),
+                  text: utils.timeAgo(workout.creationDate),
                   isSeccoundary: true,
                 ),
               ),
@@ -50,10 +49,10 @@ class WorkoutBlock extends StatelessWidget {
             child: Draggable<WorkoutModel>(
               data: workout,
               feedback: QmBlock(
+                height: 200,
+                width: 200,
                 padding: const EdgeInsets.all(10),
                 color: ColorConstants.secondaryColor,
-                width: width * .2,
-                height: height * .2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -61,7 +60,7 @@ class WorkoutBlock extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: Hero(
                         tag: workout.id,
-                        child: QmImageNetwork(
+                        child: QmImage.network(
                           source: workout.imageURL,
                           fallbackIcon: EvaIcons.plus,
                         ),
@@ -70,8 +69,6 @@ class WorkoutBlock extends StatelessWidget {
                     Flexible(
                       child: QmText(
                         text: workout.name,
-                        maxWidth: double.maxFinite,
-                        overflow: TextOverflow.clip,
                       ),
                     ),
                   ],
@@ -79,7 +76,7 @@ class WorkoutBlock extends StatelessWidget {
               ),
               child: Hero(
                 tag: workout.id,
-                child: QmImageNetwork(
+                child: QmImage.network(
                   source: workout.imageURL,
                   fallbackIcon: EvaIcons.plus,
                 ),

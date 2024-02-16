@@ -8,7 +8,7 @@ class RoutingErrorScreen extends StatelessWidget {
   final String? error;
   @override
   Widget build(BuildContext context) {
-    Utils().firebaseAnalytics.logEvent(
+    utils.firebaseAnalytics.logEvent(
       name: AnalyticsEventNamesConstants.routingError,
       parameters: <String, dynamic>{
         AnalyticsEventNamesConstants.error: error,
@@ -22,7 +22,6 @@ class RoutingErrorScreen extends StatelessWidget {
           children: [
             QmText(
               text: S.current.DefaultError,
-              maxWidth: double.maxFinite,
             ),
             QmIconButton(
               onPressed: () => RoutingController().changeRoute(0),

@@ -11,6 +11,7 @@ class ProgramModel {
     required this.restDayOrDays,
     this.isHovered = false,
   });
+
   ProgramModel.empty()
       : isHovered = false,
         name = '',
@@ -29,6 +30,28 @@ class ProgramModel {
         creationDate: map[creationDateKey] as Timestamp,
         restDayOrDays: (map[restDayOrDaysKey] as List<dynamic>).cast<String>(),
       );
+  ProgramModel copyWith({
+    String? name,
+    String? id,
+    String? trainerId,
+    List<String>? traineesIds,
+    List<String>? workouts,
+    Timestamp? creationDate,
+    List<String>? restDayOrDays,
+    bool? isHovered,
+  }) {
+    return ProgramModel(
+      name: name ?? this.name,
+      id: id ?? this.id,
+      trainerId: trainerId ?? this.trainerId,
+      traineesIds: traineesIds ?? this.traineesIds,
+      workouts: workouts ?? this.workouts,
+      creationDate: creationDate ?? this.creationDate,
+      restDayOrDays: restDayOrDays ?? this.restDayOrDays,
+      isHovered: isHovered ?? this.isHovered,
+    );
+  }
+
   static const String nameKey = 'name';
   static const String trainerIdKey = 'trainerId';
   static const String traineesIdsKey = 'traineesIds';
