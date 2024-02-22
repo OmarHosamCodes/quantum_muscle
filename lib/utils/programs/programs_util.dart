@@ -6,67 +6,60 @@ class ProgramUtil extends Utils {
   Future<void> addProgram({
     required BuildContext context,
     required String programName,
-    required WidgetRef ref,
     required int programsLength,
     required GlobalKey<FormState> formKey,
   }) async {
     if (!formKey.currentState!.validate()) return;
 
-    QmLoader.openLoader(context: context);
     if (programsLength >= 5) {
-      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.current.Failed,
         message: S.current.YouReachedTheLimitOfPrograms,
       );
-    } else {
-      try {
-        await firebaseAnalytics.logEvent(
-          name: AnalyticsEventNamesConstants.addProgram,
-        );
-        final programModel = ProgramModel(
-          id: const Uuid().v8(),
-          name: programName,
-          trainerId: userUid!,
-          traineesIds: [],
-          workouts: [],
-          creationDate: Timestamp.now(),
-          restDayOrDays: [],
+      return;
+    }
+
+    try {
+      QmLoader.openLoader(context: context);
+      await firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.addProgram,
+      );
+      final programModel = ProgramModel(
+        id: const Uuid().v8(),
+        name: programName,
+        trainerId: userUid!,
+        traineesIds: [],
+        workouts: [],
+        creationDate: Timestamp.now(),
+        restDayOrDays: [],
+      );
+
+      final batch = firebaseFirestore.batch()
+        ..set(
+          firebaseFirestore
+              .collection(DBPathsConstants.programsPath)
+              .doc(programModel.id),
+          programModel.toMap(),
+          SetOptions(merge: true),
+        )
+        ..update(
+          firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid),
+          {
+            UserModel.programsKey: FieldValue.arrayUnion([programModel.id]),
+          },
         );
 
-        await firebaseFirestore
-            .collection(DBPathsConstants.programsPath)
-            .doc(programModel.id)
-            .set(
-              programModel.toMap(),
-              SetOptions(merge: true),
-            );
-        await firebaseFirestore
-            .collection(DBPathsConstants.usersPath)
-            .doc(userUid)
-            .set(
-          {
-            UserModel.programsKey: FieldValue.arrayUnion(
-              [programModel.id],
-            ),
-          },
-          SetOptions(merge: true),
-        );
-        ref
-          ..invalidate(programsProvider)
-          ..read(programsProvider)
-          ..invalidate(userProvider(userUid!))
-          ..read(userProvider(userUid!));
-        QmLoader.closeLoader(context: context);
-      } catch (e) {
-        QmLoader.closeLoader(context: context);
-        openQmDialog(
-          context: context,
-          title: S.current.Failed,
-          message: e.toString(),
-        );
-      }
+      await batch.commit();
+
+      QmLoader.closeLoader(context: context);
+    } catch (e) {
+      QmLoader.closeLoader(context: context);
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
     }
   }
 
@@ -81,33 +74,42 @@ class ProgramUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.removeProgram,
       );
-      await firebaseFirestore
-          .collection(DBPathsConstants.programsPath)
-          .doc(programId)
-          .delete();
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userUid)
-          .update({
-        UserModel.programsKey: FieldValue.arrayRemove(
-          [programId],
-        ),
-      });
+
+      final batch = firebaseFirestore.batch()
+        ..delete(
+          firebaseFirestore
+              .collection(DBPathsConstants.programsPath)
+              .doc(programId),
+        )
+        ..update(
+          firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid),
+          {
+            UserModel.programsKey: FieldValue.arrayRemove([programId]),
+          },
+        );
 
       for (final traineeId in traineesIds) {
-        await firebaseFirestore
-            .collection(DBPathsConstants.usersPath)
-            .doc(traineeId as String?)
-            .update({
-          UserModel.programsKey: FieldValue.arrayRemove(
-            [programId],
-          ),
-        });
+        batch.update(
+          firebaseFirestore
+              .collection(DBPathsConstants.usersPath)
+              .doc(traineeId as String?),
+          {
+            UserModel.programsKey: FieldValue.arrayRemove([programId]),
+          },
+        );
       }
+
+      await batch.commit();
 
       while (context.canPop()) {
         QmLoader.closeLoader(context: context);
       }
+
+      ref
+        ..invalidate(programsProvider)
+        ..read(programsProvider)
+        ..invalidate(userProvider(userUid!))
+        ..read(userProvider(userUid!));
     } catch (e) {
       QmLoader.closeLoader(context: context);
       openQmDialog(
@@ -129,24 +131,31 @@ class ProgramUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.sendRequest,
       );
+
       await ChatUtil().startChat(
         userId: traineeId,
         context: context,
         ref: ref,
       );
+
       final userDocRef = firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(traineeId);
-      final chatId = await userDocRef.get().then(
-            (value) => (value.data()![UserModel.chatsKey] as List)
-                .where((element) => (element as Map).values.contains(userUid)),
+      final chatIdQuery = await userDocRef.get().then(
+            (value) => (value.data()![UserModel.chatsKey] as List).firstWhere(
+              (element) => (element as Map).containsValue(userUid),
+            ),
           );
+
+      // ignore: avoid_dynamic_calls
+      final chatId = chatIdQuery.keys.first as String;
+
       await ChatUtil().addRequestMessage(
-        // ignore: avoid_dynamic_calls
-        chatId: chatId.first.keys.first as String,
+        chatId: chatId,
         message: S.current.WillYouJoinProgram,
         programRequestId: programRequestId,
       );
+
       QmLoader.closeLoader(context: context);
     } catch (e) {
       openQmDialog(
@@ -169,32 +178,30 @@ class ProgramUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.acceptRequest,
       );
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
-          .doc(userUid)
-          .set(
-        {
-          UserModel.programsKey: FieldValue.arrayUnion(
-            [programId],
-          ),
-        },
-        SetOptions(merge: true),
-      );
-      await firebaseFirestore
-          .collection(DBPathsConstants.programsPath)
-          .doc(programId)
-          .update(
-        {
-          ProgramModel.traineesIdsKey: FieldValue.arrayUnion(
-            [userUid],
-          ),
-        },
-      );
+
+      final batch = firebaseFirestore.batch()
+        ..update(
+          firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid),
+          {
+            UserModel.programsKey: FieldValue.arrayUnion([programId]),
+          },
+        )
+        ..update(
+          firebaseFirestore
+              .collection(DBPathsConstants.programsPath)
+              .doc(programId),
+          {
+            ProgramModel.traineesIdsKey: FieldValue.arrayUnion([userUid]),
+          },
+        );
+      await batch.commit();
+
       await ChatUtil().removeMessage(
         chatId: chatId,
         messageId: messageId,
         context: context,
       );
+
       RoutingController().changeRoute(4);
 
       ref
@@ -202,6 +209,7 @@ class ProgramUtil extends Utils {
         ..read(programsProvider)
         ..invalidate(userProvider(userUid!))
         ..read(userProvider(userUid!));
+
       QmLoader.closeLoader(context: context);
     } catch (e) {
       openQmDialog(
@@ -224,60 +232,59 @@ class ProgramUtil extends Utils {
         name: AnalyticsEventNamesConstants.addProgramWorkout,
       );
 
-      if (await firebaseFirestore
+      final programDocRef = firebaseFirestore
           .collection(DBPathsConstants.programsPath)
-          .doc(programId)
-          .get()
-          .then(
-            (value) => (value.data()![ProgramModel.workoutsKey]
-                    as List<dynamic>)
-                .where((element) => element == '${workout.name}-${workout.id}')
-                .isEmpty,
-          )) {
-        await firebaseFirestore
-            .collection(DBPathsConstants.programsPath)
-            .doc(programId)
-            .set(
-          {
-            ProgramModel.workoutsKey: FieldValue.arrayUnion(
-              ['${workout.name}-${workout.id}'],
-            ),
-          },
-          SetOptions(merge: true),
-        );
-        await firebaseFirestore
-            .collection(DBPathsConstants.programsPath)
-            .doc(programId)
-            .collection(DBPathsConstants.workoutsPath)
-            .doc('${workout.name}-${workout.id}')
-            .set(
-              workout.toMap(),
-              SetOptions(merge: true),
-            );
-        await ref
+          .doc(programId);
+      final workoutExists = await programDocRef.get().then(
+            (value) =>
+                (value.data()![ProgramModel.workoutsKey] as List<dynamic>)
+                    .contains('${workout.name}-${workout.id}'),
+          );
+
+      if (!workoutExists) {
+        final batch = firebaseFirestore.batch()
+          ..update(
+            programDocRef,
+            {
+              ProgramModel.workoutsKey:
+                  FieldValue.arrayUnion(['${workout.name}-${workout.id}']),
+            },
+          )
+          ..set(
+            programDocRef
+                .collection(DBPathsConstants.workoutsPath)
+                .doc('${workout.name}-${workout.id}'),
+            workout.toMap(),
+            SetOptions(merge: true),
+          );
+
+        final exercises = ref
             .watch(exercisesProvider('${workout.name}-${workout.id}'))
             .maybeWhen(
-          data: (exercises) async {
-            for (final exercise in exercises) {
-              await firebaseFirestore
-                  .collection(DBPathsConstants.programsPath)
-                  .doc(programId)
-                  .collection(DBPathsConstants.workoutsPath)
-                  .doc('${workout.name}-${workout.id}')
-                  .collection(DBPathsConstants.exercisesPath)
-                  .doc('${exercise.name}-${exercise.target}-${exercise.id}')
-                  .set(
-                    exercise.toMap(),
-                    SetOptions(merge: true),
-                  );
-            }
-          },
-          orElse: () {
-            return;
-          },
-        );
+              data: (exercises) => exercises,
+              orElse: () => <ExerciseModel>[],
+            );
+
+        for (final exercise in exercises) {
+          batch.set(
+            programDocRef
+                .collection(DBPathsConstants.workoutsPath)
+                .doc('${workout.name}-${workout.id}')
+                .collection(DBPathsConstants.exercisesPath)
+                .doc('${exercise.name}-${exercise.target}-${exercise.id}'),
+            exercise.toMap(),
+            SetOptions(merge: true),
+          );
+        }
+
+        await batch.commit();
 
         QmLoader.closeLoader(context: context);
+        ref
+          ..invalidate(programsProvider)
+          ..read(programsProvider)
+          ..invalidate(userProvider(userUid!))
+          ..read(userProvider(userUid!));
       } else {
         QmLoader.closeLoader(context: context);
         openQmDialog(
@@ -288,7 +295,6 @@ class ProgramUtil extends Utils {
       }
     } catch (e) {
       QmLoader.closeLoader(context: context);
-
       openQmDialog(
         context: context,
         title: S.current.Failed,
@@ -308,19 +314,25 @@ class ProgramUtil extends Utils {
         name: AnalyticsEventNamesConstants.removeProgramWorkout,
       );
 
-      await firebaseFirestore
-          .collection(DBPathsConstants.programsPath)
-          .doc(programId)
-          .collection(DBPathsConstants.workoutsPath)
-          .doc(workoutCollectionName)
-          .delete();
-      await firebaseFirestore
-          .collection(DBPathsConstants.programsPath)
-          .doc(programId)
-          .update({
-        ProgramModel.workoutsKey:
-            FieldValue.arrayRemove([workoutCollectionName]),
-      });
+      final batch = firebaseFirestore.batch()
+        ..delete(
+          firebaseFirestore
+              .collection(DBPathsConstants.programsPath)
+              .doc(programId)
+              .collection(DBPathsConstants.workoutsPath)
+              .doc(workoutCollectionName),
+        )
+        ..update(
+          firebaseFirestore
+              .collection(DBPathsConstants.programsPath)
+              .doc(programId),
+          {
+            ProgramModel.workoutsKey:
+                FieldValue.arrayRemove([workoutCollectionName]),
+          },
+        );
+      await batch.commit();
+
       while (context.canPop()) {
         QmLoader.closeLoader(context: context);
       }
@@ -329,44 +341,6 @@ class ProgramUtil extends Utils {
       openQmDialog(
         context: context,
         title: S.of(context).Failed,
-        message: e.toString(),
-      );
-    }
-  }
-
-  Future<void> addSetToProgramWorkout({
-    required String workoutCollectionName,
-    required String exerciseDocName,
-    required WidgetRef ref,
-    required int indexToInsert,
-    required String programId,
-    required BuildContext context,
-  }) async {
-    try {
-      await firebaseAnalytics.logEvent(
-        name: AnalyticsEventNamesConstants.addProgramSet,
-      );
-      await firebaseFirestore
-          .collection(DBPathsConstants.programsPath)
-          .doc(programId)
-          .collection(DBPathsConstants.workoutsPath)
-          .doc(workoutCollectionName)
-          .collection(DBPathsConstants.exercisesPath)
-          .doc(exerciseDocName)
-          .set(
-        {
-          ExerciseModel.setsKey: {
-            indexToInsert.toString(): S.current.WeightXReps,
-          },
-        },
-        SetOptions(
-          merge: true,
-        ),
-      );
-    } catch (e) {
-      openQmDialog(
-        context: context,
-        title: S.current.Failed,
         message: e.toString(),
       );
     }
@@ -392,54 +366,19 @@ class ProgramUtil extends Utils {
           name: AnalyticsEventNamesConstants.addProgramExercise,
         );
         final id = const Uuid().v8();
-        if (isLink) {
-          final exercise = ExerciseModel(
-            id: id,
-            name: exerciseName,
-            target: exerciseTarget,
-            sets: {
-              '0': S.current.WeightXReps,
-            },
-            contentURL: content,
-            contentType: ExerciseContentType.image,
-            creationDate: Timestamp.now(),
-          );
-          await firebaseFirestore
-              .collection(DBPathsConstants.programsPath)
-              .doc(programId)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .collection(DBPathsConstants.exercisesPath)
-              .doc('${exercise.name}-${exercise.target}-${exercise.id}')
-              .set(exercise.toMap(), SetOptions(merge: true));
+        final exercise = ExerciseModel(
+          id: id,
+          name: exerciseName,
+          target: exerciseTarget,
+          sets: {'0': S.current.WeightXReps},
+          contentURL: '',
+          contentType: ExerciseContentType.image,
+          creationDate: Timestamp.now(),
+        );
 
-          await firebaseFirestore
-              .collection(DBPathsConstants.programsPath)
-              .doc(programId)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .set(
-            {
-              WorkoutModel.exercisesKey: FieldValue.arrayUnion(
-                [
-                  '${exercise.name}-${exercise.target}-${exercise.id}',
-                ],
-              ),
-            },
-            SetOptions(merge: true),
-          );
+        if (isLink) {
+          exercise.contentURL = content;
         } else {
-          final exercise = ExerciseModel(
-            id: id,
-            name: exerciseName,
-            target: exerciseTarget,
-            sets: {
-              '0': S.current.WeightXReps,
-            },
-            contentURL: '',
-            contentType: ExerciseContentType.image,
-            creationDate: Timestamp.now(),
-          );
           final storageRef = firebaseStorage
               .child(DBPathsConstants.usersPath)
               .child(userUid!)
@@ -450,34 +389,35 @@ class ProgramUtil extends Utils {
               .child('${exercise.name}-${exercise.target}-${exercise.id}.png');
 
           await storageRef.putString(content, format: PutStringFormat.base64);
-
           exercise.contentURL = await storageRef.getDownloadURL();
+        }
 
-          await firebaseFirestore
-              .collection(DBPathsConstants.programsPath)
-              .doc(programId)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .collection(DBPathsConstants.exercisesPath)
-              .doc('${exercise.name}-${exercise.target}-${exercise.id}')
-              .set(exercise.toMap(), SetOptions(merge: true));
-
-          await firebaseFirestore
-              .collection(DBPathsConstants.programsPath)
-              .doc(programId)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .set(
+        final batch = firebaseFirestore.batch()
+          ..set(
+            firebaseFirestore
+                .collection(DBPathsConstants.programsPath)
+                .doc(programId)
+                .collection(DBPathsConstants.workoutsPath)
+                .doc(workoutCollectionName)
+                .collection(DBPathsConstants.exercisesPath)
+                .doc('${exercise.name}-${exercise.target}-${exercise.id}'),
+            exercise.toMap(),
+            SetOptions(merge: true),
+          )
+          ..update(
+            firebaseFirestore
+                .collection(DBPathsConstants.programsPath)
+                .doc(programId)
+                .collection(DBPathsConstants.workoutsPath)
+                .doc(workoutCollectionName),
             {
               WorkoutModel.exercisesKey: FieldValue.arrayUnion(
-                [
-                  '${exercise.name}-${exercise.target}-${exercise.id}',
-                ],
+                ['${exercise.name}-${exercise.target}-${exercise.id}'],
               ),
             },
-            SetOptions(merge: true),
           );
-        }
+        await batch.commit();
+
         QmLoader.closeLoader(context: context);
       } catch (e) {
         QmLoader.closeLoader(context: context);
@@ -490,8 +430,47 @@ class ProgramUtil extends Utils {
     }
   }
 
+  Future<void> addSetToProgramWorkout({
+    required String workoutCollectionName,
+    required String exerciseDocName,
+    required WidgetRef ref,
+    required int indexToInsert,
+    required String programId,
+    required BuildContext context,
+  }) async {
+    try {
+      await firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.addProgramSet,
+      );
+
+      final programDocRef = firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId);
+      final exerciseDocRef = programDocRef
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .collection(DBPathsConstants.exercisesPath)
+          .doc(exerciseDocName);
+
+      await exerciseDocRef.set(
+        {
+          ExerciseModel.setsKey: {
+            indexToInsert.toString(): S.current.WeightXReps,
+          },
+        },
+        SetOptions(merge: true),
+      );
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
+  }
+
   Future<void> changeSetToProgramWorkout({
-    required GlobalKey<FormState>? formKey,
+    required GlobalKey<FormState> formKey,
     required String workoutCollectionName,
     required String exerciseDocName,
     required BuildContext context,
@@ -501,20 +480,22 @@ class ProgramUtil extends Utils {
     required String reps,
     required String weight,
   }) async {
-    final isValid = formKey!.currentState!.validate();
-    if (!isValid) return;
+    if (!formKey.currentState!.validate()) return;
+
     try {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.changeProgramSet,
       );
-      await firebaseFirestore
+
+      final exerciseDocRef = firebaseFirestore
           .collection(DBPathsConstants.programsPath)
           .doc(programId)
           .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
           .collection(DBPathsConstants.exercisesPath)
-          .doc(exerciseDocName)
-          .set(
+          .doc(exerciseDocName);
+
+      await exerciseDocRef.set(
         {
           ExerciseModel.setsKey: {
             indexToInsert.toString(): '$weight x $reps',

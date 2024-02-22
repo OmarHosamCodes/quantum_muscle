@@ -87,7 +87,7 @@ class AddWorkoutNotifier extends StateNotifier<AddWorkoutState> {
         name: '',
         content: null,
       );
-  void setContent(String content) => state = state.copyWith(content: content);
+  void setContent(String? content) => state = state.copyWith(content: content);
 }
 
 final addWorkoutNotifierProvider =

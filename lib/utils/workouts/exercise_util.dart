@@ -20,40 +20,24 @@ class ExerciseUtil extends Utils {
           name: AnalyticsEventNamesConstants.addExercise,
         );
         final id = const Uuid().v8();
+        final exercisesCollection = usersCollection
+            .doc(userUid)
+            .collection(DBPathsConstants.workoutsPath)
+            .doc(workoutCollectionName)
+            .collection(DBPathsConstants.exercisesPath);
+
+        ExerciseModel exercise;
 
         if (isLink) {
-          final exercise = ExerciseModel(
+          exercise = ExerciseModel(
             id: id,
             name: exerciseName,
             target: exerciseTarget,
-            sets: {
-              '0': S.current.WeightXReps,
-            },
+            sets: {'0': S.current.WeightXReps},
             contentURL: content,
             contentType: ExerciseContentType.image,
             creationDate: Timestamp.now(),
           );
-          await usersCollection
-              .doc(userUid)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .set(
-            {
-              WorkoutModel.exercisesKey: FieldValue.arrayUnion(
-                [
-                  '${exercise.name}-${exercise.target}-${exercise.id}',
-                ],
-              ),
-            },
-            SetOptions(merge: true),
-          );
-          await usersCollection
-              .doc(userUid)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .collection(DBPathsConstants.exercisesPath)
-              .doc('${exercise.name}-${exercise.target}-${exercise.id}')
-              .set(exercise.toMap(), SetOptions(merge: true));
         } else {
           final storageRef = firebaseStorage
               .child(DBPathsConstants.usersPath)
@@ -64,39 +48,36 @@ class ExerciseUtil extends Utils {
               .child('$exerciseName$exerciseTarget$id.png');
 
           await storageRef.putString(content, format: PutStringFormat.base64);
-          final exercise = ExerciseModel(
+          exercise = ExerciseModel(
             id: id,
             name: exerciseName,
             target: exerciseTarget,
-            sets: {
-              '0': S.current.WeightXReps,
-            },
+            sets: {'0': S.current.WeightXReps},
             contentURL: await storageRef.getDownloadURL(),
             contentType: ExerciseContentType.image,
             creationDate: Timestamp.now(),
           );
-          await usersCollection
-              .doc(userUid)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .set(
-            {
-              WorkoutModel.exercisesKey: FieldValue.arrayUnion(
-                [
-                  '${exercise.name}-${exercise.target}-${exercise.id}',
-                ],
-              ),
-            },
-            SetOptions(merge: true),
-          );
-          await usersCollection
-              .doc(userUid)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc(workoutCollectionName)
-              .collection(DBPathsConstants.exercisesPath)
-              .doc('${exercise.name}-${exercise.target}-${exercise.id}')
-              .set(exercise.toMap(), SetOptions(merge: true));
         }
+
+        await exercisesCollection
+            .doc('${exercise.name}-${exercise.target}-${exercise.id}')
+            .set(exercise.toMap(), SetOptions(merge: true));
+
+        await usersCollection
+            .doc(userUid)
+            .collection(DBPathsConstants.workoutsPath)
+            .doc(workoutCollectionName)
+            .set(
+          {
+            WorkoutModel.exercisesKey: FieldValue.arrayUnion(
+              [
+                '${exercise.name}-${exercise.target}-${exercise.id}',
+              ],
+            ),
+          },
+          SetOptions(merge: true),
+        );
+
         context.pop();
       } catch (e) {
         context.pop();
@@ -120,6 +101,9 @@ class ExerciseUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addSet,
       );
+      const setsKey = ExerciseModel.setsKey;
+      final weightXReps = S.current.WeightXReps;
+
       await usersCollection
           .doc(userUid)
           .collection(DBPathsConstants.workoutsPath)
@@ -128,8 +112,8 @@ class ExerciseUtil extends Utils {
           .doc(exerciseDocName)
           .set(
         {
-          ExerciseModel.setsKey: {
-            indexToInsert.toString(): S.current.WeightXReps,
+          setsKey: {
+            indexToInsert.toString(): weightXReps,
           },
         },
         SetOptions(
@@ -161,8 +145,11 @@ class ExerciseUtil extends Utils {
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.changeSet,
       );
-      await firebaseFirestore
-          .collection(DBPathsConstants.usersPath)
+
+      const setsKey = ExerciseModel.setsKey;
+      final setString = '$weight x $reps';
+
+      await usersCollection
           .doc(userUid)
           .collection(DBPathsConstants.workoutsPath)
           .doc(workoutCollectionName)
@@ -170,14 +157,15 @@ class ExerciseUtil extends Utils {
           .doc(exerciseDocName)
           .set(
         {
-          ExerciseModel.setsKey: {
-            indexToInsert.toString(): '$weight x $reps',
+          setsKey: {
+            indexToInsert.toString(): setString,
           },
         },
         SetOptions(
           merge: true,
         ),
       );
+
       context.pop();
     } catch (e) {
       context.pop();
@@ -202,27 +190,19 @@ class ExerciseUtil extends Utils {
         .collection(DBPathsConstants.publicPath)
         .doc(DBPathsConstants.exercisesPath)
         .get()
-        .then((value) => value.data()!['names'] as List);
+        .then((value) => List<String>.from(value.data()!['names'] as List));
 
-    final finalList = names
-        .map(
-          (e) => firebaseStorage
-              .child(DBPathsConstants.publicPath)
-              .child(DBPathsConstants.exercisesPath)
-              .child(e as String)
-              .list()
-              .then(
-                (value) async =>
-                    value.items.map((e) => e.getDownloadURL()).toList(),
-              )
-              .then(
-            (value) async {
-              final urls = await Future.wait(value);
-              return (e, urls);
-            },
-          ),
-        )
-        .toList();
-    return Future.value(await Future.wait(finalList));
+    final finalList = names.map((e) async {
+      final value = await firebaseStorage
+          .child(DBPathsConstants.publicPath)
+          .child(DBPathsConstants.exercisesPath)
+          .child(e)
+          .list();
+      final urls =
+          await Future.wait(value.items.map((e) => e.getDownloadURL()));
+      return (e, urls);
+    });
+
+    return Future.wait(finalList);
   }
 }

@@ -15,10 +15,15 @@ class WorkoutUtil extends Utils {
     if (user != null) {
       try {
         if (!formKey.currentState!.validate()) return;
+
         await firebaseAnalytics.logEvent(
           name: AnalyticsEventNamesConstants.addWorkout,
         );
         final id = const Uuid().v8();
+
+        final workoutsCollection = usersCollection
+            .doc(userUid)
+            .collection(DBPathsConstants.workoutsPath);
 
         if (isLink) {
           final workoutModel = WorkoutModel(
@@ -29,11 +34,7 @@ class WorkoutUtil extends Utils {
             creationDate: Timestamp.now(),
           );
 
-          await usersCollection
-              .doc(userUid)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc('$name-$id')
-              .set(
+          await workoutsCollection.doc('$name-$id').set(
                 workoutModel.toMap(),
                 SetOptions(merge: true),
               );
@@ -46,23 +47,22 @@ class WorkoutUtil extends Utils {
               .child('$name-showcase.png');
           await storageRef.putString(image, format: PutStringFormat.base64);
 
+          final imageURL = await storageRef.getDownloadURL();
+
           final workoutModel = WorkoutModel(
             id: id,
             name: name,
-            imageURL: await storageRef.getDownloadURL(),
+            imageURL: imageURL,
             exercises: [],
             creationDate: Timestamp.now(),
           );
 
-          await usersCollection
-              .doc(userUid)
-              .collection(DBPathsConstants.workoutsPath)
-              .doc('$name-$id')
-              .set(
+          await workoutsCollection.doc('$name-$id').set(
                 workoutModel.toMap(),
                 SetOptions(merge: true),
               );
         }
+
         QmLoader.closeLoader(context: context);
       } catch (e) {
         QmLoader.closeLoader(context: context);
@@ -108,32 +108,20 @@ class WorkoutUtil extends Utils {
         .collection(DBPathsConstants.publicPath)
         .doc(DBPathsConstants.workoutsPath)
         .get()
-        .then((value) => value.data()!['names'] as List);
+        .then((value) => List<String>.from(value.data()!['names'] as List));
 
-    final finalList = names
-        .map(
-          (e) => firebaseStorage
-              .child(DBPathsConstants.publicPath)
-              .child(DBPathsConstants.workoutsPath)
-              .child(e as String)
-              .list()
-              .then(
-                (value) async =>
-                    value.items.map((e) => e.getDownloadURL()).toList(),
-              )
-              .then(
-            (value) async {
-              final urls = await Future.wait(value);
-              return (e, urls);
-            },
-          ),
-        )
-        .toList();
+    final finalList = names.map((e) async {
+      final value = await firebaseStorage
+          .child(DBPathsConstants.publicPath)
+          .child(DBPathsConstants.workoutsPath)
+          .child(e)
+          .list();
+      final urls =
+          await Future.wait(value.items.map((e) => e.getDownloadURL()));
+      return (e, urls);
+    });
+
     final result = await Future.wait(finalList);
-    return result;
+    return result.toList();
   }
-}
-
-class WorkoutUtil2 extends Utils {
-//
 }

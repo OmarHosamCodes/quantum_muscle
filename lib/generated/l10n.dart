@@ -140,51 +140,41 @@ class S {
     );
   }
 
-  /// `Enter your rat ID`
-  String get EnterRatID {
-    return Intl.message(
-      'Enter your rat ID',
-      name: 'EnterRatID',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter your name`
-  String get EnterName {
-    return Intl.message(
-      'Enter your name',
-      name: 'EnterName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter your email`
-  String get EnterEmail {
-    return Intl.message(
-      'Enter your email',
-      name: 'EnterEmail',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter your password`
-  String get EnterPassword {
-    return Intl.message(
-      'Enter your password',
-      name: 'EnterPassword',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Enter your new bio`
-  String get EnterNewBio {
+  String get Bio {
     return Intl.message(
       'Enter your new bio',
-      name: 'EnterNewBio',
+      name: 'Bio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Height`
+  String get Height {
+    return Intl.message(
+      'Height',
+      name: 'Height',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get Phone {
+    return Intl.message(
+      'Phone',
+      name: 'Phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Age`
+  String get Age {
+    return Intl.message(
+      'Age',
+      name: 'Age',
       desc: '',
       args: [],
     );
@@ -225,16 +215,6 @@ class S {
     return Intl.message(
       'Enter a valid bio',
       name: 'EnterValidBio',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter your new name`
-  String get EnterNewName {
-    return Intl.message(
-      'Enter your new name',
-      name: 'EnterNewName',
       desc: '',
       args: [],
     );
@@ -360,16 +340,6 @@ class S {
     );
   }
 
-  /// `Hi`
-  String get Hi {
-    return Intl.message(
-      'Hi',
-      name: 'Hi',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Start Making Difference`
   String get Slogan {
     return Intl.message(
@@ -405,26 +375,6 @@ class S {
     return Intl.message(
       'Following',
       name: 'Following',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Follow`
-  String get Follow {
-    return Intl.message(
-      'Follow',
-      name: 'Follow',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Unfollow`
-  String get Unfollow {
-    return Intl.message(
-      'Unfollow',
-      name: 'Unfollow',
       desc: '',
       args: [],
     );
@@ -470,26 +420,6 @@ class S {
     );
   }
 
-  /// `Add Comment`
-  String get AddComment {
-    return Intl.message(
-      'Add Comment',
-      name: 'AddComment',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Workout`
-  String get AddWorkout {
-    return Intl.message(
-      'Add Workout',
-      name: 'AddWorkout',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Add`
   String get Add {
     return Intl.message(
@@ -510,61 +440,11 @@ class S {
     );
   }
 
-  /// `Add Workout Name`
-  String get AddWorkoutName {
+  /// `Description`
+  String get Description {
     return Intl.message(
-      'Add Workout Name',
-      name: 'AddWorkoutName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Workout Description`
-  String get AddWorkoutDescription {
-    return Intl.message(
-      'Add Workout Description',
-      name: 'AddWorkoutDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Workout Image`
-  String get AddWorkoutImage {
-    return Intl.message(
-      'Add Workout Image',
-      name: 'AddWorkoutImage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Image`
-  String get AddImage {
-    return Intl.message(
-      'Add Image',
-      name: 'AddImage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Workout Video`
-  String get AddWorkoutVideo {
-    return Intl.message(
-      'Add Workout Video',
-      name: 'AddWorkoutVideo',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Workout Sets`
-  String get AddWorkoutSets {
-    return Intl.message(
-      'Add Workout Sets',
-      name: 'AddWorkoutSets',
+      'Description',
+      name: 'Description',
       desc: '',
       args: [],
     );
@@ -600,26 +480,6 @@ class S {
     );
   }
 
-  /// `User Name`
-  String get UserNamePlaceHolder {
-    return Intl.message(
-      'User Name',
-      name: 'UserNamePlaceHolder',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add a photo`
-  String get AddAPhoto {
-    return Intl.message(
-      'Add a photo',
-      name: 'AddAPhoto',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `English`
   String get Language {
     return Intl.message(
@@ -640,21 +500,11 @@ class S {
     );
   }
 
-  /// `Enter Exercise Name`
-  String get EnterExerciseName {
+  /// `Target`
+  String get Target {
     return Intl.message(
-      'Enter Exercise Name',
-      name: 'EnterExerciseName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter Exercise Target`
-  String get EnterExerciseTarget {
-    return Intl.message(
-      'Enter Exercise Target',
-      name: 'EnterExerciseTarget',
+      'Target',
+      name: 'Target',
       desc: '',
       args: [],
     );
@@ -690,26 +540,6 @@ class S {
     );
   }
 
-  /// `Add Image Name`
-  String get AddImageName {
-    return Intl.message(
-      'Add Image Name',
-      name: 'AddImageName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Image Description`
-  String get AddImageDescription {
-    return Intl.message(
-      'Add Image Description',
-      name: 'AddImageDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `No bio`
   String get NoBio {
     return Intl.message(
@@ -725,16 +555,6 @@ class S {
     return Intl.message(
       'Profile does not exist',
       name: 'ProfileDoesNotExist',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Message`
-  String get Message {
-    return Intl.message(
-      'Message',
-      name: 'Message',
       desc: '',
       args: [],
     );
@@ -900,26 +720,6 @@ class S {
     );
   }
 
-  /// `Add Program`
-  String get AddProgram {
-    return Intl.message(
-      'Add Program',
-      name: 'AddProgram',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Program Name`
-  String get AddProgramName {
-    return Intl.message(
-      'Add Program Name',
-      name: 'AddProgramName',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `No programs yet`
   String get NoPrograms {
     return Intl.message(
@@ -945,16 +745,6 @@ class S {
     return Intl.message(
       'Add Trainee ID',
       name: 'AddTraineeId',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Add Trainee`
-  String get AddTrainee {
-    return Intl.message(
-      'Add Trainee',
-      name: 'AddTrainee',
       desc: '',
       args: [],
     );
@@ -1025,16 +815,6 @@ class S {
     return Intl.message(
       'Total Followers',
       name: 'TotalFollowers',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No set`
-  String get NoSet {
-    return Intl.message(
-      'No set',
-      name: 'NoSet',
       desc: '',
       args: [],
     );

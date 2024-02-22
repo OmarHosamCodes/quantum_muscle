@@ -30,7 +30,7 @@ class ProfileUtil extends Utils {
             .child(userUid!)
             .child('${UserModel.profileImageURLKey}.png');
         await storageRef
-            .putString(profileImage, format: PutStringFormat.base64)
+            .putString(profileImage!, format: PutStringFormat.base64)
             .then(
           (_) async {
             await userRef.set(

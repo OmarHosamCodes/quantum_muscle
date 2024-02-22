@@ -29,7 +29,7 @@ class ProgramDetailsScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  QmIconButton(
+                  QmButton.icon(
                     icon: EvaIcons.arrowBack,
                     onPressed: () => context.pop(),
                   ),
@@ -52,7 +52,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                         return FittedBox(
                           child: Column(
                             children: [
-                              QmIconButton(
+                              QmButton.icon(
                                 onPressed: () => programUtil.deleteProgram(
                                   context: context,
                                   programId: program.id,
@@ -61,7 +61,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                                 ),
                                 icon: EvaIcons.trash,
                               ),
-                              QmIconButton(
+                              QmButton.icon(
                                 onPressed: () => openAddTraineeSheet(
                                   context,
                                   programRequestId: program.id,
@@ -123,10 +123,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  const Divider(
-                    thickness: 1,
-                    color: ColorConstants.primaryColor,
-                  ),
+                  const QmDivider(),
                 ],
               ),
             ),
@@ -163,7 +160,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(8),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: ColorConstants.secondaryColor,
+                                color: ColorConstants.accentColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               width: width * .2,
@@ -194,22 +191,25 @@ class ProgramDetailsScreen extends StatelessWidget {
                       },
                     );
                   },
-                  loading: () => GridView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(8),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 3,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: isDesktop()
-                          ? 3
-                          : isTablet()
-                              ? 2
-                              : 1,
-                    ),
-                    itemBuilder: (context, index) => QmShimmer.rectangle(
-                      width: 100,
-                      height: 100,
-                      radius: 10,
+                  loading: () => SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(8),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 3,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: isDesktop()
+                            ? 3
+                            : isTablet()
+                                ? 2
+                                : 1,
+                      ),
+                      itemBuilder: (context, index) => QmShimmer.rectangle(
+                        width: 100,
+                        height: 100,
+                        radius: 10,
+                      ),
                     ),
                   ),
                   error: (error, stackTrace) =>

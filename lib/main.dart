@@ -9,6 +9,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Hive.initFlutter();
+  await Hive.openBox<QuerySnapshot<Map<String, dynamic>>>(
+    DBPathsConstants.chatsPath,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -21,7 +25,9 @@ void main() async {
 /////! 7. Remove all image widgets and replace them with QmImage
 //! 8. Add content index scrolling
 /////! 9. Change all consumer objects to _, ref,__
-//! 9. Fix delete workout in program
+/////! 9. Fix delete workout in program
+//! 10. Add a new workout
+//! 11. Capture the images for Commercial use
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});

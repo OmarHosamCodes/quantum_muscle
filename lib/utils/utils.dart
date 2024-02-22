@@ -15,7 +15,7 @@ class Utils {
   Reference get firebaseStorage => FirebaseStorage.instance.ref();
   FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics.instance;
   User? get user => firebaseAuth.currentUser;
-  String? get userUid => user!.uid;
+  String? get userUid => user?.uid;
   String get locale => Intl.getCurrentLocale();
   bool get isEnglish => locale == SimpleConstants.englishLocale;
   String get isOneExist => isEnglish ? '1' : SimpleConstants.emptyString;
@@ -55,10 +55,10 @@ class Utils {
   }
 
   Future<String?> chooseImageFromStorage() async {
-    late XFile? image;
+    XFile? image;
     try {
       image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
     if (image != null) {
@@ -70,7 +70,6 @@ class Utils {
           await Permission.storage.request();
         }
         final imageFile = File(image.path);
-
         return base64Encode(await imageFile.readAsBytes());
       }
     }

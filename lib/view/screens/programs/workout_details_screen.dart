@@ -31,7 +31,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                QmIconButton(
+                QmButton.icon(
                   icon: EvaIcons.arrowBack,
                   onPressed: () => context.pop(),
                 ),
@@ -63,7 +63,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 FittedBox(
                   child: Column(
                     children: [
-                      QmIconButton(
+                      QmButton.icon(
                         onPressed: () {
                           if (programId != null) {
                             programUtil.deleteWorkoutToProgram(
@@ -80,7 +80,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                         },
                         icon: EvaIcons.trash,
                       ),
-                      QmIconButton(
+                      QmButton.icon(
                         onPressed: () {},
                         icon: EvaIcons.share,
                       ),
@@ -110,7 +110,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                 data: (exercises) {
                   return Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: StaggeredGrid.count(
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
@@ -148,22 +148,24 @@ class WorkoutDetailsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                loading: () => SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: StaggeredGrid.count(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: isDesktop()
-                        ? 3
-                        : isTablet()
-                            ? 2
-                            : 1,
-                    children: List.generate(
-                      3,
-                      (index) => QmShimmer.rectangle(
-                        width: 300,
-                        height: 300,
-                        radius: 10,
+                loading: () => Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: StaggeredGrid.count(
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: isDesktop()
+                          ? 3
+                          : isTablet()
+                              ? 2
+                              : 1,
+                      children: List.generate(
+                        3,
+                        (index) => QmShimmer.rectangle(
+                          width: 300,
+                          height: 300,
+                          radius: 10,
+                        ),
                       ),
                     ),
                   ),

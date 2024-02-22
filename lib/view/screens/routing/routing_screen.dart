@@ -2,7 +2,9 @@ import 'package:quantum_muscle/library.dart';
 
 class RoutingScreen extends StatefulWidget {
   const RoutingScreen({
-    required this.child, required this.state, super.key,
+    required this.child,
+    required this.state,
+    super.key,
   });
   final Widget child;
   final GoRouterState state;
@@ -37,7 +39,12 @@ class _RoutingScreenState extends State<RoutingScreen> {
               extendBodyBehindAppBar: true,
               extendBody: true,
               drawer: getDrawerExist ? const RoutingDrawer() : null,
-              body: QmNiceTouch(child: SafeArea(child: widget.child)),
+              body: QmNiceTouch(
+                child: SafeArea(
+                  minimum: const EdgeInsets.all(20),
+                  child: widget.child,
+                ),
+              ),
             );
 
           case null:

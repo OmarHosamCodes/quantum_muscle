@@ -7,7 +7,7 @@ class QmShimmer {
     return FadeShimmer.round(
       size: size,
       baseColor: ColorConstants.primaryColor,
-      highlightColor: ColorConstants.secondaryColor,
+      highlightColor: ColorConstants.accentColor,
       fadeTheme: FadeTheme.dark,
       millisecondsDelay: SimpleConstants.fastAnimationDuration.inMilliseconds,
     );
@@ -23,7 +23,7 @@ class QmShimmer {
       height: height,
       radius: radius,
       baseColor: ColorConstants.primaryColor,
-      highlightColor: ColorConstants.secondaryColor,
+      highlightColor: ColorConstants.accentColor,
       fadeTheme: FadeTheme.dark,
       millisecondsDelay: SimpleConstants.fastAnimationDuration.inMilliseconds,
     );

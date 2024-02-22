@@ -13,7 +13,6 @@ class QmBlock extends StatelessWidget {
     this.maxWidth = double.infinity,
     this.isAnimated = false,
     this.color = ColorConstants.primaryColor,
-    this.isGradient = false,
     this.isNormal = true,
     this.borderRadius,
     this.border,
@@ -30,7 +29,7 @@ class QmBlock extends StatelessWidget {
   final double maxWidth;
   final bool isAnimated;
   final Color color;
-  final bool isGradient;
+
   final bool isNormal;
   final BorderRadius? borderRadius;
   final Border? border;
@@ -38,14 +37,7 @@ class QmBlock extends StatelessWidget {
 
   Duration get containerAnimationDuration =>
       isAnimated ? SimpleConstants.fastAnimationDuration : Duration.zero;
-  Gradient? get containerGradient => isGradient
-      ? const LinearGradient(
-          colors: [
-            ColorConstants.primaryColor,
-            ColorConstants.secondaryColor,
-          ],
-        )
-      : null;
+
   BorderRadius? get containerBorderRadius =>
       borderRadius ?? SimpleConstants.borderRadius;
   @override
@@ -65,7 +57,6 @@ class QmBlock extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            gradient: containerGradient,
             color: color,
             borderRadius: containerBorderRadius,
             border: border,

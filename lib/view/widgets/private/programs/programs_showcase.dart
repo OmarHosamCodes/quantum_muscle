@@ -46,7 +46,6 @@ class ProgramsShowcase extends StatelessWidget {
             width: width,
             height: height,
             program: programs[index],
-            programs: programs,
             isTrainee: isTrainee,
           );
         },

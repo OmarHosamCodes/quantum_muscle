@@ -3,12 +3,16 @@ import 'package:quantum_muscle/library.dart';
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({
     required this.isMobile,
+    required this.emailTextController,
+    required this.passwordTextController,
     super.key,
   });
+
+  final TextEditingController emailTextController;
+  final TextEditingController passwordTextController;
+
   final bool isMobile;
   static final nameTextController = TextEditingController();
-  static final emailTextController = TextEditingController();
-  static final passwordTextController = TextEditingController();
   static final formKey = GlobalKey<FormState>();
 
   @override
@@ -33,9 +37,7 @@ class RegisterScreen extends StatelessWidget {
             children: [
               ResponsiveRowColumnItem(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * .02,
-                  ),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -48,100 +50,95 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
               ResponsiveRowColumnItem(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: height * .01,
-                  ),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: maxWidth,
-                          height: maxHeight,
-                          child: QmTextField(
-                            textInputAction: TextInputAction.next,
-                            margin: margin,
-                            maxLength: 20,
-                            controller: nameTextController,
-                            hintText: S.current.EnterName,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (ValidationController.validateName(value!) ==
-                                  false) {
-                                return S.current.EnterValidName;
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: maxWidth,
-                          height: maxHeight,
-                          child: QmTextField(
-                            textInputAction: TextInputAction.next,
-                            margin: margin,
-                            controller: emailTextController,
-                            hintText: S.current.EnterEmail,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (ValidationController.validateEmail(value!) ==
-                                  false) {
-                                return S.current.EnterValidEmail;
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width: maxWidth,
-                          height: maxHeight,
-                          child: QmTextField(
-                            textInputAction: TextInputAction.next,
-                            margin: margin,
-                            controller: passwordTextController,
-                            hintText: S.current.EnterPassword,
-                            obscureText: true,
-                            maxLength: 21,
-                            validator: (value) {
-                              if (ValidationController.validatePassword(
-                                    value!,
-                                  ) ==
-                                  false) {
-                                return S.current.EnterValidPassword;
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        UserTypeChooser(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: maxWidth,
+                        height: maxHeight,
+                        child: QmTextField(
+                          textInputAction: TextInputAction.next,
                           margin: margin,
-                          maxWidth: width * 0.3,
-                          width: width * .3,
-                          height: maxHeight,
-                        ),
-                        Consumer(
-                          builder: (context, ref, child) {
-                            return _SubmitButton(
-                              maxWidth: maxWidth,
-                              emailTextController: emailTextController,
-                              passwordTextController: passwordTextController,
-                              nameTextController: nameTextController,
-                              formKey: formKey,
-                              margin: margin,
-                              maxHeight: maxHeight,
-                            );
+                          maxLength: 20,
+                          controller: nameTextController,
+                          hintText: S.current.Name,
+                          keyboardType: TextInputType.name,
+                          validator: (value) {
+                            if (ValidationController.validateName(value!) ==
+                                false) {
+                              return S.current.EnterValidName;
+                            }
+                            return null;
                           },
                         ),
-                        QmText(
-                          onTap: () => authPageController.jumpToPage(
-                            1,
-                          ),
-                          text: '${S.current.AlreadyMember} ${S.current.Login}',
+                      ),
+                      SizedBox(
+                        width: maxWidth,
+                        height: maxHeight,
+                        child: QmTextField(
+                          textInputAction: TextInputAction.next,
+                          margin: margin,
+                          controller: emailTextController,
+                          hintText: S.current.Email,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (ValidationController.validateEmail(value!) ==
+                                false) {
+                              return S.current.EnterValidEmail;
+                            }
+                            return null;
+                          },
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        width: maxWidth,
+                        height: maxHeight,
+                        child: QmTextField(
+                          textInputAction: TextInputAction.next,
+                          margin: margin,
+                          controller: passwordTextController,
+                          hintText: S.current.Password,
+                          obscureText: true,
+                          maxLength: 21,
+                          validator: (value) {
+                            if (ValidationController.validatePassword(
+                                  value!,
+                                ) ==
+                                false) {
+                              return S.current.EnterValidPassword;
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      UserTypeChooser(
+                        margin: margin,
+                        maxWidth: width * 0.3,
+                        width: width * .3,
+                        height: maxHeight,
+                      ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          return _SubmitButton(
+                            maxWidth: maxWidth,
+                            emailTextController: emailTextController,
+                            passwordTextController: passwordTextController,
+                            nameTextController: nameTextController,
+                            formKey: formKey,
+                            margin: margin,
+                            maxHeight: maxHeight,
+                          );
+                        },
+                      ),
+                      QmText(
+                        onTap: () => authPageController.jumpToPage(
+                          1,
+                        ),
+                        text: '${S.current.AlreadyMember} ${S.current.Login}',
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -178,7 +175,7 @@ class _SubmitButton extends ConsumerWidget {
     final userType = ref.watch(userTypeProvider);
 
     return QmBlock(
-      isGradient: true,
+      color: ColorConstants.accentColor,
       maxWidth: maxWidth,
       onTap: () {
         registerUtil.register(

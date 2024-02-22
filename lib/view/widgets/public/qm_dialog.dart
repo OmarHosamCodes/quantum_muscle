@@ -22,19 +22,27 @@ class _QmDialog extends StatelessWidget {
   final String message;
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
-      title: QmText(
-        text: title,
-        isHeadline: true,
+    return Dialog(
+      backgroundColor: ColorConstants.accentColor,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            QmText(
+              text: title,
+              isHeadline: true,
+            ),
+            QmSimpleText(
+              text: message,
+              isSeccoundary: true,
+            ),
+          ],
+        ),
       ),
-      content: QmText(
-        text: message,
-        isSeccoundary: true,
-      ),
-      backgroundColor: ColorConstants.secondaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: SimpleConstants.borderRadius,
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: SimpleConstants.borderRadius,
+      // ),
     );
   }
 }

@@ -23,30 +23,11 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Add": MessageLookupByLibrary.simpleMessage("Add"),
-        "AddAPhoto": MessageLookupByLibrary.simpleMessage("Add a photo"),
-        "AddComment": MessageLookupByLibrary.simpleMessage("Add Comment"),
-        "AddImage": MessageLookupByLibrary.simpleMessage("Add Image"),
-        "AddImageDescription":
-            MessageLookupByLibrary.simpleMessage("Add Image Description"),
-        "AddImageName": MessageLookupByLibrary.simpleMessage("Add Image Name"),
-        "AddProgram": MessageLookupByLibrary.simpleMessage("Add Program"),
-        "AddProgramName":
-            MessageLookupByLibrary.simpleMessage("Add Program Name"),
-        "AddTrainee": MessageLookupByLibrary.simpleMessage("Add Trainee"),
         "AddTraineeId": MessageLookupByLibrary.simpleMessage("Add Trainee ID"),
-        "AddWorkout": MessageLookupByLibrary.simpleMessage("Add Workout"),
-        "AddWorkoutDescription":
-            MessageLookupByLibrary.simpleMessage("Add Workout Description"),
-        "AddWorkoutImage":
-            MessageLookupByLibrary.simpleMessage("Add Workout Image"),
-        "AddWorkoutName":
-            MessageLookupByLibrary.simpleMessage("Add Workout Name"),
-        "AddWorkoutSets":
-            MessageLookupByLibrary.simpleMessage("Add Workout Sets"),
-        "AddWorkoutVideo":
-            MessageLookupByLibrary.simpleMessage("Add Workout Video"),
+        "Age": MessageLookupByLibrary.simpleMessage("Age"),
         "AlreadyMember":
             MessageLookupByLibrary.simpleMessage("Already a member ?"),
+        "Bio": MessageLookupByLibrary.simpleMessage("Enter your new bio"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "Comments": MessageLookupByLibrary.simpleMessage("Comments"),
@@ -56,23 +37,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "DaysAgo": MessageLookupByLibrary.simpleMessage("days ago"),
         "DefaultError": MessageLookupByLibrary.simpleMessage(
             "Something went wrong, please try again later"),
+        "Description": MessageLookupByLibrary.simpleMessage("Description"),
         "EditProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "Email": MessageLookupByLibrary.simpleMessage("Email"),
         "EmailSentSuccessfully":
             MessageLookupByLibrary.simpleMessage("Email sent successfully"),
-        "EnterEmail": MessageLookupByLibrary.simpleMessage("Enter your email"),
-        "EnterExerciseName":
-            MessageLookupByLibrary.simpleMessage("Enter Exercise Name"),
-        "EnterExerciseTarget":
-            MessageLookupByLibrary.simpleMessage("Enter Exercise Target"),
-        "EnterName": MessageLookupByLibrary.simpleMessage("Enter your name"),
-        "EnterNewBio":
-            MessageLookupByLibrary.simpleMessage("Enter your new bio"),
-        "EnterNewName":
-            MessageLookupByLibrary.simpleMessage("Enter your new name"),
-        "EnterPassword":
-            MessageLookupByLibrary.simpleMessage("Enter your password"),
-        "EnterRatID": MessageLookupByLibrary.simpleMessage("Enter your rat ID"),
         "EnterValidBio":
             MessageLookupByLibrary.simpleMessage("Enter a valid bio"),
         "EnterValidDescription":
@@ -87,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter a valid password"),
         "Exercises": MessageLookupByLibrary.simpleMessage("Exercises"),
         "Failed": MessageLookupByLibrary.simpleMessage("Failed"),
-        "Follow": MessageLookupByLibrary.simpleMessage("Follow"),
         "Followers": MessageLookupByLibrary.simpleMessage("Followers"),
         "Following": MessageLookupByLibrary.simpleMessage("Following"),
         "ForYou": MessageLookupByLibrary.simpleMessage("For you"),
@@ -95,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Forgot Password ?"),
         "GoBackToLogin":
             MessageLookupByLibrary.simpleMessage("Go back to login"),
-        "Hi": MessageLookupByLibrary.simpleMessage("Hi"),
+        "Height": MessageLookupByLibrary.simpleMessage("Height"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "HourAgo": MessageLookupByLibrary.simpleMessage("hour ago"),
         "HoursAgo": MessageLookupByLibrary.simpleMessage("hours ago"),
@@ -106,7 +74,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Likes": MessageLookupByLibrary.simpleMessage("Likes"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
-        "Message": MessageLookupByLibrary.simpleMessage("Message"),
         "MinuteAgo": MessageLookupByLibrary.simpleMessage("minute ago"),
         "MinutesAgo": MessageLookupByLibrary.simpleMessage("minutes ago"),
         "MonthAgo": MessageLookupByLibrary.simpleMessage("month ago"),
@@ -116,9 +83,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoBio": MessageLookupByLibrary.simpleMessage("No bio"),
         "NoChat": MessageLookupByLibrary.simpleMessage("No chats yet"),
         "NoPrograms": MessageLookupByLibrary.simpleMessage("No programs yet"),
-        "NoSet": MessageLookupByLibrary.simpleMessage("No set"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("Not a member ?"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
+        "Phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "ProfileDoesNotExist":
             MessageLookupByLibrary.simpleMessage("Profile does not exist"),
@@ -132,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Slogan":
             MessageLookupByLibrary.simpleMessage("Start Making Difference"),
         "Success": MessageLookupByLibrary.simpleMessage("Success"),
+        "Target": MessageLookupByLibrary.simpleMessage("Target"),
         "TotalClients": MessageLookupByLibrary.simpleMessage("Total Clients"),
         "TotalExercises":
             MessageLookupByLibrary.simpleMessage("Total Exercises"),
@@ -145,9 +113,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "TryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
         "TypeMessage":
             MessageLookupByLibrary.simpleMessage("Type a message..."),
-        "Unfollow": MessageLookupByLibrary.simpleMessage("Unfollow"),
-        "UserNamePlaceHolder":
-            MessageLookupByLibrary.simpleMessage("User Name"),
         "WeekAgo": MessageLookupByLibrary.simpleMessage("week ago"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("weeks ago"),
         "Weight": MessageLookupByLibrary.simpleMessage("Weight"),

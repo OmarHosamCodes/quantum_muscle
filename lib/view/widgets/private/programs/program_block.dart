@@ -7,7 +7,6 @@ class ProgramBlock extends ConsumerStatefulWidget {
     required this.width,
     required this.height,
     required this.program,
-    required this.programs,
     required this.isTrainee,
     super.key,
   });
@@ -15,7 +14,6 @@ class ProgramBlock extends ConsumerStatefulWidget {
   final double width;
   final double height;
   final ProgramModel program;
-  final List<ProgramModel> programs;
   final bool isTrainee;
 
   @override
@@ -27,12 +25,7 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => setState(
-        () {
-          for (final element in widget.programs) {
-            element.isHovered = false;
-          }
-          widget.program.isHovered = !widget.program.isHovered;
-        },
+        () => widget.program.isHovered = !widget.program.isHovered,
       ),
       child: MouseRegion(
         onEnter: (_) => setState(() => widget.program.isHovered = true),
@@ -50,12 +43,12 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
             return QmBlock(
               color: widget.program.isHovered
                   ? ColorConstants.primaryColor
-                  : ColorConstants.secondaryColor,
+                  : ColorConstants.accentColor,
               isAnimated: true,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: widget.program.isHovered
-                    ? ColorConstants.secondaryColor
+                    ? ColorConstants.accentColor
                     : ColorConstants.primaryColor,
                 width: 1.5,
               ),
@@ -99,7 +92,7 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
                     child: AnimatedOpacity(
                       opacity: widget.program.isHovered ? 1.0 : 0.0,
                       duration: SimpleConstants.fastAnimationDuration,
-                      child: QmIconButton(
+                      child: QmButton.icon(
                         onPressed: () => context.pushNamed(
                           Routes.programRootR,
                           extra: {

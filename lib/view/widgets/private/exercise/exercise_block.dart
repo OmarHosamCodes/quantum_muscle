@@ -31,7 +31,7 @@ class ExerciseBlock extends StatelessWidget {
             width: width,
             height: height,
             borderRadius: SimpleConstants.borderRadius,
-            color: ColorConstants.disabledColorWithOpacity,
+            color: ColorConstants.disabledColor,
           ),
           QmImage.network(
             source: exercise.contentURL,
@@ -63,7 +63,7 @@ class ExerciseBlock extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Flexible(
-            child: QmIconButton(
+            child: QmButton.icon(
               onPressed: () => pageController.previousPage(
                 duration: SimpleConstants.fastAnimationDuration,
                 curve: Curves.ease,
@@ -103,10 +103,11 @@ class ExerciseBlock extends StatelessWidget {
                             theExercise.sets.values.elementAt(index) as String;
 
                         return QmBlock(
-                          color: ColorConstants.disabledColorWithOpacity,
+                          color: ColorConstants.disabledColor,
                           onTap: () => showModalBottomSheet<void>(
+                            showDragHandle: true,
                             context: context,
-                            backgroundColor: ColorConstants.secondaryColor,
+                            backgroundColor: ColorConstants.primaryColor,
                             builder: (context) => _ChangeSetModalSheet(
                               height: height,
                               workoutCollectionName: workoutCollectionName,
@@ -118,8 +119,11 @@ class ExerciseBlock extends StatelessWidget {
                           ),
                           width: width * .2,
                           height: height * .3,
-                          child: QmText(
-                            text: set,
+                          child: Center(
+                            child: QmSimpleText(
+                              text: set,
+                              isSeccoundary: true,
+                            ),
                           ),
                         );
                       },
@@ -139,7 +143,7 @@ class ExerciseBlock extends StatelessWidget {
               );
             },
           ),
-          QmIconButton(
+          QmButton.icon(
             onPressed: () => pageController.nextPage(
               duration: SimpleConstants.fastAnimationDuration,
               curve: Curves.ease,
@@ -152,7 +156,7 @@ class ExerciseBlock extends StatelessWidget {
   }
 }
 
-class _ChangeSetModalSheet extends StatelessWidget {
+class _ChangeSetModalSheet extends ConsumerWidget {
   const _ChangeSetModalSheet({
     required this.height,
     required this.workoutCollectionName,
@@ -166,19 +170,19 @@ class _ChangeSetModalSheet extends StatelessWidget {
   final int index;
   final String? programId;
 
+  static final setRepsTextController = TextEditingController();
+  static final setWeightTextController = TextEditingController();
+  static final formKey = GlobalKey<FormState>();
   @override
-  Widget build(BuildContext context) {
-    final setWeightTextController = TextEditingController();
-    final setRepsTextController = TextEditingController();
-
-    final formKey = GlobalKey<FormState>();
+  Widget build(BuildContext context, WidgetRef ref) {
     final exerciseUtil = ExerciseUtil();
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(20),
       child: Form(
         key: formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
           children: [
             QmTextField(
               textInputAction: TextInputAction.next,
@@ -192,85 +196,86 @@ class _ChangeSetModalSheet extends StatelessWidget {
                 return null;
               },
             ),
-            Consumer(
-              builder: (_, WidgetRef ref, __) {
-                return QmTextField(
-                  textInputAction: TextInputAction.go,
-                  fieldColor: ColorConstants.disabledColor,
-                  controller: setRepsTextController,
-                  hintText: S.current.Reps,
-                  validator: (value) {
-                    if (ValidationController.validateOnlyNumbers(value!) ==
-                        false) {
-                      return S.current.EnterValidNumber;
-                    }
-                    return null;
-                  },
-                  onEditingComplete: () {
-                    if (programId != null) {
-                      programUtil.changeSetToProgramWorkout(
-                        formKey: formKey,
-                        workoutCollectionName: workoutCollectionName,
-                        exerciseDocName: exerciseDocName,
-                        context: context,
-                        ref: ref,
-                        programId: programId!,
-                        indexToInsert: index,
-                        reps: setRepsTextController.text,
-                        weight: setWeightTextController.text,
-                      );
-                    } else {
-                      exerciseUtil.changeSet(
-                        formKey: formKey,
-                        context: context,
-                        reps: setRepsTextController.text,
-                        weight: setWeightTextController.text,
-                        ref: ref,
-                        workoutCollectionName: workoutCollectionName,
-                        exerciseDocName: exerciseDocName,
-                        indexToInsert: index,
-                      );
-                    }
-                  },
-                );
+            const SizedBox(
+              height: 10,
+            ),
+            QmTextField(
+              textInputAction: TextInputAction.go,
+              fieldColor: ColorConstants.disabledColor,
+              controller: setRepsTextController,
+              hintText: S.current.Reps,
+              validator: (value) {
+                if (ValidationController.validateOnlyNumbers(value!) == false) {
+                  return S.current.EnterValidNumber;
+                }
+                return null;
+              },
+              onEditingComplete: () {
+                if (programId != null) {
+                  programUtil.changeSetToProgramWorkout(
+                    formKey: formKey,
+                    workoutCollectionName: workoutCollectionName,
+                    exerciseDocName: exerciseDocName,
+                    context: context,
+                    ref: ref,
+                    programId: programId!,
+                    indexToInsert: index,
+                    reps: setRepsTextController.text,
+                    weight: setWeightTextController.text,
+                  );
+                } else {
+                  exerciseUtil.changeSet(
+                    formKey: formKey,
+                    context: context,
+                    reps: setRepsTextController.text,
+                    weight: setWeightTextController.text,
+                    ref: ref,
+                    workoutCollectionName: workoutCollectionName,
+                    exerciseDocName: exerciseDocName,
+                    indexToInsert: index,
+                  );
+                }
               },
             ),
-            Consumer(
-              builder: (_, ref, __) {
-                return QmBlock(
-                  onTap: () {
-                    if (programId != null) {
-                      programUtil.changeSetToProgramWorkout(
-                        formKey: formKey,
-                        workoutCollectionName: workoutCollectionName,
-                        exerciseDocName: exerciseDocName,
-                        context: context,
-                        ref: ref,
-                        programId: programId!,
-                        indexToInsert: index,
-                        reps: setRepsTextController.text,
-                        weight: setWeightTextController.text,
-                      );
-                    } else {
-                      exerciseUtil.changeSet(
-                        formKey: formKey,
-                        context: context,
-                        reps: setRepsTextController.text,
-                        weight: setWeightTextController.text,
-                        ref: ref,
-                        workoutCollectionName: workoutCollectionName,
-                        exerciseDocName: exerciseDocName,
-                        indexToInsert: index,
-                      );
-                    }
-                  },
-                  height: height * .1,
-                  width: double.maxFinite,
-                  child: QmText(
-                    text: S.current.AddWorkout,
-                  ),
-                );
+            const SizedBox(
+              height: 10,
+            ),
+            QmBlock(
+              color: ColorConstants.accentColor,
+              onTap: () {
+                if (programId != null) {
+                  programUtil.changeSetToProgramWorkout(
+                    formKey: formKey,
+                    workoutCollectionName: workoutCollectionName,
+                    exerciseDocName: exerciseDocName,
+                    context: context,
+                    ref: ref,
+                    programId: programId!,
+                    indexToInsert: index,
+                    reps: setRepsTextController.text,
+                    weight: setWeightTextController.text,
+                  );
+                } else {
+                  exerciseUtil.changeSet(
+                    formKey: formKey,
+                    context: context,
+                    reps: setRepsTextController.text,
+                    weight: setWeightTextController.text,
+                    ref: ref,
+                    workoutCollectionName: workoutCollectionName,
+                    exerciseDocName: exerciseDocName,
+                    indexToInsert: index,
+                  );
+                }
               },
+              height: height * .1,
+              width: double.maxFinite,
+              child: QmText(
+                text: S.current.Add,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

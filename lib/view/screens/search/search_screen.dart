@@ -6,7 +6,6 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final searchTextController = TextEditingController();
-    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(
         children: [
@@ -17,21 +16,17 @@ class SearchScreen extends StatelessWidget {
                   (value) => value.searchText,
                 ),
               );
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * .15),
-                child: QmTextField(
-                  textInputAction: TextInputAction.go,
-                  hintText: S.current.Search,
-                  controller: searchTextController,
-                  onEditingComplete: () {
-                    ref
-                        .read(searchStateNotifierProvider.notifier)
-                        .setSearchText(searchTextController.text);
-                    ref
-                        .read(searchStateNotifierProvider.notifier)
+              return QmTextField(
+                textInputAction: TextInputAction.go,
+                hintText: S.current.Search,
+                controller: searchTextController,
+                onEditingComplete: () {
+                  ref
+                    ..read(searchStateNotifierProvider.notifier)
+                        .setSearchText(searchTextController.text)
+                    ..read(searchStateNotifierProvider.notifier)
                         .performSearch();
-                  },
-                ),
+                },
               );
             },
           ),
@@ -83,50 +78,3 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-
-class SearchState {
-  const SearchState({
-    required this.searchText,
-    required this.searchResults,
-  });
-  final String searchText;
-  final List<UserModel> searchResults;
-
-  SearchState copyWith({
-    String? searchText,
-    List<UserModel>? searchResults,
-  }) {
-    return SearchState(
-      searchText: searchText ?? this.searchText,
-      searchResults: searchResults ?? this.searchResults,
-    );
-  }
-}
-
-class SearchStateNotifier extends StateNotifier<SearchState> {
-  SearchStateNotifier()
-      : super(
-          const SearchState(
-            searchText: '',
-            searchResults: [],
-          ),
-        );
-
-  void setSearchText(String searchText) {
-    state = state.copyWith(searchText: searchText);
-  }
-
-  void setSearchResults(List<UserModel> searchResults) {
-    state = state.copyWith(searchResults: searchResults);
-  }
-
-  Future<void> performSearch() async {
-    final searchResults = await UserUtil().searchUsers(state.searchText);
-    setSearchResults(searchResults);
-  }
-}
-
-final searchStateNotifierProvider =
-    StateNotifierProvider<SearchStateNotifier, SearchState>(
-  (ref) => SearchStateNotifier(),
-);

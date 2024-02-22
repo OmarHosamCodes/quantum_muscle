@@ -5,11 +5,15 @@ import 'package:quantum_muscle/library.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({
     required this.isMobile,
+    required this.emailTextController,
+    required this.passwordTextController,
     super.key,
   });
   final bool isMobile;
-  static final passwordTextController = TextEditingController();
-  static final emailTextController = TextEditingController();
+
+  final TextEditingController emailTextController;
+  final TextEditingController passwordTextController;
+
   static final formKey = GlobalKey<FormState>();
 
   @override
@@ -34,9 +38,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               ResponsiveRowColumnItem(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * .01,
-                  ),
+                  padding: const EdgeInsets.all(8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -49,98 +51,93 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               ResponsiveRowColumnItem(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: height * .01,
-                  ),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: maxHeight,
-                          width: maxWidth,
-                          child: QmTextField(
-                            textInputAction: TextInputAction.next,
-                            margin: margin,
-                            controller: emailTextController,
-                            hintText: S.current.EnterEmail,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (ValidationController.validateEmail(value!) ==
-                                  false) {
-                                return S.current.EnterValidEmail;
-                              }
-                              return null;
-                            },
-                          ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: maxHeight,
+                        width: maxWidth,
+                        child: QmTextField(
+                          textInputAction: TextInputAction.next,
+                          margin: margin,
+                          controller: emailTextController,
+                          hintText: S.current.Email,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (ValidationController.validateEmail(value!) ==
+                                false) {
+                              return S.current.EnterValidEmail;
+                            }
+                            return null;
+                          },
                         ),
-                        SizedBox(
-                          height: maxHeight,
-                          width: maxWidth,
-                          child: Consumer(
-                            builder: (_, WidgetRef ref, __) {
-                              return QmTextField(
-                                textInputAction: TextInputAction.go,
-                                margin: margin,
-                                controller: passwordTextController,
-                                hintText: S.current.EnterPassword,
-                                keyboardType: TextInputType.visiblePassword,
-                                obscureText: true,
-                                maxLength: 21,
-                                validator: (value) {
-                                  if (ValidationController.validatePassword(
-                                        value!,
-                                      ) ==
-                                      false) {
-                                    return S.current.EnterValidPassword;
-                                  }
-                                  return null;
-                                },
-                                onEditingComplete: () => loginUtil.logUserIn(
-                                  context: context,
-                                  email: emailTextController.text,
-                                  password: passwordTextController.text,
-                                  formKey: formKey,
-                                  ref: ref,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        ForgotPasswordTextWidget(width: width),
-                        Consumer(
-                          builder: (_, ref, __) {
-                            return QmBlock(
-                              isGradient: true,
-                              maxWidth: maxWidth,
-                              onTap: () {
-                                loginUtil.logUserIn(
-                                  context: context,
-                                  email: emailTextController.text,
-                                  password: passwordTextController.text,
-                                  formKey: formKey,
-                                  ref: ref,
-                                );
-                              },
+                      ),
+                      SizedBox(
+                        height: maxHeight,
+                        width: maxWidth,
+                        child: Consumer(
+                          builder: (_, WidgetRef ref, __) {
+                            return QmTextField(
+                              textInputAction: TextInputAction.go,
                               margin: margin,
-                              width: maxWidth,
-                              height: maxHeight,
-                              child: QmText(
-                                text: S.current.Login,
+                              controller: passwordTextController,
+                              hintText: S.current.Password,
+                              keyboardType: TextInputType.visiblePassword,
+                              obscureText: true,
+                              maxLength: 21,
+                              validator: (value) {
+                                if (ValidationController.validatePassword(
+                                      value!,
+                                    ) ==
+                                    false) {
+                                  return S.current.EnterValidPassword;
+                                }
+                                return null;
+                              },
+                              onEditingComplete: () => loginUtil.logUserIn(
+                                context: context,
+                                email: emailTextController.text,
+                                password: passwordTextController.text,
+                                formKey: formKey,
+                                ref: ref,
                               ),
                             );
                           },
                         ),
-                        QmText(
-                          onTap: () => authPageController.jumpToPage(
-                            2,
-                          ),
-                          text: '${S.current.NotAMember} ${S.current.Register}',
+                      ),
+                      ForgotPasswordTextWidget(width: width),
+                      Consumer(
+                        builder: (_, ref, __) {
+                          return QmBlock(
+                            color: ColorConstants.accentColor,
+                            maxWidth: maxWidth,
+                            onTap: () {
+                              loginUtil.logUserIn(
+                                context: context,
+                                email: emailTextController.text,
+                                password: passwordTextController.text,
+                                formKey: formKey,
+                                ref: ref,
+                              );
+                            },
+                            margin: margin,
+                            width: maxWidth,
+                            height: maxHeight,
+                            child: QmText(
+                              text: S.current.Login,
+                            ),
+                          );
+                        },
+                      ),
+                      QmText(
+                        onTap: () => authPageController.jumpToPage(
+                          2,
                         ),
-                      ],
-                    ),
+                        text: '${S.current.NotAMember} ${S.current.Register}',
+                      ),
+                    ],
                   ),
                 ),
               ),

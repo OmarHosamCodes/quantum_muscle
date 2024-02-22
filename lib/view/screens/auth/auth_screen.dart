@@ -5,18 +5,26 @@ final authPageController = PageController(initialPage: 1);
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
+  static final emailTextController = TextEditingController();
+  static final passwordTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     final authScreens = <Widget>[
       ForgetPasswordScreen(
         isMobile: isMobile,
+        emailTextController: emailTextController,
       ),
       LoginScreen(
         isMobile: isMobile,
+        emailTextController: emailTextController,
+        passwordTextController: passwordTextController,
       ),
       RegisterScreen(
         isMobile: isMobile,
+        emailTextController: emailTextController,
+        passwordTextController: passwordTextController,
       ),
     ];
 
@@ -29,7 +37,7 @@ class AuthScreen extends StatelessWidget {
         actions: [
           Consumer(
             builder: (_, ref, __) {
-              return QmIconButton(
+              return QmButton.icon(
                 onPressed: () => utils.isEnglish
                     ? ref.read(localeProvider.notifier).state =
                         const Locale(SimpleConstants.arabicLocale)

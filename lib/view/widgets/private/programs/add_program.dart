@@ -1,6 +1,6 @@
 import 'package:quantum_muscle/library.dart';
 
-class AddProgramBlock extends StatefulWidget {
+class AddProgramBlock extends ConsumerWidget {
   const AddProgramBlock({
     required this.width,
     required this.height,
@@ -12,39 +12,33 @@ class AddProgramBlock extends StatefulWidget {
   final double height;
   final List<ProgramModel> programs;
 
-  @override
-  State<AddProgramBlock> createState() => _AddProgramBlockState();
-}
-
-class _AddProgramBlockState extends State<AddProgramBlock> {
-  bool isHovered = false;
-  static final programNameTextController = TextEditingController();
   static final formKey = GlobalKey<FormState>();
+  static final programNameTextController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isHovered = ref.watch(hoveredProvider);
+
     return GestureDetector(
-      onTap: () => setState(
-        () {
-          for (final element in widget.programs) {
-            element.isHovered = false;
-          }
-          isHovered = !isHovered;
-        },
-      ),
+      onTap: () {
+        for (final element in programs) {
+          element.isHovered = false;
+        }
+        ref.read(hoveredProvider.notifier).state = !isHovered;
+      },
       child: MouseRegion(
-        onEnter: (_) => setState(() => isHovered = true),
-        onExit: (_) => setState(() => isHovered = false),
+        onEnter: (_) => ref.read(hoveredProvider.notifier).state = true,
+        onExit: (_) => ref.read(hoveredProvider.notifier).state = false,
         child: QmBlock(
           padding: const EdgeInsets.all(10),
           color: isHovered
               ? ColorConstants.primaryColor
-              : ColorConstants.secondaryColor,
+              : ColorConstants.accentColor,
           isAnimated: true,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: isHovered
-                ? ColorConstants.secondaryColor
+                ? ColorConstants.accentColor
                 : ColorConstants.primaryColor,
             width: 1.5,
           ),
@@ -57,7 +51,7 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                   child: AnimatedRotation(
                     duration: SimpleConstants.fastAnimationDuration,
                     turns: isHovered ? 0 : 0.25,
-                    child: const QmIconButton(
+                    child: QmButton.icon(
                       icon: EvaIcons.plus,
                     ),
                   ),
@@ -71,25 +65,22 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                     children: [
                       Form(
                         key: formKey,
-                        child: Consumer(
-                          builder: (_, WidgetRef ref, __) {
-                            return QmTextField(
-                              textInputAction: TextInputAction.go,
-                              hintText: S.current.AddProgramName,
-                              controller: programNameTextController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return S.current.EnterValidName;
-                                }
-                                return null;
-                              },
-                              onEditingComplete: () => programUtil.addProgram(
-                                context: context,
-                                programName: programNameTextController.text,
-                                ref: ref,
-                                programsLength: widget.programs.length,
-                                formKey: formKey,
-                              ),
+                        child: QmTextField(
+                          textInputAction: TextInputAction.go,
+                          hintText: S.current.Name,
+                          controller: programNameTextController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return S.current.EnterValidName;
+                            }
+                            return null;
+                          },
+                          onEditingComplete: () async {
+                            await programUtil.addProgram(
+                              context: context,
+                              programName: programNameTextController.text,
+                              programsLength: programs.length,
+                              formKey: formKey,
                             );
                           },
                         ),
@@ -98,16 +89,15 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
                       Consumer(
                         builder: (_, ref, __) {
                           return QmBlock(
-                            onTap: () {
-                              programUtil.addProgram(
+                            onTap: () async {
+                              await programUtil.addProgram(
                                 context: context,
                                 programName: programNameTextController.text,
-                                ref: ref,
-                                programsLength: widget.programs.length,
+                                programsLength: programs.length,
                                 formKey: formKey,
                               );
                             },
-                            color: ColorConstants.secondaryColor,
+                            color: ColorConstants.accentColor,
                             child: Center(
                               child: FittedBox(
                                 child: Padding(
@@ -132,3 +122,5 @@ class _AddProgramBlockState extends State<AddProgramBlock> {
     );
   }
 }
+
+final hoveredProvider = StateProvider<bool>((ref) => false);

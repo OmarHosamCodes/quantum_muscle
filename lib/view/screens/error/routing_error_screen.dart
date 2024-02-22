@@ -23,7 +23,7 @@ class RoutingErrorScreen extends StatelessWidget {
             QmText(
               text: S.current.DefaultError,
             ),
-            QmIconButton(
+            QmButton.icon(
               onPressed: () => RoutingController().changeRoute(0),
               icon: EvaIcons.home,
             ),

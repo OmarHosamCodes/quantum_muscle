@@ -20,41 +20,42 @@ class _AddContentScreenState extends State<AddContentScreen> {
     final indexToInsert = widget.arguments['indexToInsert'] as int;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    bool isTablet() {
+      return ResponsiveBreakpoints.of(context).largerThan(MOBILE);
+    }
+
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: width * .15, vertical: 40),
+        padding: isTablet()
+            ? EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: width * .2,
+              )
+            : const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Consumer(
               builder: (_, ref, __) {
-                ref.watch(
-                  chooseProvider.select((value) => value.addImage),
-                );
                 final addImage = ref
-                    .read(
-                      chooseProvider,
-                    )
-                    .addImage;
+                        .watch(
+                          chooseProvider,
+                        )
+                        .addImage ??
+                    SimpleConstants.emptyString;
 
                 return QmBlock(
                   onTap: () async =>
                       ref.read(chooseProvider.notifier).setAddImage(
                             (await profileUtil.chooseImageFromStorage())!,
                           ),
-                  color: ColorConstants.disabledColor,
                   width: width,
                   height: height * .2,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
+                  borderRadius: BorderRadius.circular(10),
                   child: QmImage.memory(
                     source: addImage,
                     fallbackIcon: EvaIcons.plus,
@@ -69,12 +70,12 @@ class _AddContentScreenState extends State<AddContentScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: width * .8,
+                    width: double.infinity,
                     child: QmTextField(
                       textInputAction: TextInputAction.next,
                       fieldColor: ColorConstants.disabledColor,
                       controller: imageNameTextController,
-                      hintText: S.current.AddImageName,
+                      hintText: S.current.Name,
                       validator: (value) {
                         if (ValidationController.validateName(value!) ==
                             false) {
@@ -86,7 +87,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
                   ),
                   const SizedBox(height: 15),
                   SizedBox(
-                    width: width * .8,
+                    width: double.infinity,
                     height: 200,
                     child: Consumer(
                       builder: (_, WidgetRef ref, __) {
@@ -95,7 +96,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
                           fieldColor: ColorConstants.disabledColor,
                           controller: imageDescriptionTextController,
                           isExpanded: true,
-                          hintText: S.current.AddImageDescription,
+                          hintText: S.current.Description,
                           validator: (value) {
                             if (ValidationController.validateDescription(
                                   value!,
@@ -124,28 +125,26 @@ class _AddContentScreenState extends State<AddContentScreen> {
             const SizedBox(height: 15),
             Consumer(
               builder: (_, ref, __) {
-                ref.watch(
-                  chooseProvider.select((value) => value.addImage),
-                );
                 final addImage = ref
-                    .read(
+                    .watch(
                       chooseProvider,
                     )
                     .addImage;
                 return QmBlock(
+                  color: ColorConstants.accentColor,
                   onTap: () => profileUtil.addContent(
                     formKey: formKey,
                     context: context,
                     ref: ref,
                     indexToInsert: indexToInsert,
-                    contentURL: addImage,
+                    contentURL: addImage!,
                     title: imageNameTextController.text,
                     description: imageDescriptionTextController.text,
                   ),
                   height: height * .1,
                   width: double.maxFinite,
                   child: QmText(
-                    text: S.current.AddImage,
+                    text: S.current.Add,
                   ),
                 );
               },

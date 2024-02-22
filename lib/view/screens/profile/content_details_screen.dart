@@ -98,7 +98,7 @@ class ContentDetailsScreen extends StatelessWidget {
                         return contentWatcher.when(
                           data: (watcherContents) {
                             final watcherContent = watcherContents[index];
-                            return QmIconButton(
+                            return QmButton.icon(
                               icon: watcherContent.likes.contains(userID)
                                   ? EvaIcons.heart
                                   : EvaIcons.heartOutline,
@@ -119,7 +119,7 @@ class ContentDetailsScreen extends StatelessWidget {
                             height: 20,
                             radius: 10,
                           ),
-                          error: (error, stack) => const QmIconButton(
+                          error: (error, stack) => QmButton.icon(
                             icon: EvaIcons.heart,
                             iconColor: ColorConstants.disabledColor,
                           ),
@@ -127,14 +127,14 @@ class ContentDetailsScreen extends StatelessWidget {
                       },
                     ),
 
-                    // QmIconButton(
+                    // QmButton.icon(
                     //   icon: EvaIcons.shareOutline,
                     //   onPressed: () {},
                     // ),
                   ],
                 ),
                 QmBlock(
-                  color: ColorConstants.disabledColorWithOpacity,
+                  color: ColorConstants.disabledColor,
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),

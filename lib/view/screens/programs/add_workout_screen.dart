@@ -11,7 +11,6 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     final networkWorkouts = ref.watch(publicWorkoutsProvider);
     final tabController = TabController(
       length: networkWorkouts.maybeWhen(
@@ -50,9 +49,7 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen>
                       crossAxisCount: 2,
                     ),
                     itemCount: e.$2.length,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: width * .15,
-                    ),
+                    padding: const EdgeInsets.all(20),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
                         ref

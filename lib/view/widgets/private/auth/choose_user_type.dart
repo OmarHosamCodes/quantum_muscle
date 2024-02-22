@@ -19,8 +19,8 @@ class UserTypeChooser extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userType = ref.watch(userTypeProvider);
     final colors = <Color>[
-      ColorConstants.disabledColor,
       ColorConstants.primaryColor,
+      ColorConstants.accentColor,
     ];
     //TODO make it responsive
 

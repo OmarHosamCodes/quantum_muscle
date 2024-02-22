@@ -16,7 +16,7 @@ class QmTextField extends StatelessWidget {
     this.borderRadius,
     this.margin,
     this.fontSize = 16.0,
-    this.fieldColor = ColorConstants.textFieldColor,
+    this.fieldColor = ColorConstants.primaryColor,
     this.onChanged,
     this.onEditingComplete,
   });
@@ -44,8 +44,8 @@ class QmTextField extends StatelessWidget {
 
   OutlineInputBorder get outlineInputBorder => OutlineInputBorder(
         borderRadius: borderRadiusValue,
-        borderSide: BorderSide(
-          color: fieldColor,
+        borderSide: const BorderSide(
+          color: ColorConstants.accentColor,
         ),
       );
 

@@ -40,11 +40,12 @@ export 'view/widgets/public/qm_textfield.dart' show QmTextField;
 export 'view/widgets/public/qm_dialog.dart' show openQmDialog;
 export 'view/widgets/public/qm_loader.dart' show QmLoader;
 export 'view/widgets/public/qm_avatar.dart' show QmAvatar;
-export 'view/widgets/public/qm_icon_button.dart' show QmIconButton;
+export 'view/widgets/public/qm_button.dart' show QmButton;
 export 'view/widgets/public/qm_nice_touch.dart' show QmNiceTouch;
 export 'view/widgets/public/qn_image.dart' show QmImage;
 export 'view/widgets/public/qm_shimmer.dart' show QmShimmer;
 export 'view/widgets/public/qm_custom_tab_bar.dart' show QmCustomTabBar;
+export 'view/widgets/public/qm_divider.dart' show QmDivider;
 export 'view/widgets/private/auth/choose_user_type.dart' show UserTypeChooser;
 export 'view/widgets/private/auth/forgot_password_text.dart'
     show ForgotPasswordTextWidget;
@@ -66,7 +67,6 @@ export 'view/widgets/private/programs/trainee_sheet.dart'
 export 'view/widgets/private/home/indicator.dart' show Indicator;
 export 'view/widgets/private/workout/workout_block.dart' show WorkoutBlock;
 export 'view/widgets/private/chat/bubbles.dart' show Bubbles;
-
 //* Controllers
 
 export 'controllers/routing/route_controller.dart' show RoutingController;
@@ -107,6 +107,7 @@ export 'utils/providers/analytics_provider.dart' show generalAnalyticsProvider;
 export 'utils/providers/content_provider.dart' show contentProvider;
 export 'utils/user/user_util.dart' show UserUtil;
 export 'utils/providers/choose_provider.dart' show chooseProvider;
+export 'utils/providers/search_provider.dart' show searchStateNotifierProvider;
 
 //* Models
 
@@ -129,8 +130,8 @@ export 'constants/routes_constants.dart' show Routes;
 export 'constants/private_constants.dart' show PrivateConstants;
 export 'constants/message_type_constants.dart' show MessageTypeConstants;
 export 'constants/simple_constants.dart' show SimpleConstants;
-export 'constants/exercise_showcase_constants.dart'
-    show ExerciseShowcaseConstants;
+export 'constants/exercise_content_constants.dart'
+    show ExerciseContentConstants;
 export 'constants/user_type_constants.dart' show UserTypeConstants;
 export 'constants/asset_path_constants.dart' show AssetPathConstants;
 export 'constants/color_constants.dart' show ColorConstants;
@@ -178,3 +179,4 @@ export 'package:fl_chart/fl_chart.dart';
 export 'package:fade_shimmer/fade_shimmer.dart';
 export 'package:uuid/uuid.dart' show Uuid;
 export 'package:marquee_text/marquee_text.dart' show MarqueeText;
+export 'package:hive_flutter/hive_flutter.dart';

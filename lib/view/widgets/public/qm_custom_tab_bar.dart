@@ -52,7 +52,7 @@ class _QmCustomTabBarState extends State<QmCustomTabBar> {
                   text: widget.tabs[index]!,
                   color: index == selectedIndex
                       ? ColorConstants.textColor
-                      : ColorConstants.disabledColor,
+                      : ColorConstants.textSeccondaryColor,
                 ),
               ),
             ),

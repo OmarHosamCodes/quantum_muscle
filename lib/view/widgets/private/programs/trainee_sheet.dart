@@ -6,7 +6,7 @@ void openAddTraineeSheet(
   required String programRequestId,
 }) {
   showModalBottomSheet<void>(
-    backgroundColor: ColorConstants.secondaryColor,
+    backgroundColor: ColorConstants.accentColor,
     context: context,
     builder: (context) => _AddTraineeSheet(
       programRequestId: programRequestId,
@@ -31,9 +31,6 @@ class _AddTraineeSheet extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            QmText(
-              text: S.current.AddTrainee,
-            ),
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 return QmTextField(

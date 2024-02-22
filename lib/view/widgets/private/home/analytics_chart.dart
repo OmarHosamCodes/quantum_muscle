@@ -26,13 +26,13 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
 
   late int total = semiTotal != 0 ? semiTotal : 100;
   late double tProgramsRatio =
-      ((widget.totalPrograms / total) * 100).ceilToDouble();
+      ((widget.totalPrograms / total) * 100).floorToDouble();
   late double tTraineesRatio =
-      ((widget.totalTrainees / total) * 100).ceilToDouble();
+      ((widget.totalTrainees / total) * 100).floorToDouble();
   late double tWorkoutsRatio =
-      ((widget.totalWorkouts / total) * 100).ceilToDouble();
+      ((widget.totalWorkouts / total) * 100).floorToDouble();
   late double tExercisesRatio =
-      ((widget.totalExercises / total) * 100).ceilToDouble();
+      ((widget.totalExercises / total) * 100).floorToDouble();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
                 height: 4,
               ),
               Indicator(
-                color: ColorConstants.secondaryColor,
+                color: ColorConstants.accentColor,
                 text: S.current.Trainees
                     .substring(0, S.current.Trainees.length - 1),
                 isSquare: true,
@@ -145,7 +145,7 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
             );
           case 1:
             return PieChartSectionData(
-              color: ColorConstants.secondaryColor,
+              color: ColorConstants.accentColor,
               value: tTraineesRatio,
               title: widget.totalTrainees.toString(),
               radius: radius,

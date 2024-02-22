@@ -6,6 +6,7 @@ class ChatsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chatsWatcher = ref.watch(chatsProvider);
+    ref.watch(localeProvider);
     return Scaffold(
       body: chatsWatcher.when(
         data: (chats) {
@@ -30,14 +31,15 @@ class ChatsScreen extends ConsumerWidget {
                 leading: QmAvatar(
                   imageUrl: chat.userProfileImageURL,
                 ),
-                title: QmText(
+                title: QmSimpleText(
                   text: chat.userName,
+                  isHeadline: true,
                 ),
-                subtitle: QmText(
+                subtitle: QmSimpleText(
                   text: chat.lastMessage!,
                   color: lastMessageColor(chat.lastMessageSender!),
                 ),
-                trailing: QmText(
+                trailing: QmSimpleText(
                   text: utils.timeAgo(
                     chat.messages.first.timestamp,
                   ),
@@ -62,7 +64,7 @@ class ChatsScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
-              100,
+              5,
               (index) => Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

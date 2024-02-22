@@ -16,33 +16,25 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * .045,
-                  vertical: height * .025,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: width * .05,
-                ),
-                child: Container(
-                  height: height * .2,
-                  decoration: BoxDecoration(
-                    borderRadius: SimpleConstants.borderRadius,
-                    border: Border.all(
-                      color: ColorConstants.primaryColor,
-                      width: 3,
-                    ),
+              Container(
+                height: 175,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: SimpleConstants.borderRadius,
+                  border: Border.all(
+                    color: ColorConstants.accentColor,
+                    width: 3,
                   ),
+                ),
+                child: FittedBox(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      QmText(
+                      QmSimpleText(
                         text: S.current.Slogan,
                       ),
-                      SizedBox(
-                        width: width * .05,
+                      const SizedBox(
+                        width: 10,
                       ),
                       Image.asset(
                         AssetPathConstants.mainVectorImgPath,
@@ -58,10 +50,18 @@ class HomeScreen extends StatelessWidget {
 
                   return generalAnalytics.maybeWhen(
                     data: (analytics) {
-                      final tPrograms = analytics.totalPrograms ?? 0;
-                      final tTrainees = analytics.totalTrainees ?? 0;
-                      final tWorkouts = analytics.totalWorkouts ?? 0;
-                      final tExercises = analytics.totalExercises ?? 0;
+                      int getValue(int? value) {
+                        if (value == null || value == 0) {
+                          return 1;
+                        } else {
+                          return value;
+                        }
+                      }
+
+                      final tPrograms = getValue(analytics.totalPrograms);
+                      final tTrainees = getValue(analytics.totalTrainees);
+                      final tWorkouts = getValue(analytics.totalWorkouts);
+                      final tExercises = getValue(analytics.totalExercises);
 
                       return SizedBox(
                         height: height * .5,

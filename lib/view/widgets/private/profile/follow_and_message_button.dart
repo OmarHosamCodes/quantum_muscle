@@ -15,7 +15,6 @@ class FollowAndMessageButton extends ConsumerWidget {
   final bool isFollowing;
   Radius get containerBottomBorderRadius =>
       isFollowing ? Radius.zero : const Radius.circular(10);
-  String get followText => isFollowing ? S.current.Unfollow : S.current.Follow;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
@@ -57,7 +56,7 @@ class FollowAndMessageButton extends ConsumerWidget {
               context: context,
               ref: ref,
             ),
-            color: ColorConstants.secondaryColor,
+            color: ColorConstants.accentColor,
             width: 40,
             height: 40,
             borderRadius: const BorderRadius.only(

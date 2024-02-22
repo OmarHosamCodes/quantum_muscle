@@ -5,7 +5,7 @@ class QmText extends StatelessWidget {
     required this.text,
     super.key,
     this.style = const TextStyle(
-      fontSize: 20,
+      fontSize: 15,
       fontFamily: SimpleConstants.fontFamily,
       color: ColorConstants.textColor,
     ),
@@ -22,9 +22,9 @@ class QmText extends StatelessWidget {
   final Color? color;
   double get fontSize {
     if (isSeccoundary) {
-      return 13;
+      return 10;
     } else if (isHeadline) {
-      return 30;
+      return 20;
     } else {
       return style.fontSize!;
     }
@@ -58,19 +58,31 @@ class QmSimpleText extends StatelessWidget {
     required this.text,
     super.key,
     this.style = const TextStyle(
-      fontSize: 20,
+      fontSize: 15,
       fontFamily: SimpleConstants.fontFamily,
       color: ColorConstants.textColor,
     ),
     this.isSeccoundary = false,
+    this.isHeadline = false,
     this.color,
     this.overFlow,
   });
   final String text;
   final TextStyle style;
   final bool isSeccoundary;
+  final bool isHeadline;
+
   final TextOverflow? overFlow;
   final Color? color;
+  double get fontSize {
+    if (isSeccoundary) {
+      return 10;
+    } else if (isHeadline) {
+      return 20;
+    } else {
+      return style.fontSize!;
+    }
+  }
 
   Color? get textColor =>
       color ??
@@ -84,6 +96,7 @@ class QmSimpleText extends StatelessWidget {
       style: style.copyWith(
         color: textColor,
         overflow: overFlow,
+        fontSize: fontSize,
       ),
     );
   }

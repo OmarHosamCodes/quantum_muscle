@@ -4,7 +4,7 @@ class QmNiceTouch extends StatelessWidget {
   const QmNiceTouch({
     required this.child,
     super.key,
-    this.color = ColorConstants.primaryColor,
+    this.color = ColorConstants.accentColor,
   });
 
   final Widget child;
@@ -20,7 +20,7 @@ class QmNiceTouch extends StatelessWidget {
         CustomPaint(
           size: Size(vWidth, vHeight),
           foregroundPainter:
-              DotPainter(dotColor: color, dotRadius: 0.35, spacing: 10),
+              DotPainter(dotColor: color, dotRadius: 0.15, spacing: 10),
         ),
         Align(
           alignment: Alignment.topCenter,

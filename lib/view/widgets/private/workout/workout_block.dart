@@ -52,7 +52,7 @@ class WorkoutBlock extends StatelessWidget {
                 height: 200,
                 width: 200,
                 padding: const EdgeInsets.all(10),
-                color: ColorConstants.secondaryColor,
+                color: ColorConstants.accentColor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

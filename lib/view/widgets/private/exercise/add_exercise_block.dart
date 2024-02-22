@@ -32,65 +32,65 @@ class AddExerciseTile extends StatelessWidget {
       bottomCardHeight: height >= 150 ? 150 : height * 0.2,
       topCardWidget: Consumer(
         builder: (_, ref, __) {
-          final exerciseImage = ref.watch(
-            chooseProvider.select((value) => value.exerciseImage),
-          );
-          final networkImage = ref.watch(
-            chooseProvider.select((value) => value.publicExerciseImage),
+          final exerciseContent = ref.watch(
+            chooseProvider.select((value) => value.exerciseContent),
           );
 
+          if (exerciseContent != null) {
+            return QmBlock(
+              width: 100,
+              height: height * .2,
+              onTap: () async => ref
+                  .read(
+                    chooseProvider.notifier,
+                  )
+                  .setExerciseContent(
+                    (await exerciseUtil.chooseImageFromStorage())!,
+                  ),
+              child: QmImage.smart(
+                source: exerciseContent,
+                fallbackIcon: EvaIcons.plus,
+              ),
+            );
+          }
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Visibility(
-                visible: networkImage.isEmpty,
-                child: Flexible(
-                  child: QmBlock(
-                    width: 100,
-                    height: height * .2,
-                    onTap: () async => ref
-                        .read(
-                          chooseProvider.notifier,
-                        )
-                        .setExerciseImage(
-                          (await exerciseUtil.chooseImageFromStorage())!,
-                        ),
-                    child: QmImage.memory(
-                      source: exerciseImage,
-                      fallbackIcon: EvaIcons.plus,
-                    ),
-                  ),
+              Flexible(
+                child: QmButton.icon(
+                  onPressed: () async {
+                    final image = await exerciseUtil.chooseImageFromStorage();
+                    ref
+                        .read(chooseProvider.notifier)
+                        .setExerciseContent(image!);
+                  },
+                  icon: EvaIcons.plus,
                 ),
               ),
-              Visibility(
-                visible: exerciseImage.isEmpty,
-                child: Flexible(
-                  child: Consumer(
-                    builder: (_, WidgetRef ref, __) {
-                      final publicExercisesWatcher =
-                          ref.watch(publicExercisesProvider);
+              const SizedBox(
+                width: 10,
+              ),
+              Flexible(
+                child: Consumer(
+                  builder: (_, WidgetRef ref, __) {
+                    final publicExercisesWatcher =
+                        ref.watch(publicExercisesProvider);
 
-                      return publicExercisesWatcher.when(
-                        data: (publicExercises) {
-                          return QmBlock(
-                            width: 100,
-                            height: height * .2,
-                            onTap: () => context.push(Routes.addExerciseR),
-                            child: QmImage.network(
-                              source: networkImage,
-                              fallbackIcon: EvaIcons.search,
-                            ),
-                          );
-                        },
-                        error: (error, stackTrace) {
-                          return QmText(text: error.toString());
-                        },
-                        loading: () => Center(
-                          child: QmLoader.indicator(),
-                        ),
-                      );
-                    },
-                  ),
+                    return publicExercisesWatcher.when(
+                      data: (publicExercises) {
+                        return QmButton.icon(
+                          onPressed: () => context.push(Routes.addExerciseR),
+                          icon: EvaIcons.search,
+                        );
+                      },
+                      error: (error, stackTrace) {
+                        return QmText(text: error.toString());
+                      },
+                      loading: () => Center(
+                        child: QmLoader.indicator(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -108,7 +108,7 @@ class AddExerciseTile extends StatelessWidget {
               child: QmTextField(
                 textInputAction: TextInputAction.next,
                 controller: exerciseNameTextController,
-                hintText: S.current.EnterExerciseName,
+                hintText: S.current.Name,
                 fontSize: 40,
               ),
             ),
@@ -120,80 +120,13 @@ class AddExerciseTile extends StatelessWidget {
               height: 100,
               child: Consumer(
                 builder: (_, WidgetRef ref, __) {
-                  final exerciseImage = ref.watch(
-                    chooseProvider.select((value) => value.exerciseImage),
-                  );
-                  final networkImage = ref.watch(
-                    chooseProvider.select((value) => value.publicExerciseImage),
-                  );
                   return QmTextField(
                     textInputAction: TextInputAction.go,
                     controller: exerciseTargetTextController,
-                    hintText: S.current.EnterExerciseTarget,
+                    hintText: S.current.Target,
                     fontSize: 40,
-                    onEditingComplete: () async {
-                      if (exerciseNameTextController.text.isNotEmpty &&
-                          exerciseTargetTextController.text.isNotEmpty) {
-                        if (exerciseImage.isEmpty) {
-                          if (programId != null) {
-                            await programUtil.addExerciesToProgramWorkout(
-                              context: context,
-                              ref: ref,
-                              programId: programId!,
-                              workoutCollectionName: workoutCollectionName,
-                              programName: programName!,
-                              exerciseName: exerciseNameTextController.text,
-                              exerciseTarget: exerciseTargetTextController.text,
-                              content: exerciseImage,
-                              contentType: ExerciseShowcaseConstants.image,
-                              isLink: false,
-                            );
-                          } else {
-                            await exerciseUtil.add(
-                              context: context,
-                              ref: ref,
-                              workoutCollectionName: workoutCollectionName,
-                              exerciseName: exerciseNameTextController.text,
-                              exerciseTarget: exerciseTargetTextController.text,
-                              content: exerciseImage,
-                              contentType: ExerciseShowcaseConstants.image,
-                              isLink: false,
-                            );
-                          }
-                        } else {
-                          if (programId != null) {
-                            await programUtil.addExerciesToProgramWorkout(
-                              context: context,
-                              ref: ref,
-                              programId: programId!,
-                              workoutCollectionName: workoutCollectionName,
-                              programName: programName!,
-                              exerciseName: exerciseNameTextController.text,
-                              exerciseTarget: exerciseTargetTextController.text,
-                              content: networkImage,
-                              contentType: ExerciseShowcaseConstants.image,
-                              isLink: true,
-                            );
-                          } else {
-                            await exerciseUtil.add(
-                              context: context,
-                              ref: ref,
-                              workoutCollectionName: workoutCollectionName,
-                              exerciseName: exerciseNameTextController.text,
-                              exerciseTarget: exerciseTargetTextController.text,
-                              content: networkImage,
-                              contentType: ExerciseShowcaseConstants.image,
-                              isLink: true,
-                            );
-                          }
-                        }
-                      } else {
-                        openQmDialog(
-                          context: context,
-                          title: S.current.Failed,
-                          message: S.current.DefaultError,
-                        );
-                      }
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
                     },
                   );
                 },
@@ -204,68 +137,37 @@ class AddExerciseTile extends StatelessWidget {
             ),
             Consumer(
               builder: (_, ref, __) {
-                final exerciseImage = ref.watch(
-                  chooseProvider.select((value) => value.exerciseImage),
-                );
-                final networkImage = ref.watch(
-                  chooseProvider.select((value) => value.publicExerciseImage),
+                final exerciseContent = ref.watch(
+                  chooseProvider.select((value) => value.exerciseContent),
                 );
                 return QmBlock(
                   onTap: () async {
                     if (exerciseNameTextController.text.isNotEmpty &&
                         exerciseTargetTextController.text.isNotEmpty) {
-                      if (exerciseImage.isEmpty) {
-                        if (programId != null) {
-                          await programUtil.addExerciesToProgramWorkout(
-                            context: context,
-                            ref: ref,
-                            programId: programId!,
-                            workoutCollectionName: workoutCollectionName,
-                            programName: programName!,
-                            exerciseName: exerciseNameTextController.text,
-                            exerciseTarget: exerciseTargetTextController.text,
-                            content: exerciseImage,
-                            contentType: ExerciseShowcaseConstants.image,
-                            isLink: false,
-                          );
-                        } else {
-                          await exerciseUtil.add(
-                            context: context,
-                            ref: ref,
-                            workoutCollectionName: workoutCollectionName,
-                            exerciseName: exerciseNameTextController.text,
-                            exerciseTarget: exerciseTargetTextController.text,
-                            content: exerciseImage,
-                            contentType: ExerciseShowcaseConstants.image,
-                            isLink: false,
-                          );
-                        }
+                      if (programId != null) {
+                        await programUtil.addExerciesToProgramWorkout(
+                          context: context,
+                          ref: ref,
+                          programId: programId!,
+                          workoutCollectionName: workoutCollectionName,
+                          programName: programName!,
+                          exerciseName: exerciseNameTextController.text,
+                          exerciseTarget: exerciseTargetTextController.text,
+                          content: exerciseContent!,
+                          contentType: ExerciseContentConstants.image,
+                          isLink: exerciseContent.startsWith('http'),
+                        );
                       } else {
-                        if (programId != null) {
-                          await programUtil.addExerciesToProgramWorkout(
-                            context: context,
-                            ref: ref,
-                            programId: programId!,
-                            workoutCollectionName: workoutCollectionName,
-                            programName: programName!,
-                            exerciseName: exerciseNameTextController.text,
-                            exerciseTarget: exerciseTargetTextController.text,
-                            content: networkImage,
-                            contentType: ExerciseShowcaseConstants.image,
-                            isLink: true,
-                          );
-                        } else {
-                          await exerciseUtil.add(
-                            context: context,
-                            ref: ref,
-                            workoutCollectionName: workoutCollectionName,
-                            exerciseName: exerciseNameTextController.text,
-                            exerciseTarget: exerciseTargetTextController.text,
-                            content: networkImage,
-                            contentType: ExerciseShowcaseConstants.image,
-                            isLink: true,
-                          );
-                        }
+                        await exerciseUtil.add(
+                          context: context,
+                          ref: ref,
+                          workoutCollectionName: workoutCollectionName,
+                          exerciseName: exerciseNameTextController.text,
+                          exerciseTarget: exerciseTargetTextController.text,
+                          content: exerciseContent!,
+                          contentType: ExerciseContentConstants.image,
+                          isLink: exerciseContent.startsWith('http'),
+                        );
                       }
                     } else {
                       openQmDialog(
@@ -275,7 +177,7 @@ class AddExerciseTile extends StatelessWidget {
                       );
                     }
                   },
-                  color: ColorConstants.secondaryColor,
+                  color: ColorConstants.accentColor,
                   width: width,
                   height: height * .2,
                   child: QmText(

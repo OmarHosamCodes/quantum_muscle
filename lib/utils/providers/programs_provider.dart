@@ -2,21 +2,29 @@ import 'package:quantum_muscle/library.dart';
 
 final programsProvider = StreamProvider<List<ProgramModel>>((ref) async* {
   final userRef = ref.watch(userProvider(Utils().userUid!));
-  final programsFieldAtUser =
+  final programs =
       // ignore: strict_raw_type
-      userRef.whenData<List>((value) => value.programs).value!;
-  final programs = Utils()
-      .firebaseFirestore
-      .collection(DBPathsConstants.programsPath)
-      .where(
-        ProgramModel.idKey,
-        whereIn: programsFieldAtUser,
-      )
-      .snapshots()
-      .map(
-        (event) =>
-            event.docs.map((e) => ProgramModel.fromMap(e.data())).toList(),
-      );
+      userRef.maybeWhen(
+    data: (user) {
+      if (user.programs.isEmpty) {
+        return Stream.value(<ProgramModel>[]);
+      }
+      return Utils()
+          .firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .where(
+            ProgramModel.idKey,
+            whereIn: user.programs,
+          )
+          .snapshots()
+          .map(
+            (event) =>
+                event.docs.map((e) => ProgramModel.fromMap(e.data())).toList(),
+          );
+    },
+    orElse: () => Stream.value(<ProgramModel>[]),
+  );
+
   yield* programs;
 });
 

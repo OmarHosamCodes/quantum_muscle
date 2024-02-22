@@ -81,7 +81,7 @@ class SearchedProfileScreen extends StatelessWidget {
                                   text: '#${user.id.substring(0, 8)}...',
                                   isSeccoundary: true,
                                 ),
-                                QmIconButton(
+                                QmButton.icon(
                                   onPressed: () => utils.copyToClipboard(
                                     text: user.id,
                                   ),
@@ -212,9 +212,7 @@ class SearchedProfileScreen extends StatelessWidget {
                 );
               },
             ),
-            const Divider(
-              thickness: .5,
-            ),
+            const QmDivider(),
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 final contentWatcher = ref.watch(contentProvider(userId));

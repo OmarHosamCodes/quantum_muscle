@@ -23,30 +23,11 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Add": MessageLookupByLibrary.simpleMessage("إضافة"),
-        "AddAPhoto": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
-        "AddComment": MessageLookupByLibrary.simpleMessage("إضافة تعليق"),
-        "AddImage": MessageLookupByLibrary.simpleMessage("إضافة صورة"),
-        "AddImageDescription":
-            MessageLookupByLibrary.simpleMessage("أدخل وصف الصورة"),
-        "AddImageName": MessageLookupByLibrary.simpleMessage("أدخل اسم الصورة"),
-        "AddProgram": MessageLookupByLibrary.simpleMessage("إضافة برنامج"),
-        "AddProgramName":
-            MessageLookupByLibrary.simpleMessage("أدخل اسم البرنامج"),
-        "AddTrainee": MessageLookupByLibrary.simpleMessage("إضافة متدرب"),
         "AddTraineeId":
             MessageLookupByLibrary.simpleMessage("أدخل معرف المتدرب"),
-        "AddWorkout": MessageLookupByLibrary.simpleMessage("إضافة تمرين"),
-        "AddWorkoutDescription":
-            MessageLookupByLibrary.simpleMessage("أدخل وصف التمرين"),
-        "AddWorkoutImage":
-            MessageLookupByLibrary.simpleMessage("أدخل صورة التمرين"),
-        "AddWorkoutName":
-            MessageLookupByLibrary.simpleMessage("أدخل اسم التمرين"),
-        "AddWorkoutSets":
-            MessageLookupByLibrary.simpleMessage("أدخل عدد المجموعات"),
-        "AddWorkoutVideo":
-            MessageLookupByLibrary.simpleMessage("أدخل فيديو التمرين"),
+        "Age": MessageLookupByLibrary.simpleMessage("العمر"),
         "AlreadyMember": MessageLookupByLibrary.simpleMessage("عضو بالفعل؟"),
+        "Bio": MessageLookupByLibrary.simpleMessage("نبذة"),
         "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "Chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
         "Comments": MessageLookupByLibrary.simpleMessage("تعليقات"),
@@ -55,25 +36,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "DaysAgo": MessageLookupByLibrary.simpleMessage("أيام مضت"),
         "DefaultError": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ. يرجى إعادة المحاولة لاحقا."),
+        "Description": MessageLookupByLibrary.simpleMessage("الوصف"),
         "EditProfile":
             MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
         "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
         "EmailSentSuccessfully": MessageLookupByLibrary.simpleMessage(
             "تم إرسال البريد الإلكتروني بنجاح"),
-        "EnterEmail":
-            MessageLookupByLibrary.simpleMessage("أدخل بريدك الإلكتروني"),
-        "EnterExerciseName":
-            MessageLookupByLibrary.simpleMessage("أدخل اسم التمرين"),
-        "EnterExerciseTarget":
-            MessageLookupByLibrary.simpleMessage("أدخل الهدف من التمرين"),
-        "EnterName": MessageLookupByLibrary.simpleMessage("أدخل اسمك"),
-        "EnterNewBio": MessageLookupByLibrary.simpleMessage("أدخل نبذة عنك"),
-        "EnterNewName":
-            MessageLookupByLibrary.simpleMessage("أدخل اسمًا جديدًا"),
-        "EnterPassword":
-            MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور الخاصة بك"),
-        "EnterRatID": MessageLookupByLibrary.simpleMessage(
-            "أدخل معرف الفأر الجماوي الخاص بك"),
         "EnterValidBio":
             MessageLookupByLibrary.simpleMessage("أدخل نبذة صالحة"),
         "EnterValidDescription":
@@ -88,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل كلمة مرور صالحة"),
         "Exercises": MessageLookupByLibrary.simpleMessage("تمارين"),
         "Failed": MessageLookupByLibrary.simpleMessage("فشل"),
-        "Follow": MessageLookupByLibrary.simpleMessage("تابع"),
         "Followers": MessageLookupByLibrary.simpleMessage("متابعون"),
         "Following": MessageLookupByLibrary.simpleMessage("متابعة"),
         "ForYou": MessageLookupByLibrary.simpleMessage("لك"),
@@ -96,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
         "GoBackToLogin":
             MessageLookupByLibrary.simpleMessage("العودة إلى تسجيل الدخول"),
-        "Hi": MessageLookupByLibrary.simpleMessage("مرحبا"),
+        "Height": MessageLookupByLibrary.simpleMessage("الطول"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "HourAgo": MessageLookupByLibrary.simpleMessage("منذ ساعة"),
         "HoursAgo": MessageLookupByLibrary.simpleMessage("ساعات مضت"),
@@ -107,7 +74,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Likes": MessageLookupByLibrary.simpleMessage("إعجابات"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
-        "Message": MessageLookupByLibrary.simpleMessage("رسالة"),
         "MinuteAgo": MessageLookupByLibrary.simpleMessage("منذ دقيقة"),
         "MinutesAgo": MessageLookupByLibrary.simpleMessage("دقائق مضت"),
         "MonthAgo": MessageLookupByLibrary.simpleMessage("منذ شهر"),
@@ -119,9 +85,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لا توجد دردشات حتى الآن"),
         "NoPrograms":
             MessageLookupByLibrary.simpleMessage("لا توجد برامج حتى الآن"),
-        "NoSet": MessageLookupByLibrary.simpleMessage("لا توجد مجموعة"),
         "NotAMember": MessageLookupByLibrary.simpleMessage("لست عضوًا؟"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "Phone": MessageLookupByLibrary.simpleMessage("الهاتف"),
         "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
         "ProfileDoesNotExist":
             MessageLookupByLibrary.simpleMessage("الملف الشخصي غير موجود"),
@@ -135,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "SendRequest": MessageLookupByLibrary.simpleMessage("إرسال طلب"),
         "Slogan": MessageLookupByLibrary.simpleMessage("ابدأ في صنع الفرق"),
         "Success": MessageLookupByLibrary.simpleMessage("نجاح"),
+        "Target": MessageLookupByLibrary.simpleMessage("الهدف"),
         "TotalClients": MessageLookupByLibrary.simpleMessage("إجمالي العملاء"),
         "TotalExercises":
             MessageLookupByLibrary.simpleMessage("إجمالي التمارين"),
@@ -148,9 +115,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Trainer": MessageLookupByLibrary.simpleMessage("المدرب"),
         "TryAgain": MessageLookupByLibrary.simpleMessage("حاول مرة أخرى"),
         "TypeMessage": MessageLookupByLibrary.simpleMessage("اكتب رسالة..."),
-        "Unfollow": MessageLookupByLibrary.simpleMessage("إلغاء المتابعة"),
-        "UserNamePlaceHolder":
-            MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "WeekAgo": MessageLookupByLibrary.simpleMessage("منذ أسبوع"),
         "WeeksAgo": MessageLookupByLibrary.simpleMessage("أسابيع مضت"),
         "Weight": MessageLookupByLibrary.simpleMessage("وزن"),

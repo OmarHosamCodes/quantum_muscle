@@ -7,9 +7,20 @@ class ThemeController {
     primaryColor: ColorConstants.primaryColor,
     colorScheme: const ColorScheme.light(
       primary: ColorConstants.primaryColor,
-      secondary: ColorConstants.secondaryColor,
+      secondary: ColorConstants.accentColor,
       onPrimary: ColorConstants.textColor,
       onSecondary: ColorConstants.textColor,
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      backgroundColor: Colors.transparent,
+      dragHandleColor: ColorConstants.accentColor,
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      type: BottomNavigationBarType.shifting,
+      landscapeLayout: BottomNavigationBarLandscapeLayout.linear,
     ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -19,12 +30,12 @@ class ThemeController {
       backgroundColor: Colors.transparent,
     ),
     tabBarTheme: const TabBarTheme(
-      dividerColor: ColorConstants.secondaryColor,
+      dividerColor: ColorConstants.accentColor,
       labelColor: ColorConstants.textColor,
-      unselectedLabelColor: ColorConstants.secondaryColor,
+      unselectedLabelColor: ColorConstants.accentColor,
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
-          color: ColorConstants.secondaryColor,
+          color: ColorConstants.accentColor,
           width: 2,
         ),
       ),

@@ -17,7 +17,7 @@ class QmLoader {
 
   static Widget indicator({double? value}) {
     return CircularProgressIndicator(
-      color: ColorConstants.primaryColor,
+      color: ColorConstants.accentColor,
       value: value,
     );
   }

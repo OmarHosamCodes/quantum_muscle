@@ -72,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                                   text: '#${user.id.substring(0, 8)}...',
                                   isSeccoundary: true,
                                 ),
-                                QmIconButton(
+                                QmButton.icon(
                                   onPressed: () => utils.copyToClipboard(
                                     text: user.id,
                                   ),
@@ -110,7 +110,7 @@ class ProfileScreen extends StatelessWidget {
                               children: [
                                 Hero(
                                   tag: 'addImageHero',
-                                  child: QmIconButton(
+                                  child: QmButton.icon(
                                     onPressed: () => context.push(
                                       Routes.profileEditR,
                                       extra: {UserModel.modelKey: user},
@@ -118,7 +118,7 @@ class ProfileScreen extends StatelessWidget {
                                     icon: EvaIcons.editOutline,
                                   ),
                                 ),
-                                QmIconButton(
+                                QmButton.icon(
                                   onPressed: () => context.pushNamed(
                                     Routes.addContentRootR,
                                     extra: {
@@ -212,9 +212,7 @@ class ProfileScreen extends StatelessWidget {
                 );
               },
             ),
-            const Divider(
-              thickness: .5,
-            ),
+            const QmDivider(),
             Consumer(
               builder: (_, WidgetRef ref, __) {
                 final contentWatcher =

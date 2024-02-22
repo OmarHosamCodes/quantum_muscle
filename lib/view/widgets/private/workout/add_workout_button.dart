@@ -5,6 +5,7 @@ class AddWorkoutBlock {
   static StatelessWidget big(BuildContext context) {
     final nameController = TextEditingController();
     return QmBlock(
+      maxHeight: 250,
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
@@ -14,12 +15,13 @@ class AddWorkoutBlock {
               child: Consumer(
                 builder: (_, WidgetRef ref, __) {
                   final content = ref.watch(
-                    addWorkoutNotifierProvider.select(
-                      (value) => value.content,
-                    ),
-                  );
+                        addWorkoutNotifierProvider.select(
+                          (value) => value.content,
+                        ),
+                      ) ??
+                      SimpleConstants.emptyString;
 
-                  if (content != null) {
+                  if (content.isNotEmpty) {
                     return QmImage.smart(
                       source: content,
                       fit: BoxFit.contain,
@@ -29,12 +31,12 @@ class AddWorkoutBlock {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Flexible(
-                          child: QmIconButton(
+                          child: QmButton.icon(
                             icon: EvaIcons.plus,
                             onPressed: () async => ref
                                 .read(addWorkoutNotifierProvider.notifier)
                                 .setContent(
-                                  (await utils.chooseImageFromStorage())!,
+                                  await utils.chooseImageFromStorage(),
                                 ),
                           ),
                         ),
@@ -43,7 +45,7 @@ class AddWorkoutBlock {
                               ref.watch(publicWorkoutsProvider).maybeWhen(
                                     data: (workouts) {
                                       return Flexible(
-                                        child: QmIconButton(
+                                        child: QmButton.icon(
                                           icon: EvaIcons.search,
                                           onPressed: () => context.push(
                                             Routes.addWorkoutR,
@@ -81,13 +83,9 @@ class AddWorkoutBlock {
                         return Form(
                           key: formKey,
                           child: QmTextField(
+                            fontSize: 10,
                             textInputAction: TextInputAction.next,
-                            hintText: S.current.AddWorkoutName,
-                            onChanged: (p0) => ref
-                                .read(addWorkoutNotifierProvider.notifier)
-                                .setName(
-                                  nameController.text,
-                                ),
+                            hintText: S.current.Name,
                             onEditingComplete: () => ref
                                 .read(addWorkoutNotifierProvider.notifier)
                                 .setName(
@@ -117,19 +115,21 @@ class AddWorkoutBlock {
                             (value) => value.name,
                           ),
                         );
-                        return QmBlock(
-                          color: ColorConstants.secondaryColor,
-                          child: QmText(text: S.current.AddWorkout),
-                          onTap: () {
-                            workoutUtil.add(
-                              context: context,
-                              name: name,
-                              image: content!,
-                              ref: ref,
-                              isLink: content.startsWith('http'),
-                              formKey: formKey,
-                            );
-                          },
+                        return SizedBox(
+                          width: double.infinity,
+                          child: QmButton.text(
+                            text: S.current.Add,
+                            onPressed: () {
+                              workoutUtil.add(
+                                context: context,
+                                name: name,
+                                image: content!,
+                                ref: ref,
+                                isLink: content.startsWith('http'),
+                                formKey: formKey,
+                              );
+                            },
+                          ),
                         );
                       },
                     ),
@@ -169,12 +169,12 @@ class AddWorkoutBlock {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Flexible(
-                          child: QmIconButton(
+                          child: QmButton.icon(
                             icon: EvaIcons.plus,
                             onPressed: () async => ref
                                 .read(addWorkoutNotifierProvider.notifier)
                                 .setContent(
-                                  (await utils.chooseImageFromStorage())!,
+                                  await utils.chooseImageFromStorage(),
                                 ),
                           ),
                         ),
@@ -183,7 +183,7 @@ class AddWorkoutBlock {
                               ref.watch(publicWorkoutsProvider).maybeWhen(
                                     data: (workouts) {
                                       return Flexible(
-                                        child: QmIconButton(
+                                        child: QmButton.icon(
                                           icon: EvaIcons.search,
                                           onPressed: () => context.push(
                                             Routes.addWorkoutR,
@@ -225,7 +225,7 @@ class AddWorkoutBlock {
                           key: formKey,
                           child: QmTextField(
                             textInputAction: TextInputAction.go,
-                            hintText: S.current.AddWorkoutName,
+                            hintText: S.current.Name,
                             onChanged: (_) => ref
                                 .read(addWorkoutNotifierProvider.notifier)
                                 .setName(
@@ -264,8 +264,8 @@ class AddWorkoutBlock {
                           ),
                         );
                         return QmBlock(
-                          color: ColorConstants.secondaryColor,
-                          child: QmText(text: S.current.AddWorkout),
+                          color: ColorConstants.accentColor,
+                          child: QmText(text: S.current.Add),
                           onTap: () => workoutUtil.add(
                             context: context,
                             name: name,

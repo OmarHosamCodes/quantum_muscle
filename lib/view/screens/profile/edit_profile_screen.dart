@@ -10,10 +10,52 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final textFieldWidth = width * .8;
     final nameTextcontroller = TextEditingController(text: user.name);
-
     final bioTextcontroller = TextEditingController(text: user.bio);
+    final weightTextcontroller =
+        TextEditingController(text: user.weight.values.last.toString());
+    final heightTextcontroller = TextEditingController(
+      text: user.height.values.last.toString(),
+    );
+    final ageTextcontroller = TextEditingController(
+      text: user.age.toString(),
+    );
+
     return Scaffold(
+      appBar: AppBar(
+        title: QmText(
+          text: S.current.EditProfile,
+        ),
+        actions: [
+          Consumer(
+            builder: (_, ref, __) {
+              final profileImage = ref
+                  .watch(
+                    chooseProvider,
+                  )
+                  .profileImage;
+              return QmButton.icon(
+                onPressed: () {
+                  if (!(profileImage!.isEmpty &&
+                      nameTextcontroller.text == user.name &&
+                      (bioTextcontroller.text == user.bio ||
+                          bioTextcontroller.text.isEmpty))) {
+                    profileUtil.updateProfile(
+                      context: context,
+                      userName: nameTextcontroller.text,
+                      userBio: bioTextcontroller.text,
+                      ref: ref,
+                      formKey: formKey,
+                    );
+                  }
+                },
+                icon: EvaIcons.checkmark,
+              );
+            },
+          ),
+        ],
+      ),
       backgroundColor: ColorConstants.backgroundColor,
       resizeToAvoidBottomInset: false,
       extendBody: true,
@@ -22,58 +64,14 @@ class EditProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                QmIconButton(
-                  onPressed: () => context.pop(),
-                  icon: EvaIcons.arrowBack,
-                ),
-                QmText(
-                  text: S.current.EditProfile,
-                ),
-                Consumer(
-                  builder: (_, ref, __) {
-                    ref.watch(
-                      chooseProvider.select((value) => value.profileImage),
-                    );
-                    final profileImage = ref
-                        .read(
-                          chooseProvider,
-                        )
-                        .profileImage;
-                    return QmIconButton(
-                      onPressed: () {
-                        if (!(profileImage.isEmpty &&
-                            nameTextcontroller.text == user.name &&
-                            (bioTextcontroller.text == user.bio ||
-                                bioTextcontroller.text.isEmpty))) {
-                          profileUtil.updateProfile(
-                            context: context,
-                            userName: nameTextcontroller.text,
-                            userBio: bioTextcontroller.text,
-                            ref: ref,
-                            formKey: formKey,
-                          );
-                        }
-                      },
-                      icon: EvaIcons.checkmark,
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
             Consumer(
               builder: (_, ref, __) {
-                ref.watch(
-                  chooseProvider.select((value) => value.profileImage),
-                );
                 final profileImage = ref
-                    .read(
-                      chooseProvider,
-                    )
-                    .profileImage;
+                        .watch(
+                          chooseProvider,
+                        )
+                        .profileImage ??
+                    SimpleConstants.emptyString;
                 return GestureDetector(
                   onTap: () async =>
                       ref.read(chooseProvider.notifier).setProfileImage(
@@ -89,20 +87,6 @@ class EditProfileScreen extends StatelessWidget {
                               : profileImage,
                           isNetworkImage: profileImage.isEmpty,
                         ),
-                        // Container(
-                        //   height: 130,
-                        //   width: 130,
-                        //   decoration: const BoxDecoration(
-                        //     color: ColorConstants.primaryColor,
-                        //     shape: BoxShape.circle,
-                        //   ),
-                        //   child: QmImage.smart(
-                        //     source: profileImage.isEmpty
-                        //         ? user.profileImageURL
-                        //         : profileImage,
-                        //     fit: BoxFit.cover,
-                        //   ),
-                        // ),
                         Positioned(
                           bottom: 0,
                           right: 0,
@@ -131,23 +115,52 @@ class EditProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(
-                    width: width * .8,
+                    width: textFieldWidth,
                     child: QmTextField(
                       textInputAction: TextInputAction.next,
                       controller: nameTextcontroller,
-                      hintText: S.current.EnterNewName,
+                      hintText: S.current.Name,
                       maxLength: 20,
                     ),
                   ),
                   const SizedBox(height: 10),
                   SizedBox(
                     height: 200,
-                    width: width * .8,
+                    width: textFieldWidth,
+                    child: QmTextField(
+                      textInputAction: TextInputAction.next,
+                      controller: bioTextcontroller,
+                      hintText: S.current.Bio,
+                      isExpanded: true,
+                    ),
+                  ),
+                  SizedBox(
+                    width: textFieldWidth,
+                    child: QmTextField(
+                      textInputAction: TextInputAction.next,
+                      controller: weightTextcontroller,
+                      hintText: S.current.Weight,
+                      maxLength: 20,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 200,
+                    width: textFieldWidth,
                     child: QmTextField(
                       textInputAction: TextInputAction.done,
-                      controller: bioTextcontroller,
-                      hintText: S.current.EnterNewBio,
+                      controller: heightTextcontroller,
+                      hintText: S.current.Height,
                       isExpanded: true,
+                    ),
+                  ),
+                  SizedBox(
+                    width: textFieldWidth,
+                    child: QmTextField(
+                      textInputAction: TextInputAction.done,
+                      controller: ageTextcontroller,
+                      hintText: S.current.Age,
+                      maxLength: 3,
                     ),
                   ),
                 ],
