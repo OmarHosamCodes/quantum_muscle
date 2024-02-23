@@ -98,7 +98,7 @@ class AddExerciseTile extends StatelessWidget {
         },
       ),
       bottomCardWidget: FittedBox(
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -147,7 +147,7 @@ class AddExerciseTile extends StatelessWidget {
                       if (programId != null) {
                         await programUtil.addExerciesToProgramWorkout(
                           context: context,
-                          ref: ref,
+                          // ref: ref,
                           programId: programId!,
                           workoutCollectionName: workoutCollectionName,
                           programName: programName!,
@@ -160,7 +160,7 @@ class AddExerciseTile extends StatelessWidget {
                       } else {
                         await exerciseUtil.add(
                           context: context,
-                          ref: ref,
+                          // ref: ref,
                           workoutCollectionName: workoutCollectionName,
                           exerciseName: exerciseNameTextController.text,
                           exerciseTarget: exerciseTargetTextController.text,

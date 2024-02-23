@@ -1,7 +1,7 @@
 import 'package:quantum_muscle/library.dart';
 
 final generalAnalyticsProvider =
-    StreamProvider.family<GeneralAnalyticsModel, String>((ref, id) async* {
+    FutureProvider.family<GeneralAnalyticsModel, String>((ref, id) async {
   final userData = ref.watch(userProvider(id)).maybeWhen(
         data: (user) => user,
         orElse: UserModel.empty,
@@ -26,13 +26,6 @@ final generalAnalyticsProvider =
     return totalPrograms;
   }
 
-  // final client = Client();
-  // final url = Uri.parse('http://localhost:8080/');
-  // final headers = {'Content-Type': 'application/json'};
-  // late final request = Request('GET', url);
-  // request.headers.addAll(headers);
-  // final response = await client.send(request);
-  // print(request.body);
   final totalTrainees = getTotalTrainees(programs);
 
   int getTotalExercises(List<WorkoutModel> workouts) {
@@ -50,5 +43,5 @@ final generalAnalyticsProvider =
     totalWorkouts: workouts.length,
     totalExercises: totalExercises,
   );
-  yield analytics;
+  return analytics;
 });

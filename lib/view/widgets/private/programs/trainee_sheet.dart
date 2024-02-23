@@ -41,7 +41,7 @@ class _AddTraineeSheet extends StatelessWidget {
                   onEditingComplete: () => programUtil.sendRequest(
                     context: context,
                     traineeId: traineeIdTextController.text,
-                    ref: ref,
+                    // ref: ref,
                     programRequestId: programRequestId,
                   ),
                 );
@@ -53,7 +53,7 @@ class _AddTraineeSheet extends StatelessWidget {
                   onTap: () => programUtil.sendRequest(
                     context: context,
                     traineeId: traineeIdTextController.text,
-                    ref: ref,
+                    // ref: ref,
                     programRequestId: programRequestId,
                   ),
                   width: width * 0.8,

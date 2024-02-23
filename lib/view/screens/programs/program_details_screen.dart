@@ -57,7 +57,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                                   context: context,
                                   programId: program.id,
                                   traineesIds: program.traineesIds,
-                                  ref: ref,
+                                  // ref: ref,
                                 ),
                                 icon: EvaIcons.trash,
                               ),

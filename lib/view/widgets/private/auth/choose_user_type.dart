@@ -22,7 +22,6 @@ class UserTypeChooser extends ConsumerWidget {
       ColorConstants.primaryColor,
       ColorConstants.accentColor,
     ];
-    //TODO make it responsive
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

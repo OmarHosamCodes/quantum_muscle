@@ -2,14 +2,14 @@ import 'package:quantum_muscle/library.dart';
 
 final authPageController = PageController(initialPage: 1);
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
 
   static final emailTextController = TextEditingController();
   static final passwordTextController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     final authScreens = <Widget>[
       ForgetPasswordScreen(
@@ -38,11 +38,8 @@ class AuthScreen extends StatelessWidget {
           Consumer(
             builder: (_, ref, __) {
               return QmButton.icon(
-                onPressed: () => utils.isEnglish
-                    ? ref.read(localeProvider.notifier).state =
-                        const Locale(SimpleConstants.arabicLocale)
-                    : ref.read(localeProvider.notifier).state =
-                        const Locale(SimpleConstants.englishLocale),
+                onPressed: () =>
+                    ref.read(localeProvider.notifier).toggleLocale(),
                 icon: EvaIcons.globe,
               );
             },

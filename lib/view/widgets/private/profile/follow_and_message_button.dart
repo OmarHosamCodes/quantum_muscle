@@ -54,7 +54,7 @@ class FollowAndMessageButton extends ConsumerWidget {
             onTap: () => chatUtil.startChat(
               userId: userId,
               context: context,
-              ref: ref,
+              // ref: ref,
             ),
             color: ColorConstants.accentColor,
             width: 40,

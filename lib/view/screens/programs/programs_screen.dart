@@ -39,7 +39,14 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
               return programsWatcher.when(
                 data: (programs) {
                   if (programs.isEmpty) {
-                    return const SizedBox();
+                    return Flexible(
+                      child: ProgramsShowcase(
+                        width: width,
+                        height: height,
+                        programs: const [],
+                        isTrainee: isTrainee(),
+                      ),
+                    );
                   }
                   return Flexible(
                     child: ProgramsShowcase(

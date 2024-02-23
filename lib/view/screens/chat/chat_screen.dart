@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'package:hive/hive.dart';
 import 'package:quantum_muscle/library.dart';
 
 class ChatScreen extends StatelessWidget {

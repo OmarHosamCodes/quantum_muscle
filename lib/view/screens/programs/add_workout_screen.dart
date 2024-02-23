@@ -52,9 +52,7 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen>
                     padding: const EdgeInsets.all(20),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        ref
-                            .read(addWorkoutNotifierProvider.notifier)
-                            .setContent(
+                        ref.read(chooseProvider.notifier).setWorkoutContent(
                               e.$2[index],
                             );
                         context.pop();

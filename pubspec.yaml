@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.2.2
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_lints: ^3.0.1
@@ -74,15 +75,15 @@ flutter_launcher_icons:
   web:
     generate: true
     image_path: "assets/icon/icon.png"
-    background_color: "#0f0f0f"
-    theme_color: "#0f0f0f"
+    background_color: "#191919"
+    theme_color: "#191919"
 flutter_native_splash:
   # dart run flutter_native_splash:create
-  color: "#0f0f0f"
+  color: "#191919"
   image: assets/icon/icon.png
   android_12:
     image: assets/icon/icon.png
-    color: "#0f0f0f"
+    color: "#191919"
   android: true
   ios: true
   web: true

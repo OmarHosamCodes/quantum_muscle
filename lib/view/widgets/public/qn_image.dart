@@ -44,13 +44,10 @@ class QmImage {
           ),
         );
       },
-      errorWidget: (context, url, error) {
-        print(error);
-        return Icon(
-          fallbackIcon,
-          color: ColorConstants.iconColor,
-        );
-      },
+      errorWidget: (context, url, error) => Icon(
+        fallbackIcon,
+        color: ColorConstants.iconColor,
+      ),
       fadeInDuration: SimpleConstants.slowAnimationDuration,
       fadeOutDuration: SimpleConstants.slowAnimationDuration,
       filterQuality: FilterQuality.medium,

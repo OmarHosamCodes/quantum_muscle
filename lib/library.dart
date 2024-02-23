@@ -96,7 +96,6 @@ export 'utils/providers/programs_provider.dart'
         programsProvider;
 export 'utils/providers/workouts_provider.dart'
     show
-        addWorkoutNotifierProvider,
         exercisesProvider,
         publicExercisesProvider,
         publicWorkoutsProvider,

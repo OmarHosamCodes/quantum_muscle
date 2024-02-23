@@ -61,15 +61,26 @@
 - Common issues and solutions
 - Reporting bugs
 
-### FAQs
+<!-- ### FAQs
 
-- Frequently asked questions about the platform
+- Frequently asked questions about the platform -->
 
 ### Contact Us
 
 - How to reach the support team
+
+```
+omarhosamcodes@gmail.com
+```
+
+### or
+
+```
+the-quantum-muscle-project.web.app/contact
+```
+
 - Providing feedback
 
 ---
 
-You can copy this structure into your GitHub Wiki and replace the content with your specific details.
+**[Back to top](#quantum-muscle)**

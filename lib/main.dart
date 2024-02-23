@@ -13,6 +13,7 @@ void main() async {
   await Hive.openBox<QuerySnapshot<Map<String, dynamic>>>(
     DBPathsConstants.chatsPath,
   );
+  await Hive.openBox<String>('localization');
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -26,7 +27,7 @@ void main() async {
 //! 8. Add content index scrolling
 /////! 9. Change all consumer objects to _, ref,__
 /////! 9. Fix delete workout in program
-//! 10. Add a new workout
+//! 10. Add a new workouts
 //! 11. Capture the images for Commercial use
 
 class MyApp extends ConsumerWidget {
@@ -37,7 +38,7 @@ class MyApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      locale: locale,
+      locale: Locale(locale),
       theme: ThemeController.theme,
       localizationsDelegates: const [
         S.delegate,

@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Container(
                 height: 175,
+                width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: SimpleConstants.borderRadius,
@@ -26,20 +27,10 @@ class HomeScreen extends StatelessWidget {
                     width: 3,
                   ),
                 ),
-                child: FittedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      QmSimpleText(
-                        text: S.current.Slogan,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Image.asset(
-                        AssetPathConstants.mainVectorImgPath,
-                      ),
-                    ],
+                child: Center(
+                  child: QmSimpleText(
+                    text: S.current.Slogan,
+                    isHeadline: true,
                   ),
                 ),
               ),

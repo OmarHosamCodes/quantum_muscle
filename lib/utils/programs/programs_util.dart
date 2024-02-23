@@ -67,7 +67,6 @@ class ProgramUtil extends Utils {
     required BuildContext context,
     required String programId,
     required List traineesIds,
-    required WidgetRef ref,
   }) async {
     QmLoader.openLoader(context: context);
     try {
@@ -105,11 +104,11 @@ class ProgramUtil extends Utils {
         QmLoader.closeLoader(context: context);
       }
 
-      ref
-        ..invalidate(programsProvider)
-        ..read(programsProvider)
-        ..invalidate(userProvider(userUid!))
-        ..read(userProvider(userUid!));
+      // ref
+      //   ..invalidate(programsProvider)
+      //   ..read(programsProvider)
+      //   ..invalidate(userProvider(userUid!))
+      //   ..read(userProvider(userUid!));
     } catch (e) {
       QmLoader.closeLoader(context: context);
       openQmDialog(
@@ -123,7 +122,6 @@ class ProgramUtil extends Utils {
   Future<void> sendRequest({
     required BuildContext context,
     required String traineeId,
-    required WidgetRef ref,
     required String programRequestId,
   }) async {
     QmLoader.openLoader(context: context);
@@ -135,7 +133,6 @@ class ProgramUtil extends Utils {
       await ChatUtil().startChat(
         userId: traineeId,
         context: context,
-        ref: ref,
       );
 
       final userDocRef = firebaseFirestore
@@ -169,7 +166,6 @@ class ProgramUtil extends Utils {
   Future<void> acceptRequest({
     required BuildContext context,
     required String chatId,
-    required WidgetRef ref,
     required String programId,
     required String messageId,
   }) async {
@@ -204,11 +200,11 @@ class ProgramUtil extends Utils {
 
       RoutingController().changeRoute(4);
 
-      ref
-        ..invalidate(programsProvider)
-        ..read(programsProvider)
-        ..invalidate(userProvider(userUid!))
-        ..read(userProvider(userUid!));
+      // ref
+      //   ..invalidate(programsProvider)
+      //   ..read(programsProvider)
+      //   ..invalidate(userProvider(userUid!))
+      //   ..read(userProvider(userUid!));
 
       QmLoader.closeLoader(context: context);
     } catch (e) {
@@ -348,7 +344,6 @@ class ProgramUtil extends Utils {
 
   Future<void> addExerciesToProgramWorkout({
     required BuildContext context,
-    required WidgetRef ref,
     required String workoutCollectionName,
     required String programId,
     required String programName,
@@ -433,7 +428,6 @@ class ProgramUtil extends Utils {
   Future<void> addSetToProgramWorkout({
     required String workoutCollectionName,
     required String exerciseDocName,
-    required WidgetRef ref,
     required int indexToInsert,
     required String programId,
     required BuildContext context,
@@ -474,7 +468,6 @@ class ProgramUtil extends Utils {
     required String workoutCollectionName,
     required String exerciseDocName,
     required BuildContext context,
-    required WidgetRef ref,
     required String programId,
     required int indexToInsert,
     required String reps,
@@ -518,7 +511,6 @@ class ProgramUtil extends Utils {
     await addSetToProgramWorkout(
       workoutCollectionName: workoutCollectionName,
       exerciseDocName: exerciseDocName,
-      ref: ref,
       indexToInsert: indexToInsert + 1,
       programId: programId,
       context: context,

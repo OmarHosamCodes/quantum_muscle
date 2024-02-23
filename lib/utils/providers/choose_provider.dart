@@ -42,7 +42,7 @@ class ChooseStateNotifier extends StateNotifier<ChooseState> {
     state = state.copyWith(exerciseContent: content);
   }
 
-  void setWorkoutContent(String content) {
+  void setWorkoutContent(String? content) {
     state = state.copyWith(workoutContent: content);
   }
 

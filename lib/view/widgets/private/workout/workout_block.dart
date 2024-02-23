@@ -29,11 +29,8 @@ class WorkoutBlock extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: QmText(
-                  text: workout.name,
-                ),
+              QmText(
+                text: workout.name,
               ),
               FittedBox(
                 fit: BoxFit.scaleDown,

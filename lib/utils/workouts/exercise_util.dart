@@ -5,7 +5,6 @@ import 'package:quantum_muscle/library.dart';
 class ExerciseUtil extends Utils {
   Future<void> add({
     required BuildContext context,
-    required WidgetRef ref,
     required String workoutCollectionName,
     required String exerciseName,
     required String exerciseTarget,
@@ -93,7 +92,6 @@ class ExerciseUtil extends Utils {
   Future<void> addSet({
     required String workoutCollectionName,
     required String exerciseDocName,
-    required WidgetRef ref,
     required int indexToInsert,
     required BuildContext context,
   }) async {
@@ -134,7 +132,6 @@ class ExerciseUtil extends Utils {
     required String workoutCollectionName,
     required String exerciseDocName,
     required BuildContext context,
-    required WidgetRef ref,
     required int indexToInsert,
     required String reps,
     required String weight,
@@ -179,7 +176,6 @@ class ExerciseUtil extends Utils {
     await addSet(
       workoutCollectionName: workoutCollectionName,
       exerciseDocName: exerciseDocName,
-      ref: ref,
       indexToInsert: indexToInsert + 1,
       context: context,
     );

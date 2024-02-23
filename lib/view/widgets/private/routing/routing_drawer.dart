@@ -6,7 +6,6 @@ class RoutingDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final routingController = RoutingController();
-    final locale = Intl.getCurrentLocale();
     return Drawer(
       backgroundColor: ColorConstants.backgroundColor,
       child: SafeArea(
@@ -73,14 +72,7 @@ class RoutingDrawer extends StatelessWidget {
                   title: QmText(
                     text: S.current.Language,
                   ),
-                  onTap: () {
-                    context.pop();
-                    locale == SimpleConstants.englishLocale
-                        ? ref.read(localeProvider.notifier).state =
-                            const Locale(SimpleConstants.arabicLocale)
-                        : ref.read(localeProvider.notifier).state =
-                            const Locale(SimpleConstants.englishLocale);
-                  },
+                  onTap: () => ref.read(localeProvider.notifier).toggleLocale(),
                 );
               },
             ),

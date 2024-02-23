@@ -6,7 +6,6 @@ class ChatUtil extends Utils {
   Future<void> startChat({
     required String userId,
     required BuildContext context,
-    required WidgetRef ref,
   }) async {
     final uniqueId = const Uuid().v8();
     QmLoader.openLoader(context: context);
@@ -66,9 +65,9 @@ class ChatUtil extends Utils {
             .doc(initMessage.id)
             .set(initMessage.toMap());
 
-        ref
-          ..invalidate(userProvider(userUid!))
-          ..read(userProvider(userUid!));
+        // ref
+        //   ..invalidate(userProvider(userUid!))
+        //   ..read(userProvider(userUid!));
 
         context
           ..pop()

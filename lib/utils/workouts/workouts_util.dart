@@ -7,7 +7,6 @@ class WorkoutUtil extends Utils {
     required BuildContext context,
     required String name,
     required String image,
-    required WidgetRef ref,
     required bool isLink,
     required GlobalKey<FormState> formKey,
   }) async {
