@@ -14,6 +14,9 @@ void main() async {
     DBPathsConstants.chatsPath,
   );
   await Hive.openBox<String>('localization');
+  if (Hive.box<String>('localization').isEmpty) {
+    await Hive.box<String>('localization').put('locale', 'en');
+  }
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -38,7 +41,7 @@ class MyApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      locale: Locale(locale),
+      locale: Locale(locale.locale),
       theme: ThemeController.theme,
       localizationsDelegates: const [
         S.delegate,

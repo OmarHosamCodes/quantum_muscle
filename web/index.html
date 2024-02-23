@@ -23,14 +23,6 @@
   <script src="flutter.js" defer=""></script>
   <script src="scripts/splash_script.js"></script>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-
-  <script id="splash-screen-script">
-    function removeSplashFromWeb() {
-      document.getElementById("splash")?.remove();
-      document.getElementById("splash-branding")?.remove();
-      document.body.style.background = "#0f0f0f";
-    }
-  </script>
 </head>
 
 <body>
@@ -43,9 +35,8 @@
       media="(prefers-color-scheme: dark)">
     <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
-
   <script>
-    window.addEventListener("load", function (ev) {
+    window.addEventListener('load', function (ev) {
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
@@ -54,12 +45,13 @@
           engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
-        },
+        }
       });
     });
-
   </script>
-
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"></script>
 
 </body>
 

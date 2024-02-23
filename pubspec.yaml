@@ -60,7 +60,6 @@ flutter:
     - assets/icon/icon.png
     - assets/images/loginImg.png
     - assets/images/registerImg.png
-    - assets/images/mainVector.png
 
   fonts:
     - family: ubuntu

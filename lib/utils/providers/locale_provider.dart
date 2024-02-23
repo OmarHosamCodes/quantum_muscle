@@ -1,24 +1,36 @@
 import 'package:quantum_muscle/library.dart';
 
-class LocaleProvider extends StateNotifier<String> {
-  LocaleProvider()
-      : super(
-          Hive.box<String>('localization').get('language')!,
-        );
+class LocaleState {
+  LocaleState({required this.locale});
+  final String locale;
 
-  void toggleLocale() {
-    if (state == SimpleConstants.englishLocale) {
-      state = SimpleConstants.arabicLocale;
-      Hive.box<String>('localization')
-          .put('language', SimpleConstants.arabicLocale);
-    } else {
-      state = SimpleConstants.englishLocale;
-      Hive.box<String>('localization')
-          .put('language', SimpleConstants.englishLocale);
-    }
+  LocaleState copyWith({
+    String? locale,
+  }) {
+    return LocaleState(
+      locale: locale ?? this.locale,
+    );
   }
 }
 
-final localeProvider = StateNotifierProvider<LocaleProvider, String>(
+class LocaleProvider extends StateNotifier<LocaleState> {
+  LocaleProvider()
+      : super(
+          LocaleState(
+            locale: Hive.box<String>('localization').get('language') ??
+                SimpleConstants.englishLocale,
+          ),
+        );
+
+  void toggleLocale() {
+    final locale = state.locale == SimpleConstants.englishLocale
+        ? SimpleConstants.arabicLocale
+        : SimpleConstants.englishLocale;
+    Hive.box<String>('localization').put('language', locale);
+    state = state.copyWith(locale: locale);
+  }
+}
+
+final localeProvider = StateNotifierProvider<LocaleProvider, LocaleState>(
   (ref) => LocaleProvider(),
 );
