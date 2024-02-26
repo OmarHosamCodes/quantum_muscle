@@ -10,9 +10,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Hive.initFlutter();
-  await Hive.openBox<QuerySnapshot<Map<String, dynamic>>>(
-    DBPathsConstants.chatsPath,
-  );
   await Hive.openBox<String>('localization');
   if (Hive.box<String>('localization').isEmpty) {
     await Hive.box<String>('localization').put('locale', 'en');

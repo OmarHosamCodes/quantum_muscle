@@ -50,7 +50,6 @@ class WorkoutsShowcase extends ConsumerWidget {
         }
       },
       loading: () => ResponsiveGridView.builder(
-        controller: scrollController,
         gridDelegate: const ResponsiveGridDelegate(
           crossAxisSpacing: 10,
           crossAxisExtent: 200,
@@ -63,12 +62,10 @@ class WorkoutsShowcase extends ConsumerWidget {
           horizontal: width * .05,
         ),
         itemCount: 3,
-        itemBuilder: (context, index) => ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: QmShimmer.rectangle(
-            width: 100,
-            height: 100,
-          ),
+        itemBuilder: (context, index) => QmShimmer.rectangle(
+          radius: 10,
+          width: 100,
+          height: 100,
         ),
       ),
       error: (e, s) => AddWorkoutBlock.small(context),

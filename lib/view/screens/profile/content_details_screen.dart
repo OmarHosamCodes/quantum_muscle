@@ -38,6 +38,7 @@ class ContentDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
@@ -55,7 +56,6 @@ class ContentDetailsScreen extends StatelessWidget {
           final content = contents[index];
           final transformationController = TransformationController();
           return QmBlock(
-            isAnimated: true,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             padding: const EdgeInsets.all(10),
             margin: getResponsiveMargin(),

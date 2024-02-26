@@ -39,11 +39,9 @@ class _RoutingScreenState extends State<RoutingScreen> {
               extendBodyBehindAppBar: true,
               extendBody: true,
               drawer: getDrawerExist ? const RoutingDrawer() : null,
-              body: QmNiceTouch(
-                child: SafeArea(
-                  minimum: const EdgeInsets.all(20),
-                  child: widget.child,
-                ),
+              body: SafeArea(
+                minimum: const EdgeInsets.all(20),
+                child: widget.child,
               ),
             );
 

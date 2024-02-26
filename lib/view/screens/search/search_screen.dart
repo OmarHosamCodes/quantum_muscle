@@ -7,6 +7,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final searchTextController = TextEditingController();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Consumer(

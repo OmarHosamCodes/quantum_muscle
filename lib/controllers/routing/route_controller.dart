@@ -125,43 +125,13 @@ class RoutingController {
       error: state.error.toString(),
     ),
   );
-  void changeDrawerRoute(int index, BuildContext context) {
-    switch (index) {
-      case 0:
-        router.go(Routes.homeR);
-        context.pop();
-      case 1:
-        router.go(Routes.chatsR);
-        context.pop();
-      case 2:
-        router.go(Routes.myProfileR);
-        context.pop();
-      case 3:
-        router.go(Routes.searchR);
-        context.pop();
-      case 4:
-        router.go(Routes.programsR);
-        context.pop();
-      case 5:
-        router.go(Routes.authR);
-        context.pop();
-    }
+  void changeDrawerRoute(String route, BuildContext context) {
+    router.go(route);
+    context.pop();
   }
 
-  void changeRoute(int index) {
-    switch (index) {
-      case 0:
-        router.go(Routes.homeR);
-      case 1:
-        router.go(Routes.chatsR);
-      case 2:
-        router.go(Routes.myProfileR);
-      case 3:
-        router.go(Routes.searchR);
-      case 4:
-        router.go(Routes.programsR);
-      case 5:
-        router.go(Routes.authR);
-    }
-  }
+  void changeRoute(
+    String route,
+  ) =>
+      router.go(route);
 }

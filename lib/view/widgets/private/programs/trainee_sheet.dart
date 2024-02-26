@@ -23,13 +23,11 @@ class _AddTraineeSheet extends StatelessWidget {
   static final traineeIdTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Consumer(
               builder: (_, WidgetRef ref, __) {
@@ -47,20 +45,17 @@ class _AddTraineeSheet extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: 10),
             Consumer(
               builder: (_, ref, __) {
-                return QmBlock(
-                  onTap: () => programUtil.sendRequest(
+                return QmButton.text(
+                  onPressed: () => programUtil.sendRequest(
                     context: context,
                     traineeId: traineeIdTextController.text,
                     // ref: ref,
                     programRequestId: programRequestId,
                   ),
-                  width: width * 0.8,
-                  height: height * 0.1,
-                  child: QmText(
-                    text: S.current.SendRequest,
-                  ),
+                  text: S.current.SendRequest,
                 );
               },
             ),

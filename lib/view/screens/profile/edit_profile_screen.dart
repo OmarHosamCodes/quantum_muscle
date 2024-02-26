@@ -23,6 +23,9 @@ class EditProfileScreen extends StatelessWidget {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: ColorConstants.backgroundColor,
+      extendBody: true,
       appBar: AppBar(
         title: QmText(
           text: S.current.EditProfile,
@@ -56,9 +59,6 @@ class EditProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: ColorConstants.backgroundColor,
-      resizeToAvoidBottomInset: false,
-      extendBody: true,
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(

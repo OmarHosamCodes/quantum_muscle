@@ -21,6 +21,7 @@ class _AddWorkoutScreenState extends ConsumerState<AddWorkoutScreen>
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         bottom: QmCustomTabBar(
           tabs: networkWorkouts.maybeWhen(

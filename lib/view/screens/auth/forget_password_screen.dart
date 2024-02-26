@@ -20,87 +20,81 @@ class ForgetPasswordScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       extendBody: true,
-      body: QmNiceTouch(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: maxWidth,
-                    height: maxHeight,
-                    child: QmTextField(
-                      textInputAction: TextInputAction.go,
-                      margin: margin,
-                      controller: emailTextController,
-                      hintText: S.current.Email,
-                      onEditingComplete: () =>
-                          forgetPasswordUtil.sendResetEmail(
-                        email: emailTextController.text,
-                        context: context,
-                      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: maxWidth,
+                  height: maxHeight,
+                  child: QmTextField(
+                    textInputAction: TextInputAction.go,
+                    margin: margin,
+                    controller: emailTextController,
+                    hintText: S.current.Email,
+                    onEditingComplete: () => forgetPasswordUtil.sendResetEmail(
+                      email: emailTextController.text,
+                      context: context,
                     ),
                   ),
-                  Consumer(
-                    builder: (_, ref, __) {
-                      final forgetPasswordWatcher =
-                          ref.watch(forgetPasswordProvider);
-                      final isEmailSent = forgetPasswordWatcher.isEmailSent;
-                      final countDown = forgetPasswordWatcher.countDown;
+                ),
+                Consumer(
+                  builder: (_, ref, __) {
+                    final forgetPasswordWatcher =
+                        ref.watch(forgetPasswordProvider);
+                    final isEmailSent = forgetPasswordWatcher.isEmailSent;
+                    final countDown = forgetPasswordWatcher.countDown;
 
-                      if (isEmailSent) {
-                        return Column(
-                          children: [
-                            QmBlock(
-                              maxWidth: maxWidth,
-                              onTap: () {
+                    if (isEmailSent) {
+                      return Column(
+                        children: [
+                          SizedBox(
+                            width: maxWidth,
+                            child: QmButton.text(
+                              onPressed: () {
                                 forgetPasswordUtil.sendResetEmail(
                                   email: emailTextController.text,
                                   context: context,
                                 );
                               },
-                              margin: margin,
-                              width: maxWidth,
-                              height: maxHeight,
-                              child: QmText(text: S.current.SendEmail),
+                              text: S.current.SendEmail,
                             ),
-                            if (countDown > 0)
-                              Text(
-                                'Countdown: $countDown',
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                          ],
-                        );
-                      } else {
-                        return QmBlock(
-                          color: ColorConstants.accentColor,
-                          maxWidth: maxWidth,
-                          onTap: () {
+                          ),
+                          if (countDown > 0)
+                            Text(
+                              'Countdown: $countDown',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                        ],
+                      );
+                    } else {
+                      return SizedBox(
+                        width: maxWidth,
+                        child: QmButton.text(
+                          onPressed: () {
                             forgetPasswordUtil.sendResetEmail(
                               email: emailTextController.text,
                               context: context,
                             );
                           },
-                          margin: margin,
-                          width: maxWidth,
-                          height: maxHeight,
-                          child: QmText(text: S.current.SendEmail),
-                        );
-                      }
-                    },
+                          text: S.current.SendEmail,
+                        ),
+                      );
+                    }
+                  },
+                ),
+                QmText(
+                  onTap: () => authPageController.jumpToPage(
+                    1,
                   ),
-                  QmText(
-                    onTap: () => authPageController.jumpToPage(
-                      1,
-                    ),
-                    text: S.current.GoBackToLogin,
-                  ),
-                ],
-              ),
-            ],
-          ),
+                  text: S.current.GoBackToLogin,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

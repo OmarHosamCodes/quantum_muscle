@@ -88,8 +88,8 @@ class AddProgramBlock extends ConsumerWidget {
                       const SizedBox(height: 10),
                       Consumer(
                         builder: (_, ref, __) {
-                          return QmBlock(
-                            onTap: () async {
+                          return QmButton.text(
+                            onPressed: () async {
                               await programUtil.addProgram(
                                 context: context,
                                 programName: programNameTextController.text,
@@ -97,17 +97,7 @@ class AddProgramBlock extends ConsumerWidget {
                                 formKey: formKey,
                               );
                             },
-                            color: ColorConstants.accentColor,
-                            child: Center(
-                              child: FittedBox(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: QmText(
-                                    text: S.current.Add,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            text: S.current.Add,
                           );
                         },
                       ),

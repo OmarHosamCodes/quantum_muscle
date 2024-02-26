@@ -18,6 +18,7 @@ class ProgramDetailsScreen extends StatelessWidget {
     bool isTablet() => !ResponsiveBreakpoints.of(context).smallerThan(TABLET);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: ColorConstants.backgroundColor,
       body: SingleChildScrollView(
         child: Column(

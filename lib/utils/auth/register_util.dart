@@ -44,7 +44,7 @@ class RegisterUtil extends Utils {
           userType: userType,
           context: context,
         );
-        RoutingController().changeRoute(0);
+        RoutingController().changeRoute(Routes.homeR);
       }
     } catch (e) {
       context.pop();

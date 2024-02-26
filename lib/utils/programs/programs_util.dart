@@ -198,7 +198,7 @@ class ProgramUtil extends Utils {
         context: context,
       );
 
-      RoutingController().changeRoute(4);
+      RoutingController().changeRoute(Routes.programsR);
 
       // ref
       //   ..invalidate(programsProvider)

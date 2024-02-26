@@ -20,6 +20,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
       vsync: this,
     );
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         bottom: QmCustomTabBar(
           tabs: networkExercises.maybeWhen(

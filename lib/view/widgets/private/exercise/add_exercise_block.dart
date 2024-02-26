@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:quantum_muscle/library.dart';
 
 class AddExerciseTile extends StatelessWidget {
@@ -140,14 +138,13 @@ class AddExerciseTile extends StatelessWidget {
                 final exerciseContent = ref.watch(
                   chooseProvider.select((value) => value.exerciseContent),
                 );
-                return QmBlock(
-                  onTap: () async {
+                return QmButton.text(
+                  onPressed: () async {
                     if (exerciseNameTextController.text.isNotEmpty &&
                         exerciseTargetTextController.text.isNotEmpty) {
                       if (programId != null) {
                         await programUtil.addExerciesToProgramWorkout(
                           context: context,
-                          // ref: ref,
                           programId: programId!,
                           workoutCollectionName: workoutCollectionName,
                           programName: programName!,
@@ -160,7 +157,6 @@ class AddExerciseTile extends StatelessWidget {
                       } else {
                         await exerciseUtil.add(
                           context: context,
-                          // ref: ref,
                           workoutCollectionName: workoutCollectionName,
                           exerciseName: exerciseNameTextController.text,
                           exerciseTarget: exerciseTargetTextController.text,
@@ -177,16 +173,7 @@ class AddExerciseTile extends StatelessWidget {
                       );
                     }
                   },
-                  color: ColorConstants.accentColor,
-                  width: width,
-                  height: height * .2,
-                  child: QmText(
-                    text: S.current.Add,
-                    style: const TextStyle(
-                      color: ColorConstants.textColor,
-                      fontSize: 40,
-                    ),
-                  ),
+                  text: S.current.Add,
                 );
               },
             ),

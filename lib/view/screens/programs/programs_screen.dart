@@ -22,6 +22,7 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
         },
         child: const Icon(EvaIcons.refresh),
       ),
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           Consumer(

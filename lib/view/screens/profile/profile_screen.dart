@@ -10,6 +10,7 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(

@@ -32,6 +32,7 @@ class AuthScreen extends ConsumerWidget {
       backgroundColor: ColorConstants.backgroundColor,
       extendBodyBehindAppBar: true,
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [

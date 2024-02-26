@@ -11,7 +11,6 @@ class AddWorkoutBlock {
         children: [
           Flexible(
             child: QmBlock(
-              color: ColorConstants.backgroundColor,
               child: Consumer(
                 builder: (_, WidgetRef ref, __) {
                   final content = ref.watch(
@@ -133,7 +132,6 @@ class AddWorkoutBlock {
         children: [
           Flexible(
             child: QmBlock(
-              color: ColorConstants.backgroundColor,
               child: Consumer(
                 builder: (_, WidgetRef ref, __) {
                   final content = ref.watch(
@@ -232,10 +230,9 @@ class AddWorkoutBlock {
                               ),
                             ) ??
                             SimpleConstants.emptyString;
-                        return QmBlock(
-                          color: ColorConstants.accentColor,
-                          child: QmText(text: S.current.Add),
-                          onTap: () => workoutUtil.add(
+                        return QmButton.text(
+                          text: S.current.Add,
+                          onPressed: () => workoutUtil.add(
                             context: context,
                             name: nameController.text,
                             image: content,

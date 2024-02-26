@@ -11,6 +11,7 @@ class SearchedProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => context.pop(),

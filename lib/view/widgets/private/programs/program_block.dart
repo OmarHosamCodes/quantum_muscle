@@ -44,8 +44,8 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
               color: widget.program.isHovered
                   ? ColorConstants.primaryColor
                   : ColorConstants.accentColor,
-              isAnimated: true,
               borderRadius: BorderRadius.circular(10),
+              isAnimated: true,
               border: Border.all(
                 color: widget.program.isHovered
                     ? ColorConstants.accentColor

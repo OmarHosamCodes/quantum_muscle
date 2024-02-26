@@ -41,7 +41,6 @@ export 'view/widgets/public/qm_dialog.dart' show openQmDialog;
 export 'view/widgets/public/qm_loader.dart' show QmLoader;
 export 'view/widgets/public/qm_avatar.dart' show QmAvatar;
 export 'view/widgets/public/qm_button.dart' show QmButton;
-export 'view/widgets/public/qm_nice_touch.dart' show QmNiceTouch;
 export 'view/widgets/public/qn_image.dart' show QmImage;
 export 'view/widgets/public/qm_shimmer.dart' show QmShimmer;
 export 'view/widgets/public/qm_custom_tab_bar.dart' show QmCustomTabBar;

@@ -21,7 +21,6 @@ class FollowAndMessageButton extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         QmBlock(
-          isAnimated: true,
           onTap: () => profileUtil.followOrUnFollow(
             userId: userId,
             context: context,
@@ -50,7 +49,6 @@ class FollowAndMessageButton extends ConsumerWidget {
         Visibility(
           visible: isFollowing,
           child: QmBlock(
-            isAnimated: true,
             onTap: () => chatUtil.startChat(
               userId: userId,
               context: context,

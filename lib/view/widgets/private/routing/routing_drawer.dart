@@ -19,7 +19,10 @@ class RoutingDrawer extends StatelessWidget {
               title: QmText(
                 text: S.current.Home,
               ),
-              onTap: () => routingController.changeDrawerRoute(0, context),
+              onTap: () => routingController.changeDrawerRoute(
+                Routes.homeR,
+                context,
+              ),
             ),
             ListTile(
               leading: const Icon(
@@ -29,7 +32,10 @@ class RoutingDrawer extends StatelessWidget {
               title: QmText(
                 text: S.current.Chat,
               ),
-              onTap: () => routingController.changeDrawerRoute(1, context),
+              onTap: () => routingController.changeDrawerRoute(
+                Routes.chatR,
+                context,
+              ),
             ),
             ListTile(
               leading: const Icon(
@@ -39,7 +45,10 @@ class RoutingDrawer extends StatelessWidget {
               title: QmText(
                 text: S.current.Profile,
               ),
-              onTap: () => routingController.changeDrawerRoute(2, context),
+              onTap: () => routingController.changeDrawerRoute(
+                Routes.profileR,
+                context,
+              ),
             ),
             ListTile(
               leading: const Icon(
@@ -49,17 +58,23 @@ class RoutingDrawer extends StatelessWidget {
               title: QmText(
                 text: S.current.Search,
               ),
-              onTap: () => routingController.changeDrawerRoute(3, context),
+              onTap: () => routingController.changeDrawerRoute(
+                Routes.searchR,
+                context,
+              ),
             ),
             ListTile(
               leading: const Icon(
-                EvaIcons.archive,
+                EvaIcons.gridOutline,
                 color: ColorConstants.iconColor,
               ),
               title: QmText(
                 text: S.current.Programs,
               ),
-              onTap: () => routingController.changeDrawerRoute(4, context),
+              onTap: () => routingController.changeDrawerRoute(
+                Routes.programsR,
+                context,
+              ),
             ),
             const Spacer(),
             Consumer(

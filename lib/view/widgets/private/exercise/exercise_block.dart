@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:quantum_muscle/library.dart';
 
 class ExerciseBlock extends StatelessWidget {
@@ -102,9 +100,8 @@ class ExerciseBlock extends StatelessWidget {
                         final set =
                             theExercise.sets.values.elementAt(index) as String;
 
-                        return QmBlock(
-                          color: ColorConstants.disabledColor,
-                          onTap: () => showModalBottomSheet<void>(
+                        return QmButton.text(
+                          onPressed: () => showModalBottomSheet<void>(
                             showDragHandle: true,
                             context: context,
                             backgroundColor: ColorConstants.primaryColor,
@@ -112,19 +109,12 @@ class ExerciseBlock extends StatelessWidget {
                               height: height,
                               workoutCollectionName: workoutCollectionName,
                               exerciseDocName:
-                                  '${theExercise.name}-${theExercise.target}-${theExercise.id}',
+                                  '''${theExercise.name}-${theExercise.target}-${theExercise.id}''',
                               index: index,
                               programId: programId,
                             ),
                           ),
-                          width: width * .2,
-                          height: height * .3,
-                          child: Center(
-                            child: QmSimpleText(
-                              text: set,
-                              isSeccoundary: true,
-                            ),
-                          ),
+                          text: set,
                         );
                       },
                     ),
@@ -217,7 +207,6 @@ class _ChangeSetModalSheet extends ConsumerWidget {
                     workoutCollectionName: workoutCollectionName,
                     exerciseDocName: exerciseDocName,
                     context: context,
-                    // ref: ref,
                     programId: programId!,
                     indexToInsert: index,
                     reps: setRepsTextController.text,
@@ -229,7 +218,6 @@ class _ChangeSetModalSheet extends ConsumerWidget {
                     context: context,
                     reps: setRepsTextController.text,
                     weight: setWeightTextController.text,
-                    // ref: ref,
                     workoutCollectionName: workoutCollectionName,
                     exerciseDocName: exerciseDocName,
                     indexToInsert: index,
@@ -240,16 +228,14 @@ class _ChangeSetModalSheet extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            QmBlock(
-              color: ColorConstants.accentColor,
-              onTap: () {
+            QmButton.text(
+              onPressed: () {
                 if (programId != null) {
                   programUtil.changeSetToProgramWorkout(
                     formKey: formKey,
                     workoutCollectionName: workoutCollectionName,
                     exerciseDocName: exerciseDocName,
                     context: context,
-                    // ref: ref,
                     programId: programId!,
                     indexToInsert: index,
                     reps: setRepsTextController.text,
@@ -261,18 +247,13 @@ class _ChangeSetModalSheet extends ConsumerWidget {
                     context: context,
                     reps: setRepsTextController.text,
                     weight: setWeightTextController.text,
-                    // ref: ref,
                     workoutCollectionName: workoutCollectionName,
                     exerciseDocName: exerciseDocName,
                     indexToInsert: index,
                   );
                 }
               },
-              height: height * .1,
-              width: double.maxFinite,
-              child: QmText(
-                text: S.current.Add,
-              ),
+              text: S.current.Add,
             ),
             const SizedBox(
               height: 10,

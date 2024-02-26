@@ -14,10 +14,12 @@ class ChatScreen extends StatelessWidget {
   final String chatUserId;
   final Map<String, dynamic> arguments;
   static final messageTextController = TextEditingController();
+
+  static bool isLoaded = false;
+
   @override
   Widget build(BuildContext context) {
     final chat = arguments[ChatModel.modelKey] as ChatModel;
-    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,
@@ -35,60 +37,58 @@ class ChatScreen extends StatelessWidget {
         color: ColorConstants.backgroundColor,
         height: 60,
         borderRadius: BorderRadius.zero,
-        child: Row(
-          children: [
-            SizedBox(
-              width: width * 0.8,
-              child: Consumer(
-                builder: (_, WidgetRef ref, __) {
-                  return QmTextField(
-                    textInputAction: TextInputAction.go,
-                    controller: messageTextController,
-                    hintText: S.current.TypeMessage,
-                    onEditingComplete: () {
-                      if (messageTextController.text.isNotEmpty) {
-                        chatUtil.addTextMessage(
-                          chatId: chatId,
-                          message: messageTextController.text,
-                          ref: ref,
-                        );
-                        messageTextController.clear();
-                      }
-                    },
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 10),
-            Consumer(
-              builder: (_, ref, __) {
-                return QmButton.icon(
-                  icon: EvaIcons.paperPlane,
-                  onPressed: () {
-                    if (messageTextController.text.isNotEmpty) {
-                      chatUtil.addTextMessage(
-                        chatId: chatId,
-                        message: messageTextController.text,
-                        ref: ref,
-                      );
-                      messageTextController.clear();
-                    }
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Consumer(
+                  builder: (_, WidgetRef ref, __) {
+                    return QmTextField(
+                      textInputAction: TextInputAction.go,
+                      controller: messageTextController,
+                      hintText: S.current.TypeMessage,
+                      onEditingComplete: () {
+                        if (messageTextController.text.isNotEmpty) {
+                          chatUtil.addTextMessage(
+                            chatId: chatId,
+                            message: messageTextController.text,
+                            ref: ref,
+                          );
+                          messageTextController.clear();
+                        }
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          ],
+                ),
+              ),
+              FittedBox(
+                child: Consumer(
+                  builder: (_, ref, __) {
+                    return QmButton.icon(
+                      icon: EvaIcons.paperPlane,
+                      onPressed: () {
+                        if (messageTextController.text.isNotEmpty) {
+                          chatUtil.addTextMessage(
+                            chatId: chatId,
+                            message: messageTextController.text,
+                            ref: ref,
+                          );
+                          messageTextController.clear();
+                        }
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            initialData: Hive.box<QuerySnapshot<Map<String, dynamic>>>(
-              DBPathsConstants.chatsPath,
-            ).get(
-              chatId,
-              defaultValue: SimpleQuerySnapshot(),
-            ),
+          return StreamBuilder<QuerySnapshot<Map<String, dynamic>?>?>(
             stream: utils.firebaseFirestore
                 .collection(DBPathsConstants.chatsPath)
                 .doc(chatId)
@@ -101,9 +101,13 @@ class ChatScreen extends StatelessWidget {
                   child: QmSimpleText(text: S.current.DefaultError),
                 );
               }
-              Hive.box<QuerySnapshot<Map<String, dynamic>>>(
-                DBPathsConstants.chatsPath,
-              ).put(chatId, snapshot.data!);
+              if (!snapshot.hasData && isLoaded == false) {
+                isLoaded = true;
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               final messages = snapshot.data!.docs;
               return ListView.builder(
                 padding: const EdgeInsets.only(
@@ -116,7 +120,7 @@ class ChatScreen extends StatelessWidget {
                 itemCount: messages.length,
                 itemBuilder: (context, index) {
                   final messageData = messages[index].data();
-                  final message = MessageModel.fromMap(messageData);
+                  final message = MessageModel.fromMap(messageData ?? {});
 
                   return MessageBubble(
                     message: message,
@@ -132,18 +136,4 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class SimpleQuerySnapshot extends QuerySnapshot<Map<String, dynamic>> {
-  @override
-  List<DocumentChange<Map<String, dynamic>>> get docChanges => [];
-
-  @override
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> get docs => [];
-
-  @override
-  SnapshotMetadata get metadata => throw UnimplementedError();
-
-  @override
-  int get size => throw UnimplementedError();
 }

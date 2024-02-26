@@ -50,25 +50,11 @@ class WorkoutBlock extends StatelessWidget {
                 width: 200,
                 padding: const EdgeInsets.all(10),
                 color: ColorConstants.accentColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: Hero(
-                        tag: workout.id,
-                        child: QmImage.network(
-                          source: workout.imageURL,
-                          fallbackIcon: EvaIcons.plus,
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      child: QmText(
-                        text: workout.name,
-                      ),
-                    ),
-                  ],
+                child: QmImage.network(
+                  source: workout.imageURL,
+                  fallbackIcon: EvaIcons.plus,
+                  height: 150,
+                  width: 150,
                 ),
               ),
               child: Hero(

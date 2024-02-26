@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
