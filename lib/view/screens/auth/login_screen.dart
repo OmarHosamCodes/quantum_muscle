@@ -126,11 +126,13 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    QmText(
+                    InkWell(
                       onTap: () => authPageController.jumpToPage(
                         2,
                       ),
-                      text: '${S.current.NotAMember} ${S.current.Register}',
+                      child: QmText(
+                        text: '${S.current.NotAMember} ${S.current.Register}',
+                      ),
                     ),
                   ],
                 ),

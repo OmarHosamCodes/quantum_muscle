@@ -8,6 +8,7 @@ class QmAvatar extends StatelessWidget {
     this.radius = 25.0,
     this.isNetworkImage = true,
   });
+
   final String? imageUrl;
   final void Function()? onTap;
   final double radius;
@@ -18,10 +19,7 @@ class QmAvatar extends StatelessWidget {
       ? CachedNetworkImageProvider(imageURL!)
       : MemoryImage(base64Decode(imageURL!)) as ImageProvider<Object>;
 
-  bool get hasError => false;
-  set hasError(bool value) {
-    hasError = value;
-  }
+  static bool hasError = false;
 
   @override
   Widget build(BuildContext context) {

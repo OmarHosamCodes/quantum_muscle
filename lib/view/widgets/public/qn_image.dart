@@ -1,40 +1,27 @@
 import 'package:quantum_muscle/library.dart';
 
-class QmImage {
-// Nameless method
-  static Widget smart({
-    required String source,
-    double? width,
-    double? height,
-    IconData? fallbackIcon,
-    BoxFit? fit,
-  }) {
-    if (source.startsWith('http')) {
-      return network(
-        source: source,
-        width: width,
-        height: height,
-        fallbackIcon: fallbackIcon,
-        fit: fit,
-      );
-    } else {
-      return memory(
-        source: source,
-        width: width,
-        height: height,
-        fallbackIcon: fallbackIcon,
-        fit: fit,
-      );
-    }
+class QmImage extends StatelessWidget {
+  const QmImage.smart({
+    required this.source,
+    super.key,
+    this.width,
+    this.height,
+    this.fallbackIcon,
+    this.fit,
+  });
+
+  final String source;
+  final double? width;
+  final double? height;
+  final IconData? fallbackIcon;
+  final BoxFit? fit;
+
+  @override
+  Widget build(BuildContext context) {
+    return buildSmartImage();
   }
 
-  static Widget network({
-    required String source,
-    double? width,
-    double? height,
-    IconData? fallbackIcon,
-    BoxFit? fit,
-  }) {
+  Widget buildNetworkImage() {
     return CachedNetworkImage(
       imageUrl: source,
       progressIndicatorBuilder: (context, url, progress) {
@@ -57,13 +44,7 @@ class QmImage {
     );
   }
 
-  static Widget memory({
-    required String source,
-    double? width,
-    double? height,
-    IconData? fallbackIcon,
-    BoxFit? fit,
-  }) {
+  Widget buildMemoryImage() {
     return Image(
       image: MemoryImage(base64Decode(source)),
       width: width,
@@ -86,5 +67,13 @@ class QmImage {
       filterQuality: FilterQuality.medium,
       fit: fit,
     );
+  }
+
+  Widget buildSmartImage() {
+    if (source.startsWith('http')) {
+      return buildNetworkImage();
+    } else {
+      return buildMemoryImage();
+    }
   }
 }

@@ -31,32 +31,34 @@ class _QmCustomTabBarState extends State<QmCustomTabBar> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(8),
         child: Row(
-          children: List.generate(
-            widget.tabs.length,
-            (index) => GestureDetector(
-              onTap: () => setState(() {
-                widget.onTabSelected(index);
-                selectedIndex = index;
-              }),
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: index == selectedIndex
-                      ? ColorConstants.disabledColor
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: QmText(
-                  text: widget.tabs[index]!,
-                  color: index == selectedIndex
-                      ? ColorConstants.textColor
-                      : ColorConstants.textSeccondaryColor,
+          children: [
+            for (int index = 0; index < widget.tabs.length; index++)
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widget.onTabSelected(index);
+                    selectedIndex = index;
+                  });
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: index == selectedIndex
+                        ? ColorConstants.disabledColor
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: QmText(
+                    text: widget.tabs[index]!,
+                    color: index == selectedIndex
+                        ? ColorConstants.textColor
+                        : ColorConstants.textSeccondaryColor,
+                  ),
                 ),
               ),
-            ),
-          ),
+          ],
         ),
       ),
     );

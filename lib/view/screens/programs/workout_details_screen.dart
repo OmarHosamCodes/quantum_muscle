@@ -55,7 +55,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                   tag: workout.id,
                   child: SizedBox.square(
                     dimension: width * 0.2,
-                    child: QmImage.network(
+                    child: QmImage.smart(
                       source: workout.imageURL,
                       fallbackIcon: EvaIcons.plus,
                     ),
@@ -167,7 +167,7 @@ class WorkoutDetailsScreen extends StatelessWidget {
                               : 1,
                       children: List.generate(
                         3,
-                        (index) => QmShimmer.rectangle(
+                        (index) => const QmShimmer.rectangle(
                           width: 300,
                           height: 300,
                           radius: 10,

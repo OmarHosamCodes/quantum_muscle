@@ -113,7 +113,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: List.generate(
                               5,
-                              (index) => QmShimmer.round(
+                              (index) => const QmShimmer.round(
                                 size: 20,
                               ),
                             ),
@@ -173,7 +173,7 @@ class ProgramDetailsScreen extends StatelessWidget {
                                     fit: FlexFit.tight,
                                     child: Hero(
                                       tag: workout.id,
-                                      child: QmImage.network(
+                                      child: QmImage.smart(
                                         source: workout.imageURL,
                                         fallbackIcon: EvaIcons.plus,
                                       ),
@@ -206,7 +206,8 @@ class ProgramDetailsScreen extends StatelessWidget {
                                 ? 2
                                 : 1,
                       ),
-                      itemBuilder: (context, index) => QmShimmer.rectangle(
+                      itemBuilder: (context, index) =>
+                          const QmShimmer.rectangle(
                         width: 100,
                         height: 100,
                         radius: 10,

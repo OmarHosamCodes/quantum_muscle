@@ -19,13 +19,13 @@ class Bubbles {
               borderRadius: SimpleConstants.borderRadius,
             ),
             padding: const EdgeInsets.all(10),
-            child: QmSimpleText(
+            child: QmText.simple(
               text: message.message,
               color: ColorConstants.textColor,
             ),
           ),
           const SizedBox(height: 2),
-          QmSimpleText(
+          QmText.simple(
             text: utils.timeAgo(
               message.timestamp,
             ),
@@ -50,7 +50,7 @@ class Bubbles {
           borderRadius: SimpleConstants.borderRadius,
         ),
         padding: const EdgeInsets.all(10),
-        child: QmSimpleText(
+        child: QmText.simple(
           text: message.message,
           color: ColorConstants.textColor,
           isSeccoundary: true,
@@ -83,7 +83,7 @@ class Bubbles {
             child: FittedBox(
               child: Column(
                 children: [
-                  QmSimpleText(
+                  QmText.simple(
                     text: message.message,
                     color: ColorConstants.textColor,
                   ),
@@ -127,7 +127,7 @@ class Bubbles {
             ),
           ),
           const SizedBox(height: 2),
-          QmSimpleText(
+          QmText.simple(
             text: utils.timeAgo(
               message.timestamp,
             ),

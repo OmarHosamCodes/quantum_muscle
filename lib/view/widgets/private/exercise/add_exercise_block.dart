@@ -84,7 +84,7 @@ class AddExerciseTile extends StatelessWidget {
                       error: (error, stackTrace) {
                         return QmText(text: error.toString());
                       },
-                      loading: () => Center(
+                      loading: () => const Center(
                         child: QmLoader.indicator(),
                       ),
                     );

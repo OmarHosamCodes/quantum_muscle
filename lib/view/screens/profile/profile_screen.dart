@@ -25,11 +25,11 @@ class ProfileScreen extends StatelessWidget {
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => Row(
+                  loading: () => const Row(
                     children: [
                       QmShimmer.round(size: 40),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 10,
                         ),
                         child: Column(
@@ -39,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
                               height: 30,
                               width: 100,
                             ),
-                            const SizedBox(
+                            SizedBox(
                               height: 10,
                             ),
                             QmShimmer.rectangle(
@@ -93,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
                             error: (error, stackTrace) => Center(
                               child: QmText(text: S.current.DefaultError),
                             ),
-                            loading: () => Column(
+                            loading: () => const Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 QmShimmer.rectangle(
@@ -146,18 +146,18 @@ class ProfileScreen extends StatelessWidget {
                   error: (error, stackTrace) => Center(
                     child: QmText(text: S.current.DefaultError),
                   ),
-                  loading: () => Row(
+                  loading: () => const Row(
                     children: [
                       QmShimmer.rectangle(width: 25, height: 30),
-                      const SizedBox(
+                      SizedBox(
                         width: 5,
                       ),
                       QmShimmer.rectangle(width: 40, height: 30),
-                      const SizedBox(
+                      SizedBox(
                         width: 5,
                       ),
                       QmShimmer.rectangle(width: 25, height: 30),
-                      const SizedBox(
+                      SizedBox(
                         width: 5,
                       ),
                       QmShimmer.rectangle(width: 40, height: 30),
@@ -233,7 +233,7 @@ class ProfileScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                     ),
                     itemBuilder: (_, index) {
-                      return QmShimmer.rectangle(
+                      return const QmShimmer.rectangle(
                         width: 100,
                         height: 100,
                       );
@@ -278,7 +278,7 @@ class ProfileScreen extends StatelessWidget {
                                   tag: content.id,
                                   child: ClipRRect(
                                     borderRadius: SimpleConstants.borderRadius,
-                                    child: QmImage.network(
+                                    child: QmImage.smart(
                                       source: content.contentURL,
                                       fit: BoxFit.cover,
                                       width: double.maxFinite,

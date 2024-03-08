@@ -2,7 +2,8 @@ import 'package:quantum_muscle/library.dart';
 
 class ForgotPasswordTextWidget extends StatelessWidget {
   const ForgotPasswordTextWidget({
-    required this.width, super.key,
+    required this.width,
+    super.key,
   });
   final double width;
 
@@ -17,10 +18,12 @@ class ForgotPasswordTextWidget extends StatelessWidget {
         left: isScreenBiggerThanTablet(context) ? width * .5 : width * .4,
       ),
       child: SizedBox(
-        child: QmText(
+        child: InkWell(
           onTap: () => authPageController.jumpToPage(0),
-          isSeccoundary: true,
-          text: S.current.ForgotPassword,
+          child: QmText.simple(
+            isSeccoundary: true,
+            text: S.current.ForgotPassword,
+          ),
         ),
       ),
     );

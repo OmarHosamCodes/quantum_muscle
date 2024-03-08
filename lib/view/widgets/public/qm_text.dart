@@ -11,50 +11,10 @@ class QmText extends StatelessWidget {
     ),
     this.isSeccoundary = false,
     this.isHeadline = false,
-    this.onTap,
     this.color,
-  });
-  final String text;
-  final TextStyle style;
-  final bool isSeccoundary;
-  final bool isHeadline;
-  final void Function()? onTap;
-  final Color? color;
-  double get fontSize {
-    if (isSeccoundary) {
-      return 10;
-    } else if (isHeadline) {
-      return 20;
-    } else {
-      return style.fontSize!;
-    }
-  }
+  }) : type = QmTextType.normal;
 
-  Color? get textColor =>
-      color ??
-      (isSeccoundary
-          ? ColorConstants.textSeccondaryColor
-          : ColorConstants.textColor);
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: MarqueeText(
-        text: TextSpan(
-          text: text,
-          style: style.copyWith(
-            color: textColor,
-            fontSize: fontSize,
-          ),
-        ),
-        speed: 20,
-      ),
-    );
-  }
-}
-
-class QmSimpleText extends StatelessWidget {
-  const QmSimpleText({
+  const QmText.simple({
     required this.text,
     super.key,
     this.style = const TextStyle(
@@ -65,15 +25,17 @@ class QmSimpleText extends StatelessWidget {
     this.isSeccoundary = false,
     this.isHeadline = false,
     this.color,
-    this.overFlow,
-  });
+  }) : type = QmTextType.simple;
+
   final String text;
   final TextStyle style;
   final bool isSeccoundary;
   final bool isHeadline;
-
-  final TextOverflow? overFlow;
+  final QmTextType type;
   final Color? color;
+
+  TextOverflow get overFlow => TextOverflow.ellipsis;
+
   double get fontSize {
     if (isSeccoundary) {
       return 10;
@@ -89,8 +51,31 @@ class QmSimpleText extends StatelessWidget {
       (isSeccoundary
           ? ColorConstants.textSeccondaryColor
           : ColorConstants.textColor);
+
   @override
   Widget build(BuildContext context) {
+    switch (type) {
+      case QmTextType.normal:
+        return buildNormal(context);
+      case QmTextType.simple:
+        return buildSimple(context);
+    }
+  }
+
+  Widget buildNormal(BuildContext context) {
+    return MarqueeText(
+      text: TextSpan(
+        text: text,
+        style: style.copyWith(
+          color: textColor,
+          fontSize: fontSize,
+        ),
+      ),
+      speed: 20,
+    );
+  }
+
+  Widget buildSimple(BuildContext context) {
     return Text(
       text,
       style: style.copyWith(
@@ -100,4 +85,9 @@ class QmSimpleText extends StatelessWidget {
       ),
     );
   }
+}
+
+enum QmTextType {
+  normal,
+  simple,
 }

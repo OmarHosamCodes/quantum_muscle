@@ -56,7 +56,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
                   width: width,
                   height: height * .2,
                   borderRadius: BorderRadius.circular(10),
-                  child: QmImage.memory(
+                  child: QmImage.smart(
                     source: addImage,
                     fallbackIcon: EvaIcons.plus,
                   ),

@@ -51,7 +51,7 @@ class AddProgramBlock extends ConsumerWidget {
                   child: AnimatedRotation(
                     duration: SimpleConstants.fastAnimationDuration,
                     turns: isHovered ? 0 : 0.25,
-                    child: QmButton.icon(
+                    child: const QmButton.icon(
                       icon: EvaIcons.plus,
                     ),
                   ),

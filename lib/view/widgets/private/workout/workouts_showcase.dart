@@ -62,7 +62,7 @@ class WorkoutsShowcase extends ConsumerWidget {
           horizontal: width * .05,
         ),
         itemCount: 3,
-        itemBuilder: (context, index) => QmShimmer.rectangle(
+        itemBuilder: (context, index) => const QmShimmer.rectangle(
           radius: 10,
           width: 100,
           height: 100,

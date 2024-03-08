@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:quantum_muscle/library.dart';
 
 void openAddTraineeSheet(
@@ -21,6 +20,7 @@ class _AddTraineeSheet extends StatelessWidget {
   final String programRequestId;
 
   static final traineeIdTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,32 +36,26 @@ class _AddTraineeSheet extends StatelessWidget {
                   fieldColor: ColorConstants.disabledColor,
                   hintText: S.current.AddTraineeId,
                   controller: traineeIdTextController,
-                  onEditingComplete: () => programUtil.sendRequest(
-                    context: context,
-                    traineeId: traineeIdTextController.text,
-                    // ref: ref,
-                    programRequestId: programRequestId,
-                  ),
+                  onEditingComplete: () => _sendRequest(context),
                 );
               },
             ),
             const SizedBox(height: 10),
-            Consumer(
-              builder: (_, ref, __) {
-                return QmButton.text(
-                  onPressed: () => programUtil.sendRequest(
-                    context: context,
-                    traineeId: traineeIdTextController.text,
-                    // ref: ref,
-                    programRequestId: programRequestId,
-                  ),
-                  text: S.current.SendRequest,
-                );
-              },
+            QmButton.text(
+              onPressed: () => _sendRequest(context),
+              text: S.current.SendRequest,
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _sendRequest(BuildContext context) {
+    programUtil.sendRequest(
+      context: context,
+      traineeId: traineeIdTextController.text,
+      programRequestId: programRequestId,
     );
   }
 }

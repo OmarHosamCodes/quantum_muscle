@@ -86,11 +86,13 @@ class ForgetPasswordScreen extends StatelessWidget {
                     }
                   },
                 ),
-                QmText(
+                InkWell(
                   onTap: () => authPageController.jumpToPage(
                     1,
                   ),
-                  text: S.current.GoBackToLogin,
+                  child: QmText(
+                    text: S.current.GoBackToLogin,
+                  ),
                 ),
               ],
             ),

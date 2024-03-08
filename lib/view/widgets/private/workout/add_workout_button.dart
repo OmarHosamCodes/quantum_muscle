@@ -158,22 +158,19 @@ class AddWorkoutBlock {
                                 ),
                           ),
                         ),
-                        Consumer(
-                          builder: (_, __, ___) =>
-                              ref.watch(publicWorkoutsProvider).maybeWhen(
-                                    data: (workouts) {
-                                      return Flexible(
-                                        child: QmButton.icon(
-                                          icon: EvaIcons.search,
-                                          onPressed: () => context.push(
-                                            Routes.addWorkoutR,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    orElse: QmLoader.indicator,
+                        ref.watch(publicWorkoutsProvider).maybeWhen(
+                              data: (workouts) {
+                                return Flexible(
+                                  child: QmButton.icon(
+                                    icon: EvaIcons.search,
+                                    onPressed: () => context.push(
+                                      Routes.addWorkoutR,
+                                    ),
                                   ),
-                        ),
+                                );
+                              },
+                              orElse: QmLoader.indicator,
+                            ),
                       ],
                     );
                   }
@@ -210,7 +207,6 @@ class AddWorkoutBlock {
                               context: context,
                               name: nameController.text,
                               image: content,
-                              // ref: ref,
                               isLink: content.startsWith('http'),
                               formKey: formKey,
                             ),
@@ -236,7 +232,6 @@ class AddWorkoutBlock {
                             context: context,
                             name: nameController.text,
                             image: content,
-                            // ref: ref,
                             isLink: content.startsWith('http'),
                             formKey: formKey,
                           ),

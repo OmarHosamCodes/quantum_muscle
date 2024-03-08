@@ -24,11 +24,11 @@ class _QmDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog.adaptive(
       backgroundColor: ColorConstants.accentColor,
-      title: QmSimpleText(
+      title: QmText.simple(
         text: title,
         isHeadline: true,
       ),
-      content: QmSimpleText(
+      content: QmText.simple(
         text: message,
       ),
     );

@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 child: Center(
-                  child: QmSimpleText(
+                  child: QmText.simple(
                     text: S.current.Slogan,
                     isHeadline: true,
                   ),

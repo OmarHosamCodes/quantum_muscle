@@ -73,7 +73,7 @@ class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
                       horizontal: width * .05,
                     ),
                     itemCount: 4,
-                    itemBuilder: (context, index) => QmShimmer.rectangle(
+                    itemBuilder: (context, index) => const QmShimmer.rectangle(
                       width: 150,
                       height: 300,
                       radius: 10,

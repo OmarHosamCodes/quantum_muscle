@@ -125,11 +125,13 @@ class RegisterScreen extends StatelessWidget {
                       name: nameTextController.text,
                       formKey: formKey,
                     ),
-                    QmText(
+                    InkWell(
                       onTap: () => authPageController.jumpToPage(
                         1,
                       ),
-                      text: '${S.current.AlreadyMember} ${S.current.Login}',
+                      child: QmText(
+                        text: '${S.current.AlreadyMember} ${S.current.Login}',
+                      ),
                     ),
                   ],
                 ),

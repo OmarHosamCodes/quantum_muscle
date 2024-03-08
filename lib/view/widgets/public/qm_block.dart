@@ -28,36 +28,40 @@ class QmBlock extends StatelessWidget {
   final double maxWidth;
   final bool isAnimated;
   final Color color;
-
   final BorderRadius? borderRadius;
   final Border? border;
   final List<BoxShadow>? boxShadow;
 
-  BorderRadius? get containerBorderRadius =>
+  BorderRadius get containerBorderRadius =>
       borderRadius ?? SimpleConstants.borderRadius;
   Duration get duration =>
       isAnimated ? SimpleConstants.fastAnimationDuration : Duration.zero;
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: duration,
-        constraints: BoxConstraints(
-          maxHeight: maxHeight,
-          maxWidth: maxWidth,
+    return MouseRegion(
+      cursor:
+          onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: duration,
+          constraints: BoxConstraints(
+            maxHeight: maxHeight,
+            maxWidth: maxWidth,
+          ),
+          margin: margin,
+          padding: padding,
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: containerBorderRadius,
+            border: border,
+            boxShadow: boxShadow,
+          ),
+          child: Center(child: child),
         ),
-        margin: margin,
-        padding: padding,
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: containerBorderRadius,
-          border: border,
-          boxShadow: boxShadow,
-        ),
-        child: Center(child: child),
       ),
     );
   }

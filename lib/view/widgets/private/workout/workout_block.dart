@@ -50,7 +50,7 @@ class WorkoutBlock extends StatelessWidget {
                 width: 200,
                 padding: const EdgeInsets.all(10),
                 color: ColorConstants.accentColor,
-                child: QmImage.network(
+                child: QmImage.smart(
                   source: workout.imageURL,
                   fallbackIcon: EvaIcons.plus,
                   height: 150,
@@ -59,7 +59,7 @@ class WorkoutBlock extends StatelessWidget {
               ),
               child: Hero(
                 tag: workout.id,
-                child: QmImage.network(
+                child: QmImage.smart(
                   source: workout.imageURL,
                   fallbackIcon: EvaIcons.plus,
                 ),

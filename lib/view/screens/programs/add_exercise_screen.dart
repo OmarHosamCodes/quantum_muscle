@@ -59,7 +59,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
                         context.pop();
                       },
                       child: GridTile(
-                        child: QmImage.network(
+                        child: QmImage.smart(
                           source: e.$2[index],
                           fit: BoxFit.cover,
                         ),
@@ -71,7 +71,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
             ).toList(),
           );
         },
-        loading: () => Center(child: QmLoader.indicator()),
+        loading: () => const Center(child: QmLoader.indicator()),
         error: (error, stackTrace) => Center(
           child: Text(
             error.toString(),

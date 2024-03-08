@@ -78,7 +78,7 @@ class ContentDetailsScreen extends StatelessWidget {
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
                           ),
-                          child: QmImage.network(
+                          child: QmImage.smart(
                             source: content.contentURL,
                             fit: BoxFit.cover,
                             width: double.maxFinite,
@@ -114,12 +114,12 @@ class ContentDetailsScreen extends StatelessWidget {
                                   : ColorConstants.iconColor,
                             );
                           },
-                          loading: () => QmShimmer.rectangle(
+                          loading: () => const QmShimmer.rectangle(
                             width: 20,
                             height: 20,
                             radius: 10,
                           ),
-                          error: (error, stack) => QmButton.icon(
+                          error: (error, stack) => const QmButton.icon(
                             icon: EvaIcons.heart,
                             iconColor: ColorConstants.disabledColor,
                           ),
@@ -145,16 +145,15 @@ class ContentDetailsScreen extends StatelessWidget {
                         left: 10,
                         right: 10,
                       ),
-                      child: QmSimpleText(
+                      child: QmText.simple(
                         text: content.title,
                       ),
                     ),
-                    collapsed: QmSimpleText(
+                    collapsed: QmText.simple(
                       text: content.description,
-                      overFlow: TextOverflow.ellipsis,
                       isSeccoundary: true,
                     ),
-                    expanded: QmSimpleText(
+                    expanded: QmText.simple(
                       text: content.description,
                     ),
                     builder: (_, collapsed, expanded) {

@@ -98,7 +98,7 @@ class ChatScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
-                  child: QmSimpleText(text: S.current.DefaultError),
+                  child: QmText.simple(text: S.current.DefaultError),
                 );
               }
               if (!snapshot.hasData && isLoaded == false) {

@@ -31,7 +31,7 @@ class ExerciseBlock extends StatelessWidget {
             borderRadius: SimpleConstants.borderRadius,
             color: ColorConstants.disabledColor,
           ),
-          QmImage.network(
+          QmImage.smart(
             source: exercise.contentURL,
             fallbackIcon: EvaIcons.plus,
           ),
@@ -123,7 +123,7 @@ class ExerciseBlock extends StatelessWidget {
                 loading: () => SizedBox(
                   width: width * .2,
                   height: height * .3,
-                  child: Center(
+                  child: const Center(
                     child: QmLoader.indicator(),
                   ),
                 ),

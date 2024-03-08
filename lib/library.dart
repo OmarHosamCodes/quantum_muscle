@@ -35,7 +35,7 @@ export 'view/screens/profile/add_content_screen.dart' show AddContentScreen;
 //* Widgets
 
 export 'view/widgets/public/qm_block.dart' show QmBlock;
-export 'view/widgets/public/qm_text.dart' show QmSimpleText, QmText;
+export 'view/widgets/public/qm_text.dart' show QmText;
 export 'view/widgets/public/qm_textfield.dart' show QmTextField;
 export 'view/widgets/public/qm_dialog.dart' show openQmDialog;
 export 'view/widgets/public/qm_loader.dart' show QmLoader;
@@ -106,6 +106,7 @@ export 'utils/providers/content_provider.dart' show contentProvider;
 export 'utils/user/user_util.dart' show UserUtil;
 export 'utils/providers/choose_provider.dart' show chooseProvider;
 export 'utils/providers/search_provider.dart' show searchStateNotifierProvider;
+export 'utils/providers/locale_provider.dart';
 
 //* Models
 
@@ -178,3 +179,6 @@ export 'package:fade_shimmer/fade_shimmer.dart';
 export 'package:uuid/uuid.dart' show Uuid;
 export 'package:marquee_text/marquee_text.dart' show MarqueeText;
 export 'package:hive_flutter/hive_flutter.dart';
+export 'package:mockito/mockito.dart';
+// ignore: depend_on_referenced_packages
+export 'package:flutter_test/flutter_test.dart';

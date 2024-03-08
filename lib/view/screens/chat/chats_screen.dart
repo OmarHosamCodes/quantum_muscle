@@ -31,15 +31,15 @@ class ChatsScreen extends ConsumerWidget {
                 leading: QmAvatar(
                   imageUrl: chat.userProfileImageURL,
                 ),
-                title: QmSimpleText(
+                title: QmText.simple(
                   text: chat.userName,
                   isHeadline: true,
                 ),
-                subtitle: QmSimpleText(
+                subtitle: QmText.simple(
                   text: chat.lastMessage!,
                   color: lastMessageColor(chat.lastMessageSender!),
                 ),
-                trailing: QmSimpleText(
+                trailing: QmText.simple(
                   text: utils.timeAgo(
                     chat.messages.first.timestamp,
                   ),
@@ -65,12 +65,12 @@ class ChatsScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               5,
-              (index) => Row(
+              (index) => const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10),
                   QmShimmer.round(size: 25),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -78,14 +78,14 @@ class ChatsScreen extends ConsumerWidget {
                         width: 100,
                         height: 20,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       QmShimmer.rectangle(
                         width: 200,
                         height: 25,
                       ),
                     ],
                   ),
-                  const Spacer(),
+                  Spacer(),
                   QmShimmer.rectangle(
                     width: 50,
                     height: 10,
