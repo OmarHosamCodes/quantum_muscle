@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that displays an image from a network or memory source.
 class QmImage extends StatelessWidget {
+  /// Constructs a [QmImage] widget with smart image loading.
   const QmImage.smart({
     required this.source,
     super.key,
@@ -10,10 +12,19 @@ class QmImage extends StatelessWidget {
     this.fit,
   });
 
+  /// The source of the image.
   final String source;
+
+  /// The width of the image.
   final double? width;
+
+  /// The height of the image.
   final double? height;
+
+  /// The fallback icon to display if the image fails to load.
   final IconData? fallbackIcon;
+
+  /// The fit of the image within its container.
   final BoxFit? fit;
 
   @override
@@ -21,6 +32,7 @@ class QmImage extends StatelessWidget {
     return buildSmartImage();
   }
 
+  /// Builds a network image widget.
   Widget buildNetworkImage() {
     return CachedNetworkImage(
       imageUrl: source,
@@ -44,6 +56,7 @@ class QmImage extends StatelessWidget {
     );
   }
 
+  /// Builds a memory image widget.
   Widget buildMemoryImage() {
     return Image(
       image: MemoryImage(base64Decode(source)),
@@ -69,6 +82,7 @@ class QmImage extends StatelessWidget {
     );
   }
 
+  /// Builds a smart image widget based on the source.
   Widget buildSmartImage() {
     if (source.startsWith('http')) {
       return buildNetworkImage();

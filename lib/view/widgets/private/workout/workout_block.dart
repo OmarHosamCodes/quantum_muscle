@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a workout block.
 class WorkoutBlock extends StatelessWidget {
+  /// Creates a workout block.
   const WorkoutBlock({
     required this.width,
     required this.height,
@@ -8,8 +10,13 @@ class WorkoutBlock extends StatelessWidget {
     super.key,
   });
 
+  /// The width of the workout block.
   final double width;
+
+  /// The height of the workout block
   final double height;
+
+  /// The workout to display
   final WorkoutModel workout;
 
   @override

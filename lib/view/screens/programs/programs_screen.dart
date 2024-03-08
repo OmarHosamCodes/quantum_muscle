@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the programs.
 class ProgramsScreen extends ConsumerStatefulWidget {
+  /// const constructor for the [ProgramsScreen]
   const ProgramsScreen({super.key});
 
   @override

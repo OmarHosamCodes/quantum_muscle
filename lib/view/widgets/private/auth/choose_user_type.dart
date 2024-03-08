@@ -1,6 +1,17 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that allows the user to choose a user type.
+///
+/// This widget is a consumer widget, which means it rebuilds when the specified
+/// dependencies change. It provides a customizable user type chooser with
+/// options for width, height, maximum width, maximum height, and margin.
 class UserTypeChooser extends ConsumerWidget {
+  /// Creates a [UserTypeChooser].
+  ///
+  /// The [width] and [height] parameters specify the dimensions of the widget.
+  /// The [maxWidth] and [maxHeight] parameters specify the maximum dimensions
+  /// the widget can have. The [margin] parameter specifies the empty space
+  /// around the widget.
   const UserTypeChooser({
     super.key,
     this.width = 100,
@@ -9,10 +20,20 @@ class UserTypeChooser extends ConsumerWidget {
     this.maxHeight = 100,
     this.margin = EdgeInsets.zero,
   });
+
+  /// The width of the widget.
   final double width;
+
+  /// The height of the widget.
   final double height;
+
+  /// The maximum width of the widget.
   final double maxWidth;
+
+  /// The maximum height of the widget.
   final double maxHeight;
+
+  /// The margin around the widget.
   final EdgeInsets margin;
 
   @override

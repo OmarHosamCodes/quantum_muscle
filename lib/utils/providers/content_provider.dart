@@ -1,5 +1,6 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Provider for the content
 final contentProvider =
     StreamProvider.family<List<ContentModel>, String>((ref, id) async* {
   final contentModelList = Utils()

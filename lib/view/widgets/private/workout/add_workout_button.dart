@@ -1,8 +1,40 @@
 import 'package:quantum_muscle/library.dart';
 
-class AddWorkoutBlock {
+/// A widget that displays a block for adding a workout.
+class AddWorkoutBlock extends StatelessWidget {
+  /// Constructs an [AddWorkoutBlock] widget.
+  const AddWorkoutBlock.big(
+    this.context, {
+    super.key,
+  }) : type = AddWorkoutBlockType.big;
+
+  /// Constructs an [AddWorkoutBlock] widget.
+  const AddWorkoutBlock.small(
+    this.context, {
+    super.key,
+  }) : type = AddWorkoutBlockType.small;
+
+  /// The Form global key.
   static final formKey = GlobalKey<FormState>();
-  static StatelessWidget big(BuildContext context) {
+
+  /// The name controller.
+  static final nameController = TextEditingController();
+
+  /// The context.
+  final BuildContext context;
+
+  /// The type of the block.
+  final AddWorkoutBlockType type;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (type) {
+      AddWorkoutBlockType.small => _buildSmall(),
+      AddWorkoutBlockType.big => _buildBig(),
+    };
+  }
+
+  Widget _buildBig() {
     final nameController = TextEditingController();
     return QmBlock(
       maxHeight: 250,
@@ -124,8 +156,7 @@ class AddWorkoutBlock {
     );
   }
 
-  static StatelessWidget small(BuildContext context) {
-    final nameController = TextEditingController();
+  Widget _buildSmall() {
     return QmBlock(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -247,4 +278,13 @@ class AddWorkoutBlock {
       ),
     );
   }
+}
+
+/// The type of the block.
+enum AddWorkoutBlockType {
+  /// A big block.
+  big,
+
+  /// A small block.
+  small,
 }

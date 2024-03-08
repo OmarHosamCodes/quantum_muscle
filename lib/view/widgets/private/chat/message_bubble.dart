@@ -1,6 +1,13 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a message bubble in a chat.
 class MessageBubble extends StatelessWidget {
+  /// Constructs a [MessageBubble] widget.
+  ///
+  /// The [message] parameter is the message model for the bubble.
+  /// The [chatUserId] parameter is the ID of the user in the chat.
+  /// The [messageId] parameter is the ID of the message.
+  /// The [chatId] parameter is the ID of the chat.
   const MessageBubble({
     required this.message,
     required this.chatUserId,
@@ -9,9 +16,16 @@ class MessageBubble extends StatelessWidget {
     super.key,
   });
 
+  /// The message model for the bubble.
   final MessageModel message;
+
+  /// The ID of the user in the chat.
   final String chatUserId;
+
+  /// The ID of the message.
   final String messageId;
+
+  /// The ID of the chat.
   final String chatId;
 
   @override

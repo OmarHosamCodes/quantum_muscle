@@ -2,7 +2,10 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// Utility class for handling user registration functionality.
 class RegisterUtil extends Utils {
+  /// Registers a new user with the provided [email], [password], [userName], [userType], [formKey], [context], and [ref].
+  /// This method is asynchronous and returns a [Future] that completes with [void].
   Future<void> register({
     required String email,
     required String password,
@@ -57,6 +60,8 @@ class RegisterUtil extends Utils {
     }
   }
 
+  /// Performs additional actions after a successful user sign-up.
+  /// This method is asynchronous and returns a [Future] that completes with [void].
   Future<void> afterSignUp({
     required String userName,
     required UserType userType,

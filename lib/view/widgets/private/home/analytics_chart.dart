@@ -1,6 +1,14 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that displays general analytics chart.
 class GeneralAnalyticsChart extends StatefulWidget {
+  /// Constructs a [GeneralAnalyticsChart] widget.
+  ///
+  /// The [totalPrograms], [totalTrainees], [totalWorkouts], and [totalExercises]
+  /// parameters are required and represent the total number of programs, trainees,
+  /// workouts, and exercises respectively.
+  ///
+  /// The [key] parameter is an optional key to use for this widget.
   const GeneralAnalyticsChart({
     required this.totalPrograms,
     required this.totalTrainees,
@@ -8,9 +16,17 @@ class GeneralAnalyticsChart extends StatefulWidget {
     required this.totalExercises,
     super.key,
   });
+
+  /// The total number of programs.
   final int totalPrograms;
+
+  /// The total number of trainees.
   final int totalTrainees;
+
+  /// The total number of workouts.
   final int totalWorkouts;
+
+  /// The total number of exercises.
   final int totalExercises;
 
   @override
@@ -104,7 +120,7 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
                 height: 4,
               ),
               Indicator(
-                color: ColorConstants.textSeccondaryColor,
+                color: ColorConstants.textSecondaryColor,
                 text: S.current.Exercises,
                 isSquare: true,
               ),
@@ -169,7 +185,7 @@ class _GeneralAnalyticsChartState extends State<GeneralAnalyticsChart> {
             );
           case 3:
             return PieChartSectionData(
-              color: ColorConstants.textSeccondaryColor,
+              color: ColorConstants.textSecondaryColor,
               value: tExercisesRatio,
               title: widget.totalExercises.toString(),
               radius: radius,

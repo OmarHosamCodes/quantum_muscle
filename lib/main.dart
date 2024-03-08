@@ -30,7 +30,9 @@ void main() async {
 //! 10. Add a new workouts
 //! 11. Capture the images for Commercial use
 
+/// The main application widget.
 class MyApp extends ConsumerWidget {
+  /// Creates a [MyApp] widget.
   const MyApp({super.key});
 
   @override
@@ -65,6 +67,7 @@ flutter clean && flutter pub get && clear
 && flutter build web --release --web-renderer html && firebase deploy
 */
 
+/// A theme for page transitions.
 class NoTransitionsOnWeb extends PageTransitionsTheme {
   @override
   Widget buildTransitions<T>(
@@ -87,14 +90,35 @@ class NoTransitionsOnWeb extends PageTransitionsTheme {
   }
 }
 
+/// Utility class for managing workouts.
 final workoutUtil = WorkoutUtil();
+
+/// Utility class for managing programs.
 final programUtil = ProgramUtil();
+
+/// Utility class for managing exercises.
 final exerciseUtil = ExerciseUtil();
+
+/// Utility class for managing users.
 final userUtil = UserUtil();
+
+/// General utility class.
 final utils = Utils();
+
+/// Utility class for managing login functionality.
 final loginUtil = LoginUtil();
+
+/// Utility class for managing logout functionality.
 final logoutUtil = LogoutUtil();
+
+/// Utility class for managing user registration.
 final registerUtil = RegisterUtil();
+
+/// Utility class for managing password recovery.
 final forgetPasswordUtil = ForgetPasswordUtil();
+
+/// Utility class for managing user profiles.
 final profileUtil = ProfileUtil();
+
+/// Utility class for managing chat functionality.
 final chatUtil = ChatUtil();

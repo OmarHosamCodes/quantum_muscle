@@ -1,5 +1,6 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a dialog with a title and a message.
 void openQmDialog({
   required BuildContext context,
   required String title,

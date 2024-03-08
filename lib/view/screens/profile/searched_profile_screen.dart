@@ -1,7 +1,11 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the profile of a searched user.
 class SearchedProfileScreen extends StatelessWidget {
+  /// const constructor for the [SearchedProfileScreen]
   const SearchedProfileScreen({required this.userId, super.key});
+
+  /// user id
   final String userId;
 
   @override

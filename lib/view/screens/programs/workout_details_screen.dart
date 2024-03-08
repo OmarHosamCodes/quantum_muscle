@@ -1,11 +1,14 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the workout details.
 class WorkoutDetailsScreen extends StatelessWidget {
+  /// const constructor for the [WorkoutDetailsScreen]
   const WorkoutDetailsScreen({
     required this.arguments,
     super.key,
   });
 
+  /// arguments
   final Map<String, dynamic> arguments;
   @override
   Widget build(BuildContext context) {

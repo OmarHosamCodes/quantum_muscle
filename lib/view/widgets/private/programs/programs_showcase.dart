@@ -1,6 +1,13 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that displays a showcase of programs.
 class ProgramsShowcase extends StatelessWidget {
+  /// Constructs a [ProgramsShowcase] widget.
+  ///
+  /// The [width] and [height] parameters specify the dimensions of the widget.
+  /// The [programs] parameter is a list of [ProgramModel] objects to be displayed.
+  /// The [isTrainee] parameter indicates whether the user is a trainee or not.
+  /// The [key] parameter is an optional key to uniquely identify the widget.
   const ProgramsShowcase({
     required this.width,
     required this.height,
@@ -9,9 +16,16 @@ class ProgramsShowcase extends StatelessWidget {
     super.key,
   });
 
+  /// The width of the widget.
   final double width;
+
+  /// The height of the widget.
   final double height;
+
+  /// The list of programs to display.
   final List<ProgramModel> programs;
+
+  /// A flag indicating whether the user is a trainee or not.
   final bool isTrainee;
 
   @override

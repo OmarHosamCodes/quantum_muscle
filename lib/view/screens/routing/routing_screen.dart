@@ -1,12 +1,21 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A screen widget for routing.
+///
+/// This widget represents a screen that can be used for routing purposes.
+/// It takes a [child] widget and a [state] of type [GoRouterState].
 class RoutingScreen extends StatefulWidget {
+  /// Constructs a [RoutingScreen] widget.
   const RoutingScreen({
     required this.child,
     required this.state,
     super.key,
   });
+
+  /// The child widget to be displayed on the screen.
   final Widget child;
+
+  /// The state of the router.
   final GoRouterState state;
 
   @override

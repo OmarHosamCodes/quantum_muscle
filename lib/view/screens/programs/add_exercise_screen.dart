@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to add an exercise to the user's collection.
 class AddExerciseScreen extends ConsumerStatefulWidget {
+  /// const constructor for the [AddExerciseScreen]
   const AddExerciseScreen({super.key});
 
   @override

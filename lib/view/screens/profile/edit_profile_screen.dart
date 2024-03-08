@@ -1,10 +1,19 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A screen for editing user profile information.
 class EditProfileScreen extends StatelessWidget {
+  /// Constructs an instance of [EditProfileScreen].
+  ///
+  /// The [arguments] parameter is required and contains the necessary data for editing the profile.
   const EditProfileScreen({required this.arguments, super.key});
+
+  /// The arguments passed to the screen for editing the profile.
   final Map<String, dynamic> arguments;
 
+  /// The user model obtained from the [arguments].
   UserModel get user => arguments[UserModel.modelKey] as UserModel;
+
+  /// A global key for accessing the form state.
   static final formKey = GlobalKey<FormState>();
 
   @override

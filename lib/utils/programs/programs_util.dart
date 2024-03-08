@@ -2,15 +2,26 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// This class provides utility methods for managing programs.
 class ProgramUtil extends Utils {
+  /// Adds a program to the database.
+  ///
+  /// The [context] parameter specifies the build context.
+  /// The [programName] parameter specifies the name of the program.
+  /// The [programsLength] parameter specifies the length of the programs list.
+  /// The [formKey] parameter specifies the form key for validation.
+  ///
+  /// Throws an exception if an error occurs.
   Future<void> addProgram({
     required BuildContext context,
     required String programName,
     required int programsLength,
     required GlobalKey<FormState> formKey,
   }) async {
+    // Validate the form
     if (!formKey.currentState!.validate()) return;
 
+    // Check if the programs length has reached the limit
     if (programsLength >= 5) {
       openQmDialog(
         context: context,
@@ -22,9 +33,13 @@ class ProgramUtil extends Utils {
 
     try {
       QmLoader.openLoader(context: context);
+
+      // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addProgram,
       );
+
+      // Create a new program model
       final programModel = ProgramModel(
         id: const Uuid().v8(),
         name: programName,
@@ -35,6 +50,7 @@ class ProgramUtil extends Utils {
         restDayOrDays: [],
       );
 
+      // Create a batch to perform multiple operations atomically
       final batch = firebaseFirestore.batch()
         ..set(
           firebaseFirestore
@@ -50,6 +66,7 @@ class ProgramUtil extends Utils {
           },
         );
 
+      // Commit the batch
       await batch.commit();
 
       QmLoader.closeLoader(context: context);
@@ -63,6 +80,13 @@ class ProgramUtil extends Utils {
     }
   }
 
+  /// Deletes a program from the database.
+  ///
+  /// The [context] parameter specifies the build context.
+  /// The [programId] parameter specifies the ID of the program to delete.
+  /// The [traineesIds] parameter specifies the list of trainee IDs associated
+  ///  with the program.
+  /// Throws an exception if an error occurs.
   Future<void> deleteProgram({
     required BuildContext context,
     required String programId,
@@ -70,10 +94,12 @@ class ProgramUtil extends Utils {
   }) async {
     QmLoader.openLoader(context: context);
     try {
+      // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.removeProgram,
       );
 
+      // Create a batch to perform multiple operations atomically
       final batch = firebaseFirestore.batch()
         ..delete(
           firebaseFirestore
@@ -87,6 +113,7 @@ class ProgramUtil extends Utils {
           },
         );
 
+      // Remove the program from the trainees' lists
       for (final traineeId in traineesIds) {
         batch.update(
           firebaseFirestore
@@ -98,17 +125,12 @@ class ProgramUtil extends Utils {
         );
       }
 
+      // Commit the batch
       await batch.commit();
 
       while (context.canPop()) {
         QmLoader.closeLoader(context: context);
       }
-
-      // ref
-      //   ..invalidate(programsProvider)
-      //   ..read(programsProvider)
-      //   ..invalidate(userProvider(userUid!))
-      //   ..read(userProvider(userUid!));
     } catch (e) {
       QmLoader.closeLoader(context: context);
       openQmDialog(
@@ -119,6 +141,13 @@ class ProgramUtil extends Utils {
     }
   }
 
+  /// Sends a program request to a trainee.
+  ///
+  /// The [context] parameter specifies the build context.
+  /// The [traineeId] parameter specifies the ID of the trainee.
+  /// The [programRequestId] parameter specifies the ID of the program request.
+  ///
+  /// Throws an exception if an error occurs.
   Future<void> sendRequest({
     required BuildContext context,
     required String traineeId,
@@ -126,15 +155,18 @@ class ProgramUtil extends Utils {
   }) async {
     QmLoader.openLoader(context: context);
     try {
+      // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.sendRequest,
       );
 
+      // Start a chat with the trainee
       await ChatUtil().startChat(
         userId: traineeId,
         context: context,
       );
 
+      // Get the chat ID for the trainee
       final userDocRef = firebaseFirestore
           .collection(DBPathsConstants.usersPath)
           .doc(traineeId);
@@ -142,11 +174,12 @@ class ProgramUtil extends Utils {
             (value) => (value.data()![UserModel.chatsKey] as List).firstWhere(
               (element) => (element as Map).containsValue(userUid),
             ),
-          );
+          ) as Map<String, dynamic>;
 
-      // ignore: avoid_dynamic_calls
-      final chatId = chatIdQuery.keys.first as String;
+      // Get the chat ID
+      final chatId = chatIdQuery.keys.first;
 
+      // Add a request message to the chat
       await ChatUtil().addRequestMessage(
         chatId: chatId,
         message: S.current.WillYouJoinProgram,
@@ -163,6 +196,14 @@ class ProgramUtil extends Utils {
     }
   }
 
+  /// Accepts a program request from a trainee.
+  ///
+  /// The [context] parameter specifies the build context.
+  /// The [chatId] parameter specifies the ID of the chat.
+  /// The [programId] parameter specifies the ID of the program.
+  /// The [messageId] parameter specifies the ID of the message.
+  ///
+  /// Throws an exception if an error occurs.
   Future<void> acceptRequest({
     required BuildContext context,
     required String chatId,
@@ -171,10 +212,12 @@ class ProgramUtil extends Utils {
   }) async {
     QmLoader.openLoader(context: context);
     try {
+      // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.acceptRequest,
       );
 
+      // Create a batch to perform multiple operations atomically
       final batch = firebaseFirestore.batch()
         ..update(
           firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid),
@@ -192,19 +235,15 @@ class ProgramUtil extends Utils {
         );
       await batch.commit();
 
+      // Remove the request message from the chat
       await ChatUtil().removeMessage(
         chatId: chatId,
         messageId: messageId,
         context: context,
       );
 
+      // Change the route to the programs page
       RoutingController().changeRoute(Routes.programsR);
-
-      // ref
-      //   ..invalidate(programsProvider)
-      //   ..read(programsProvider)
-      //   ..invalidate(userProvider(userUid!))
-      //   ..read(userProvider(userUid!));
 
       QmLoader.closeLoader(context: context);
     } catch (e) {
@@ -216,6 +255,14 @@ class ProgramUtil extends Utils {
     }
   }
 
+  /// Adds a workout to a program.
+  ///
+  /// The [context] parameter specifies the build context.
+  /// The [programId] parameter specifies the ID of the program.
+  /// The [workout] parameter specifies the workout model to add.
+  /// The [ref] parameter specifies the widget reference.
+  ///
+  /// Throws an exception if an error occurs.
   Future<void> addWorkoutToProgram({
     required BuildContext context,
     required String programId,
@@ -224,10 +271,12 @@ class ProgramUtil extends Utils {
   }) async {
     QmLoader.openLoader(context: context);
     try {
+      // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addProgramWorkout,
       );
 
+      // Check if the workout already exists in the program
       final programDocRef = firebaseFirestore
           .collection(DBPathsConstants.programsPath)
           .doc(programId);
@@ -238,6 +287,7 @@ class ProgramUtil extends Utils {
           );
 
       if (!workoutExists) {
+        // Create a batch to perform multiple operations atomically
         final batch = firebaseFirestore.batch()
           ..update(
             programDocRef,
@@ -254,6 +304,7 @@ class ProgramUtil extends Utils {
             SetOptions(merge: true),
           );
 
+        // Get the exercises for the workout
         final exercises = ref
             .watch(exercisesProvider('${workout.name}-${workout.id}'))
             .maybeWhen(
@@ -261,6 +312,7 @@ class ProgramUtil extends Utils {
               orElse: () => <ExerciseModel>[],
             );
 
+        // Add the exercises to the workout
         for (final exercise in exercises) {
           batch.set(
             programDocRef
@@ -273,9 +325,12 @@ class ProgramUtil extends Utils {
           );
         }
 
+        // Commit the batch
         await batch.commit();
 
         QmLoader.closeLoader(context: context);
+
+        // Invalidate and read the providers
         ref
           ..invalidate(programsProvider)
           ..read(programsProvider)
@@ -299,6 +354,14 @@ class ProgramUtil extends Utils {
     }
   }
 
+  /// Deletes a workout from a program.
+  ///
+  /// The [workoutCollectionName] parameter specifies
+  /// the name of the workout collection.
+  /// The [context] parameter specifies the build context.
+  /// The [programId] parameter specifies the ID of the program.
+  ///
+  /// Throws an exception if an error occurs.
   Future<void> deleteWorkoutToProgram({
     required String workoutCollectionName,
     required BuildContext context,
@@ -306,10 +369,12 @@ class ProgramUtil extends Utils {
   }) async {
     QmLoader.openLoader(context: context);
     try {
+      // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.removeProgramWorkout,
       );
 
+      // Create a batch to perform multiple operations atomically
       final batch = firebaseFirestore.batch()
         ..delete(
           firebaseFirestore
@@ -342,6 +407,20 @@ class ProgramUtil extends Utils {
     }
   }
 
+  /// Adds exercises to a program workout.
+  ///
+  /// The [context] parameter specifies the build context.
+  /// The [workoutCollectionName] parameter specifies the name
+  /// of the workout collection.
+  /// The [programId] parameter specifies the ID of the program.
+  /// The [programName] parameter specifies the name of the program.
+  /// The [exerciseName] parameter specifies the name of the exercise.
+  /// The [exerciseTarget] parameter specifies the target of the exercise.
+  /// The [content] parameter specifies the content of the exercise.
+  /// The [contentType] parameter specifies the type of the content.
+  /// The [isLink] parameter specifies whether the content is a link or not.
+  ///
+  /// Throws an exception if an error occurs.
   Future<void> addExerciesToProgramWorkout({
     required BuildContext context,
     required String workoutCollectionName,
@@ -425,44 +504,7 @@ class ProgramUtil extends Utils {
     }
   }
 
-  Future<void> addSetToProgramWorkout({
-    required String workoutCollectionName,
-    required String exerciseDocName,
-    required int indexToInsert,
-    required String programId,
-    required BuildContext context,
-  }) async {
-    try {
-      await firebaseAnalytics.logEvent(
-        name: AnalyticsEventNamesConstants.addProgramSet,
-      );
-
-      final programDocRef = firebaseFirestore
-          .collection(DBPathsConstants.programsPath)
-          .doc(programId);
-      final exerciseDocRef = programDocRef
-          .collection(DBPathsConstants.workoutsPath)
-          .doc(workoutCollectionName)
-          .collection(DBPathsConstants.exercisesPath)
-          .doc(exerciseDocName);
-
-      await exerciseDocRef.set(
-        {
-          ExerciseModel.setsKey: {
-            indexToInsert.toString(): S.current.WeightXReps,
-          },
-        },
-        SetOptions(merge: true),
-      );
-    } catch (e) {
-      openQmDialog(
-        context: context,
-        title: S.current.Failed,
-        message: e.toString(),
-      );
-    }
-  }
-
+  /// Deletes an exercise from a program workout.
   Future<void> changeSetToProgramWorkout({
     required GlobalKey<FormState> formKey,
     required String workoutCollectionName,
@@ -515,5 +557,44 @@ class ProgramUtil extends Utils {
       programId: programId,
       context: context,
     );
+  }
+
+  /// Adds a set to a program workout.
+  Future<void> addSetToProgramWorkout({
+    required String workoutCollectionName,
+    required String exerciseDocName,
+    required int indexToInsert,
+    required String programId,
+    required BuildContext context,
+  }) async {
+    try {
+      await firebaseAnalytics.logEvent(
+        name: AnalyticsEventNamesConstants.addProgramSet,
+      );
+
+      final programDocRef = firebaseFirestore
+          .collection(DBPathsConstants.programsPath)
+          .doc(programId);
+      final exerciseDocRef = programDocRef
+          .collection(DBPathsConstants.workoutsPath)
+          .doc(workoutCollectionName)
+          .collection(DBPathsConstants.exercisesPath)
+          .doc(exerciseDocName);
+
+      await exerciseDocRef.set(
+        {
+          ExerciseModel.setsKey: {
+            indexToInsert.toString(): S.current.WeightXReps,
+          },
+        },
+        SetOptions(merge: true),
+      );
+    } catch (e) {
+      openQmDialog(
+        context: context,
+        title: S.current.Failed,
+        message: e.toString(),
+      );
+    }
   }
 }

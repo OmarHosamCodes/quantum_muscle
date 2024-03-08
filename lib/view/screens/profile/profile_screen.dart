@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the user's profile.
 class ProfileScreen extends StatelessWidget {
+  /// const constructor for the [ProfileScreen]
   const ProfileScreen({super.key});
 
   @override

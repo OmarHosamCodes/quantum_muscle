@@ -1,6 +1,13 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A tile widget used for adding exercises.
 class AddExerciseTile extends StatelessWidget {
+  /// Constructs an [AddExerciseTile] widget.
+  ///
+  /// The [width] and [height] parameters specify the dimensions of the tile.
+  /// The [workout] parameter is the workout model associated with the tile.
+  /// The [workoutCollectionName] parameter is the name of the workout collection.
+  /// The [programId] and [programName] parameters are optional and represent the program ID and name.
   const AddExerciseTile({
     required this.width,
     required this.height,
@@ -10,15 +17,31 @@ class AddExerciseTile extends StatelessWidget {
     this.programId,
     this.programName,
   });
+
+  /// The width of the tile.
   final double width;
+
+  /// The height of the tile.
   final double height;
+
+  /// The workout model associated with the tile.
   final WorkoutModel workout;
+
+  /// The ID of the program.
   final String? programId;
+
+  /// The name of the program.
   final String? programName;
+
+  /// The name of the workout collection.
   final String workoutCollectionName;
 
+  /// The text controller for the exercise name input field.
   static final exerciseNameTextController = TextEditingController();
+
+  /// The text controller for the exercise target input field.
   static final exerciseTargetTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;

@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A class that contains the theme used in the application.
 class ThemeController {
+  /// The theme used in the application.
   static ThemeData theme = ThemeData(
     pageTransitionsTheme: NoTransitionsOnWeb(),
     scaffoldBackgroundColor: Colors.transparent,

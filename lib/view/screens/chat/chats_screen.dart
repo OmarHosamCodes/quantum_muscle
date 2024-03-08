@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Chats screen
 class ChatsScreen extends ConsumerWidget {
+  /// const constructor for the [ChatsScreen]
   const ChatsScreen({super.key});
 
   @override
@@ -21,7 +23,7 @@ class ChatsScreen extends ConsumerWidget {
               final chat = chats[index];
               Color lastMessageColor(String lastMessageSender) {
                 if (lastMessageSender == utils.userUid) {
-                  return ColorConstants.textSeccondaryColor;
+                  return ColorConstants.textSecondaryColor;
                 } else {
                   return ColorConstants.textColor;
                 }

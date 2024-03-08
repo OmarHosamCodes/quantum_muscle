@@ -1,17 +1,20 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Widget to show the forgot password text.
 class ForgotPasswordTextWidget extends StatelessWidget {
+  /// const constructor for the [ForgotPasswordTextWidget]
   const ForgotPasswordTextWidget({
     required this.width,
     super.key,
   });
+
+  /// width
   final double width;
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenBiggerThanTablet(BuildContext context) {
-      return ResponsiveBreakpoints.of(context).largerThan(TABLET);
-    }
+    bool isScreenBiggerThanTablet(BuildContext context) =>
+        ResponsiveBreakpoints.of(context).largerThan(TABLET);
 
     return Padding(
       padding: EdgeInsets.only(

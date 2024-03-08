@@ -1,10 +1,14 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the details of a program.
 class ProgramDetailsScreen extends StatelessWidget {
+  /// const constructor for the [ProgramDetailsScreen]
   const ProgramDetailsScreen({
     required this.arguments,
     super.key,
   });
+
+  /// arguments
   final Map<String, dynamic> arguments;
 
   @override

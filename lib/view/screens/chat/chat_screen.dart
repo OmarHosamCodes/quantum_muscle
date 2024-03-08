@@ -2,7 +2,18 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// A screen widget for displaying a chat.
 class ChatScreen extends StatelessWidget {
+  /// Constructs a [ChatScreen] widget.
+  ///
+  /// The [chatId] parameter is required and represents the ID of the chat.
+  ///
+  /// The [chatUserId] parameter is required and represents the ID of the
+  /// user in the chat.
+  ///
+  /// The [arguments] parameter is an optional map of additional arguments.
+  ///
+  /// The [key] parameter is an optional key to use for this widget.
   const ChatScreen({
     required this.chatId,
     required this.chatUserId,
@@ -10,11 +21,19 @@ class ChatScreen extends StatelessWidget {
     this.arguments = const <String, dynamic>{},
   });
 
+  /// The ID of the chat.
   final String chatId;
+
+  /// The ID of the user in the chat.
   final String chatUserId;
+
+  /// Additional arguments for the chat screen.
   final Map<String, dynamic> arguments;
+
+  /// A controller for the message text input field.
   static final messageTextController = TextEditingController();
 
+  /// Indicates whether the chat screen is loaded.
   static bool isLoaded = false;
 
   @override

@@ -1,6 +1,12 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a block for adding a program.
 class AddProgramBlock extends ConsumerWidget {
+  /// Creates a [AddProgramBlock] widget.
+  ///
+  /// The [width] and [height] parameters are required to specify the dimensions of the block.
+  /// The [programs] parameter is a list of [ProgramModel] objects.
+  /// The [key] parameter is an optional key to uniquely identify the widget.
   const AddProgramBlock({
     required this.width,
     required this.height,
@@ -8,11 +14,19 @@ class AddProgramBlock extends ConsumerWidget {
     super.key,
   });
 
+  /// The width of the block.
   final double width;
+
+  /// The height of the block.
   final double height;
+
+  /// A list of programs.
   final List<ProgramModel> programs;
 
+  /// A global key used to identify the form state.
   static final formKey = GlobalKey<FormState>();
+
+  /// A text controller for the program name input field.
   static final programNameTextController = TextEditingController();
 
   @override
@@ -113,4 +127,5 @@ class AddProgramBlock extends ConsumerWidget {
   }
 }
 
+/// Provider for hovered state
 final hoveredProvider = StateProvider<bool>((ref) => false);

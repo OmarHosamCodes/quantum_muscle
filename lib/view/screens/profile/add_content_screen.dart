@@ -1,10 +1,14 @@
 import 'package:quantum_muscle/library.dart';
 
+/// add content screen
 class AddContentScreen extends StatefulWidget {
+  /// const constructor for the [AddContentScreen]
   const AddContentScreen({
     required this.arguments,
     super.key,
   });
+
+  /// arguments
   final Map<String, dynamic> arguments;
 
   @override

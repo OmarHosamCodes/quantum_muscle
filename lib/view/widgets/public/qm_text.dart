@@ -1,6 +1,33 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A custom text widget for Quantum Muscle app.
 class QmText extends StatelessWidget {
+  /// Constructs a [QmText] widget.
+  ///
+  /// The [text] parameter is required and specifies the text to be displayed.
+  ///
+  /// The [style] parameter is optional and specifies the text style.
+  /// If not provided,
+  /// a default style with a font size of 15, Quantum Muscle's font family,
+  /// and the
+  /// default text color will be used.
+  ///
+  /// The [isSeccoundary] parameter is optional and specifies whether the
+  /// text is
+  /// secondary. If set to true, the font size will be 10, otherwise it will
+  /// use the
+  /// style's font size.
+  ///
+  /// The [isHeadline] parameter is optional and specifies whether the text is a
+  ///  headline.
+  /// If set to true, the font size will be 20, otherwise it will use
+  ///  the style's font size.
+  ///
+  /// The [color] parameter is optional and specifies the text color. If
+  /// not provided,
+  /// it will use the default text color for normal text or the secondary text
+  /// color for
+  /// secondary text.
   const QmText({
     required this.text,
     super.key,
@@ -14,6 +41,31 @@ class QmText extends StatelessWidget {
     this.color,
   }) : type = QmTextType.normal;
 
+  /// Constructs a simple [QmText] widget.
+  ///
+  /// The [text] parameter is required and specifies the text to be displayed.
+  ///
+  /// The [style] parameter is optional and specifies the text
+  /// style. If not provided,
+  /// a default style with a font size of 15, Quantum Muscle's font family,
+  /// and the default text color will be used.
+  ///
+  /// The [isSeccoundary] parameter is optional and specifies whether
+  /// the text is
+  /// secondary. If set to true, the font size will be 10, otherwise it will
+  ///  use the
+  /// style's font size.
+  ///
+  /// The [isHeadline] parameter is optional and specifies whether the text is
+  ///  a headline.
+  /// If set to true, the font size will be 20, otherwise it will use the
+  /// style's font size.
+  ///
+  /// The [color] parameter is optional and specifies the text color. If
+  ///  not provided,
+  /// it will use the default text color for normal text or the secondary text c
+  ///
+  /// secondary text.
   const QmText.simple({
     required this.text,
     super.key,
@@ -27,15 +79,28 @@ class QmText extends StatelessWidget {
     this.color,
   }) : type = QmTextType.simple;
 
+  /// The text to be displayed.
   final String text;
+
+  /// The text style.
   final TextStyle style;
+
+  /// Specifies whether the text is secondary.
   final bool isSeccoundary;
+
+  /// Specifies whether the text is a headline.
   final bool isHeadline;
+
+  /// The type of the [QmText].
   final QmTextType type;
+
+  /// The color of the text.
   final Color? color;
 
+  /// The text overflow mode.
   TextOverflow get overFlow => TextOverflow.ellipsis;
 
+  /// The font size of the text.
   double get fontSize {
     if (isSeccoundary) {
       return 10;
@@ -46,10 +111,11 @@ class QmText extends StatelessWidget {
     }
   }
 
+  /// The text color.
   Color? get textColor =>
       color ??
       (isSeccoundary
-          ? ColorConstants.textSeccondaryColor
+          ? ColorConstants.textSecondaryColor
           : ColorConstants.textColor);
 
   @override
@@ -62,6 +128,7 @@ class QmText extends StatelessWidget {
     }
   }
 
+  /// Builds the [QmText] widget with normal type.
   Widget buildNormal(BuildContext context) {
     return MarqueeText(
       text: TextSpan(
@@ -75,6 +142,7 @@ class QmText extends StatelessWidget {
     );
   }
 
+  /// Builds the [QmText] widget with simple type.
   Widget buildSimple(BuildContext context) {
     return Text(
       text,
@@ -87,7 +155,11 @@ class QmText extends StatelessWidget {
   }
 }
 
+/// The type of the [QmText].
 enum QmTextType {
+  /// The normal [QmText].
   normal,
+
+  /// The simple [QmText].
   simple,
 }

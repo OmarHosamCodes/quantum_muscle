@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents the workout showcase.
 class WorkoutsShowcase extends ConsumerWidget {
+  /// Creates a workout showcase.
   const WorkoutsShowcase({super.key});
 
   @override

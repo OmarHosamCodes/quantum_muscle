@@ -2,8 +2,12 @@ import 'package:expandable/expandable.dart';
 
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the details of the content.
 class ContentDetailsScreen extends StatelessWidget {
+  /// const constructor for the [ContentDetailsScreen]
   const ContentDetailsScreen({super.key, this.arguments});
+
+  /// arguments
   final Map<String, dynamic>? arguments;
   @override
   Widget build(BuildContext context) {

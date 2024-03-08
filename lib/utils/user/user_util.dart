@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Utility class for user related operations.
 class UserUtil extends Utils {
+  /// Searches for users based on the provided search text.
   Future<List<UserModel>> searchUsers(String searchText) async {
     final QuerySnapshot query = await firebaseFirestore
         .collection(DBPathsConstants.usersPath)

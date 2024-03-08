@@ -2,9 +2,22 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// utility class for profile related operations
 class ProfileUtil extends Utils {
-  late final userRef =
-      firebaseFirestore.collection(DBPathsConstants.usersPath).doc(userUid);
+  /// Reference to the users collection in Firestore.
+
+  late final userRef = usersCollection.doc(userUid);
+
+  /// Updates the user's profile information.
+  ///
+  /// This method takes in the [userName], [userBio], [context], [ref],
+  /// and [formKey] as required parameters.
+  /// It validates the form using the [formKey] and
+  /// updates the user's profile information in the Firestore database.
+  /// If the user is not null, it uploads the profile image to Firebase Storage
+  /// and updates the user document in Firestore.
+  /// Finally, it invalidates the [userProvider],
+  /// navigates to the user's profile page, and closes the current page.
   Future<void> updateProfile({
     required String? userName,
     required String? userBio,
@@ -59,6 +72,12 @@ class ProfileUtil extends Utils {
     }
   }
 
+  /// Adds content to the user's profile.
+  ///
+  /// This method takes in the [context], [ref], [contentURL], [indexToInsert], [formKey], [title], and [description] as required parameters.
+  /// It validates the form using the [formKey] and adds the content to the user's profile in the Firestore database.
+  /// It uploads the content to Firebase Storage and updates the user document in Firestore.
+  /// Finally, it invalidates the [contentProvider] and reads the updated content for the user.
   Future<void> addContent({
     required BuildContext context,
     required WidgetRef ref,
@@ -106,8 +125,6 @@ class ProfileUtil extends Utils {
       });
       QmLoader.closeLoader(context: context);
 
-      QmLoader.closeLoader(context: context);
-
       ref
         ..invalidate(contentProvider)
         ..read(contentProvider(Utils().userUid!));
@@ -122,6 +139,12 @@ class ProfileUtil extends Utils {
     }
   }
 
+  /// Follows or unfollows a user.
+  ///
+  /// This method takes in the [userId], [context], [ref], and [isFollowing] as required parameters.
+  /// It follows or unfollows the user based on the value of [isFollowing].
+  /// It updates the following and followers lists in the Firestore database for both the current user and the target user.
+  /// Finally, it invalidates the [userProvider] and reads the updated user information for both users.
   Future<void> followOrUnFollow({
     required String userId,
     required BuildContext context,
@@ -190,6 +213,12 @@ class ProfileUtil extends Utils {
     }
   }
 
+  /// Likes or dislikes a content.
+  ///
+  /// This method takes in the [userId], [context], [ref], [isLiked], and [contentDocID] as required parameters.
+  /// It likes or dislikes the content based on the value of [isLiked].
+  /// It updates the likes list in the Firestore database for the content.
+  /// Finally, it invalidates the [contentProvider] and reads the updated content for the user.
   Future<void> likeOrDislikeContent({
     required String userId,
     required BuildContext context,

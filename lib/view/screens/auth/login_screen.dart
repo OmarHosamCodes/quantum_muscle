@@ -2,18 +2,34 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// A screen widget for the login functionality.
 class LoginScreen extends StatelessWidget {
+  /// Constructs a [LoginScreen].
+  ///
+  /// The [isMobile] parameter specifies whether the screen
+  /// is being displayed on a mobile device.
+  /// The [emailTextController] parameter is used to control the
+  /// email input field.
+  /// The [passwordTextController] parameter is used to control
+  /// the password input field.
+  /// The [key] parameter is an optional key to use for this widget.
   const LoginScreen({
     required this.isMobile,
     required this.emailTextController,
     required this.passwordTextController,
     super.key,
   });
+
+  /// Indicates whether the screen is being displayed on a mobile device.
   final bool isMobile;
 
+  /// Controller for the email input field.
   final TextEditingController emailTextController;
+
+  /// Controller for the password input field.
   final TextEditingController passwordTextController;
 
+  /// A global key that uniquely identifies the form widget in the widget tree.
   static final formKey = GlobalKey<FormState>();
 
   @override

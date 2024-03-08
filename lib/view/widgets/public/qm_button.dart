@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A customizable button widget that can be used to trigger actions.
 class QmButton extends StatelessWidget {
+  /// Creates a [QmButton] widget.
   const QmButton.icon({
     required this.icon,
     super.key,
@@ -11,6 +13,7 @@ class QmButton extends StatelessWidget {
   })  : text = null,
         variant = QmButtonVariant.icon;
 
+  /// Text Button's Properties
   const QmButton.text({
     required this.text,
     super.key,
@@ -23,8 +26,14 @@ class QmButton extends StatelessWidget {
 
   /// Icon Button's Properties
   final IconData? icon;
+
+  ///
   final double? iconSize;
+
+  ///
   final Color? iconColor;
+
+  ///
   final String? tooltip;
 
   /// Text Button's Properties
@@ -76,7 +85,11 @@ class QmButton extends StatelessWidget {
   }
 }
 
+/// The variant of the button.
 enum QmButtonVariant {
+  /// The button is an icon button.
   icon,
+
+  /// The button is a text button.
   text,
 }

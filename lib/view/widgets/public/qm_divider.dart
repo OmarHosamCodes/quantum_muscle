@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a divider.
 class QmDivider extends StatelessWidget {
+  /// Creates a divider.
   const QmDivider({super.key});
 
   @override

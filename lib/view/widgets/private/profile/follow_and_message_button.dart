@@ -1,6 +1,12 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that displays follow and message buttons for a user's profile.
 class FollowAndMessageButton extends ConsumerWidget {
+  /// Constructs a [FollowAndMessageButton].
+  ///
+  /// The [userId] is the ID of the user.
+  /// The [height] and [width] specify the dimensions of the button.
+  /// The [isFollowing] indicates whether the user is currently being followed.
   const FollowAndMessageButton({
     required this.userId,
     required this.height,
@@ -9,12 +15,25 @@ class FollowAndMessageButton extends ConsumerWidget {
     super.key,
   });
 
+  /// The ID of the user.
   final String userId;
+
+  /// The height of the button.
   final double height;
+
+  /// The width of the button.
   final double width;
+
+  /// Indicates whether the user is currently being followed.
   final bool isFollowing;
+
+  /// Returns the bottom border radius of the container.
+  ///
+  /// If [isFollowing] is `true`, the radius is set to zero.
+  /// Otherwise, it is set to a circular radius of 10.
   Radius get containerBottomBorderRadius =>
       isFollowing ? Radius.zero : const Radius.circular(10);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(

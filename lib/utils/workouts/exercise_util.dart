@@ -2,7 +2,9 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// Utility class for the exercises.
 class ExerciseUtil extends Utils {
+  /// Adds an exercise to the workout.
   Future<void> add({
     required BuildContext context,
     required String workoutCollectionName,
@@ -89,6 +91,7 @@ class ExerciseUtil extends Utils {
     }
   }
 
+  /// Adds a set to the exercise.
   Future<void> addSet({
     required String workoutCollectionName,
     required String exerciseDocName,
@@ -127,6 +130,7 @@ class ExerciseUtil extends Utils {
     }
   }
 
+  /// Changes the set.
   Future<void> changeSet({
     required GlobalKey<FormState> formKey,
     required String workoutCollectionName,
@@ -181,6 +185,7 @@ class ExerciseUtil extends Utils {
     );
   }
 
+  /// Deletes the exercise.
   Future<List<(dynamic, List<String>)>> getPublic() async {
     final names = await firebaseFirestore
         .collection(DBPathsConstants.publicPath)

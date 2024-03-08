@@ -1,7 +1,9 @@
 import 'package:quantum_muscle/library.dart';
 import 'package:quantum_muscle/view/widgets/private/home/analytics_chart.dart';
 
+/// Home screen of the app.
 class HomeScreen extends StatelessWidget {
+  /// const constructor for the [HomeScreen]
   const HomeScreen({super.key});
 
   @override

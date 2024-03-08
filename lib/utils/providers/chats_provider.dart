@@ -2,6 +2,7 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// Provider for the chats
 final chatsProvider = StreamProvider<List<ChatModel>>(
   (ref) async* {
     final chats = <ChatModel>[];

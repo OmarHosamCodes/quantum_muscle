@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Represents a user model.
 class UserModel {
+  /// Creates a new instance of the [UserModel] class.
   UserModel({
     required this.id,
     required this.ratID,
@@ -20,6 +22,8 @@ class UserModel {
     required this.chats,
     required this.programs,
   });
+
+  /// Creates an empty instance of the [UserModel] class.
   UserModel.empty()
       : id = SimpleConstants.emptyString,
         ratID = SimpleConstants.emptyString,
@@ -38,6 +42,8 @@ class UserModel {
         tags = [],
         chats = [],
         programs = [];
+
+  /// Creates a [UserModel] instance from a map.
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map[idKey] as String,
@@ -61,44 +67,113 @@ class UserModel {
       programs: map[programsKey] as List<dynamic>,
     );
   }
-  static const String idKey = 'id';
-  static const String ratIDKey = 'ratID';
-  static const String nameKey = 'name';
-  static const String emailKey = 'email';
-  static const String ageKey = 'age';
-  static const String phoneKey = 'phone';
-  static const String typeKey = 'type';
-  static const String heightKey = 'height';
-  static const String weightKey = 'weight';
-  static const String profileImageURLKey = 'profileImageURL';
-  static const String bioKey = 'bio';
-  static const String contentKey = 'content';
-  static const String followersKey = 'followers';
-  static const String followingKey = 'following';
-  static const String tagsKey = 'tags';
-  static const String friendsKey = 'friends';
-  static const String chatsKey = 'chats';
-  static const String programsKey = 'programs';
-  static const String modelKey = 'UserModel';
 
+  /// The unique identifier of the user.
   String id;
+
+  /// The rat ID of the user.
   String ratID;
+
+  /// The name of the user.
   String name;
+
+  /// The email of the user.
   String email;
+
+  /// The age of the user.
   int age;
+
+  /// The phone number of the user.
   String phone;
+
+  /// The type of the user.
   UserType type;
+
+  /// The height of the user.
   Map<String, dynamic> height;
+
+  /// The weight of the user.
   Map<String, dynamic> weight;
+
+  /// The URL of the user's profile image.
   String profileImageURL;
+
+  /// The bio of the user.
   String bio;
-  List<dynamic> content = [];
+
+  /// The content created by the user.
+  List<dynamic> content;
+
+  /// The followers of the user.
   List<dynamic> followers;
+
+  /// The users that the user is following.
   List<dynamic> following;
+
+  /// The tags associated with the user.
   List<dynamic> tags;
+
+  /// The chats the user is participating in.
   List<dynamic> chats;
+
+  /// The programs the user is enrolled in.
   List<dynamic> programs;
 
+  /// The key for the user ID.
+  static const String idKey = 'id';
+
+  /// The key for the user's rat ID.
+  static const String ratIDKey = 'ratID';
+
+  /// The key for the user's name.
+  static const String nameKey = 'name';
+
+  /// The key for the user's email.
+  static const String emailKey = 'email';
+
+  /// The key for the user's age.
+  static const String ageKey = 'age';
+
+  /// The key for the user's phone number.
+  static const String phoneKey = 'phone';
+
+  /// The key for the user's type.
+  static const String typeKey = 'type';
+
+  /// The key for the user's height.
+  static const String heightKey = 'height';
+
+  /// The key for the user's weight.
+  static const String weightKey = 'weight';
+
+  /// The key for the user's profile image URL.
+  static const String profileImageURLKey = 'profileImageURL';
+
+  /// The key for the user's bio.
+  static const String bioKey = 'bio';
+
+  /// The key for the user's content.
+  static const String contentKey = 'content';
+
+  /// The key for the user's followers.
+  static const String followersKey = 'followers';
+
+  /// The key for the user's following users.
+  static const String followingKey = 'following';
+
+  /// The key for the user's tags.
+  static const String tagsKey = 'tags';
+
+  /// The key for the user's chats.
+  static const String chatsKey = 'chats';
+
+  /// The key for the user's programs.
+  static const String programsKey = 'programs';
+
+  /// The key for the model name.
+  static const String modelKey = 'UserModel';
+
+  /// Converts the [UserModel] instance to a map.
   Map<String, dynamic> toMap() => {
         idKey: id,
         ratIDKey: ratID,

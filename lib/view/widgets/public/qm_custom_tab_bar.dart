@@ -1,16 +1,18 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-// ignore_for_file: strict_raw_type
-
 import 'package:quantum_muscle/library.dart';
 
+/// A customizable tab bar widget that can be used to display tabs.
 class QmCustomTabBar extends StatefulWidget implements PreferredSizeWidget {
+  /// Creates a [QmCustomTabBar] widget.
   const QmCustomTabBar({
     required this.tabs,
     required this.onTabSelected,
     super.key,
   });
+
+  /// The tabs to be displayed.
   final List<String?> tabs;
 
+  /// The callback function to be called when a tab is selected.
   final void Function(int) onTabSelected;
 
   @override
@@ -54,7 +56,7 @@ class _QmCustomTabBarState extends State<QmCustomTabBar> {
                     text: widget.tabs[index]!,
                     color: index == selectedIndex
                         ? ColorConstants.textColor
-                        : ColorConstants.textSeccondaryColor,
+                        : ColorConstants.textSecondaryColor,
                   ),
                 ),
               ),

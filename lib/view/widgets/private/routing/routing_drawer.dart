@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents the drawer for routing to different pages.
 class RoutingDrawer extends StatelessWidget {
+  /// Creates a routing drawer.
   const RoutingDrawer({super.key});
 
   @override

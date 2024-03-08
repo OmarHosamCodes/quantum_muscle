@@ -2,7 +2,19 @@
 
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a program block.
+///
+/// This widget is used to display a program block with a specified width and height.
+/// It requires a [ProgramModel] object to define the program details and a boolean
+/// value to indicate whether the user is a trainee or not.
 class ProgramBlock extends ConsumerStatefulWidget {
+  /// Creates a [ProgramBlock] widget.
+  ///
+  /// The [width] and [height] parameters define the dimensions of the program block.
+  /// The [program] parameter is a required [ProgramModel] object that contains the
+  /// details of the program.
+  /// The [isTrainee] parameter is a boolean value that indicates whether the user
+  /// is a trainee or not.
   const ProgramBlock({
     required this.width,
     required this.height,
@@ -11,9 +23,16 @@ class ProgramBlock extends ConsumerStatefulWidget {
     super.key,
   });
 
+  /// The width of the program block.
   final double width;
+
+  /// The height of the program block
   final double height;
+
+  /// The program to display
   final ProgramModel program;
+
+  /// The is trianee flag
   final bool isTrainee;
 
   @override

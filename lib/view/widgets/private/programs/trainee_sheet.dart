@@ -1,5 +1,6 @@
 import 'package:quantum_muscle/library.dart';
 
+/// A widget that represents a sheet for adding trainees to a program.
 void openAddTraineeSheet(
   BuildContext context, {
   required String programRequestId,

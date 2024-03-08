@@ -1,10 +1,14 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show when there is a routing error.
 class RoutingErrorScreen extends StatelessWidget {
+  /// const constructor for the [RoutingErrorScreen]
   const RoutingErrorScreen({
     super.key,
     this.error,
   });
+
+  /// error message
   final String? error;
   @override
   Widget build(BuildContext context) {

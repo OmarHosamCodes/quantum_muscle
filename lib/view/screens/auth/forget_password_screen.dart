@@ -1,12 +1,18 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Forget password screen.
 class ForgetPasswordScreen extends StatelessWidget {
+  /// const constructor for the [ForgetPasswordScreen]
   const ForgetPasswordScreen({
     required this.isMobile,
     required this.emailTextController,
     super.key,
   });
+
+  /// isMobile flag
   final bool isMobile;
+
+  /// email text controller
   final TextEditingController emailTextController;
   @override
   Widget build(BuildContext context) {

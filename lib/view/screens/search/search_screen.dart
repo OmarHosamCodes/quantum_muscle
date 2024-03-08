@@ -1,6 +1,8 @@
 import 'package:quantum_muscle/library.dart';
 
+/// Screen to show the search results.
 class SearchScreen extends StatelessWidget {
+  /// const constructor for the [SearchScreen]
   const SearchScreen({super.key});
 
   @override
