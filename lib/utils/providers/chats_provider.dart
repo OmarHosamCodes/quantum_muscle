@@ -6,7 +6,7 @@ import 'package:quantum_muscle/library.dart';
 final chatsProvider = StreamProvider<List<ChatModel>>(
   (ref) async* {
     final chats = <ChatModel>[];
-    final userWathcer = ref.watch(userProvider(Utils().userUid!));
+    final userWathcer = ref.watch(userProvider(utils.userUid!));
     final chatsMaps = userWathcer.maybeWhen(
       data: (data) {
         return data.chats.map((e) => e as Map<String, dynamic>).toList();

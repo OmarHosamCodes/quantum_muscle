@@ -37,13 +37,13 @@ class _AddTraineeSheet extends StatelessWidget {
                   fieldColor: ColorConstants.disabledColor,
                   hintText: S.current.AddTraineeId,
                   controller: traineeIdTextController,
-                  onEditingComplete: () => _sendRequest(context),
+                  onEditingComplete: _sendRequest,
                 );
               },
             ),
             const SizedBox(height: 10),
             QmButton.text(
-              onPressed: () => _sendRequest(context),
+              onPressed: _sendRequest,
               text: S.current.SendRequest,
             ),
           ],
@@ -52,9 +52,8 @@ class _AddTraineeSheet extends StatelessWidget {
     );
   }
 
-  void _sendRequest(BuildContext context) {
+  void _sendRequest() {
     programUtil.sendRequest(
-      context: context,
       traineeId: traineeIdTextController.text,
       programRequestId: programRequestId,
     );

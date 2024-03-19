@@ -11,7 +11,7 @@ class ChooseState {
   });
 
   /// The exercise content.
-  String? exerciseContent;
+  ExerciseTemplate? exerciseContent;
 
   /// The workout content.
   String? workoutContent;
@@ -24,7 +24,7 @@ class ChooseState {
 
   /// Creates a copy of the current [ChooseState] instance with the provided values.
   ChooseState copyWith({
-    String? exerciseContent,
+    ExerciseTemplate? exerciseContent,
     String? workoutContent,
     String? profileImage,
     String? addImage,
@@ -44,7 +44,7 @@ class ChooseStateNotifier extends StateNotifier<ChooseState> {
   ChooseStateNotifier()
       : super(
           ChooseState(
-            exerciseContent: null,
+            exerciseContent: ExerciseTemplate.empty(),
             workoutContent: null,
             profileImage: null,
             addImage: null,
@@ -52,7 +52,9 @@ class ChooseStateNotifier extends StateNotifier<ChooseState> {
         );
 
   /// Sets the exercise content.
-  void setExerciseContent(String content) {
+  void setExerciseContent(ExerciseTemplate content) {
+    AddExerciseTile.exerciseNameTextController.text = content.name;
+    AddExerciseTile.exerciseTargetTextController.text = content.target;
     state = state.copyWith(exerciseContent: content);
   }
 

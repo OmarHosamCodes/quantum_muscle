@@ -79,10 +79,10 @@ export 'utils/utils.dart' show Utils;
 export 'utils/auth/register_util.dart' show RegisterUtil;
 export 'utils/auth/login_util.dart' show LoginUtil;
 export 'utils/auth/forget_password_util.dart'
-    show ForgetPasswordUtil, forgetPasswordProvider;
+    show ForgetPasswordNotifier, ForgetPasswordUtil;
 export 'utils/auth/logout_util.dart' show LogoutUtil;
 export 'utils/workouts/workouts_util.dart' show WorkoutUtil;
-export 'utils/workouts/exercise_util.dart' show ExerciseUtil;
+export 'utils/workouts/exercise_util.dart' show ExerciseTemplate, ExerciseUtil;
 export 'utils/profile/profile_util.dart' show ProfileUtil;
 export 'utils/chat/chat_util.dart' show ChatUtil;
 export 'utils/programs/programs_util.dart' show ProgramUtil;
@@ -106,7 +106,7 @@ export 'utils/providers/content_provider.dart' show contentProvider;
 export 'utils/user/user_util.dart' show UserUtil;
 export 'utils/providers/choose_provider.dart' show chooseProvider;
 export 'utils/providers/search_provider.dart' show searchStateNotifierProvider;
-export 'utils/providers/locale_provider.dart';
+export 'utils/providers/auth_provider.dart';
 
 //* Models
 
@@ -121,6 +121,7 @@ export 'models/chat/message_model.dart' show MessageModel;
 export 'models/enums/message_type.dart' show MessageType;
 export 'models/enums/exercise_content_type.dart' show ExerciseContentType;
 export 'models/analytics/general_analytics.dart' show GeneralAnalyticsModel;
+export 'models/auth/forget_password_state.dart' show ForgetPasswordState;
 
 //* Constants
 

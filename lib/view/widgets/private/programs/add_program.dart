@@ -1,7 +1,7 @@
 import 'package:quantum_muscle/library.dart';
 
 /// A widget that represents a block for adding a program.
-class AddProgramBlock extends ConsumerWidget {
+class AddProgramBlock extends ConsumerStatefulWidget {
   /// Creates a [AddProgramBlock] widget.
   ///
   /// The [width] and [height] parameters are required to specify the dimensions of the block.
@@ -27,15 +27,33 @@ class AddProgramBlock extends ConsumerWidget {
   static final formKey = GlobalKey<FormState>();
 
   /// A text controller for the program name input field.
-  static final programNameTextController = TextEditingController();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AddProgramBlock> createState() => _AddProgramBlockState();
+}
+
+class _AddProgramBlockState extends ConsumerState<AddProgramBlock> {
+  late TextEditingController programNameTextController;
+
+  @override
+  void initState() {
+    super.initState();
+    programNameTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    programNameTextController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final isHovered = ref.watch(hoveredProvider);
 
     return GestureDetector(
       onTap: () {
-        for (final element in programs) {
+        for (final element in widget.programs) {
           element.isHovered = false;
         }
         ref.read(hoveredProvider.notifier).state = !isHovered;
@@ -78,7 +96,7 @@ class AddProgramBlock extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Form(
-                        key: formKey,
+                        key: AddProgramBlock.formKey,
                         child: QmTextField(
                           textInputAction: TextInputAction.go,
                           hintText: S.current.Name,
@@ -91,24 +109,24 @@ class AddProgramBlock extends ConsumerWidget {
                           },
                           onEditingComplete: () async {
                             await programUtil.addProgram(
-                              context: context,
                               programName: programNameTextController.text,
-                              programsLength: programs.length,
-                              formKey: formKey,
+                              programsLength: widget.programs.length,
+                              formKey: AddProgramBlock.formKey,
+                              ref: ref,
                             );
                           },
                         ),
                       ),
                       const SizedBox(height: 10),
                       Consumer(
-                        builder: (_, ref, __) {
+                        builder: (context, ref, __) {
                           return QmButton.text(
                             onPressed: () async {
                               await programUtil.addProgram(
-                                context: context,
                                 programName: programNameTextController.text,
-                                programsLength: programs.length,
-                                formKey: formKey,
+                                programsLength: widget.programs.length,
+                                formKey: AddProgramBlock.formKey,
+                                ref: ref,
                               );
                             },
                             text: S.current.Add,

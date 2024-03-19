@@ -18,6 +18,7 @@
 ### Introduction
 
 - Overview of the programs and workouts creator
+
 - Purpose of the documentation
 
 ### Getting Started
@@ -78,8 +79,6 @@ omarhosamcodes@gmail.com
 ```
 the-quantum-muscle-project.web.app/contact
 ```
-
-- Providing feedback
 
 ---
 

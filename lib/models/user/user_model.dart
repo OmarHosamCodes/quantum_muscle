@@ -193,4 +193,45 @@ class UserModel {
         chatsKey: chats,
         programsKey: programs,
       };
+
+  /// Copies the current instance of the [UserModel] with some new values.
+  UserModel copyWith({
+    String? id,
+    String? ratID,
+    String? name,
+    String? email,
+    int? age,
+    String? phone,
+    UserType? type,
+    Map<String, dynamic>? height,
+    Map<String, dynamic>? weight,
+    String? profileImageURL,
+    String? bio,
+    List<dynamic>? content,
+    List<dynamic>? followers,
+    List<dynamic>? following,
+    List<dynamic>? tags,
+    List<dynamic>? chats,
+    List<dynamic>? programs,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      ratID: ratID ?? this.ratID,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      age: age ?? this.age,
+      phone: phone ?? this.phone,
+      type: type ?? this.type,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      profileImageURL: profileImageURL ?? this.profileImageURL,
+      bio: bio ?? this.bio,
+      content: content ?? this.content,
+      followers: followers ?? this.followers,
+      following: following ?? this.following,
+      tags: tags ?? this.tags,
+      chats: chats ?? this.chats,
+      programs: programs ?? this.programs,
+    );
+  }
 }

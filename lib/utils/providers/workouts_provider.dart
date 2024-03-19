@@ -47,7 +47,7 @@ final publicWorkoutsProvider =
 
 /// Provider that fetches a list of public exercises.
 final publicExercisesProvider =
-    FutureProvider<List<(dynamic, List<String>)>>((ref) async {
+    FutureProvider<List<(String, List<ExerciseTemplate>)>>((ref) async {
   final publicExercises = await ExerciseUtil().getPublic();
 
   return publicExercises;

@@ -2,16 +2,19 @@ import 'package:quantum_muscle/library.dart';
 
 /// A class that contains the routes used in the application.
 class RoutingController {
-  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
-  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
+  /// The root navigator key used in the application.
+  static final rootNavigatorKey = GlobalKey<NavigatorState>();
+
+  /// The shell navigator key used in the application.
+  static final shellNavigatorKey = GlobalKey<NavigatorState>();
 
   /// The router used in the application.
   static final router = GoRouter(
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     initialLocation: Routes.homeR,
     routes: [
       ShellRoute(
-        navigatorKey: _shellNavigatorKey,
+        navigatorKey: shellNavigatorKey,
         builder: (context, state, child) => RoutingScreen(
           state: state,
           child: child,

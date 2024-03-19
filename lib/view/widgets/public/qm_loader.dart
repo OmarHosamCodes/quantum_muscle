@@ -29,8 +29,17 @@ class QmLoader extends StatelessWidget {
   /// Closes the loader dialog.
   ///
   /// The [context] parameter is the build context.
-  static void closeLoader({required BuildContext context}) =>
-      Navigator.pop(context);
+  static void closeLoader({required BuildContext context}) => context.pop();
+
+  /// Loader Closes outomaticaly after 3 seconds
+  static void openAndCloseLoaderWithDelay({required BuildContext context}) {
+    openLoader(context: context);
+
+    Future.delayed(
+      const Duration(seconds: 3),
+      () => closeLoader(context: context),
+    );
+  }
 
   /// The progress value of the loader.
   final double? value;

@@ -65,36 +65,38 @@ class ChatsScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              5,
-              (index) => const Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(width: 10),
-                  QmShimmer.round(size: 25),
-                  SizedBox(width: 10),
-                  Column(
+            children: [
+              for (int i = 0; i < 5; i++)
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      QmShimmer.rectangle(
-                        width: 100,
-                        height: 20,
+                      QmShimmer.round(size: 25),
+                      SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          QmShimmer.rectangle(
+                            width: 100,
+                            height: 20,
+                          ),
+                          SizedBox(height: 10),
+                          QmShimmer.rectangle(
+                            width: 200,
+                            height: 25,
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 10),
+                      Spacer(),
                       QmShimmer.rectangle(
-                        width: 200,
-                        height: 25,
+                        width: 50,
+                        height: 10,
                       ),
                     ],
                   ),
-                  Spacer(),
-                  QmShimmer.rectangle(
-                    width: 50,
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
+                ),
+            ],
           ),
         ),
         error: (e, s) => Center(

@@ -1,29 +1,24 @@
 import 'package:quantum_muscle/library.dart';
 
 /// Screen to show the programs.
-class ProgramsScreen extends ConsumerStatefulWidget {
+class ProgramsScreen extends StatelessWidget {
   /// const constructor for the [ProgramsScreen]
   const ProgramsScreen({super.key});
 
-  @override
-  ConsumerState<ProgramsScreen> createState() => _ProgramsScreenState();
-}
-
-class _ProgramsScreenState extends ConsumerState<ProgramsScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       extendBody: true,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ref
-            ..invalidate(programsProvider)
-            ..invalidate(userProvider(utils.userUid!));
-        },
-        child: const Icon(EvaIcons.refresh),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     ref
+      //       ..invalidate(programsProvider)
+      //       ..invalidate(userProvider(utils.userUid!));
+      //   },
+      //   child: const Icon(EvaIcons.refresh),
+      // ),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [

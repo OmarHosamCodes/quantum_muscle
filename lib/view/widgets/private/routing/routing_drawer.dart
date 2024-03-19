@@ -20,30 +20,32 @@ class RoutingDrawer extends StatelessWidget {
                   routingController.changeDrawerRoute(Routes.homeR, context),
             ),
             _buildListTile(
-              icon: EvaIcons.messageSquareOutline,
-              title: S.current.Chat,
-              onTap: () =>
-                  routingController.changeDrawerRoute(Routes.chatR, context),
-            ),
-            _buildListTile(
-              icon: EvaIcons.personOutline,
-              title: S.current.Profile,
-              onTap: () =>
-                  routingController.changeDrawerRoute(Routes.profileR, context),
-            ),
-            _buildListTile(
-              icon: EvaIcons.searchOutline,
-              title: S.current.Search,
-              onTap: () =>
-                  routingController.changeDrawerRoute(Routes.searchR, context),
-            ),
-            _buildListTile(
               icon: EvaIcons.gridOutline,
               title: S.current.Programs,
               onTap: () => routingController.changeDrawerRoute(
                 Routes.programsR,
                 context,
               ),
+            ),
+            _buildListTile(
+              icon: EvaIcons.personOutline,
+              title: S.current.Profile,
+              onTap: () => routingController.changeDrawerRoute(
+                Routes.myProfileR,
+                context,
+              ),
+            ),
+            _buildListTile(
+              icon: EvaIcons.messageSquareOutline,
+              title: S.current.Chat,
+              onTap: () =>
+                  routingController.changeDrawerRoute(Routes.chatsR, context),
+            ),
+            _buildListTile(
+              icon: EvaIcons.searchOutline,
+              title: S.current.Search,
+              onTap: () =>
+                  routingController.changeDrawerRoute(Routes.searchR, context),
             ),
             const Spacer(),
             Consumer(

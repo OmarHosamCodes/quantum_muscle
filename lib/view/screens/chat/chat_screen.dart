@@ -18,7 +18,7 @@ class ChatScreen extends StatelessWidget {
     required this.chatId,
     required this.chatUserId,
     super.key,
-    this.arguments = const <String, dynamic>{},
+    this.arguments,
   });
 
   /// The ID of the chat.
@@ -28,7 +28,7 @@ class ChatScreen extends StatelessWidget {
   final String chatUserId;
 
   /// Additional arguments for the chat screen.
-  final Map<String, dynamic> arguments;
+  final Map<String, dynamic>? arguments;
 
   /// A controller for the message text input field.
   static final messageTextController = TextEditingController();
@@ -38,7 +38,7 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final chat = arguments[ChatModel.modelKey] as ChatModel;
+    final chat = arguments![ChatModel.modelKey] as ChatModel;
 
     return Scaffold(
       backgroundColor: ColorConstants.backgroundColor,

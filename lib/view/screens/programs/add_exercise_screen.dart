@@ -29,7 +29,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
             data: (networkExercises) {
               return networkExercises.map(
                 (e) {
-                  final element = e.$1 as String;
+                  final element = e.$1;
                   return element;
                 },
               ).toList();
@@ -56,13 +56,21 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen>
                     return InkWell(
                       onTap: () {
                         ref.read(chooseProvider.notifier).setExerciseContent(
-                              e.$2[index],
+                              ExerciseTemplate(
+                                name: e.$2[index].name,
+                                image: e.$2[index].image,
+                                target: e.$2[index].target,
+                              ),
                             );
+                        AddExerciseTile.exerciseNameTextController.text =
+                            e.$2[index].name;
+                        AddExerciseTile.exerciseTargetTextController.text =
+                            e.$2[index].target;
                         context.pop();
                       },
                       child: GridTile(
                         child: QmImage.smart(
-                          source: e.$2[index],
+                          source: e.$2[index].image,
                           fit: BoxFit.cover,
                         ),
                       ),

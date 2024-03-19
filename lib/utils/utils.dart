@@ -45,6 +45,10 @@ class Utils {
   /// Returns the string '1' if the current locale is English, an empty string otherwise.
   String get isOneExist => isEnglish ? '1' : SimpleConstants.emptyString;
 
+  /// Returns the current context of the root navigator.
+  BuildContext get context =>
+      RoutingController.rootNavigatorKey.currentContext!;
+
   /// Returns a string representing the time elapsed since the given [timestamp].
   String timeAgo(Timestamp timestamp) {
     final now = DateTime.now();

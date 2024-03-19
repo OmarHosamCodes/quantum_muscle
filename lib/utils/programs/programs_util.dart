@@ -13,10 +13,11 @@ class ProgramUtil extends Utils {
   ///
   /// Throws an exception if an error occurs.
   Future<void> addProgram({
-    required BuildContext context,
+    // required BuildContext context,
     required String programName,
     required int programsLength,
     required GlobalKey<FormState> formKey,
+    required WidgetRef ref,
   }) async {
     // Validate the form
     if (!formKey.currentState!.validate()) return;
@@ -31,9 +32,8 @@ class ProgramUtil extends Utils {
       return;
     }
 
+    // QmLoader.openAndCloseLoaderWithDelay(context: context);
     try {
-      QmLoader.openLoader(context: context);
-
       // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
         name: AnalyticsEventNamesConstants.addProgram,
@@ -68,10 +68,13 @@ class ProgramUtil extends Utils {
 
       // Commit the batch
       await batch.commit();
-
-      QmLoader.closeLoader(context: context);
+      // .whenComplete(() => QmLoader.closeLoader(context: context));
+      ref
+        ..invalidate(programsProvider)
+        ..read(programsProvider)
+        ..invalidate(userProvider)
+        ..read(userProvider(userUid!));
     } catch (e) {
-      QmLoader.closeLoader(context: context);
       openQmDialog(
         context: context,
         title: S.current.Failed,
@@ -88,9 +91,9 @@ class ProgramUtil extends Utils {
   ///  with the program.
   /// Throws an exception if an error occurs.
   Future<void> deleteProgram({
-    required BuildContext context,
     required String programId,
     required List traineesIds,
+    required WidgetRef ref,
   }) async {
     QmLoader.openLoader(context: context);
     try {
@@ -131,6 +134,11 @@ class ProgramUtil extends Utils {
       while (context.canPop()) {
         QmLoader.closeLoader(context: context);
       }
+      ref
+        ..invalidate(programsProvider)
+        ..invalidate(userProvider)
+        ..read(programsProvider)
+        ..read(userProvider(utils.userUid!));
     } catch (e) {
       QmLoader.closeLoader(context: context);
       openQmDialog(
@@ -149,7 +157,6 @@ class ProgramUtil extends Utils {
   ///
   /// Throws an exception if an error occurs.
   Future<void> sendRequest({
-    required BuildContext context,
     required String traineeId,
     required String programRequestId,
   }) async {
@@ -205,7 +212,6 @@ class ProgramUtil extends Utils {
   ///
   /// Throws an exception if an error occurs.
   Future<void> acceptRequest({
-    required BuildContext context,
     required String chatId,
     required String programId,
     required String messageId,
@@ -264,12 +270,11 @@ class ProgramUtil extends Utils {
   ///
   /// Throws an exception if an error occurs.
   Future<void> addWorkoutToProgram({
-    required BuildContext context,
     required String programId,
     required WorkoutModel workout,
     required WidgetRef ref,
   }) async {
-    QmLoader.openLoader(context: context);
+    // QmLoader.openLoader(context: context);
     try {
       // Log the event to Firebase Analytics
       await firebaseAnalytics.logEvent(
@@ -328,7 +333,7 @@ class ProgramUtil extends Utils {
         // Commit the batch
         await batch.commit();
 
-        QmLoader.closeLoader(context: context);
+        // QmLoader.closeLoader(context: context);
 
         // Invalidate and read the providers
         ref
@@ -337,7 +342,7 @@ class ProgramUtil extends Utils {
           ..invalidate(userProvider(userUid!))
           ..read(userProvider(userUid!));
       } else {
-        QmLoader.closeLoader(context: context);
+        // QmLoader.closeLoader(context: context);
         openQmDialog(
           context: context,
           title: S.current.TryAgain,
@@ -364,7 +369,6 @@ class ProgramUtil extends Utils {
   /// Throws an exception if an error occurs.
   Future<void> deleteWorkoutToProgram({
     required String workoutCollectionName,
-    required BuildContext context,
     required String programId,
   }) async {
     QmLoader.openLoader(context: context);
@@ -422,7 +426,6 @@ class ProgramUtil extends Utils {
   ///
   /// Throws an exception if an error occurs.
   Future<void> addExerciesToProgramWorkout({
-    required BuildContext context,
     required String workoutCollectionName,
     required String programId,
     required String programName,
@@ -509,7 +512,6 @@ class ProgramUtil extends Utils {
     required GlobalKey<FormState> formKey,
     required String workoutCollectionName,
     required String exerciseDocName,
-    required BuildContext context,
     required String programId,
     required int indexToInsert,
     required String reps,
@@ -555,7 +557,6 @@ class ProgramUtil extends Utils {
       exerciseDocName: exerciseDocName,
       indexToInsert: indexToInsert + 1,
       programId: programId,
-      context: context,
     );
   }
 
@@ -565,7 +566,6 @@ class ProgramUtil extends Utils {
     required String exerciseDocName,
     required int indexToInsert,
     required String programId,
-    required BuildContext context,
   }) async {
     try {
       await firebaseAnalytics.logEvent(

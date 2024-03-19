@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, avoid_equals_and_hash_code_on_mutable_classes
 // ignore_for_file: use_build_context_synchronously, unused_result, avoid_print
 
 import 'package:quantum_muscle/library.dart';
@@ -186,24 +187,86 @@ class ExerciseUtil extends Utils {
   }
 
   /// Deletes the exercise.
-  Future<List<(dynamic, List<String>)>> getPublic() async {
+  Future<List<(String, List<ExerciseTemplate>)>> getPublic() async {
     final names = await firebaseFirestore
         .collection(DBPathsConstants.publicPath)
         .doc(DBPathsConstants.exercisesPath)
         .get()
         .then((value) => List<String>.from(value.data()!['names'] as List));
 
-    final finalList = names.map((e) async {
+    final finalList = <(String, List<ExerciseTemplate>)>[];
+
+    for (final name in names) {
       final value = await firebaseStorage
           .child(DBPathsConstants.publicPath)
           .child(DBPathsConstants.exercisesPath)
-          .child(e)
+          .child(name)
           .list();
-      final urls =
-          await Future.wait(value.items.map((e) => e.getDownloadURL()));
-      return (e, urls);
-    });
+      final templates = <ExerciseTemplate>[];
+      for (final item in value.items) {
+        final url = await item.getDownloadURL();
+        final exerciseName =
+            item.name.replaceAll('-', ' ').replaceAll('.png', '');
+        final exercise = ExerciseTemplate(
+          name: exerciseName,
+          image: url,
+          target: name,
+        );
+        templates.add(exercise);
+      }
 
-    return Future.wait(finalList);
+      finalList.add((name, templates));
+    }
+
+    return finalList;
   }
+}
+
+/// Represents the state of adding an exercise.
+class ExerciseTemplate {
+  /// Creates a new instance of [ExerciseTemplate].
+  ExerciseTemplate({
+    required this.name,
+    required this.image,
+    required this.target,
+  });
+
+  /// Creates an empty instance of [ExerciseTemplate].
+  ExerciseTemplate.empty({
+    this.name = '',
+    this.image = '',
+    this.target = '',
+  });
+
+  /// The name of the exercise.
+  final String name;
+
+  /// The image of the exercise.
+  final String image;
+
+  /// The target of the exercise.
+  final String target;
+
+  /// Creates a copy of the current [ExerciseTemplate] instance with the provided values.
+  ExerciseTemplate copyWith({
+    String? name,
+    String? image,
+    String? target,
+  }) {
+    return ExerciseTemplate(
+      name: name ?? this.name,
+      image: image ?? this.image,
+      target: target ?? this.target,
+    );
+  }
+
+  @override
+  bool operator ==(covariant ExerciseTemplate other) {
+    if (identical(this, other)) return true;
+
+    return other.name == name && other.image == image && other.target == target;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ image.hashCode ^ target.hashCode;
 }

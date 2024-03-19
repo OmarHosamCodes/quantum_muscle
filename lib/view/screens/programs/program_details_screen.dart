@@ -59,10 +59,9 @@ class ProgramDetailsScreen extends StatelessWidget {
                             children: [
                               QmButton.icon(
                                 onPressed: () => programUtil.deleteProgram(
-                                  context: context,
                                   programId: program.id,
                                   traineesIds: program.traineesIds,
-                                  // ref: ref,
+                                  ref: ref,
                                 ),
                                 icon: EvaIcons.trash,
                               ),

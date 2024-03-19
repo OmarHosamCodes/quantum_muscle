@@ -74,14 +74,12 @@ class WorkoutDetailsScreen extends StatelessWidget {
                               if (programId != null) {
                                 programUtil.deleteWorkoutToProgram(
                                   workoutCollectionName: workoutCollectionName,
-                                  context: context,
                                   programId: programId,
                                 );
                               } else {
                                 workoutUtil.delete(
                                   workoutCollectionName: workoutCollectionName,
                                   context: context,
-                                  // ref: ref,
                                 );
                               }
                             },

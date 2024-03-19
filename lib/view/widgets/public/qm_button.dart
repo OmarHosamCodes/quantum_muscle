@@ -7,7 +7,7 @@ class QmButton extends StatelessWidget {
     required this.icon,
     super.key,
     this.iconSize,
-    this.iconColor,
+    this.iconColor = ColorConstants.iconColor,
     this.tooltip,
     this.onPressed,
   })  : text = null,

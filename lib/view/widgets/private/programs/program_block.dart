@@ -50,7 +50,6 @@ class _ProgramBlockState extends ConsumerState<ProgramBlock> {
         child: DragTarget<WorkoutModel>(
           onAcceptWithDetails: (workout) {
             programUtil.addWorkoutToProgram(
-              context: context,
               programId: widget.program.id,
               workout: workout.data,
               ref: ref,

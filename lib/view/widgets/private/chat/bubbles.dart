@@ -165,7 +165,6 @@ class Bubbles extends StatelessWidget {
                               return QmButton.icon(
                                 icon: EvaIcons.checkmark,
                                 onPressed: () => programUtil.acceptRequest(
-                                  context: context!,
                                   chatId: chatId!,
                                   // ref: ref,
                                   programId: message.programRequestId!,

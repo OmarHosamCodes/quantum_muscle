@@ -57,21 +57,39 @@ class AddExerciseTile extends StatelessWidget {
             chooseProvider.select((value) => value.exerciseContent),
           );
 
-          if (exerciseContent != null) {
-            return QmBlock(
-              width: 100,
-              height: height * .2,
-              onTap: () async => ref
-                  .read(
-                    chooseProvider.notifier,
-                  )
-                  .setExerciseContent(
-                    (await exerciseUtil.chooseImageFromStorage())!,
+          if (exerciseContent != ExerciseTemplate.empty()) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                QmBlock(
+                  width: 100,
+                  height: height * .2,
+                  onTap: () async => ref
+                      .read(
+                        chooseProvider.notifier,
+                      )
+                      .setExerciseContent(
+                        ExerciseTemplate.empty(
+                          image: (await exerciseUtil.chooseImageFromStorage())!,
+                        ),
+                      ),
+                  child: QmImage.smart(
+                    source: exerciseContent!.image,
+                    fallbackIcon: EvaIcons.plus,
                   ),
-              child: QmImage.smart(
-                source: exerciseContent,
-                fallbackIcon: EvaIcons.plus,
-              ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: QmButton.icon(
+                    onPressed: () =>
+                        ref.read(chooseProvider.notifier).setExerciseContent(
+                              ExerciseTemplate.empty(),
+                            ),
+                    icon: EvaIcons.trash,
+                  ),
+                ),
+              ],
             );
           }
           return Row(
@@ -81,9 +99,9 @@ class AddExerciseTile extends StatelessWidget {
                 child: QmButton.icon(
                   onPressed: () async {
                     final image = await exerciseUtil.chooseImageFromStorage();
-                    ref
-                        .read(chooseProvider.notifier)
-                        .setExerciseContent(image!);
+                    ref.read(chooseProvider.notifier).setExerciseContent(
+                          ExerciseTemplate.empty(image: image!),
+                        );
                   },
                   icon: EvaIcons.plus,
                 ),
@@ -139,17 +157,13 @@ class AddExerciseTile extends StatelessWidget {
             SizedBox(
               width: width,
               height: 100,
-              child: Consumer(
-                builder: (_, WidgetRef ref, __) {
-                  return QmTextField(
-                    textInputAction: TextInputAction.go,
-                    controller: exerciseTargetTextController,
-                    hintText: S.current.Target,
-                    fontSize: 40,
-                    onEditingComplete: () {
-                      FocusScope.of(context).unfocus();
-                    },
-                  );
+              child: QmTextField(
+                textInputAction: TextInputAction.go,
+                controller: exerciseTargetTextController,
+                hintText: S.current.Target,
+                fontSize: 40,
+                onEditingComplete: () {
+                  FocusScope.of(context).unfocus();
                 },
               ),
             ),
@@ -167,15 +181,14 @@ class AddExerciseTile extends StatelessWidget {
                         exerciseTargetTextController.text.isNotEmpty) {
                       if (programId != null) {
                         await programUtil.addExerciesToProgramWorkout(
-                          context: context,
                           programId: programId!,
                           workoutCollectionName: workoutCollectionName,
                           programName: programName!,
                           exerciseName: exerciseNameTextController.text,
                           exerciseTarget: exerciseTargetTextController.text,
-                          content: exerciseContent!,
+                          content: exerciseContent!.image,
                           contentType: ExerciseContentConstants.image,
-                          isLink: exerciseContent.startsWith('http'),
+                          isLink: exerciseContent.image.startsWith('http'),
                         );
                       } else {
                         await exerciseUtil.add(
@@ -183,9 +196,9 @@ class AddExerciseTile extends StatelessWidget {
                           workoutCollectionName: workoutCollectionName,
                           exerciseName: exerciseNameTextController.text,
                           exerciseTarget: exerciseTargetTextController.text,
-                          content: exerciseContent!,
+                          content: exerciseContent!.image,
                           contentType: ExerciseContentConstants.image,
-                          isLink: exerciseContent.startsWith('http'),
+                          isLink: exerciseContent.image.startsWith('http'),
                         );
                       }
                     } else {
